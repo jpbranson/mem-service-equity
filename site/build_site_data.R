@@ -2,7 +2,12 @@
 # Build the static site's data files from the published flat files
 # (plan section 8: the front end reads only pipeline outputs).
 #
-# Usage: Rscript site/build_site_data.R [published_dir] [site_data_dir]
+# Usage: Rscript site/build_site_data.R [published_dir] [site_data_dir] [--preview]
+#
+# By default only metrics that pass the publish gate (plan 5.7) are written, so
+# unpublished numbers never reach the deployed site. --preview keeps every
+# metric and marks the manifest as a preview, for local review only; never
+# deploy a preview build.
 #
 # Writes:
 #   manifest.json               pipelines, freshness, validation, publish status
@@ -12,6 +17,7 @@
 #                               cell's ZIP and council district, sharded so the
 #                               browser loads one small file per lookup
 #   311/points/<res6>.json      individual recent requests for the address view
+#                               (column-major, to keep files small)
 
 suppressPackageStartupMessages({
   library(jsonlite)
@@ -19,6 +25,8 @@ suppressPackageStartupMessages({
 })
 
 args <- commandArgs(trailingOnly = TRUE)
+preview <- "--preview" %in% args
+args <- setdiff(args, "--preview")
 pub <- if (length(args) >= 1) args[1] else file.path("data", "published")
 out <- if (length(args) >= 2) args[2] else file.path("site", "data")
 dir.create(out, showWarnings = FALSE, recursive = TRUE)
@@ -45,17 +53,21 @@ compact <- function(d) {
 }
 
 manifest <- list(generated_at = format(Sys.time(), tz = "UTC", "%Y-%m-%dT%H:%M:%SZ"),
-                 columns = COLS, pipelines = list())
+                 preview = preview, columns = COLS, pipelines = list())
 
 # ---- 311 ---------------------------------------------------------------------
 d311 <- file.path(pub, "311")
 if (dir.exists(d311)) {
   cfg <- fread(file.path("pipelines", "311", "config", "request_types.csv"))
   headline <- cfg[headline == TRUE, request_type]
-  read_m <- function(g) {
+  pubstat <- fromJSON(file.path(d311, "publish_status_311.json"), simplifyVector = FALSE)
+  shown <- vapply(pubstat$metrics, function(m) m$metric, "")
+  if (!preview) shown <- shown[vapply(pubstat$metrics, function(m) isTRUE(m$publishable), TRUE)]
+  read_m <- function(g, gated = TRUE) {
     f <- file.path(d311, sprintf("metrics_311_by_%s.csv", g))
     if (!file.exists(f)) return(NULL)
-    fread(f, colClasses = c(geo_id = "character"))
+    m <- fread(f, colClasses = c(geo_id = "character"))
+    if (gated) m[metric %in% shown] else m
   }
   areas <- list()
   for (g in c("citywide", "zcta", "council_district", "super_district", "reference_neighborhood")) {
@@ -66,9 +78,11 @@ if (dir.exists(d311)) {
   }
   write_json_min(areas, file.path(out, "311", "areas.json"))
 
-  hex <- read_m("h3_9")
-  if (!is.null(hex)) {
-    cells <- unique(hex$geo_id)
+  # Every cell keeps its ZIP and district lookup even when no metric is shown.
+  hex_all <- read_m("h3_9", gated = FALSE)
+  if (!is.null(hex_all)) {
+    hex <- hex_all[metric %in% shown]
+    cells <- unique(hex_all$geo_id)
     parent <- h3jsr::get_parent(cells, res = 6)
     # Each cell's ZIP and council district, from the cell center.
     ctr <- h3jsr::cell_to_point(cells, simple = FALSE)
@@ -106,16 +120,16 @@ if (dir.exists(d311)) {
     unlink(file.path(out, "311", "points"), recursive = TRUE)
     for (pp in unique(tab$parent)) {
       t <- tab[parent == pp, !"parent"]
-      write_json_min(list(columns = names(t), types = headline, rows = unname(as.list(t))),
+      # Column-major: by_column[[i]] holds every value of columns[i].
+      write_json_min(list(columns = names(t), types = headline, by_column = unname(as.list(t))),
                      file.path(out, "311", "points", paste0(pp, ".json")))
     }
   }
 
   val <- fromJSON(latest(d311, "^validation_311_.*\\.json$"), simplifyVector = FALSE)
-  pubstat <- fromJSON(file.path(d311, "publish_status_311.json"), simplifyVector = FALSE)
   file.copy(file.path(d311, "methodology_311.md"), file.path(out, "311", "methodology.md"), overwrite = TRUE)
   file.copy(latest(d311, "^validation_311_.*\\.json$"), file.path(out, "311", "validation.json"), overwrite = TRUE)
-  cw <- read_m("citywide")
+  cw <- read_m("citywide", gated = FALSE)
   manifest$pipelines[["311"]] <- list(
     title = "City services (311)",
     status = "live",
@@ -124,6 +138,10 @@ if (dir.exists(d311)) {
     validation = list(status = val$status, run_date = val$run_date, summary = val$summary,
                       record_counts = val$record_counts),
     publish = pubstat$metrics,
+    # Labels come from the specs so the front end never restates a definition.
+    specs = lapply(memequity::read_specs("311", "specs"), function(s) list(
+      title = s$title, version = s$version, status = s$status, unit = s$unit, min_n = s$min_n,
+      promise_kind = s$promise$kind, promise_text = trimws(s$promise$text))),
     headline_types = headline,
     targets = cfg[!is.na(target_high_bd), list(request_type, target_low_bd, target_high_bd, target_source_url)])
 }

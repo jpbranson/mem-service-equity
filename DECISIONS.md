@@ -17,7 +17,8 @@ made while building, so a reviewer can challenge them.
   weekly and monthly GitHub release assets (see D7, D17).
 - [x] **H2. GitHub Pages.** Enable Pages for this repo with source "GitHub
   Actions". *Done 2026-09-23:* https://jpbranson.github.io/mem-service-equity/.
-  Nothing is deployed yet; the site and its deploy workflow are not built.
+  The site and `.github/workflows/deploy-site.yml` are built; the first
+  deploy runs once that workflow is pushed to `main`.
 
 - [ ] **H12. Census API key.** The Census data API now requires a key for
   every request. Get a free key at https://api.census.gov/data/key_signup.html
@@ -185,6 +186,13 @@ made while building, so a reviewer can challenge them.
   dated zip, which keeps every version as plan section 9 requires, and are
   deployed with the static site. Code, config, specs, golden files and
   audits are committed.
+- **D18. The publish gate is enforced in the site data, not only in the
+  browser.** `site/build_site_data.R` leaves out every metric that fails
+  `publish_gate()`, so unpublished numbers never reach the public JSON on
+  GitHub Pages. `--preview` keeps them for local review and marks the
+  manifest, and the page then shows a preview banner. The deploy workflow
+  refuses to publish a preview manifest. Raw nearby 311 requests are source
+  records, not statistics, so they are shown either way.
 - **D8. Boundary rule.** A point within 1 m of more than one polygon goes to
   the lowest `geo_id` among them and is flagged `on_boundary`.
 - **D9. Censored durations.** Median time-to-close uses a Kaplan–Meier

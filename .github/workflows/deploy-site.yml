@@ -1,0 +1,79 @@
+name: deploy-site
+
+# Daily: test, run the 311 pipeline, archive its outputs to the monthly data
+# release (D17), build the gated site data and deploy to GitHub Pages (H2).
+# The site data is built without --preview, so only metrics that pass the
+# publish gate (plan 5.7) reach the public site.
+
+on:
+  schedule:
+    - cron: "0 11 * * *"   # 05:00/06:00 Memphis time, after the city's overnight 311 load
+  push:
+    branches: [main]
+    paths: ["site/**", ".github/workflows/deploy-site.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write   # monthly data release
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          working-directory: packages/memequity
+          extra-packages: any::devtools, any::data.table, any::h3jsr, any::httr2, local::.
+      - name: Package tests
+        working-directory: packages/memequity
+        run: Rscript -e 'res <- devtools::test(stop_on_failure = TRUE)'
+      - name: 311 pipeline tests
+        run: Rscript -e 'testthat::test_dir("pipelines/311/tests/testthat", stop_on_failure = TRUE)'
+      # Reached only if the tests above passed, which is publication condition 3.
+      - name: Run 311 pipeline
+        env:
+          TESTS_PASSED: "true"
+        run: Rscript pipelines/311/run.R --out data/published/311
+      - name: Archive outputs to the monthly data release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="data-311-$(date -u +%Y-%m)"
+          zip_name="data-311-$(date -u +%Y-%m-%d).zip"
+          (cd data/published && zip -qr "../../$zip_name" 311)
+          gh release view "$tag" >/dev/null 2>&1 || gh release create "$tag" \
+            --title "311 published outputs $(date -u +%Y-%m)" \
+            --notes "Daily 311 pipeline outputs (metrics, points, validation, methodology, publish status). One dated zip per run; see DECISIONS.md D17." \
+            || gh release view "$tag" >/dev/null
+          gh release upload "$tag" "$zip_name" --clobber
+      - name: Build site data (gated)
+        run: Rscript site/build_site_data.R data/published site/data
+      - name: Refuse to deploy a preview build
+        run: |
+          python3 -c "import json,sys; sys.exit(1 if json.load(open('site/data/manifest.json'))['preview'] else 0)"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Methodology · Memphis Service Equity</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <p class="eyebrow"><a href="./">Memphis Service Equity</a></p>
+      <h1>Methodology</h1>
+      <p class="lede">Every metric's definition, exclusions, thresholds and the strongest objections
+        to it. This page is generated from the metric specifications in the repository; it is never
+        edited by hand.</p>
+      <nav class="site-nav"><a href="./">Home</a><a href="https://github.com/jpbranson/mem-service-equity/tree/main/specs">Specs on GitHub</a></nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <article id="methodology" class="methodology section">Loading…</article>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/marked@18.0.14/lib/marked.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.4.16/dist/purify.min.js"></script>
+  <script>
+    (async () => {
+      const box = document.getElementById('methodology');
+      try {
+        const res = await fetch('data/311/methodology.md', { cache: 'no-cache' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        box.innerHTML = DOMPurify.sanitize(marked.parse(await res.text()));
+      } catch (e) {
+        box.textContent = `Could not load the methodology (${e.message}).`;
+      }
+    })();
+  </script>
+</body>
+</html>

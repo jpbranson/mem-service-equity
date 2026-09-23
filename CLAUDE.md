@@ -30,8 +30,9 @@ Rscript -e 'testthat::test_dir("pipelines/311/tests/testthat", filter = "311")'
 # 311 pipeline end to end (fetches about 400k rows, about 3 min). --raw-cache avoids refetching during dev.
 Rscript pipelines/311/run.R --out data/published/311 --raw-cache data/cache/311_raw.rds [--as-of YYYY-MM-DD]
 
-# Static-site data from published outputs
-Rscript site/build_site_data.R data/published site/data
+# Static-site data from published outputs. Gated by default; --preview keeps unpublished metrics (local only, D18)
+Rscript site/build_site_data.R data/published site/data [--preview]
+python3 -m http.server 8765 --directory site     # serve the site locally
 
 # Pollers (Python 3.12)
 python -m pip install -r pollers/requirements.txt
@@ -39,11 +40,11 @@ python -m pytest pollers/tests
 python -m pytest pollers/tests/test_pollers.py::test_parse_outage_fixture
 ```
 
-CI (`.github/workflows/test-memequity.yml`) runs the package tests and then the 311 tests with `stop_on_failure = TRUE`. `test-pollers.yml` runs pytest.
+CI (`.github/workflows/test-memequity.yml`) runs the package tests and then the 311 tests with `stop_on_failure = TRUE`. `test-pollers.yml` runs pytest. `deploy-site.yml` runs daily: tests, then the 311 pipeline with `TESTS_PASSED=true`, a dated zip to the monthly `data-311-YYYY-MM` release, the gated site build and a GitHub Pages deploy.
 
 ## Architecture
 
-**Data flow.** Source → pipeline (fetch → validate → normalize → attach geography → metrics) → flat files in `data/published/<pipeline>/` → `site/build_site_data.R` → sharded JSON in `site/data/` → static front end. The front end reads only pipeline outputs and never computes a statistic. That includes address-level views: per-H3-cell counts are precomputed (D16). `data/published/`, `data/poller/`, `data/cache/` and `site/data/` are gitignored. Published runs go to monthly GitHub releases (D17), and poller archives go to weekly releases through `pollers/archive_release.sh` (D7).
+**Data flow.** Source → pipeline (fetch → validate → normalize → attach geography → metrics) → flat files in `data/published/<pipeline>/` → `site/build_site_data.R` → sharded JSON in `site/data/` → static front end. The front end reads only pipeline outputs and never computes a statistic. That includes address-level views: each `h3_9` row already covers the cell plus its six neighbours (D16), so the browser only looks one up. The front end (`site/assets/app.js`) is plain JS with no build step. It uses h3-js from jsdelivr and writes data into the page as text only, never as HTML. Metric titles, units and minimum n come from the specs via the manifest, so do not restate definitions in the JS. `data/published/`, `data/poller/`, `data/cache/` and `site/data/` are gitignored. Published runs go to monthly GitHub releases (D17), and poller archives go to weekly releases through `pollers/archive_release.sh` (D7).
 
 **`packages/memequity/`** is the shared core, and every pipeline must go through it:
 - `output.R` defines the output contract. `METRICS_COLUMNS` is the exact column order for `metrics_<pipeline>_by_<geo>.csv`, `GEO_TYPES` lists the allowed geographies, and `write_metrics()` refuses invalid tables. Suppressed rows carry no value or interval. Published rows must have both.

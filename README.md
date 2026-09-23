@@ -24,7 +24,7 @@ so far. Source research is in [`docs/research/`](docs/research/).
 | 0 | Geography layer, output schema, spec template, validation harness, business-day calendar | **Done.** `packages/memequity`, `geography/`, `specs/` |
 | 1 | MATA and MLGW pollers started | **Running.** GitHub Actions every 2 hours; raw data archived to weekly releases (`archive-mata-*`, `archive-mlgw-*`) |
 | 2 | Food safety site | **Blocked.** The state inspection portal forbids automated access; waiting on a records request (DECISIONS.md H11) |
-| 3 | 311 pipeline and address lookup | **Pipeline done.** Validation, metrics, hex-level address metrics, audit worksheets and tests all work. Next: the static front end (`site/`). The site data builder exists; the HTML/JS does not yet |
+| 3 | 311 pipeline and address lookup | **Built, not yet published.** Pipeline, address lookup, area comparison and methodology page all work. `deploy-site` runs daily and deploys to GitHub Pages. Every metric shows which publication conditions it still misses |
 | 4 | Permits | Not started (specs drafted; sources researched) |
 | 5 | MATA panel | Collecting; trip matching not started |
 | 6 | MLGW panel | Collecting; needs six months of history |
@@ -44,9 +44,9 @@ against (H14).
 | `specs/<pipeline>/` | Metric specifications. The YAML front matter is machine-read; methodology pages are generated from these files |
 | `pipelines/311/` | The 311 pipeline: `run.R`, `R/` (fetch, normalize, metrics, hex, audit), `config/`, `tests/` (fixtures, properties, golden files) |
 | `pollers/` | Python collectors for MATA GTFS-Realtime and MLGW outages, with tests and the release-archive script |
-| `site/` | Static front end. So far only `build_site_data.R`, which turns published outputs into sharded JSON under `site/data/` (generated, not committed) |
+| `site/` | Static front end (plain HTML/JS, no build step): `index.html`, `methodology.html`, `assets/`. `build_site_data.R` turns published outputs into sharded JSON under `site/data/` (generated, not committed) and leaves out any metric that fails the publish gate |
 | `docs/research/` | Verified notes on every data source |
-| `.github/workflows/` | Package and poller tests, and the two poller schedules |
+| `.github/workflows/` | Package and poller tests, the two poller schedules, and the daily `deploy-site` (test, run 311, archive, deploy) |
 
 ## Running things
 
@@ -65,8 +65,13 @@ Rscript -e 'testthat::test_dir("pipelines/311/tests/testthat")'
 # 311 pipeline (fetches ~400k requests; about 3 minutes)
 Rscript pipelines/311/run.R --out data/published/311
 
-# Site data from the published outputs
+# Site data from the published outputs (only metrics that pass the publish gate)
 Rscript site/build_site_data.R data/published site/data
+# ...or with every metric, for local review only; never deploy this
+Rscript site/build_site_data.R data/published site/data --preview
+
+# Serve the site locally at http://localhost:8765
+python3 -m http.server 8765 --directory site
 
 # Poller tests
 python -m pip install -r pollers/requirements.txt
