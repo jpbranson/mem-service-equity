@@ -150,6 +150,10 @@ made while building, so a reviewer can challenge them.
   the wrong place for about 1 GB a year of raw data, and weekly releases
   stay under GitHub's 1,000-asset limit. Pipelines write published outputs
   to `data/published/`. Once H1 is done, the upload step switches to R2.
+  Runs upload every 30 minutes while polling (`pollers/poll_with_uploads.sh`)
+  as well as at the end, because files exist only on the runner until they
+  are uploaded. A run's week is fixed when the job starts (`ARCHIVE_WEEK`), so
+  one run never spans two releases.
 - **D15. Pollers run on GitHub Actions** in 170-minute runs started every
   2 hours, so consecutive runs overlap by 50 minutes. GitHub delays scheduled
   runs under load, most at the top of the hour, and can drop them. On the

@@ -30,9 +30,17 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r pollers/requirements.txt
-      - name: Poll
+      - name: Pin the archive week for this run
+        run: echo "ARCHIVE_WEEK=$(date -u +%G-W%V)" >> "$GITHUB_ENV"
+      # Uploads every 30 minutes while polling, so a lost runner costs at most
+      # 30 minutes of data; the step below uploads the rest at the end.
+      - name: Poll, archiving every 30 minutes
         working-directory: pollers
-        run: python mata_poller.py --minutes "${{ github.event.inputs.minutes || '170' }}" --out ../data/poller
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >-
+          bash poll_with_uploads.sh mata ../data/poller/mata 1800
+          python mata_poller.py --minutes "${{ github.event.inputs.minutes || '170' }}" --out ../data/poller
       - name: Archive to weekly release
         if: always()
         env:
