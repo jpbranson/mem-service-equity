@@ -93,7 +93,7 @@ check_schema <- function(report, df, contract) {
       report <- add_check(report, paste0("column type: ", nm), "schema", type_ok(x, spec$type),
                           list(column = nm, expected = spec$type, actual = class(x)[1]))
     if (identical(spec$nullable, FALSE)) {
-      nulls <- sum(is.na(x) | (is.character(x) & x == ""))
+      nulls <- sum(if (is.character(x)) is.na(x) | x == "" else is.na(x))
       report <- add_check(report, paste0("not null: ", nm), "schema", nulls == 0,
                           list(column = nm, null_count = nulls))
     }
@@ -188,19 +188,29 @@ near_duplicates <- function(points, type, time, meters = 50, days = 7) {
   out <- rep(NA_integer_, n)
   if (!n) return(out)
   t <- as.numeric(as.POSIXct(time)) / 86400
-  p <- sf::st_transform(sf::st_geometry(points), MSE_CRS_METERS)
-  empty <- sf::st_is_empty(p)
-  for (ty in unique(type)) {
-    ix <- which(type == ty & !empty & !is.na(t))
-    if (length(ix) < 2) next
-    ix <- ix[order(t[ix], ix)]
-    near <- sf::st_is_within_distance(p[ix], p[ix], dist = meters)
-    primary <- rep(FALSE, length(ix))
-    for (j in seq_along(ix)) {
-      cand <- near[[j]]
-      cand <- cand[cand < j & primary[cand] & (t[ix[j]] - t[ix[cand]]) <= days]
-      if (length(cand)) out[ix[j]] <- ix[min(cand)] else primary[j] <- TRUE
-    }
+  xy <- xy_meters(points)
+  ok <- !is.na(xy[, 1]) & !is.na(t) & !is.na(type)
+  ord <- order(t, seq_len(n))
+  rank <- integer(n)
+  rank[ord] <- seq_len(n)
+  g <- as.integer(factor(type))
+  x <- ifelse(ok, xy[, 1], NA_real_)
+  # Pairs (i = earlier record, j = later record), same type, within `meters`,
+  # j opened 0..days after i.
+  pr <- grid_pairs(x, xy[, 2], x, xy[, 2], meters, ag = g, bg = g, at = t, bt = t,
+                   lag_min = -1e-9, lag_max = days)
+  pr <- pr[pr$i != pr$j & rank[pr$i] < rank[pr$j], ]
+  cand <- vector("list", n)
+  if (nrow(pr)) {
+    s <- split(pr$i, pr$j)
+    cand[as.integer(names(s))] <- s
+  }
+  primary <- rep(FALSE, n)
+  for (j in ord) {
+    if (!ok[j]) next
+    c <- cand[[j]]
+    if (length(c)) c <- c[primary[c]]
+    if (length(c)) out[j] <- c[which.min(rank[c])] else primary[j] <- TRUE
   }
   out
 }

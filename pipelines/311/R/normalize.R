@@ -91,6 +91,8 @@ attach_geography_311 <- function(sr, geo_dir, h3_res = 9L, dedupe_m = 50, dedupe
   for (g in c("citywide", "zcta", "council_district", "super_district"))
     pts <- memequity::assign_geography(pts, memequity::load_boundaries(g, geo_dir), g)
   pts$in_city <- !is.na(pts$citywide)
+  rn <- memequity::reference_neighborhoods(geo_dir)
+  pts$reference_neighborhood <- rn$neighborhood[match(pts$zcta, rn$zip)]
   pts$h3 <- memequity::h3_cell(pts, res = h3_res)
   # Deduplicate among included, located requests (DECISIONS.md D6).
   pts$duplicate_of <- NA_character_

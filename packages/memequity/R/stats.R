@@ -100,9 +100,9 @@ metric_median <- function(x, min_n = MIN_N_MEDIAN, conf = 0.95, reps = DEFAULT_R
 #'
 #' @param time duration (e.g. business days open so far, or to close).
 #' @param event TRUE if the duration ended (closed), FALSE if still open.
-#' @return A metric row. The median (or an interval bound) is NA when the
-#'   survival curve does not drop to 0.5 within the observed data; if the
-#'   point estimate itself is not reached the row is suppressed.
+#' @return A metric row. If the point estimate is not reached the row is
+#'   suppressed; if only the upper bound is not reached, `ci_high` is Inf
+#'   ("longer than observed").
 #' @export
 metric_censored_median <- function(time, event, min_n = MIN_N_MEDIAN, conf = 0.95, id = NULL) {
   if (!is.null(id)) {
@@ -118,7 +118,8 @@ metric_censored_median <- function(time, event, min_n = MIN_N_MEDIAN, conf = 0.9
   q <- stats::quantile(fit, probs = 0.5)
   med <- unname(q$quantile); lo <- unname(q$lower); hi <- unname(q$upper)
   if (is.na(med)) return(suppressed_row(n))
-  metric_row(med, lo, hi, n, FALSE)
+  # An upper bound the data never reach means "longer than we have observed".
+  metric_row(med, lo, if (is.na(hi)) Inf else hi, n, FALSE)
 }
 
 #' Kaplan-Meier median from aggregated counts.
@@ -161,7 +162,9 @@ km_median_counts <- function(time, events, censored, min_n = MIN_N_MEDIAN, conf 
   }
   med <- q(surv)
   if (is.na(med)) return(suppressed_row(n))
-  metric_row(med, q(lower), q(upper), n, FALSE)
+  # The lower survival band crosses 0.5 first, giving the lower time bound.
+  hi <- q(upper)
+  metric_row(med, q(lower), if (is.na(hi)) Inf else hi, n, FALSE)
 }
 
 #' Proportion from counts, with Wilson interval and minimum-n suppression.

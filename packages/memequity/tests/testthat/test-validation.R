@@ -123,3 +123,28 @@ test_that("the report is written as JSON even when the run fails", {
   expect_equal(j$status, "fail")
   expect_equal(j$pipeline, "demo")
 })
+
+test_that("grid_pairs matches a brute-force search", {
+  set.seed(5)
+  n <- 400
+  x <- runif(n, 0, 2000); y <- runif(n, 0, 2000); t <- runif(n, 0, 60); g <- sample(1:3, n, TRUE)
+  got <- grid_pairs(x, y, x, y, 100, ag = g, bg = g, at = t, bt = t, lag_min = 0, lag_max = 7)
+  d <- as.matrix(dist(cbind(x, y)))
+  lag <- outer(t, t, function(a, b) b - a)
+  ok <- d <= 100 & lag > 0 & lag <= 7 & outer(g, g, "==")
+  want <- which(ok, arr.ind = TRUE)
+  expect_equal(nrow(got), nrow(want))
+  expect_setequal(paste(got$i, got$j), paste(want[, 1], want[, 2]))
+  sp <- grid_pairs(x, y, x[1:50], y[1:50], 150)
+  want2 <- which(d[, 1:50] <= 150, arr.ind = TRUE)
+  expect_equal(nrow(sp), nrow(want2))
+})
+
+test_that("non-null checks work on datetime columns", {
+  df <- data.frame(id = c("1", "2"), status = "Open",
+                   opened = as.POSIXct(c("2026-09-01 10:00", NA), tz = "UTC"))
+  ctr <- list(columns = list(id = list(type = "character"), status = list(type = "character"),
+                             opened = list(type = "datetime", nullable = FALSE)))
+  r <- finalize_report(check_schema(validation_report("t"), df, ctr))
+  expect_equal(r$status, "fail")
+})

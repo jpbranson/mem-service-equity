@@ -80,22 +80,52 @@ points_from_lonlat <- function(df, lon = "longitude", lat = "latitude") {
 #' polygon get NA ("unassigned").
 #' @export
 assign_geography <- function(points, polygons, prefix, tolerance_m = 1) {
-  pts <- sf::st_transform(points, MSE_CRS_METERS)
-  polys <- sf::st_transform(polygons, MSE_CRS_METERS)
-  inside <- sf::st_intersects(pts, polys)
-  near <- sf::st_is_within_distance(pts, polys, dist = tolerance_m)
+  pts <- sf::st_transform(sf::st_geometry(points), MSE_CRS_METERS)
+  polys <- sf::st_transform(sf::st_geometry(polygons), MSE_CRS_METERS)
+  n <- length(pts)
   empty <- sf::st_is_empty(pts)
+  # Containment: polygons as the first argument are prepared once, which is
+  # far faster than testing each point against detailed boundaries.
+  inside <- invert_index(sf::st_intersects(polys, pts), n)
+  # Points near a boundary: densify boundaries so vertices are at most
+  # `spacing` apart, grid-join points to vertices, then run the exact
+  # distance test only on those few candidates.
+  spacing <- 20
+  bnd <- sf::st_segmentize(sf::st_boundary(sf::st_cast(polys, "MULTIPOLYGON")), spacing)
+  v <- sf::st_coordinates(bnd)
+  xy <- xy_meters(pts)
+  pr <- grid_pairs(xy[, 1], xy[, 2], v[, 1], v[, 2], meters = tolerance_m + spacing)
+  cand <- sort(unique(pr$i))
+  near <- inside
+  if (length(cand)) {
+    close <- sf::st_is_within_distance(pts[cand], polys, dist = tolerance_m)
+    near[cand] <- mapply(function(a, b) sort(unique(c(a, b))), inside[cand], close,
+                         SIMPLIFY = FALSE)
+  }
   inside[empty] <- list(integer())
   near[empty] <- list(integer())
-  ids <- polys$geo_id
+  ids <- polygons$geo_id
   pick <- function(i) {
-    cand <- if (length(near[[i]]) > 1 || !length(inside[[i]])) near[[i]] else inside[[i]]
-    if (length(cand)) sort(ids[cand])[1] else NA_character_
+    c <- if (length(near[[i]]) > 1 || !length(inside[[i]])) near[[i]] else inside[[i]]
+    if (length(c)) sort(ids[c])[1] else NA_character_
   }
-  points[[prefix]] <- vapply(seq_along(inside), pick, character(1))
+  points[[prefix]] <- vapply(seq_len(n), pick, character(1))
   points[[paste0(prefix, "_on_boundary")]] <- lengths(near) > 1 |
     (lengths(inside) == 0 & lengths(near) > 0)
   points
+}
+
+# Turn a polygon -> points sparse index into a point -> polygons list.
+invert_index <- function(idx, n) {
+  poly <- rep(seq_along(idx), lengths(idx))
+  pt <- unlist(idx)
+  out <- vector("list", n)
+  out[] <- list(integer())
+  if (length(pt)) {
+    s <- split(poly, pt)
+    out[as.integer(names(s))] <- s
+  }
+  out
 }
 
 #' Summarise assignment coverage: counts assigned, unassigned, unlocated and

@@ -1,0 +1,516 @@
+"metric","variant","subgroup","geo_type","geo_id","window_start","value","ci_low","ci_high","n","suppressed"
+"median_business_days_to_close","primary","EE-Illegal Dumping","citywide","4748000","2024-07-01",15,9,23,84,FALSE
+"median_business_days_to_close","primary","EE-Illegal Dumping","citywide","4748000","2025-04-02",9,5,15,21,FALSE
+"median_business_days_to_close","primary","EE-Illegal Dumping","council_district","5","2024-07-01",15,9,23,84,FALSE
+"median_business_days_to_close","primary","EE-Illegal Dumping","council_district","5","2025-04-02",9,5,15,21,FALSE
+"median_business_days_to_close","primary","EE-Illegal Dumping","reference_neighborhood","East Memphis","2024-07-01",NA,NA,NA,6,TRUE
+"median_business_days_to_close","primary","EE-Illegal Dumping","reference_neighborhood","East Memphis","2025-04-02",NA,NA,NA,3,TRUE
+"median_business_days_to_close","primary","EE-Illegal Dumping","reference_neighborhood","Midtown","2024-07-01",15,9,32,41,FALSE
+"median_business_days_to_close","primary","EE-Illegal Dumping","reference_neighborhood","Midtown","2025-04-02",NA,NA,NA,9,TRUE
+"median_business_days_to_close","primary","EE-Illegal Dumping","super_district","9","2024-07-01",15,9,23,84,FALSE
+"median_business_days_to_close","primary","EE-Illegal Dumping","super_district","9","2025-04-02",9,5,15,21,FALSE
+"median_business_days_to_close","primary","EE-Illegal Dumping","zcta","38104","2024-07-01",NA,NA,NA,4,TRUE
+"median_business_days_to_close","primary","EE-Illegal Dumping","zcta","38107","2024-07-01",NA,NA,NA,1,TRUE
+"median_business_days_to_close","primary","EE-Illegal Dumping","zcta","38108","2024-07-01",NA,NA,NA,2,TRUE
+"median_business_days_to_close","primary","EE-Illegal Dumping","zcta","38111","2024-07-01",NA,NA,NA,18,TRUE
+"median_business_days_to_close","primary","EE-Illegal Dumping","zcta","38111","2025-04-02",NA,NA,NA,6,TRUE
+"median_business_days_to_close","primary","EE-Illegal Dumping","zcta","38112","2024-07-01",14,9,26,37,FALSE
+"median_business_days_to_close","primary","EE-Illegal Dumping","zcta","38112","2025-04-02",NA,NA,NA,9,TRUE
+"median_business_days_to_close","primary","EE-Illegal Dumping","zcta","38117","2024-07-01",NA,NA,NA,6,TRUE
+"median_business_days_to_close","primary","EE-Illegal Dumping","zcta","38117","2025-04-02",NA,NA,NA,3,TRUE
+"median_business_days_to_close","primary","EE-Illegal Dumping","zcta","38122","2024-07-01",NA,NA,NA,16,TRUE
+"median_business_days_to_close","primary","EE-Illegal Dumping","zcta","38122","2025-04-02",NA,NA,NA,3,TRUE
+"median_business_days_to_close","primary","PW (SM)-Potholes","citywide","4748000","2024-07-01",1,1,1,389,FALSE
+"median_business_days_to_close","primary","PW (SM)-Potholes","citywide","4748000","2025-04-02",1,1,1,179,FALSE
+"median_business_days_to_close","primary","PW (SM)-Potholes","council_district","4","2024-07-01",NA,NA,NA,2,TRUE
+"median_business_days_to_close","primary","PW (SM)-Potholes","council_district","4","2025-04-02",NA,NA,NA,1,TRUE
+"median_business_days_to_close","primary","PW (SM)-Potholes","council_district","5","2024-07-01",1,1,1,387,FALSE
+"median_business_days_to_close","primary","PW (SM)-Potholes","council_district","5","2025-04-02",1,1,1,178,FALSE
+"median_business_days_to_close","primary","PW (SM)-Potholes","reference_neighborhood","East Memphis","2024-07-01",1,1,1,98,FALSE
+"median_business_days_to_close","primary","PW (SM)-Potholes","reference_neighborhood","East Memphis","2025-04-02",1,1,1,48,FALSE
+"median_business_days_to_close","primary","PW (SM)-Potholes","reference_neighborhood","Midtown","2024-07-01",1,1,1,123,FALSE
+"median_business_days_to_close","primary","PW (SM)-Potholes","reference_neighborhood","Midtown","2025-04-02",1,1,1,69,FALSE
+"median_business_days_to_close","primary","PW (SM)-Potholes","super_district","9","2024-07-01",1,1,1,389,FALSE
+"median_business_days_to_close","primary","PW (SM)-Potholes","super_district","9","2025-04-02",1,1,1,179,FALSE
+"median_business_days_to_close","primary","PW (SM)-Potholes","zcta","38104","2024-07-01",1,1,1,21,FALSE
+"median_business_days_to_close","primary","PW (SM)-Potholes","zcta","38104","2025-04-02",NA,NA,NA,7,TRUE
+"median_business_days_to_close","primary","PW (SM)-Potholes","zcta","38107","2024-07-01",NA,NA,NA,4,TRUE
+"median_business_days_to_close","primary","PW (SM)-Potholes","zcta","38107","2025-04-02",NA,NA,NA,3,TRUE
+"median_business_days_to_close","primary","PW (SM)-Potholes","zcta","38108","2024-07-01",NA,NA,NA,4,TRUE
+"median_business_days_to_close","primary","PW (SM)-Potholes","zcta","38108","2025-04-02",NA,NA,NA,4,TRUE
+"median_business_days_to_close","primary","PW (SM)-Potholes","zcta","38111","2024-07-01",1,1,1,101,FALSE
+"median_business_days_to_close","primary","PW (SM)-Potholes","zcta","38111","2025-04-02",1,1,1,38,FALSE
+"median_business_days_to_close","primary","PW (SM)-Potholes","zcta","38112","2024-07-01",1,1,1,102,FALSE
+"median_business_days_to_close","primary","PW (SM)-Potholes","zcta","38112","2025-04-02",1,1,1,62,FALSE
+"median_business_days_to_close","primary","PW (SM)-Potholes","zcta","38117","2024-07-01",1,1,1,82,FALSE
+"median_business_days_to_close","primary","PW (SM)-Potholes","zcta","38117","2025-04-02",1,1,2,39,FALSE
+"median_business_days_to_close","primary","PW (SM)-Potholes","zcta","38120","2024-07-01",NA,NA,NA,16,TRUE
+"median_business_days_to_close","primary","PW (SM)-Potholes","zcta","38120","2025-04-02",NA,NA,NA,9,TRUE
+"median_business_days_to_close","primary","PW (SM)-Potholes","zcta","38122","2024-07-01",1,1,1,59,FALSE
+"median_business_days_to_close","primary","PW (SM)-Potholes","zcta","38122","2025-04-02",NA,NA,NA,17,TRUE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","citywide","4748000","2024-07-01",6,6,7,1516,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","citywide","4748000","2025-04-02",7,6,9,391,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","council_district","5","2024-07-01",6,6,7,1516,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","council_district","5","2025-04-02",7,6,9,391,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","reference_neighborhood","East Memphis","2024-07-01",7,6,7,516,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","reference_neighborhood","East Memphis","2025-04-02",6,5,7,163,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","reference_neighborhood","Midtown","2024-07-01",5,4,6,296,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","reference_neighborhood","Midtown","2025-04-02",9,7,12,50,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","super_district","9","2024-07-01",6,6,7,1516,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","super_district","9","2025-04-02",7,6,9,391,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","zcta","38104","2024-07-01",7,4,9,36,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","zcta","38104","2025-04-02",NA,NA,NA,5,TRUE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","zcta","38107","2024-07-01",5,4,7,35,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","zcta","38107","2025-04-02",NA,NA,NA,6,TRUE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","zcta","38108","2024-07-01",2,1,4,37,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","zcta","38108","2025-04-02",NA,NA,NA,16,TRUE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","zcta","38111","2024-07-01",8,7,9,330,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","zcta","38111","2025-04-02",8,5,10,80,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","zcta","38112","2024-07-01",5,4,6,260,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","zcta","38112","2025-04-02",9,6,12,45,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","zcta","38117","2024-07-01",7,6,8,468,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","zcta","38117","2025-04-02",6,5,7,158,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","zcta","38120","2024-07-01",2.5,1,3,48,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","zcta","38120","2025-04-02",NA,NA,NA,5,TRUE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","zcta","38122","2024-07-01",6,6,7,301,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","zcta","38122","2025-04-02",11,10,12,76,FALSE
+"median_business_days_to_close","primary","SWM-Missed Bulk Trash","zcta","38152","2024-07-01",NA,NA,NA,1,TRUE
+"pct_within_target","lower_bound","PW (SM)-Potholes","citywide","4748000","2024-07-01",0.97911227154047,0.959330377395509,0.989378690962413,383,FALSE
+"pct_within_target","lower_bound","PW (SM)-Potholes","citywide","4748000","2025-04-02",0.965317919075145,0.926410230390565,0.984009764296562,173,FALSE
+"pct_within_target","lower_bound","PW (SM)-Potholes","council_district","4","2024-07-01",NA,NA,NA,2,TRUE
+"pct_within_target","lower_bound","PW (SM)-Potholes","council_district","4","2025-04-02",NA,NA,NA,1,TRUE
+"pct_within_target","lower_bound","PW (SM)-Potholes","council_district","5","2024-07-01",0.979002624671916,0.959119772875761,0.989322739317452,381,FALSE
+"pct_within_target","lower_bound","PW (SM)-Potholes","council_district","5","2025-04-02",0.965116279069767,0.925994324605078,0.983916233877904,172,FALSE
+"pct_within_target","lower_bound","PW (SM)-Potholes","reference_neighborhood","East Memphis","2024-07-01",0.968421052631579,0.911229013526918,0.989202860525576,95,FALSE
+"pct_within_target","lower_bound","PW (SM)-Potholes","reference_neighborhood","East Memphis","2025-04-02",0.955555555555556,0.851724892305644,0.98772587329328,45,FALSE
+"pct_within_target","lower_bound","PW (SM)-Potholes","reference_neighborhood","Midtown","2024-07-01",0.983471074380165,0.941733257514266,0.995455406453875,121,FALSE
+"pct_within_target","lower_bound","PW (SM)-Potholes","reference_neighborhood","Midtown","2025-04-02",0.970149253731343,0.89753444436648,0.991775305161102,67,FALSE
+"pct_within_target","lower_bound","PW (SM)-Potholes","super_district","9","2024-07-01",0.97911227154047,0.959330377395509,0.989378690962413,383,FALSE
+"pct_within_target","lower_bound","PW (SM)-Potholes","super_district","9","2025-04-02",0.965317919075145,0.926410230390565,0.984009764296562,173,FALSE
+"pct_within_target","lower_bound","PW (SM)-Potholes","zcta","38104","2024-07-01",NA,NA,NA,20,TRUE
+"pct_within_target","lower_bound","PW (SM)-Potholes","zcta","38104","2025-04-02",NA,NA,NA,6,TRUE
+"pct_within_target","lower_bound","PW (SM)-Potholes","zcta","38107","2024-07-01",NA,NA,NA,4,TRUE
+"pct_within_target","lower_bound","PW (SM)-Potholes","zcta","38107","2025-04-02",NA,NA,NA,3,TRUE
+"pct_within_target","lower_bound","PW (SM)-Potholes","zcta","38108","2024-07-01",NA,NA,NA,4,TRUE
+"pct_within_target","lower_bound","PW (SM)-Potholes","zcta","38108","2025-04-02",NA,NA,NA,4,TRUE
+"pct_within_target","lower_bound","PW (SM)-Potholes","zcta","38111","2024-07-01",0.99,0.945513803821295,0.998232567935859,100,FALSE
+"pct_within_target","lower_bound","PW (SM)-Potholes","zcta","38111","2025-04-02",1,0.905942174162798,1,37,FALSE
+"pct_within_target","lower_bound","PW (SM)-Potholes","zcta","38112","2024-07-01",0.98019801980198,0.930653830374157,0.994552677538853,101,FALSE
+"pct_within_target","lower_bound","PW (SM)-Potholes","zcta","38112","2025-04-02",0.967213114754098,0.888105095805044,0.990962109601638,61,FALSE
+"pct_within_target","lower_bound","PW (SM)-Potholes","zcta","38117","2024-07-01",0.962025316455696,0.894199372323153,0.987001913110564,79,FALSE
+"pct_within_target","lower_bound","PW (SM)-Potholes","zcta","38117","2025-04-02",0.944444444444444,0.818553427913527,0.984630013335838,36,FALSE
+"pct_within_target","lower_bound","PW (SM)-Potholes","zcta","38120","2024-07-01",NA,NA,NA,16,TRUE
+"pct_within_target","lower_bound","PW (SM)-Potholes","zcta","38120","2025-04-02",NA,NA,NA,9,TRUE
+"pct_within_target","lower_bound","PW (SM)-Potholes","zcta","38122","2024-07-01",1,0.938870629473212,1,59,FALSE
+"pct_within_target","lower_bound","PW (SM)-Potholes","zcta","38122","2025-04-02",NA,NA,NA,17,TRUE
+"pct_within_target","primary","PW (SM)-Potholes","citywide","4748000","2024-07-01",1,0.989886678424675,1,376,FALSE
+"pct_within_target","primary","PW (SM)-Potholes","citywide","4748000","2025-04-02",1,0.977382090054057,1,166,FALSE
+"pct_within_target","primary","PW (SM)-Potholes","council_district","4","2024-07-01",NA,NA,NA,2,TRUE
+"pct_within_target","primary","PW (SM)-Potholes","council_district","4","2025-04-02",NA,NA,NA,1,TRUE
+"pct_within_target","primary","PW (SM)-Potholes","council_district","5","2024-07-01",1,0.989833146334222,1,374,FALSE
+"pct_within_target","primary","PW (SM)-Potholes","council_district","5","2025-04-02",1,0.977248130598222,1,165,FALSE
+"pct_within_target","primary","PW (SM)-Potholes","reference_neighborhood","East Memphis","2024-07-01",1,0.961135146460527,1,95,FALSE
+"pct_within_target","primary","PW (SM)-Potholes","reference_neighborhood","East Memphis","2025-04-02",1,0.921348401267112,1,45,FALSE
+"pct_within_target","primary","PW (SM)-Potholes","reference_neighborhood","Midtown","2024-07-01",1,0.967945493500361,1,116,FALSE
+"pct_within_target","primary","PW (SM)-Potholes","reference_neighborhood","Midtown","2025-04-02",1,0.941655927898628,1,62,FALSE
+"pct_within_target","primary","PW (SM)-Potholes","super_district","9","2024-07-01",1,0.989886678424675,1,376,FALSE
+"pct_within_target","primary","PW (SM)-Potholes","super_district","9","2025-04-02",1,0.977382090054057,1,166,FALSE
+"pct_within_target","primary","PW (SM)-Potholes","zcta","38104","2024-07-01",NA,NA,NA,19,TRUE
+"pct_within_target","primary","PW (SM)-Potholes","zcta","38104","2025-04-02",NA,NA,NA,5,TRUE
+"pct_within_target","primary","PW (SM)-Potholes","zcta","38107","2024-07-01",NA,NA,NA,4,TRUE
+"pct_within_target","primary","PW (SM)-Potholes","zcta","38107","2025-04-02",NA,NA,NA,3,TRUE
+"pct_within_target","primary","PW (SM)-Potholes","zcta","38108","2024-07-01",NA,NA,NA,4,TRUE
+"pct_within_target","primary","PW (SM)-Potholes","zcta","38108","2025-04-02",NA,NA,NA,4,TRUE
+"pct_within_target","primary","PW (SM)-Potholes","zcta","38111","2024-07-01",1,0.963006501793014,1,100,FALSE
+"pct_within_target","primary","PW (SM)-Potholes","zcta","38111","2025-04-02",1,0.905942174162798,1,37,FALSE
+"pct_within_target","primary","PW (SM)-Potholes","zcta","38112","2024-07-01",1,0.961905957474052,1,97,FALSE
+"pct_within_target","primary","PW (SM)-Potholes","zcta","38112","2025-04-02",1,0.936861165147021,1,57,FALSE
+"pct_within_target","primary","PW (SM)-Potholes","zcta","38117","2024-07-01",1,0.953628788346077,1,79,FALSE
+"pct_within_target","primary","PW (SM)-Potholes","zcta","38117","2025-04-02",1,0.903581371405536,1,36,FALSE
+"pct_within_target","primary","PW (SM)-Potholes","zcta","38120","2024-07-01",NA,NA,NA,16,TRUE
+"pct_within_target","primary","PW (SM)-Potholes","zcta","38120","2025-04-02",NA,NA,NA,9,TRUE
+"pct_within_target","primary","PW (SM)-Potholes","zcta","38122","2024-07-01",1,0.936861165147021,1,57,FALSE
+"pct_within_target","primary","PW (SM)-Potholes","zcta","38122","2025-04-02",NA,NA,NA,15,TRUE
+"reopen_rate","primary","EE-Illegal Dumping","citywide","4748000","2024-07-01",0.0294117647058824,0.00810317954312989,0.101046313652231,68,FALSE
+"reopen_rate","primary","EE-Illegal Dumping","citywide","4748000","2025-04-02",NA,NA,NA,18,TRUE
+"reopen_rate","primary","EE-Illegal Dumping","council_district","5","2024-07-01",0.0294117647058824,0.00810317954312989,0.101046313652231,68,FALSE
+"reopen_rate","primary","EE-Illegal Dumping","council_district","5","2025-04-02",NA,NA,NA,18,TRUE
+"reopen_rate","primary","EE-Illegal Dumping","reference_neighborhood","East Memphis","2024-07-01",NA,NA,NA,4,TRUE
+"reopen_rate","primary","EE-Illegal Dumping","reference_neighborhood","East Memphis","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","primary","EE-Illegal Dumping","reference_neighborhood","Midtown","2024-07-01",0.0588235294117647,0.0162826552101227,0.19093606904281,34,FALSE
+"reopen_rate","primary","EE-Illegal Dumping","reference_neighborhood","Midtown","2025-04-02",NA,NA,NA,11,TRUE
+"reopen_rate","primary","EE-Illegal Dumping","super_district","9","2024-07-01",0.0294117647058824,0.00810317954312989,0.101046313652231,68,FALSE
+"reopen_rate","primary","EE-Illegal Dumping","super_district","9","2025-04-02",NA,NA,NA,18,TRUE
+"reopen_rate","primary","EE-Illegal Dumping","zcta","38104","2024-07-01",NA,NA,NA,3,TRUE
+"reopen_rate","primary","EE-Illegal Dumping","zcta","38104","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","primary","EE-Illegal Dumping","zcta","38107","2024-07-01",NA,NA,NA,1,TRUE
+"reopen_rate","primary","EE-Illegal Dumping","zcta","38107","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","primary","EE-Illegal Dumping","zcta","38108","2024-07-01",NA,NA,NA,2,TRUE
+"reopen_rate","primary","EE-Illegal Dumping","zcta","38111","2024-07-01",NA,NA,NA,14,TRUE
+"reopen_rate","primary","EE-Illegal Dumping","zcta","38111","2025-04-02",NA,NA,NA,3,TRUE
+"reopen_rate","primary","EE-Illegal Dumping","zcta","38112","2024-07-01",0.0645161290322581,0.0178747835219146,0.207186367362981,31,FALSE
+"reopen_rate","primary","EE-Illegal Dumping","zcta","38112","2025-04-02",NA,NA,NA,10,TRUE
+"reopen_rate","primary","EE-Illegal Dumping","zcta","38117","2024-07-01",NA,NA,NA,4,TRUE
+"reopen_rate","primary","EE-Illegal Dumping","zcta","38117","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","primary","EE-Illegal Dumping","zcta","38122","2024-07-01",NA,NA,NA,13,TRUE
+"reopen_rate","primary","EE-Illegal Dumping","zcta","38122","2025-04-02",NA,NA,NA,2,TRUE
+"reopen_rate","primary","PW (SM)-Potholes","citywide","4748000","2024-07-01",0.069364161849711,0.0470523339093546,0.101133244196369,346,FALSE
+"reopen_rate","primary","PW (SM)-Potholes","citywide","4748000","2025-04-02",0.101449275362319,0.0613972898500573,0.163088971680472,138,FALSE
+"reopen_rate","primary","PW (SM)-Potholes","council_district","4","2024-07-01",NA,NA,NA,2,TRUE
+"reopen_rate","primary","PW (SM)-Potholes","council_district","4","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","primary","PW (SM)-Potholes","council_district","5","2024-07-01",0.0697674418604651,0.047328523057536,0.101709084467614,344,FALSE
+"reopen_rate","primary","PW (SM)-Potholes","council_district","5","2025-04-02",0.102189781021898,0.06185282903333,0.164227325825273,137,FALSE
+"reopen_rate","primary","PW (SM)-Potholes","reference_neighborhood","East Memphis","2024-07-01",0.0232558139534884,0.00640092620427086,0.0808801456263205,86,FALSE
+"reopen_rate","primary","PW (SM)-Potholes","reference_neighborhood","East Memphis","2025-04-02",0.027027027027027,0.00478697445194044,0.138240698637305,37,FALSE
+"reopen_rate","primary","PW (SM)-Potholes","reference_neighborhood","Midtown","2024-07-01",0.0943396226415094,0.0520525026532851,0.165000867510098,106,FALSE
+"reopen_rate","primary","PW (SM)-Potholes","reference_neighborhood","Midtown","2025-04-02",0.134615384615385,0.0667688170539614,0.252733201651938,52,FALSE
+"reopen_rate","primary","PW (SM)-Potholes","super_district","9","2024-07-01",0.069364161849711,0.0470523339093546,0.101133244196369,346,FALSE
+"reopen_rate","primary","PW (SM)-Potholes","super_district","9","2025-04-02",0.101449275362319,0.0613972898500573,0.163088971680472,138,FALSE
+"reopen_rate","primary","PW (SM)-Potholes","zcta","38104","2024-07-01",NA,NA,NA,18,TRUE
+"reopen_rate","primary","PW (SM)-Potholes","zcta","38104","2025-04-02",NA,NA,NA,4,TRUE
+"reopen_rate","primary","PW (SM)-Potholes","zcta","38107","2024-07-01",NA,NA,NA,2,TRUE
+"reopen_rate","primary","PW (SM)-Potholes","zcta","38107","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","primary","PW (SM)-Potholes","zcta","38108","2024-07-01",NA,NA,NA,3,TRUE
+"reopen_rate","primary","PW (SM)-Potholes","zcta","38108","2025-04-02",NA,NA,NA,3,TRUE
+"reopen_rate","primary","PW (SM)-Potholes","zcta","38111","2024-07-01",0.0851063829787234,0.0437554883712767,0.159036447274899,94,FALSE
+"reopen_rate","primary","PW (SM)-Potholes","zcta","38111","2025-04-02",0.15625,0.0686442028250571,0.317541495975304,32,FALSE
+"reopen_rate","primary","PW (SM)-Potholes","zcta","38112","2024-07-01",0.113636363636364,0.0629080037510136,0.196685638671858,88,FALSE
+"reopen_rate","primary","PW (SM)-Potholes","zcta","38112","2025-04-02",0.145833333333333,0.0724824932660371,0.271671765247463,48,FALSE
+"reopen_rate","primary","PW (SM)-Potholes","zcta","38117","2024-07-01",0.0138888888888889,0.00245595188290577,0.0745660214747615,72,FALSE
+"reopen_rate","primary","PW (SM)-Potholes","zcta","38117","2025-04-02",0.0333333333333333,0.00590859038161246,0.166703909914092,30,FALSE
+"reopen_rate","primary","PW (SM)-Potholes","zcta","38120","2024-07-01",NA,NA,NA,14,TRUE
+"reopen_rate","primary","PW (SM)-Potholes","zcta","38120","2025-04-02",NA,NA,NA,7,TRUE
+"reopen_rate","primary","PW (SM)-Potholes","zcta","38122","2024-07-01",0.0545454545454545,0.0187232155546845,0.148530605440538,55,FALSE
+"reopen_rate","primary","PW (SM)-Potholes","zcta","38122","2025-04-02",NA,NA,NA,13,TRUE
+"reopen_rate","primary","SWM-Missed Bulk Trash","citywide","4748000","2024-07-01",0.165418652144316,0.147295600317335,0.185287011264573,1469,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","citywide","4748000","2025-04-02",0.231788079470199,0.195283039332023,0.272803765601819,453,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","council_district","5","2024-07-01",0.165418652144316,0.147295600317335,0.185287011264573,1469,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","council_district","5","2025-04-02",0.231788079470199,0.195283039332023,0.272803765601819,453,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","reference_neighborhood","East Memphis","2024-07-01",0.168297455968689,0.138360571802118,0.203184297609682,511,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","reference_neighborhood","East Memphis","2025-04-02",0.246636771300448,0.194669306976228,0.307185421927979,223,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","reference_neighborhood","Midtown","2024-07-01",0.147887323943662,0.111308583875232,0.193864476255114,284,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","reference_neighborhood","Midtown","2025-04-02",0.183673469387755,0.0997634106207031,0.313576026028999,49,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","super_district","9","2024-07-01",0.165418652144316,0.147295600317335,0.185287011264573,1469,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","super_district","9","2025-04-02",0.231788079470199,0.195283039332023,0.272803765601819,453,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","zcta","38104","2024-07-01",0.0857142857142857,0.0295823682669698,0.223792739658965,35,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","zcta","38104","2025-04-02",NA,NA,NA,4,TRUE
+"reopen_rate","primary","SWM-Missed Bulk Trash","zcta","38107","2024-07-01",0.125,0.0497013438748007,0.280683054816502,32,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","zcta","38107","2025-04-02",NA,NA,NA,5,TRUE
+"reopen_rate","primary","SWM-Missed Bulk Trash","zcta","38108","2024-07-01",0.205882352941176,0.103495268990319,0.367983880511636,34,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","zcta","38108","2025-04-02",NA,NA,NA,15,TRUE
+"reopen_rate","primary","SWM-Missed Bulk Trash","zcta","38111","2024-07-01",0.2,0.160129786409685,0.246879291158217,325,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","zcta","38111","2025-04-02",0.314606741573034,0.227510378409474,0.417044969824193,89,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","zcta","38112","2024-07-01",0.156626506024096,0.116741875682227,0.20694498802446,249,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","zcta","38112","2025-04-02",0.177777777777778,0.0929438951410415,0.313298246264598,45,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","zcta","38117","2024-07-01",0.176724137931034,0.144713155468036,0.214043974017193,464,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","zcta","38117","2025-04-02",0.251141552511416,0.198331202452847,0.312531809408401,219,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","zcta","38120","2024-07-01",0.0851063829787234,0.0335941234579256,0.199315377869646,47,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","zcta","38120","2025-04-02",NA,NA,NA,4,TRUE
+"reopen_rate","primary","SWM-Missed Bulk Trash","zcta","38122","2024-07-01",0.138297872340426,0.10284518115635,0.183472483042364,282,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","zcta","38122","2025-04-02",0.138888888888889,0.0772273077029898,0.237131872505563,72,FALSE
+"reopen_rate","primary","SWM-Missed Bulk Trash","zcta","38152","2024-07-01",NA,NA,NA,1,TRUE
+"reopen_rate","radius_100m","EE-Illegal Dumping","citywide","4748000","2024-07-01",0.0588235294117647,0.0231107655396358,0.141716884331015,68,FALSE
+"reopen_rate","radius_100m","EE-Illegal Dumping","citywide","4748000","2025-04-02",NA,NA,NA,18,TRUE
+"reopen_rate","radius_100m","EE-Illegal Dumping","council_district","5","2024-07-01",0.0588235294117647,0.0231107655396358,0.141716884331015,68,FALSE
+"reopen_rate","radius_100m","EE-Illegal Dumping","council_district","5","2025-04-02",NA,NA,NA,18,TRUE
+"reopen_rate","radius_100m","EE-Illegal Dumping","reference_neighborhood","East Memphis","2024-07-01",NA,NA,NA,4,TRUE
+"reopen_rate","radius_100m","EE-Illegal Dumping","reference_neighborhood","East Memphis","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","radius_100m","EE-Illegal Dumping","reference_neighborhood","Midtown","2024-07-01",0.117647058823529,0.0467144666488234,0.266208427703718,34,FALSE
+"reopen_rate","radius_100m","EE-Illegal Dumping","reference_neighborhood","Midtown","2025-04-02",NA,NA,NA,11,TRUE
+"reopen_rate","radius_100m","EE-Illegal Dumping","super_district","9","2024-07-01",0.0588235294117647,0.0231107655396358,0.141716884331015,68,FALSE
+"reopen_rate","radius_100m","EE-Illegal Dumping","super_district","9","2025-04-02",NA,NA,NA,18,TRUE
+"reopen_rate","radius_100m","EE-Illegal Dumping","zcta","38104","2024-07-01",NA,NA,NA,3,TRUE
+"reopen_rate","radius_100m","EE-Illegal Dumping","zcta","38104","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","radius_100m","EE-Illegal Dumping","zcta","38107","2024-07-01",NA,NA,NA,1,TRUE
+"reopen_rate","radius_100m","EE-Illegal Dumping","zcta","38107","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","radius_100m","EE-Illegal Dumping","zcta","38108","2024-07-01",NA,NA,NA,2,TRUE
+"reopen_rate","radius_100m","EE-Illegal Dumping","zcta","38111","2024-07-01",NA,NA,NA,14,TRUE
+"reopen_rate","radius_100m","EE-Illegal Dumping","zcta","38111","2025-04-02",NA,NA,NA,3,TRUE
+"reopen_rate","radius_100m","EE-Illegal Dumping","zcta","38112","2024-07-01",0.129032258064516,0.0513428437462915,0.288524062563064,31,FALSE
+"reopen_rate","radius_100m","EE-Illegal Dumping","zcta","38112","2025-04-02",NA,NA,NA,10,TRUE
+"reopen_rate","radius_100m","EE-Illegal Dumping","zcta","38117","2024-07-01",NA,NA,NA,4,TRUE
+"reopen_rate","radius_100m","EE-Illegal Dumping","zcta","38117","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","radius_100m","EE-Illegal Dumping","zcta","38122","2024-07-01",NA,NA,NA,13,TRUE
+"reopen_rate","radius_100m","EE-Illegal Dumping","zcta","38122","2025-04-02",NA,NA,NA,2,TRUE
+"reopen_rate","radius_100m","PW (SM)-Potholes","citywide","4748000","2024-07-01",0.132947976878613,0.101173310334601,0.172783524695109,346,FALSE
+"reopen_rate","radius_100m","PW (SM)-Potholes","citywide","4748000","2025-04-02",0.173913043478261,0.119745172896364,0.245743586537705,138,FALSE
+"reopen_rate","radius_100m","PW (SM)-Potholes","council_district","4","2024-07-01",NA,NA,NA,2,TRUE
+"reopen_rate","radius_100m","PW (SM)-Potholes","council_district","4","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","radius_100m","PW (SM)-Potholes","council_district","5","2024-07-01",0.133720930232558,0.101770708568082,0.173761308649275,344,FALSE
+"reopen_rate","radius_100m","PW (SM)-Potholes","council_district","5","2025-04-02",0.175182481751825,0.120641898971816,0.247441897197135,137,FALSE
+"reopen_rate","radius_100m","PW (SM)-Potholes","reference_neighborhood","East Memphis","2024-07-01",0.0348837209302326,0.0119337980774084,0.0976087110256076,86,FALSE
+"reopen_rate","radius_100m","PW (SM)-Potholes","reference_neighborhood","East Memphis","2025-04-02",0.027027027027027,0.00478697445194044,0.138240698637305,37,FALSE
+"reopen_rate","radius_100m","PW (SM)-Potholes","reference_neighborhood","Midtown","2024-07-01",0.19811320754717,0.133388935262873,0.283953107649412,106,FALSE
+"reopen_rate","radius_100m","PW (SM)-Potholes","reference_neighborhood","Midtown","2025-04-02",0.307692307692308,0.19914727949289,0.442695888247057,52,FALSE
+"reopen_rate","radius_100m","PW (SM)-Potholes","super_district","9","2024-07-01",0.132947976878613,0.101173310334601,0.172783524695109,346,FALSE
+"reopen_rate","radius_100m","PW (SM)-Potholes","super_district","9","2025-04-02",0.173913043478261,0.119745172896364,0.245743586537705,138,FALSE
+"reopen_rate","radius_100m","PW (SM)-Potholes","zcta","38104","2024-07-01",NA,NA,NA,18,TRUE
+"reopen_rate","radius_100m","PW (SM)-Potholes","zcta","38104","2025-04-02",NA,NA,NA,4,TRUE
+"reopen_rate","radius_100m","PW (SM)-Potholes","zcta","38107","2024-07-01",NA,NA,NA,2,TRUE
+"reopen_rate","radius_100m","PW (SM)-Potholes","zcta","38107","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","radius_100m","PW (SM)-Potholes","zcta","38108","2024-07-01",NA,NA,NA,3,TRUE
+"reopen_rate","radius_100m","PW (SM)-Potholes","zcta","38108","2025-04-02",NA,NA,NA,3,TRUE
+"reopen_rate","radius_100m","PW (SM)-Potholes","zcta","38111","2024-07-01",0.159574468085106,0.0991561368860526,0.246724425695425,94,FALSE
+"reopen_rate","radius_100m","PW (SM)-Potholes","zcta","38111","2025-04-02",0.15625,0.0686442028250571,0.317541495975304,32,FALSE
+"reopen_rate","radius_100m","PW (SM)-Potholes","zcta","38112","2024-07-01",0.238636363636364,0.161710426083276,0.337426449673372,88,FALSE
+"reopen_rate","radius_100m","PW (SM)-Potholes","zcta","38112","2025-04-02",0.333333333333333,0.216767806948186,0.47459890294052,48,FALSE
+"reopen_rate","radius_100m","PW (SM)-Potholes","zcta","38117","2024-07-01",0.0277777777777778,0.00765102190449458,0.0957417522143822,72,FALSE
+"reopen_rate","radius_100m","PW (SM)-Potholes","zcta","38117","2025-04-02",0.0333333333333333,0.00590859038161246,0.166703909914092,30,FALSE
+"reopen_rate","radius_100m","PW (SM)-Potholes","zcta","38120","2024-07-01",NA,NA,NA,14,TRUE
+"reopen_rate","radius_100m","PW (SM)-Potholes","zcta","38120","2025-04-02",NA,NA,NA,7,TRUE
+"reopen_rate","radius_100m","PW (SM)-Potholes","zcta","38122","2024-07-01",0.0909090909090909,0.0394581550741804,0.195774945839799,55,FALSE
+"reopen_rate","radius_100m","PW (SM)-Potholes","zcta","38122","2025-04-02",NA,NA,NA,13,TRUE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","citywide","4748000","2024-07-01",0.28931245745405,0.266697881641362,0.313026061969219,1469,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","citywide","4748000","2025-04-02",0.408388520971302,0.364078867409092,0.454238847856377,453,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","council_district","5","2024-07-01",0.28931245745405,0.266697881641362,0.313026061969219,1469,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","council_district","5","2025-04-02",0.408388520971302,0.364078867409092,0.454238847856377,453,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","reference_neighborhood","East Memphis","2024-07-01",0.313111545988258,0.274422382071647,0.354589623998128,511,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","reference_neighborhood","East Memphis","2025-04-02",0.457399103139013,0.393286701265051,0.522954359347161,223,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","reference_neighborhood","Midtown","2024-07-01",0.257042253521127,0.209696456542942,0.310872954946997,284,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","reference_neighborhood","Midtown","2025-04-02",0.326530612244898,0.212074970018119,0.466207946854298,49,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","super_district","9","2024-07-01",0.28931245745405,0.266697881641362,0.313026061969219,1469,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","super_district","9","2025-04-02",0.408388520971302,0.364078867409092,0.454238847856377,453,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","zcta","38104","2024-07-01",0.142857142857143,0.0626023107943371,0.293755540865951,35,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","zcta","38104","2025-04-02",NA,NA,NA,4,TRUE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","zcta","38107","2024-07-01",0.34375,0.204104379244332,0.516889120210378,32,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","zcta","38107","2025-04-02",NA,NA,NA,5,TRUE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","zcta","38108","2024-07-01",0.382352941176471,0.239001833245089,0.549589826555693,34,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","zcta","38108","2025-04-02",NA,NA,NA,15,TRUE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","zcta","38111","2024-07-01",0.32,0.271641052240657,0.372564394300085,325,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","zcta","38111","2025-04-02",0.460674157303371,0.360897211239025,0.563705438386298,89,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","zcta","38112","2024-07-01",0.273092369477912,0.221513254310821,0.3315663690743,249,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","zcta","38112","2025-04-02",0.333333333333333,0.2135887493433,0.479295116900996,45,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","zcta","38117","2024-07-01",0.327586206896552,0.286449865985218,0.371553936406904,464,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","zcta","38117","2025-04-02",0.465753424657534,0.400847504388483,0.531840066051138,219,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","zcta","38120","2024-07-01",0.170212765957447,0.0888636387649026,0.301397759726244,47,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","zcta","38120","2025-04-02",NA,NA,NA,4,TRUE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","zcta","38122","2024-07-01",0.226950354609929,0.181924134899841,0.27931567042664,282,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","zcta","38122","2025-04-02",0.277777777777778,0.187602858568294,0.390464329252354,72,FALSE
+"reopen_rate","radius_100m","SWM-Missed Bulk Trash","zcta","38152","2024-07-01",NA,NA,NA,1,TRUE
+"reopen_rate","radius_25m","EE-Illegal Dumping","citywide","4748000","2024-07-01",0,3.46944695195361e-18,0.0534713365200705,68,FALSE
+"reopen_rate","radius_25m","EE-Illegal Dumping","citywide","4748000","2025-04-02",NA,NA,NA,18,TRUE
+"reopen_rate","radius_25m","EE-Illegal Dumping","council_district","5","2024-07-01",0,3.46944695195361e-18,0.0534713365200705,68,FALSE
+"reopen_rate","radius_25m","EE-Illegal Dumping","council_district","5","2025-04-02",NA,NA,NA,18,TRUE
+"reopen_rate","radius_25m","EE-Illegal Dumping","reference_neighborhood","East Memphis","2024-07-01",NA,NA,NA,4,TRUE
+"reopen_rate","radius_25m","EE-Illegal Dumping","reference_neighborhood","East Memphis","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","radius_25m","EE-Illegal Dumping","reference_neighborhood","Midtown","2024-07-01",0,6.93889390390723e-18,0.101514554153324,34,FALSE
+"reopen_rate","radius_25m","EE-Illegal Dumping","reference_neighborhood","Midtown","2025-04-02",NA,NA,NA,11,TRUE
+"reopen_rate","radius_25m","EE-Illegal Dumping","super_district","9","2024-07-01",0,3.46944695195361e-18,0.0534713365200705,68,FALSE
+"reopen_rate","radius_25m","EE-Illegal Dumping","super_district","9","2025-04-02",NA,NA,NA,18,TRUE
+"reopen_rate","radius_25m","EE-Illegal Dumping","zcta","38104","2024-07-01",NA,NA,NA,3,TRUE
+"reopen_rate","radius_25m","EE-Illegal Dumping","zcta","38104","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","radius_25m","EE-Illegal Dumping","zcta","38107","2024-07-01",NA,NA,NA,1,TRUE
+"reopen_rate","radius_25m","EE-Illegal Dumping","zcta","38107","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","radius_25m","EE-Illegal Dumping","zcta","38108","2024-07-01",NA,NA,NA,2,TRUE
+"reopen_rate","radius_25m","EE-Illegal Dumping","zcta","38111","2024-07-01",NA,NA,NA,14,TRUE
+"reopen_rate","radius_25m","EE-Illegal Dumping","zcta","38111","2025-04-02",NA,NA,NA,3,TRUE
+"reopen_rate","radius_25m","EE-Illegal Dumping","zcta","38112","2024-07-01",0,0,0.110255395460436,31,FALSE
+"reopen_rate","radius_25m","EE-Illegal Dumping","zcta","38112","2025-04-02",NA,NA,NA,10,TRUE
+"reopen_rate","radius_25m","EE-Illegal Dumping","zcta","38117","2024-07-01",NA,NA,NA,4,TRUE
+"reopen_rate","radius_25m","EE-Illegal Dumping","zcta","38117","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","radius_25m","EE-Illegal Dumping","zcta","38122","2024-07-01",NA,NA,NA,13,TRUE
+"reopen_rate","radius_25m","EE-Illegal Dumping","zcta","38122","2025-04-02",NA,NA,NA,2,TRUE
+"reopen_rate","radius_25m","PW (SM)-Potholes","citywide","4748000","2024-07-01",0.0491329479768786,0.0308994551253184,0.077267995777318,346,FALSE
+"reopen_rate","radius_25m","PW (SM)-Potholes","citywide","4748000","2025-04-02",0.072463768115942,0.0398342869439267,0.128250975425186,138,FALSE
+"reopen_rate","radius_25m","PW (SM)-Potholes","council_district","4","2024-07-01",NA,NA,NA,2,TRUE
+"reopen_rate","radius_25m","PW (SM)-Potholes","council_district","4","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","radius_25m","PW (SM)-Potholes","council_district","5","2024-07-01",0.0494186046511628,0.0310804254555585,0.0777089608038888,344,FALSE
+"reopen_rate","radius_25m","PW (SM)-Potholes","council_district","5","2025-04-02",0.072992700729927,0.040128622582626,0.129150075751838,137,FALSE
+"reopen_rate","radius_25m","PW (SM)-Potholes","reference_neighborhood","East Memphis","2024-07-01",0,3.46944695195361e-18,0.0427581972857422,86,FALSE
+"reopen_rate","radius_25m","PW (SM)-Potholes","reference_neighborhood","East Memphis","2025-04-02",0,0,0.0940578258372025,37,FALSE
+"reopen_rate","radius_25m","PW (SM)-Potholes","reference_neighborhood","Midtown","2024-07-01",0.0943396226415094,0.0520525026532851,0.165000867510098,106,FALSE
+"reopen_rate","radius_25m","PW (SM)-Potholes","reference_neighborhood","Midtown","2025-04-02",0.134615384615385,0.0667688170539614,0.252733201651938,52,FALSE
+"reopen_rate","radius_25m","PW (SM)-Potholes","super_district","9","2024-07-01",0.0491329479768786,0.0308994551253184,0.077267995777318,346,FALSE
+"reopen_rate","radius_25m","PW (SM)-Potholes","super_district","9","2025-04-02",0.072463768115942,0.0398342869439267,0.128250975425186,138,FALSE
+"reopen_rate","radius_25m","PW (SM)-Potholes","zcta","38104","2024-07-01",NA,NA,NA,18,TRUE
+"reopen_rate","radius_25m","PW (SM)-Potholes","zcta","38104","2025-04-02",NA,NA,NA,4,TRUE
+"reopen_rate","radius_25m","PW (SM)-Potholes","zcta","38107","2024-07-01",NA,NA,NA,2,TRUE
+"reopen_rate","radius_25m","PW (SM)-Potholes","zcta","38107","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","radius_25m","PW (SM)-Potholes","zcta","38108","2024-07-01",NA,NA,NA,3,TRUE
+"reopen_rate","radius_25m","PW (SM)-Potholes","zcta","38108","2025-04-02",NA,NA,NA,3,TRUE
+"reopen_rate","radius_25m","PW (SM)-Potholes","zcta","38111","2024-07-01",0.0425531914893617,0.0166705481500427,0.104356457818817,94,FALSE
+"reopen_rate","radius_25m","PW (SM)-Potholes","zcta","38111","2025-04-02",0.09375,0.0324015512983662,0.242181547283879,32,FALSE
+"reopen_rate","radius_25m","PW (SM)-Potholes","zcta","38112","2024-07-01",0.113636363636364,0.0629080037510136,0.196685638671858,88,FALSE
+"reopen_rate","radius_25m","PW (SM)-Potholes","zcta","38112","2025-04-02",0.145833333333333,0.0724824932660371,0.271671765247463,48,FALSE
+"reopen_rate","radius_25m","PW (SM)-Potholes","zcta","38117","2024-07-01",0,0,0.0506511725964578,72,FALSE
+"reopen_rate","radius_25m","PW (SM)-Potholes","zcta","38117","2025-04-02",0,0,0.113513393173969,30,FALSE
+"reopen_rate","radius_25m","PW (SM)-Potholes","zcta","38120","2024-07-01",NA,NA,NA,14,TRUE
+"reopen_rate","radius_25m","PW (SM)-Potholes","zcta","38120","2025-04-02",NA,NA,NA,7,TRUE
+"reopen_rate","radius_25m","PW (SM)-Potholes","zcta","38122","2024-07-01",0.0545454545454545,0.0187232155546845,0.148530605440538,55,FALSE
+"reopen_rate","radius_25m","PW (SM)-Potholes","zcta","38122","2025-04-02",NA,NA,NA,13,TRUE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","citywide","4748000","2024-07-01",0.13002042205582,0.113781984754208,0.148188817676651,1469,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","citywide","4748000","2025-04-02",0.183222958057395,0.150313040359282,0.221460264233362,453,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","council_district","5","2024-07-01",0.13002042205582,0.113781984754208,0.148188817676651,1469,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","council_district","5","2025-04-02",0.183222958057395,0.150313040359282,0.221460264233362,453,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","reference_neighborhood","East Memphis","2024-07-01",0.13307240704501,0.106343653793303,0.165276776971962,511,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","reference_neighborhood","East Memphis","2025-04-02",0.188340807174888,0.142465748812781,0.244771484087083,223,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","reference_neighborhood","Midtown","2024-07-01",0.0915492957746479,0.0632416202767506,0.130759129474451,284,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","reference_neighborhood","Midtown","2025-04-02",0.102040816326531,0.0443795467447627,0.217563615491959,49,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","super_district","9","2024-07-01",0.13002042205582,0.113781984754208,0.148188817676651,1469,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","super_district","9","2025-04-02",0.183222958057395,0.150313040359282,0.221460264233362,453,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","zcta","38104","2024-07-01",0.0857142857142857,0.0295823682669698,0.223792739658965,35,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","zcta","38104","2025-04-02",NA,NA,NA,4,TRUE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","zcta","38107","2024-07-01",0.0625,0.017310567031641,0.201471231441546,32,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","zcta","38107","2025-04-02",NA,NA,NA,5,TRUE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","zcta","38108","2024-07-01",0.205882352941176,0.103495268990319,0.367983880511636,34,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","zcta","38108","2025-04-02",NA,NA,NA,15,TRUE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","zcta","38111","2024-07-01",0.169230769230769,0.132384871092304,0.213804624687691,325,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","zcta","38111","2025-04-02",0.280898876404494,0.198094895079878,0.381834152832637,89,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","zcta","38112","2024-07-01",0.0923694779116466,0.062339620094782,0.134785721030701,249,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","zcta","38112","2025-04-02",0.0888888888888889,0.0351111167263702,0.207335753342894,45,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","zcta","38117","2024-07-01",0.140086206896552,0.111452692183522,0.174630245310032,464,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","zcta","38117","2025-04-02",0.191780821917808,0.14513043881207,0.249057695144522,219,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","zcta","38120","2024-07-01",0.0638297872340425,0.0219453852054333,0.171626141831244,47,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","zcta","38120","2025-04-02",NA,NA,NA,4,TRUE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","zcta","38122","2024-07-01",0.117021276595745,0.0845501086061771,0.159786241721873,282,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","zcta","38122","2025-04-02",0.111111111111111,0.0573881963494935,0.20422938233664,72,FALSE
+"reopen_rate","radius_25m","SWM-Missed Bulk Trash","zcta","38152","2024-07-01",NA,NA,NA,1,TRUE
+"reopen_rate","window_14d","EE-Illegal Dumping","citywide","4748000","2024-07-01",0.0121951219512195,0.00215599208181234,0.0658933968841392,82,FALSE
+"reopen_rate","window_14d","EE-Illegal Dumping","citywide","4748000","2025-04-02",0.03125,0.00553786016400312,0.157442638200126,32,FALSE
+"reopen_rate","window_14d","EE-Illegal Dumping","council_district","5","2024-07-01",0.0121951219512195,0.00215599208181234,0.0658933968841392,82,FALSE
+"reopen_rate","window_14d","EE-Illegal Dumping","council_district","5","2025-04-02",0.03125,0.00553786016400312,0.157442638200126,32,FALSE
+"reopen_rate","window_14d","EE-Illegal Dumping","reference_neighborhood","East Memphis","2024-07-01",NA,NA,NA,6,TRUE
+"reopen_rate","window_14d","EE-Illegal Dumping","reference_neighborhood","East Memphis","2025-04-02",NA,NA,NA,3,TRUE
+"reopen_rate","window_14d","EE-Illegal Dumping","reference_neighborhood","Midtown","2024-07-01",0.0256410256410256,0.0045407031009901,0.131809901698501,39,FALSE
+"reopen_rate","window_14d","EE-Illegal Dumping","reference_neighborhood","Midtown","2025-04-02",NA,NA,NA,16,TRUE
+"reopen_rate","window_14d","EE-Illegal Dumping","super_district","9","2024-07-01",0.0121951219512195,0.00215599208181234,0.0658933968841392,82,FALSE
+"reopen_rate","window_14d","EE-Illegal Dumping","super_district","9","2025-04-02",0.03125,0.00553786016400312,0.157442638200126,32,FALSE
+"reopen_rate","window_14d","EE-Illegal Dumping","zcta","38104","2024-07-01",NA,NA,NA,3,TRUE
+"reopen_rate","window_14d","EE-Illegal Dumping","zcta","38104","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","window_14d","EE-Illegal Dumping","zcta","38107","2024-07-01",NA,NA,NA,1,TRUE
+"reopen_rate","window_14d","EE-Illegal Dumping","zcta","38107","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","window_14d","EE-Illegal Dumping","zcta","38108","2024-07-01",NA,NA,NA,2,TRUE
+"reopen_rate","window_14d","EE-Illegal Dumping","zcta","38111","2024-07-01",NA,NA,NA,18,TRUE
+"reopen_rate","window_14d","EE-Illegal Dumping","zcta","38111","2025-04-02",NA,NA,NA,7,TRUE
+"reopen_rate","window_14d","EE-Illegal Dumping","zcta","38112","2024-07-01",0.0277777777777778,0.00492040713981046,0.141697186532739,36,FALSE
+"reopen_rate","window_14d","EE-Illegal Dumping","zcta","38112","2025-04-02",NA,NA,NA,15,TRUE
+"reopen_rate","window_14d","EE-Illegal Dumping","zcta","38117","2024-07-01",NA,NA,NA,6,TRUE
+"reopen_rate","window_14d","EE-Illegal Dumping","zcta","38117","2025-04-02",NA,NA,NA,3,TRUE
+"reopen_rate","window_14d","EE-Illegal Dumping","zcta","38122","2024-07-01",NA,NA,NA,16,TRUE
+"reopen_rate","window_14d","EE-Illegal Dumping","zcta","38122","2025-04-02",NA,NA,NA,5,TRUE
+"reopen_rate","window_14d","PW (SM)-Potholes","citywide","4748000","2024-07-01",0.0265957446808511,0.0145091994582555,0.0482576688417859,376,FALSE
+"reopen_rate","window_14d","PW (SM)-Potholes","citywide","4748000","2025-04-02",0.0357142857142857,0.0164690920762803,0.0757173856771686,168,FALSE
+"reopen_rate","window_14d","PW (SM)-Potholes","council_district","4","2024-07-01",NA,NA,NA,2,TRUE
+"reopen_rate","window_14d","PW (SM)-Potholes","council_district","4","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","window_14d","PW (SM)-Potholes","council_district","5","2024-07-01",0.0267379679144385,0.0145871279367165,0.0485119795437259,374,FALSE
+"reopen_rate","window_14d","PW (SM)-Potholes","council_district","5","2025-04-02",0.0359281437125748,0.0165683259108128,0.0761577543395347,167,FALSE
+"reopen_rate","window_14d","PW (SM)-Potholes","reference_neighborhood","East Memphis","2024-07-01",0,0,0.038864853539473,95,FALSE
+"reopen_rate","window_14d","PW (SM)-Potholes","reference_neighborhood","East Memphis","2025-04-02",0,0,0.0770735630855803,46,FALSE
+"reopen_rate","window_14d","PW (SM)-Potholes","reference_neighborhood","Midtown","2024-07-01",0.0431034482758621,0.0185495663661049,0.096948517159427,116,FALSE
+"reopen_rate","window_14d","PW (SM)-Potholes","reference_neighborhood","Midtown","2025-04-02",0.0645161290322581,0.0253729055204408,0.154475157277529,62,FALSE
+"reopen_rate","window_14d","PW (SM)-Potholes","super_district","9","2024-07-01",0.0265957446808511,0.0145091994582555,0.0482576688417859,376,FALSE
+"reopen_rate","window_14d","PW (SM)-Potholes","super_district","9","2025-04-02",0.0357142857142857,0.0164690920762803,0.0757173856771686,168,FALSE
+"reopen_rate","window_14d","PW (SM)-Potholes","zcta","38104","2024-07-01",NA,NA,NA,19,TRUE
+"reopen_rate","window_14d","PW (SM)-Potholes","zcta","38104","2025-04-02",NA,NA,NA,5,TRUE
+"reopen_rate","window_14d","PW (SM)-Potholes","zcta","38107","2024-07-01",NA,NA,NA,4,TRUE
+"reopen_rate","window_14d","PW (SM)-Potholes","zcta","38107","2025-04-02",NA,NA,NA,3,TRUE
+"reopen_rate","window_14d","PW (SM)-Potholes","zcta","38108","2024-07-01",NA,NA,NA,4,TRUE
+"reopen_rate","window_14d","PW (SM)-Potholes","zcta","38108","2025-04-02",NA,NA,NA,4,TRUE
+"reopen_rate","window_14d","PW (SM)-Potholes","zcta","38111","2024-07-01",0.04,0.0156633039915476,0.0983707143588792,100,FALSE
+"reopen_rate","window_14d","PW (SM)-Potholes","zcta","38111","2025-04-02",0.0526315789473684,0.0145542081472924,0.172854621317704,38,FALSE
+"reopen_rate","window_14d","PW (SM)-Potholes","zcta","38112","2024-07-01",0.0515463917525773,0.0222160510375106,0.115043554114628,97,FALSE
+"reopen_rate","window_14d","PW (SM)-Potholes","zcta","38112","2025-04-02",0.0701754385964912,0.027626420229066,0.167001700960337,57,FALSE
+"reopen_rate","window_14d","PW (SM)-Potholes","zcta","38117","2024-07-01",0,0,0.0463712116539226,79,FALSE
+"reopen_rate","window_14d","PW (SM)-Potholes","zcta","38117","2025-04-02",0,0,0.0940578258372025,37,FALSE
+"reopen_rate","window_14d","PW (SM)-Potholes","zcta","38120","2024-07-01",NA,NA,NA,16,TRUE
+"reopen_rate","window_14d","PW (SM)-Potholes","zcta","38120","2025-04-02",NA,NA,NA,9,TRUE
+"reopen_rate","window_14d","PW (SM)-Potholes","zcta","38122","2024-07-01",0.0175438596491228,0.00310366465140809,0.0929074917856768,57,FALSE
+"reopen_rate","window_14d","PW (SM)-Potholes","zcta","38122","2025-04-02",NA,NA,NA,15,TRUE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","citywide","4748000","2024-07-01",0.112237998647735,0.0971447497182817,0.129340325151279,1479,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","citywide","4748000","2025-04-02",0.170626349892009,0.139105049659811,0.207568228308106,463,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","council_district","5","2024-07-01",0.112237998647735,0.0971447497182817,0.129340325151279,1479,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","council_district","5","2025-04-02",0.170626349892009,0.139105049659811,0.207568228308106,463,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","reference_neighborhood","East Memphis","2024-07-01",0.115009746588694,0.0902181243506697,0.145524300606311,513,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","reference_neighborhood","East Memphis","2025-04-02",0.173333333333333,0.129467206623106,0.228166673367232,225,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","reference_neighborhood","Midtown","2024-07-01",0.0982456140350877,0.0688497219143794,0.138327804002502,285,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","reference_neighborhood","Midtown","2025-04-02",0.14,0.0695083342701629,0.261861937105855,50,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","super_district","9","2024-07-01",0.112237998647735,0.0971447497182817,0.129340325151279,1479,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","super_district","9","2025-04-02",0.170626349892009,0.139105049659811,0.207568228308106,463,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","zcta","38104","2024-07-01",0.0833333333333333,0.0287486113359934,0.218266912492726,36,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","zcta","38104","2025-04-02",NA,NA,NA,5,TRUE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","zcta","38107","2024-07-01",0.0625,0.017310567031641,0.201471231441546,32,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","zcta","38107","2025-04-02",NA,NA,NA,5,TRUE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","zcta","38108","2024-07-01",0.142857142857143,0.0626023107943371,0.293755540865951,35,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","zcta","38108","2025-04-02",NA,NA,NA,16,TRUE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","zcta","38111","2024-07-01",0.136363636363636,0.103498618074624,0.177597262443608,330,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","zcta","38111","2025-04-02",0.25531914893617,0.177993456154696,0.351858198200741,94,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","zcta","38112","2024-07-01",0.100401606425703,0.0689344975672039,0.14401103388093,249,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","zcta","38112","2025-04-02",0.133333333333333,0.0625714874756808,0.261773018261771,45,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","zcta","38117","2024-07-01",0.12258064516129,0.0958265418597388,0.155519529618471,465,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","zcta","38117","2025-04-02",0.177272727272727,0.132476016578413,0.233146416602084,220,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","zcta","38120","2024-07-01",0.0416666666666667,0.0115018934893866,0.139756558704554,48,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","zcta","38120","2025-04-02",NA,NA,NA,5,TRUE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","zcta","38122","2024-07-01",0.0954063604240283,0.0663985510412198,0.135251025901042,283,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","zcta","38122","2025-04-02",0.0958904109589041,0.0472289545968058,0.184956366901662,73,FALSE
+"reopen_rate","window_14d","SWM-Missed Bulk Trash","zcta","38152","2024-07-01",NA,NA,NA,1,TRUE
+"reopen_rate","window_60d","EE-Illegal Dumping","citywide","4748000","2024-07-01",0.0344827586206897,0.00950792833116543,0.117291454643127,58,FALSE
+"reopen_rate","window_60d","EE-Illegal Dumping","citywide","4748000","2025-04-02",NA,NA,NA,8,TRUE
+"reopen_rate","window_60d","EE-Illegal Dumping","council_district","5","2024-07-01",0.0344827586206897,0.00950792833116543,0.117291454643127,58,FALSE
+"reopen_rate","window_60d","EE-Illegal Dumping","council_district","5","2025-04-02",NA,NA,NA,8,TRUE
+"reopen_rate","window_60d","EE-Illegal Dumping","reference_neighborhood","East Memphis","2024-07-01",NA,NA,NA,4,TRUE
+"reopen_rate","window_60d","EE-Illegal Dumping","reference_neighborhood","East Memphis","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","window_60d","EE-Illegal Dumping","reference_neighborhood","Midtown","2024-07-01",NA,NA,NA,28,TRUE
+"reopen_rate","window_60d","EE-Illegal Dumping","reference_neighborhood","Midtown","2025-04-02",NA,NA,NA,5,TRUE
+"reopen_rate","window_60d","EE-Illegal Dumping","super_district","9","2024-07-01",0.0344827586206897,0.00950792833116543,0.117291454643127,58,FALSE
+"reopen_rate","window_60d","EE-Illegal Dumping","super_district","9","2025-04-02",NA,NA,NA,8,TRUE
+"reopen_rate","window_60d","EE-Illegal Dumping","zcta","38104","2024-07-01",NA,NA,NA,3,TRUE
+"reopen_rate","window_60d","EE-Illegal Dumping","zcta","38104","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","window_60d","EE-Illegal Dumping","zcta","38108","2024-07-01",NA,NA,NA,2,TRUE
+"reopen_rate","window_60d","EE-Illegal Dumping","zcta","38111","2024-07-01",NA,NA,NA,13,TRUE
+"reopen_rate","window_60d","EE-Illegal Dumping","zcta","38111","2025-04-02",NA,NA,NA,2,TRUE
+"reopen_rate","window_60d","EE-Illegal Dumping","zcta","38112","2024-07-01",NA,NA,NA,25,TRUE
+"reopen_rate","window_60d","EE-Illegal Dumping","zcta","38112","2025-04-02",NA,NA,NA,4,TRUE
+"reopen_rate","window_60d","EE-Illegal Dumping","zcta","38117","2024-07-01",NA,NA,NA,4,TRUE
+"reopen_rate","window_60d","EE-Illegal Dumping","zcta","38117","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","window_60d","EE-Illegal Dumping","zcta","38122","2024-07-01",NA,NA,NA,11,TRUE
+"reopen_rate","window_60d","PW (SM)-Potholes","citywide","4748000","2024-07-01",0.0954063604240283,0.0663985510412198,0.135251025901042,283,FALSE
+"reopen_rate","window_60d","PW (SM)-Potholes","citywide","4748000","2025-04-02",0.106666666666667,0.0550491276217432,0.196613628464731,75,FALSE
+"reopen_rate","window_60d","PW (SM)-Potholes","council_district","4","2024-07-01",NA,NA,NA,1,TRUE
+"reopen_rate","window_60d","PW (SM)-Potholes","council_district","5","2024-07-01",0.0957446808510638,0.06663705899834,0.135717977459047,282,FALSE
+"reopen_rate","window_60d","PW (SM)-Potholes","council_district","5","2025-04-02",0.106666666666667,0.0550491276217432,0.196613628464731,75,FALSE
+"reopen_rate","window_60d","PW (SM)-Potholes","reference_neighborhood","East Memphis","2024-07-01",0.0512820512820513,0.0201210124738961,0.124566765472945,78,FALSE
+"reopen_rate","window_60d","PW (SM)-Potholes","reference_neighborhood","East Memphis","2025-04-02",NA,NA,NA,29,TRUE
+"reopen_rate","window_60d","PW (SM)-Potholes","reference_neighborhood","Midtown","2024-07-01",0.1,0.0515476155673808,0.185106888061041,80,FALSE
+"reopen_rate","window_60d","PW (SM)-Potholes","reference_neighborhood","Midtown","2025-04-02",NA,NA,NA,26,TRUE
+"reopen_rate","window_60d","PW (SM)-Potholes","super_district","9","2024-07-01",0.0954063604240283,0.0663985510412198,0.135251025901042,283,FALSE
+"reopen_rate","window_60d","PW (SM)-Potholes","super_district","9","2025-04-02",0.106666666666667,0.0550491276217432,0.196613628464731,75,FALSE
+"reopen_rate","window_60d","PW (SM)-Potholes","zcta","38104","2024-07-01",NA,NA,NA,17,TRUE
+"reopen_rate","window_60d","PW (SM)-Potholes","zcta","38104","2025-04-02",NA,NA,NA,3,TRUE
+"reopen_rate","window_60d","PW (SM)-Potholes","zcta","38107","2024-07-01",NA,NA,NA,2,TRUE
+"reopen_rate","window_60d","PW (SM)-Potholes","zcta","38107","2025-04-02",NA,NA,NA,1,TRUE
+"reopen_rate","window_60d","PW (SM)-Potholes","zcta","38111","2024-07-01",0.141025641025641,0.0806104405638712,0.235139781793602,78,FALSE
+"reopen_rate","window_60d","PW (SM)-Potholes","zcta","38111","2025-04-02",NA,NA,NA,16,TRUE
+"reopen_rate","window_60d","PW (SM)-Potholes","zcta","38112","2024-07-01",0.126984126984127,0.0657732485613674,0.231070344782697,63,FALSE
+"reopen_rate","window_60d","PW (SM)-Potholes","zcta","38112","2025-04-02",NA,NA,NA,23,TRUE
+"reopen_rate","window_60d","PW (SM)-Potholes","zcta","38117","2024-07-01",0.0447761194029851,0.0153439751220387,0.123578330890938,67,FALSE
+"reopen_rate","window_60d","PW (SM)-Potholes","zcta","38117","2025-04-02",NA,NA,NA,25,TRUE
+"reopen_rate","window_60d","PW (SM)-Potholes","zcta","38120","2024-07-01",NA,NA,NA,11,TRUE
+"reopen_rate","window_60d","PW (SM)-Potholes","zcta","38120","2025-04-02",NA,NA,NA,4,TRUE
+"reopen_rate","window_60d","PW (SM)-Potholes","zcta","38122","2024-07-01",0.0888888888888889,0.0351111167263702,0.207335753342894,45,FALSE
+"reopen_rate","window_60d","PW (SM)-Potholes","zcta","38122","2025-04-02",NA,NA,NA,3,TRUE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","citywide","4748000","2024-07-01",0.254251012145749,0.230753518680798,0.279272566030777,1235,FALSE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","citywide","4748000","2025-04-02",0.319634703196347,0.26143731411596,0.384050556866046,219,FALSE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","council_district","5","2024-07-01",0.254251012145749,0.230753518680798,0.279272566030777,1235,FALSE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","council_district","5","2025-04-02",0.319634703196347,0.26143731411596,0.384050556866046,219,FALSE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","reference_neighborhood","East Memphis","2024-07-01",0.259708737864078,0.219726756464395,0.304130242879735,412,FALSE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","reference_neighborhood","East Memphis","2025-04-02",0.387096774193548,0.305987113590631,0.474991606002425,124,FALSE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","reference_neighborhood","Midtown","2024-07-01",0.253012048192771,0.203047342467029,0.310481805111466,249,FALSE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","reference_neighborhood","Midtown","2025-04-02",NA,NA,NA,14,TRUE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","super_district","9","2024-07-01",0.254251012145749,0.230753518680798,0.279272566030777,1235,FALSE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","super_district","9","2025-04-02",0.319634703196347,0.26143731411596,0.384050556866046,219,FALSE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","zcta","38104","2024-07-01",0.161290322580645,0.070926244433653,0.326343539587933,31,FALSE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","zcta","38107","2024-07-01",NA,NA,NA,29,TRUE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","zcta","38107","2025-04-02",NA,NA,NA,2,TRUE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","zcta","38108","2024-07-01",NA,NA,NA,29,TRUE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","zcta","38108","2025-04-02",NA,NA,NA,10,TRUE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","zcta","38111","2024-07-01",0.279151943462898,0.2301132270667,0.334105974320997,283,FALSE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","zcta","38111","2025-04-02",0.276595744680851,0.169365633696826,0.417585636248789,47,FALSE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","zcta","38112","2024-07-01",0.26605504587156,0.211815886771151,0.32839629655008,218,FALSE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","zcta","38112","2025-04-02",NA,NA,NA,14,TRUE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","zcta","38117","2024-07-01",0.273224043715847,0.230103397054728,0.321055630574785,366,FALSE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","zcta","38117","2025-04-02",0.396694214876033,0.313998727599821,0.485747284372798,121,FALSE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","zcta","38120","2024-07-01",0.152173913043478,0.0757228222780547,0.28224139552061,46,FALSE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","zcta","38120","2025-04-02",NA,NA,NA,3,TRUE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","zcta","38122","2024-07-01",0.219827586206897,0.171340893082665,0.277441349657631,232,FALSE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","zcta","38122","2025-04-02",NA,NA,NA,22,TRUE
+"reopen_rate","window_60d","SWM-Missed Bulk Trash","zcta","38152","2024-07-01",NA,NA,NA,1,TRUE

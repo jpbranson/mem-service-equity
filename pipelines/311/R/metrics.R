@@ -21,7 +21,8 @@ base_records <- function(pts) {
 
 window_range <- function(through, days) c(through - days + 1L, through)
 
-geo_levels <- function() c("citywide", "zcta", "council_district", "super_district")
+geo_levels <- function() c("citywide", "zcta", "council_district", "super_district",
+                             "reference_neighborhood")
 
 # Apply `fun(sub_df)` -> one-row metric frame to every (request_type, geo_id)
 # group of `df` for one geography level.
@@ -109,33 +110,27 @@ compute_target <- function(df, targets, through) {
 
 # ---- re-report ("reopen") rate -------------------------------------------
 
-#' For each closed primary request, find the first later request of the same
-#' type within `max_m` meters; returns per-request the smallest
-#' (days-after-close) at each radius in `radii`.
-rereport_days <- function(pts_all, primaries_idx, radii = c(25, 50, 100)) {
-  xy <- sf::st_coordinates(sf::st_transform(sf::st_geometry(pts_all), memequity::MSE_CRS_METERS))
+#' For each closed primary request, the number of days from its close to the
+#' first later request of the same type, at each radius in `radii` (NA if none
+#' within `max_days`).
+rereport_days <- function(pts_all, primaries_idx, radii = c(25, 50, 100), max_days = 60) {
+  xy <- memequity::xy_meters(pts_all)
   out <- matrix(NA_real_, nrow(pts_all), length(radii), dimnames = list(NULL, paste0("r", radii)))
-  types <- unique(pts_all$request_type[primaries_idx])
-  for (ty in types) {
-    all_ix <- which(pts_all$request_type == ty)
-    src_ix <- intersect(primaries_idx, all_ix)
-    src_ix <- src_ix[pts_all$closed[src_ix]]
-    if (!length(src_ix)) next
-    nb <- sf::st_is_within_distance(sf::st_geometry(pts_all)[src_ix], sf::st_geometry(pts_all)[all_ix],
-                                    dist = max(radii))
-    i <- rep(seq_along(src_ix), lengths(nb))
-    if (!length(i)) next
-    j <- all_ix[unlist(nb)]
-    s <- src_ix[i]
-    lag <- as.numeric(pts_all$open_date[j] - pts_all$close_date[s])
-    dist <- sqrt((xy[s, 1] - xy[j, 1])^2 + (xy[s, 2] - xy[j, 2])^2)
-    keep <- j != s & lag > 0
-    for (k in seq_along(radii)) {
-      sel <- keep & dist <= radii[k]
-      if (!any(sel)) next
-      m <- tapply(lag[sel], s[sel], min)
-      out[as.integer(names(m)), k] <- m
-    }
+  src <- primaries_idx[pts_all$closed[primaries_idx]]
+  if (!length(src)) return(out)
+  g <- as.integer(factor(pts_all$request_type))
+  pr <- memequity::grid_pairs(xy[src, 1], xy[src, 2], xy[, 1], xy[, 2], max(radii),
+                              ag = g[src], bg = g,
+                              at = as.numeric(pts_all$close_date[src]),
+                              bt = as.numeric(pts_all$open_date),
+                              lag_min = 0, lag_max = max_days)
+  if (!nrow(pr)) return(out)
+  s <- src[pr$i]
+  for (k in seq_along(radii)) {
+    sel <- pr$dist <= radii[k]
+    if (!any(sel)) next
+    m <- tapply(pr$lag[sel], s[sel], min)
+    out[as.integer(names(m)), k] <- m
   }
   out
 }

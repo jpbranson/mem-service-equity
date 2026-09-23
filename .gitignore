@@ -9,3 +9,5 @@ node_modules/
 /data/cache/
 /data/tmp/
 .env
+/data/published/
+/data/poller/

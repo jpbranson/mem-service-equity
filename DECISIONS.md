@@ -157,6 +157,18 @@ made while building, so a reviewer can challenge them.
   Memphis/Shelby DPD jurisdiction. Reconciliation therefore compares
   new-residential-building counts for that joint jurisdiction, not for the
   city alone.
+- **D16. Address-level area.** For the address lookup, "near this address"
+  means the address's H3 resolution-9 cell plus its six neighbors (grid
+  disk k = 1). That is about 0.74 km², roughly a 0.3-mile radius, close to
+  the plan's 0.25-mile radius. Per-cell counts are summed over the disk and
+  run through the same estimators as the district metrics (count-based
+  Kaplan–Meier, Wilson), so the browser needs no server and never computes
+  a statistic itself.
+- **D17. Published outputs are not committed.** Each run's flat files
+  (tens of MB) go to a monthly release (`data-<pipeline>-<YYYY-MM>`) as a
+  dated zip, which keeps every version as plan section 9 requires, and are
+  deployed with the static site. Code, config, specs, golden files and
+  audits are committed.
 - **D8. Boundary rule.** A point within 1 m of more than one polygon goes to
   the lowest `geo_id` among them and is flagged `on_boundary`.
 - **D9. Censored durations.** Median time-to-close uses a Kaplan–Meier
