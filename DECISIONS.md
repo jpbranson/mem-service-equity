@@ -37,7 +37,8 @@ made while building, so a reviewer can challenge them.
   The request should cover: permit number, establishment name, address,
   inspection date, inspection type/purpose, score and violations, for
   2021–present. Rule 1200-23-01-.08(4)(c)5 makes inspection reports public
-  documents. The food-safety pipeline has not been built yet. It will be
+  documents. A draft request is in
+  `docs/records-requests/h11-food-inspections.md` (not sent). The food-safety pipeline has not been built yet. It will be
   built to ingest that export (`pipelines/food-safety/`, reading from
   `pipelines/food-safety/inbox/`).
 - [ ] **H14. Official 311 service targets and on-time figure.** The plan's
