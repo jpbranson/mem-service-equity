@@ -121,6 +121,57 @@ metric_censored_median <- function(time, event, min_n = MIN_N_MEDIAN, conf = 0.9
   metric_row(med, lo, hi, n, FALSE)
 }
 
+#' Kaplan-Meier median from aggregated counts.
+#'
+#' Equivalent to `metric_censored_median()` on the expanded records, but
+#' works on per-time counts so neighborhoods of small cells can be summed
+#' cheaply before estimating. Matches survival::survfit (log-log interval)
+#' and its quantile rule, including the midpoint rule when the curve sits
+#' exactly at 0.5.
+#'
+#' @param time distinct durations.
+#' @param events number of closed records at each time.
+#' @param censored number of still-open records whose current age is `time`.
+#' @export
+km_median_counts <- function(time, events, censored, min_n = MIN_N_MEDIAN, conf = 0.95) {
+  keep <- (events + censored) > 0
+  time <- time[keep]; events <- events[keep]; censored <- censored[keep]
+  o <- order(time)
+  time <- time[o]; events <- events[o]; censored <- censored[o]
+  n <- sum(events) + sum(censored)
+  if (n < min_n) return(suppressed_row(n))
+  at_risk <- n - c(0, cumsum(events + censored))[seq_along(time)]
+  ev <- events > 0
+  t <- time[ev]; d <- events[ev]; r <- at_risk[ev]
+  surv <- cumprod(1 - d / r)
+  green <- cumsum(ifelse(r > d, d / (r * (r - d)), Inf))
+  z <- stats::qnorm(1 - (1 - conf) / 2)
+  se <- sqrt(green)
+  xx <- ifelse(surv > 0 & surv < 1, log(-log(surv)), NA_real_)
+  se_ll <- se / abs(log(surv))
+  lower <- ifelse(is.na(xx), ifelse(surv == 0, 0, 1), exp(-exp(xx + z * se_ll)))
+  upper <- ifelse(is.na(xx), ifelse(surv == 0, 0, 1), exp(-exp(xx - z * se_ll)))
+  q <- function(s) {
+    tol <- sqrt(.Machine$double.eps)
+    i <- which(s <= 0.5 + tol)
+    if (!length(i)) return(NA_real_)
+    i <- i[1]
+    if (abs(s[i] - 0.5) < tol && i < length(t)) return((t[i] + t[i + 1]) / 2)
+    t[i]
+  }
+  med <- q(surv)
+  if (is.na(med)) return(suppressed_row(n))
+  metric_row(med, q(lower), q(upper), n, FALSE)
+}
+
+#' Proportion from counts, with Wilson interval and minimum-n suppression.
+#' @export
+proportion_counts <- function(x, n, min_n = MIN_N_PROPORTION, conf = 0.95) {
+  if (is.na(n) || n < min_n) return(suppressed_row(if (is.na(n)) 0L else n))
+  ci <- wilson_ci(x, n, conf)
+  metric_row(x / n, ci$ci_low, ci$ci_high, n, FALSE)
+}
+
 #' Rate per `per` units of exposure (e.g. per 1,000 residents) with an exact
 #' Poisson interval. Suppressed when the count or exposure is below minimum.
 #' @export

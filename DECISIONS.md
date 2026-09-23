@@ -51,6 +51,22 @@ made while building, so a reviewer can challenge them.
   (`hmd4-ddta`, 2016–2025) is offline. If the history matters, request a
   bulk export. It is not needed for the current metrics, which never cross
   the October 2023 migration.
+- [ ] **H16. MATA data terms and on-time definition.** MATA's GTFS and
+  GTFS-RT feeds are open and keyless, but no license or developer terms were
+  found; the only terms on file cover the GO901 app. Ask MATA to confirm
+  that archiving the feeds and publishing derived metrics is acceptable. At
+  the same time, ask how the "MATA On Time Performance" Data Hub series and
+  the "P-OTP 70%" dashboard figure are defined (on-time window, timepoints,
+  early departures). *Polling has started* because the plan requires the
+  baseline to start early; stop the `poll-mata` workflow if MATA objects.
+- [ ] **H17. MLGW courtesy notice.** No terms of use for the outage map were
+  found. The poller identifies itself and polls every 5 minutes, which
+  matches the map's update rate. Tell MLGW the project exists and ask
+  whether a data feed with customer counts per area is available.
+- [ ] **H18. Keep scheduled workflows alive.** GitHub disables scheduled
+  workflows in a public repository after 60 days without repository
+  activity. Any commit resets the timer; re-enable in the Actions tab if
+  needed.
 - [ ] **H13. Historical city holiday calendars.** The 2026 city calendar is
   verified. Earlier years are reconstructed from rules, and the weekend
   shifts for MLK Memorial Day and Christmas Eve are inferred. Ask the city's
@@ -109,10 +125,16 @@ made while building, so a reviewer can challenge them.
   *primary* record of the same type within 50 m and 7 days. The rule is not
   transitive, so a pothole re-reported every 5 days for a month produces a
   new primary each week, not a single cluster.
-- **D7. Interim storage.** Until object storage exists (H1), pollers write
-  gzip-compressed daily files to the `data` branch of this repo, and the
-  pipelines write published outputs to `data/published/`. Once H1 is done,
-  the upload step switches to R2 and the branch becomes a mirror.
+- **D7. Interim storage.** Until object storage exists (H1), poller output
+  goes to **weekly GitHub releases** (`archive-<source>-<YYYY>-W<ww>`) as
+  gzip JSON-lines assets; see `pollers/archive_release.sh`. Git history is
+  the wrong place for about 1 GB a year of raw data, and weekly releases
+  stay under GitHub's 1,000-asset limit. Pipelines write published outputs
+  to `data/published/`. Once H1 is done, the upload step switches to R2.
+- **D15. Pollers run on GitHub Actions** in 140-minute runs started every
+  2 hours, so consecutive runs overlap. Duplicates from the overlap are
+  removed downstream. Every poll attempt is logged (`*_polls_*`), and uptime
+  is computed from those logs.
 - **D10. Business days follow the City of Memphis holiday calendar,** not
   the federal one, because 311 targets are the city's promise. The city
   observes Good Friday, MLK Memorial Day (April 4), the day after

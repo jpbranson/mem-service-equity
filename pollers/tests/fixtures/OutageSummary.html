@@ -1,0 +1,431 @@
+<!---- 2025/00/00 - ACH - Inital Release   ---->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE"/>
+    <title>MLGW Outage</title>
+    <script type="module" src="https://js.arcgis.com/calcite-components/3.2.1/calcite.esm.js"></script>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.33/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.33/"></script>
+    <script type="module" src="https://js.arcgis.com/4.33/map-components/"></script>
+    <style>
+      html,
+      body,
+      #mapView{
+        padding: 0;
+        height: 80vh;
+        width: 99.5%;
+      }
+      #mobile{
+        font-size: 16px;
+        font-family: 'Times New Roman', Times, serif;
+      }
+      .esri-features__content-container{
+        font-weight: bold;
+      }
+      .esri-icon-review{
+        color: #e60808ff;
+        font-weight: bold;
+      }
+  
+      /* These are the class names for the various components 'D' is a desktop layout and 'M' is mobile */
+      .DLeftLight{position: absolute; top: 1px; left: 0px; z-index: -1;}
+      .DRightLight{position: absolute; top: 1px; right: 0.1vw; z-index: -1;}
+      .DRefresh{position: absolute; top: 0.1vw; right: 0.5vw;}
+      .DRefreshTime{position: absolute; top: 0.6vw; right: 10vw; font-size: 1.2vw; font-family: 'Times New Roman', Times, serif;}
+      .DCustPower{font-size: 1.5vw; font-family: 'Times New Roman', Times, serif; font-weight: bold; text-align: center; vertical-align: middle;}
+      .DCustWithPower{font-size: 1vw; font-family: 'Times New Roman', Times, serif; font-weight: bold; text-align: center;}
+      .DCustImpact{font-size: 1.5vw; font-family: 'Times New Roman', Times, serif; font-weight: bold; text-align: center;}
+      .MCustPower{font-size: 5vw; font-family: 'Times New Roman', Times, serif; font-weight: bold; text-align: center; vertical-align: middle;}
+      .MCustWithPower{font-size: 4.5vw; font-family: 'Times New Roman', Times, serif; font-weight: bold; text-align: center;}
+      .MCustImpact{font-size: 5vw; font-family: 'Times New Roman', Times, serif; font-weight: bold; text-align: center;}
+      .MLogo{position: absolute; top: 1px; left: 0px;}
+      .MRefresh{position: absolute; top: 1vw; right: 1vw;}
+      .MRefreshTime{position: absolute; top: 10vw; right: 0.5vw; font-size: 5vw; font-family: 'Times New Roman', Times, serif;}
+    </style>
+    
+  </head>
+  <!---- The body of the page was moved to before the JS as it was causing the map to fail to load---->
+  <body>
+  <div id="desktop">
+    <table style="width:100%;">
+      <tr> <!---- LEFT LOGO ---->
+        <td style="width: 15vw;">
+          <a href="https://www.mlgw.com/" target='_blank' title="Main">
+            <img class="Logo" src="assets/MLGWLogo.png" style="max-width: 10vw; height:auto;" title="MLGW Logo">
+          </a>
+        </td> <!---- OUTAGE TEXT ALERTS ---->
+        <td style="width: 10vw;">
+          <a href="https://mymlgw.mlgw.org/" target='_blank' title="Residential">
+            <img class="Phone" src="assets/PhoneOutage.png" style="max-width: 10vw; height:auto;" title="Phone Outage">
+          </a>
+        </td> <!---- CENTER HEADER ---->
+        <td style="width: 25vw; text-align: center">
+          <a href="https://www.mlgw.com/templates/outage_center/" target='_blank' title="Header">
+            <img class="Header" src="assets/OutageHeader.png" style="max-width: 25vw; height:auto;" title="Outage Header">
+          </a>
+        </td>
+        <td style="width: 2vw;"></td>
+        <!---- CUST WITH POWER ---->
+        <td style="width: 10vw;">
+          <table style="border: 0.2vw solid #000000;  border-collapse: collapse;">
+            <tr>
+              <td style="height: 2.5vw;">
+                <p class="DCustPower" style="margin: auto; ">
+                99.88%                </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="background-color: #0faa4d; color: #FFFFFF; height: 1.5vw; width: 13vw">
+                <p class="DCustWithPower" style="margin: auto 0;">Customers With Power</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="height: 1.5vw;">
+                <p class="DCustImpact" style="margin: auto 0;">427,471</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <!---- CUST WITH POWER ---->
+        <td style="width: 10vw;">
+          <table style="border: 0.2vw solid #000000;  border-collapse: collapse;">
+            <tr>
+              <td style="height: 2.5vw;">
+                <p class="DCustPower" style="margin: auto; ">
+                0.12%                </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="background-color: #0F779DFF; color: #FFFFFF; height: 1.5vw; width: 13vw"> <!---- #0F514dFF ----> 
+                <p class="DCustWithPower" style="margin: auto 0;">Customers Without Power</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="height: 1.5vw;">
+                <p class="DCustImpact" style="margin: auto 0;">517</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td style="width: 3vw;"></td>
+      <img class="DLeftLight" src="assets/LightningLeft.png" style="max-width: 45vw; height:auto;" title="Left Light">
+      <img class="DRightLight" src="assets/LightningRight.png" style="max-width: 45vw; height:auto;" title="Right Light">
+      <img class="DRefresh" src="assets/RefreshButton.png" onclick="window.location.reload();" style="max-width: 8%; height:auto; cursor:pointer;" title="Refresh Button">
+      <span class="DRefreshTime" id="clockDesktop">:</span>
+      </tr>
+      <tr style="height: 3vmax; width: 100vw;">
+        <td colspan="7" style="background-color: #000000; color: #ffffff; text-align: center; font-size: 1.3vmax">
+          MLGW TERRITORY - OUTAGE ACTIVITY - CURRENT AS  OF 09/23/2026 09:47 AM        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div id="mobile">
+    <table style="width:100%;">
+      <tr><td style="height: 7vw;"></td></tr>
+      <tr> 
+        <td style="width: 15vw;">
+        </td><!---- CENTER HEADER ---->
+        <td style="width: 70vw; text-align: center" colspan="2">
+          <a href="https://www.mlgw.com/templates/outage_center/" target='_blank' title="Header">
+            <img class="Header" src="assets/OutageHeader.png" style="max-width: 70vw; height:auto;" title="Outage Header">
+          </a>
+        </td>
+        <td style="width: 15vw;"></td>
+      </tr>
+      <tr><td style="height: 2vw;"></td></tr>
+      <tr>
+        <td style="width: 1vw;"></td>
+        <!---- CUST WITH POWER ---->
+        <td style="width: 49vw;">
+          <table style="border: 0.2vw solid #000000;  border-collapse: collapse;">
+            <tr>
+              <td style="height: 6vw;">
+                <p class="MCustPower" style="margin: auto; ">
+                99.88%                </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="background-color: #0faa4d; color: #ffffffff; height: 6vw; width: 100vw">
+                <p class="MCustWithPower" style="margin: auto 0;">Customers<br>With Power</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="height: 6vw;">
+                <p class="MCustImpact" style="margin: auto 0;">427,471</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <!---- CUST WITH POWER ---->
+        <td style="width: 49vw;">
+          <table style="border: 0.2vw solid #000000;  border-collapse: collapse;">
+            <tr>
+              <td style="height: 6vw;">
+                <p class="MCustPower" style="margin: auto; ">
+                0.12%                </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="background-color: #0F779DFF; color: #FFFFFF; height: 6vw; width: 100vw">
+                <p class="MCustWithPower" style="margin: auto 0;">Customers<br>Without Power</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="height: 6vw;">
+                <p class="MCustImpact" style="margin: auto 0;">517</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td style="width: 1vw;"></td>
+      <img class="DLeftLight" src="assets/LightningLeft.png" style="max-width: 45vw; height:auto;" title="Left Light">
+      <img class="DRightLight" src="assets/LightningRight.png" style="max-width: 45vw; height:auto;" title="Right Light">
+      <img class="MRefresh" src="assets/RefreshButton.png" onclick="window.location.reload();" style="max-width: 30vw; height:auto; cursor:pointer;" title="Refresh Button">
+      <a href="https://www.mlgw.com/" target='_blank' title="Main">
+        <img class="MLogo" src="assets/MLGWLogo.png" style="max-width: 15vw; height:auto;" title="MLGW Logo">
+      </a>
+      <span class="MRefreshTime" id="clockMobile">:</span>
+      </tr>
+      <tr><td style="height: 2vw;"></td></tr>
+      <tr style="height: 3vmax; width: 100vw;">
+        <td colspan="7" style="background-color: #000000; color: #ffffff; text-align: center; font-size: 1.8vmax">
+          MLGW TERRITORY - OUTAGE ACTIVITY<br>CURRENT AS  OF 09/23/2026 09:47 AM        </td>
+      </tr>
+    </table>
+  </div>
+<tr>
+  <td colspan="5">
+    <div id="mapView" style="margin: auto;"></div>
+  </td>
+</tr>
+<!---- MAIN JAVASCRIPT SECTION needs to be below the 'div mapView' or an error can occur where the ESRI mapview can't find the div ---->
+<script>
+  var refreshTime=900;
+  function refreshDesktop(){
+    mins=Math.floor(refreshTime/60);
+    secs=refreshTime-mins*60;
+    if (mins < 10) mins="0"+mins;
+    if (secs < 10) secs="0" + secs;
+    document.getElementById("clockDesktop").innerHTML="Time to refresh: " + mins + ":" + secs;
+    refreshTime=refreshTime-1;
+    if (refreshTime <= 0) window.location.reload();
+    var t=setTimeout("refreshDesktop()", 1000);
+  }
+
+  function refreshMobile(){
+    mins=Math.floor(refreshTime/60);
+    secs=refreshTime-mins*60;
+    if (mins < 10) mins="0"+mins;
+    if (secs < 10) secs="0" + secs;
+    document.getElementById("clockMobile").innerHTML=mins + ":" + secs;
+    refreshTime=refreshTime-1;
+    if (refreshTime <= 0) window.location.reload();
+    var t=setTimeout("refreshMobile()", 1000);
+  }
+
+  async function importGeo(){
+    // ---- In an async function since it wouldn't load otherwise
+    [GeoJSONLayer] = await $arcgis.import([
+      "@arcgis/core/layers/GeoJSONLayer.js"
+    ]);
+  }
+  importGeo();
+  var layers = [];
+  var defualtCenter = [-89.915372, 35.192833];
+  var isMobile = false;
+  if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)==true && window.innerWidth < 900){
+    defualtCenter = [-89.959297, 35.191150]; // The center needs to change if viewed on a thinner screen
+    isMobile = true;
+  }
+
+
+  require(["esri/Map",
+    "esri/views/MapView",
+    "esri/Graphic",
+    "esri/geometry/Polygon",
+    "esri/symbols/SimpleFillSymbol"
+    ], (Map, MapView, Graphic, Polygon, SimpleFillSymbol) => {
+    // ---- Sets a polygon that the user is allowed to pan inside of, prevents unecessary loading of map tiles outside of the county
+    var viewBox = new Polygon({rings: [[[-90.3, 35.6], [-89.4, 35.6], [-89.4, 34.7], [-90.3, 34.7], [-90.3, 35.6]]]});
+    var world = new Polygon({rings: [[[-180, 90], [180, 90], [180, -90], [-180, -90], [-180, 90]]]});
+    var county = new Polygon({rings:[[[-90.308408, 34.994848],[-89.643066, 34.994988],[-89.637259, 35.256133],[-89.640688, 35.258376],[-89.633129, 35.377714],
+                                    [-89.644811, 35.372115],[-89.646873, 35.377714],[-89.640688, 35.386111],[-89.703209, 35.388910],[-89.701819, 35.406261],
+                                    [-89.732743, 35.406821],[-89.730681, 35.400105],[-89.776724, 35.402344],[-89.779473, 35.390589],[-90.041986, 35.393948],
+                                    [-90.059166, 35.386111],[-90.074972, 35.383312],[-90.090090, 35.360916],[-90.093526, 35.360356],[-90.110019, 35.341875],
+                                    [-90.103147, 35.331232],[-90.106583, 35.323949],[-90.108645, 35.304339],[-90.116204, 35.302658],[-90.123076, 35.303778],
+                                    [-90.138195, 35.298175],[-90.150338, 35.302658],[-90.159949, 35.300416],[-90.164751, 35.295372],[-90.169558, 35.280800],
+                                    [-90.151686, 35.255572],[-90.140004, 35.252208],[-90.117326, 35.255012],[-90.107705, 35.255012],[-90.098772, 35.251086],
+                                    [-90.080904, 35.228093],[-90.078843, 35.217435],[-90.080904, 35.213508],[-90.088463, 35.212947],[-90.097397, 35.193871],
+                                    [-90.109767, 35.198921],[-90.115952, 35.197799],[-90.117372, 35.187769],[-90.113936, 35.181034],[-90.111530, 35.178509],
+                                    [-90.108781, 35.178509],[-90.108438, 35.168125],[-90.100879, 35.161109],[-90.092289, 35.157460],[-90.070298, 35.153530],
+                                    [-90.066862, 35.151565],[-90.064457, 35.139774],[-90.064800, 35.138090],[-90.085760, 35.120119],[-90.099848, 35.116749],
+                                    [-90.109125, 35.118434],[-90.143142, 35.135282],[-90.151388, 35.132474],[-90.156199, 35.130790],[-90.157917, 35.129947],
+                                    [-90.174066, 35.117592],[-90.176471, 35.114503],[-90.181282, 35.090909],[-90.196400, 35.060283],[-90.197775, 35.049884],
+                                    [-90.196057, 35.038078],[-90.200180, 35.032737],[-90.208770, 35.027115],[-90.215298, 35.025428],[-90.224576, 35.029645],
+                                    [-90.256187, 35.034143],[-90.262716, 35.036111],[-90.264777, 35.040046],[-90.291922, 35.041733],[-90.296732, 35.039203],
+                                    [-90.300856, 35.028239],[-90.308071, 35.016712],[-90.310476, 35.009120],[-90.308408, 34.994848] //78 points
+    ]]});
+    // ---- Adds a hole (county) in the polygon that covers the entire world in order to darken around the county
+    var negativeCounty = world.clone();
+    negativeCounty.addRing(county.rings[0]);
+    // ---- Fills the map with a transparent black outside of the county
+    var countyFill = new SimpleFillSymbol({color:[0, 0, 0, 0.2], outline:{color:[227, 139, 79, 1],width: 1}});
+    var countyLine = new Graphic({geometry: negativeCounty, symbol: countyFill});
+    layers.push(countyLine);
+
+    var map = new Map({
+      basemap: "topo-vector" // "topo-vector" 
+    });
+
+    const view = new MapView({
+      container: "mapView",
+      map: map,
+      zoom: isMobile ? 10:11,
+      center: defualtCenter,
+      // ---- Defines what attributes the popups have when an outage is clicked
+      popup: {
+        dockEnabled: isMobile,
+        dockOptions: {
+          buttonEnabled: true,
+          breakpoint: false,
+          position: isMobile ? "top-center":"auto"
+        },
+        visibleElements: {
+          collapseButton: true
+        }
+      },
+      constraints: {
+        // ---- Sets the allowed zoom levels as well as where the user can pan
+        maxZoom: 15,
+        minZoom: 8,
+        geometry: viewBox,
+        rotationEnabled: false
+      }
+    });
+
+    var requestUrl = "https://outagemap.mlgw.org/geojson.php"; // https://outagemap.mlgw.org/geojson.php
+    var styleFile = "../mapStyling.json";
+    //var requestUrl = "../FlutterData/geojson.php";
+    //var styleFile = "../FlutterData/style_dark_blue.json";
+  
+    
+    fetchGEOJson(map, requestUrl, styleFile);
+    view.graphics.addMany(layers);
+    view.popup._displayActionTextLimit = 2;
+
+  });
+
+  function fetchGEOJson(inMap, geoFile, styleJson){
+    // ---- Initialize renderer
+    var geoRenderer;
+    fetch(styleJson).then(response => {
+      response.json().then(styleData => {
+        geoRenderer = styleData.renderer
+        // ---- Initialize the various attributes
+        // ---- Defines what pops up when a non clustered outage is clicked
+        var popup = {
+          title: "Outage: {OUTAGE_NO}",
+          content: `<p style=\"font-size: 16px\">
+              Customers Affected: {CUR_CUST_AFF}
+          <br>Started At: {TIME_STAMP}
+          <br>Duration: {DURATION}
+          <br>{STATUS}
+          <br>Affecting: {IMPACT}
+          <br>ETOR: {EST_REPAIR_TIME}</p>`
+	  // Outage Cause was removed at request of executive staff - AH
+          //<br>Cause: {OUT_CAUSE}</p>`
+        };
+        // ---- Defines what pops up when a clustered outage is clicked
+        var clusterPopup = {
+          title: "Cluster of Outages<br>Number of Outages: {cluster_count}<br>Total Customers Affected: {tot_cust}",
+          overwriteActions: true,
+          actions: [
+            // ---- Overwrites the default action buttons to give them better names and icons
+           {
+              type: "button",
+              title: "Zoom To",
+              id: "zoom-to-feature",
+              className: "esri-icon-zoom-in-magnifying-glass"
+            },
+            {
+              type: "button",
+              title: "Outage Details",
+              id: "browse-clustered-features",
+              className: "esri-icon-review"
+            }
+          ]
+        };
+        
+        // ---- Defines what shows in the center of the outage circle
+        var labelClass = {
+          labelPlacement: "center-center",
+          labelExpression:"{CUR_CUST_AFF}",
+          symbol: {
+            type: "text",
+            color: [0,0,0,1],
+            font: {
+              size: 12,
+              family: "Noto Sans",
+              weight: "bold"
+            }
+          }
+        };
+
+        // ---- Creates the geoJsonLayer using Esri's built in function
+        var geolayer = new GeoJSONLayer({title: "Outages", url: geoFile});
+
+        
+        // ---- Assign the various attributes to the layer
+        geolayer.renderer = geoRenderer;
+        geolayer.labelingInfo = labelClass;
+        geolayer.popupTemplate = popup;
+        // ---- Modifying attributes to work after the layers have been clustered
+        var clusterLabel = labelClass;
+        clusterLabel.labelExpression = "{tot_cust}";
+        try{geoRenderer.field = "tot_cust";}catch(_){}
+        try{
+          for(var i=0; i<geoRenderer.visualVariables.length; i++){
+            // ---- If more than one visual variable is set then all of them should be using the clustered total
+            geoRenderer.visualVariables[i].field = "tot_cust";
+          }
+        }catch(_){}
+            
+        // ---- Create the clusterer
+        geolayer.featureReduction = {
+          type: "cluster",
+          clusterRadius: 100, // 120 seems good
+          labelingInfo: clusterLabel,
+          renderer: geoRenderer,
+          popupTemplate: clusterPopup,
+          fields: [
+            { // ---- Sets the clustered outages to work based on the sum of the total customers
+              name: "tot_cust",
+              onStatisticField: "CUR_CUST_AFF",
+              statisticType: "sum"
+            }
+          ]
+        };
+        // ---- Add the layer to the map
+        inMap.add(geolayer);
+      });
+    });
+  }
+  // ---- Depending on mobile view the page's layout needs to change as well as which refresh is used
+  if(!isMobile){
+    document.getElementById("mobile").style.display="none";
+    refreshDesktop();
+  }else{
+    document.getElementById("desktop").style.display="none";
+    refreshMobile();
+  }
+</script>
+
+
+  </body>
+</html>
+

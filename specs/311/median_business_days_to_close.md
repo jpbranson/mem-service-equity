@@ -13,9 +13,12 @@ windows: [90d, 12m]
 geographies: [citywide, zcta, council_district, h3_8]
 min_n: 20
 promise:
-  kind: official
-  text: The city's published target timeframe for the request type is shown beside the median.
-  source_url: ""
+  kind: comparison
+  text: >
+    Compared against the citywide median for the same request type and
+    window. Where an official target exists (potholes, 5-10 business days)
+    it is shown beside the median.
+  source_url: "https://memphistn.gov/potholes-repairs-winter-weather"
 thresholds: []
 inclusions:
   - Deduplicated primary requests of the given type opened in the window.

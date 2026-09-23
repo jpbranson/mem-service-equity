@@ -5,16 +5,17 @@
 #'
 #' `variant` extends the section 8 schema: it names the threshold variant
 #' (e.g. "primary", "window_0_10") so the sensitivity versions required by 5.1
-#' sit in the same file as the primary series.
+#' sit in the same file as the primary series. `subgroup` names a slice such
+#' as a 311 request type or a permit category ("all" when unsliced).
 #' `citywide_median` is the citywide reference for the same metric, variant
 #' and window: the citywide median for median metrics, the citywide pooled
 #' value for proportions and rates.
 #' @export
-METRICS_COLUMNS <- c("geo_type", "geo_id", "metric", "metric_version", "variant",
+METRICS_COLUMNS <- c("geo_type", "geo_id", "metric", "metric_version", "variant", "subgroup",
                      "window_start", "window_end", "value", "ci_low", "ci_high", "n",
                      "suppressed", "citywide_median", "computed_at", "data_current_through")
 
-METRICS_KEY <- c("geo_type", "geo_id", "metric", "metric_version", "variant",
+METRICS_KEY <- c("geo_type", "geo_id", "metric", "metric_version", "variant", "subgroup",
                  "window_start", "window_end")
 
 #' Geography types a metrics file may use.
@@ -31,6 +32,7 @@ GEO_TYPES <- c("citywide", "zcta", "council_district", "super_district", "commis
 as_metrics_table <- function(rows, metric_version, data_current_through,
                              computed_at = format(Sys.time(), tz = "UTC", "%Y-%m-%dT%H:%M:%SZ")) {
   if (!"variant" %in% names(rows)) rows$variant <- "primary"
+  if (!"subgroup" %in% names(rows)) rows$subgroup <- "all"
   if (!"citywide_median" %in% names(rows)) rows$citywide_median <- NA_real_
   if (!"metric_version" %in% names(rows)) rows$metric_version <- metric_version
   rows$computed_at <- computed_at

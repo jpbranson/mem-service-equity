@@ -1,0 +1,12 @@
+status,state,note
+Closed,closed,
+closed,closed,lowercase variant
+Resolved,closed,treated as closed; confirm in disposition audit (H4)
+Open,open,
+In Progress,open,
+In Progress – Part of Ongoing Case,open,en dash
+In Progress - Part of Ongoing Case,open,hyphen variant
+Back to Department,open,
+Back to MCSC,open,
+Pending Litigation,open,
+,unknown,blank status

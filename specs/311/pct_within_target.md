@@ -16,17 +16,19 @@ min_n: 30
 promise:
   kind: official
   text: >
-    The City of Memphis publishes target resolution timeframes per request
-    type (e.g. potholes 3-7 business days, streetlights 5-10, graffiti 3-10)
-    and reports a citywide on-time percentage.
-  source_url: ""
+    "The goal aims to address all reported potholes within 5-10 business
+    days." (City of Memphis). This is the only official 311 target found;
+    other request types get a target only when an official source is
+    confirmed (DECISIONS.md H14, D12). Targets live in
+    pipelines/311/config/targets.csv with a source URL per row.
+  source_url: "https://memphistn.gov/potholes-repairs-winter-weather"
 thresholds:
   - name: which end of the published range is the deadline
-    primary: "upper bound (e.g. 7 business days for potholes)"
-    alternatives: ["lower bound (e.g. 3 business days)", "the city's own on-time rule, once identified"]
+    primary: "upper bound (10 business days for potholes)"
+    alternatives: ["lower bound (5 business days for potholes)", "the city's own on-time rule, once identified"]
     arbitrary: true
 inclusions:
-  - Requests whose type has a published target timeframe.
+  - Requests whose type has an official published target in pipelines/311/config/targets.csv.
   - Deduplicated primary requests only (shared near-duplicate rule, DECISIONS.md D6).
   - Requests with an accepted geocode (for sub-city geographies); all requests for citywide.
 exclusions:
@@ -40,7 +42,7 @@ confounders:
   - Weather and seasonality drive pothole volume; comparisons use the same window citywide.
 objections:
   - objection: "Your on-time rule is stricter than ours: we count against the upper end of the range, or we measure calendar days."
-    response: "The primary series uses the upper end of the published range, the most generous reading. The lower bound and, once identified, the city's exact rule are published alongside. The city's own citywide figure is reproduced first (reconciliation) before any neighborhood breakdown is shown."
+    response: "The primary series uses the upper end of the published range, the most generous reading. The lower bound and, once identified, the city's exact rule are published alongside. If the city publishes an on-time figure, it is reproduced first (reconciliation) before any neighborhood breakdown is shown; until then the panel says no official figure exists to reconcile against."
   - objection: "You count duplicate tickets as separate failures, which punishes busy streets."
     response: "Requests are deduplicated (same type, within 50 m, within 7 days of an earlier primary) before any metric is computed; raw and deduplicated counts are both published, and a property test shows the metric does not change when duplicates are added."
   - objection: "Open requests make recent windows look better or worse than they are."
@@ -61,7 +63,9 @@ were closed by the deadline the city itself publishes?
   closed on the deadline date is on time.
 - Types without a published target are excluded from this metric and appear
   only in `median_business_days_to_close`.
-- `source_url` must be filled from `docs/research/311.md` before freezing.
+- Figures sometimes quoted for Memphis 311 ("3-7 business days", "82%
+  on-time") come from memphisgov.com, which is not a city domain, and are
+  not used (docs/research/311-permits-districts.md).
 
 ## Sensitivity plan
 

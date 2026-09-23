@@ -1,0 +1,42 @@
+# Schema contract for the raw 311 fetch (plan 5.2). Allowed request types
+# and statuses are checked separately against config/request_types.csv and
+# config/status_map.csv, so a new value fails the run until it is mapped.
+columns:
+  OBJECTID: {type: integer, nullable: false}
+  INCIDENT_NUMBER: {type: character, nullable: false}
+  INCIDENT_TYPE_ID: {type: integer}
+  REQUEST_TYPE: {type: character}
+  DEPARTMENT: {type: character}
+  GROUP_NAME: {type: character}
+  REQUEST_STATUS: {type: character}
+  Request_Sub_Status:
+    type: character
+    # Free-text-like values appear here ("tree limbs"); record, don't halt.
+    severity: warning
+    allowed: ["", "Assigned For Cutting", "Assigned To Staff", "Cutting Complete",
+              "Cutting Complete.", "Duplicate", "In Violation", "No Access To Cut",
+              "No Violation Found", "OTHER", "Pending Legal Resolution", "PWSMPHMLGW",
+              "See Resolution Summary", "Transferred to Code Enforcement", "tree limbs",
+              "Under Review", "Violation Notice Sent to Owner", "Work in Progress",
+              "Work In Progress"]
+  REQUEST_PRIORITY:
+    type: character
+    severity: warning
+    allowed: ["", "High", "IMMEDIATE", "low", "Low", "Medium"]
+  REPORTED_DATE: {type: datetime}
+  created_date: {type: datetime, nullable: false}
+  Closed_Date: {type: datetime}
+  RESOLVED_DATE: {type: datetime}
+  last_edited_date: {type: datetime}
+  RESOLUTION_CODE: {type: character}
+  ZipCode: {type: character}
+  cd_name: {type: integer}
+  scd_name: {type: integer}
+  SYSREVSTATUS:
+    type: character
+    allowed: ["DUPLICATE"]
+  LINKED_SR: {type: character}
+  SCF_URL: {type: character}
+  longitude: {type: numeric}
+  latitude: {type: numeric}
+allow_extra_columns: false

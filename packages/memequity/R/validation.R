@@ -49,12 +49,15 @@ add_count <- function(report, name, value) {
 #'     required: true
 #'     nullable: false
 #'     allowed: [Open, Closed]
+#'     severity: error   # or warning: record unknown values without halting
 #' allow_extra_columns: false
 #' ```
 #' @export
 read_contract <- function(path) yaml::read_yaml(path)
 
 type_ok <- function(x, type) {
+  # A column with no values at all carries no type information.
+  if (all(is.na(x))) return(TRUE)
   switch(type,
     character = is.character(x),
     numeric = is.numeric(x),
@@ -98,7 +101,8 @@ check_schema <- function(report, df, contract) {
       seen <- unique(x[!is.na(x)])
       unknown <- setdiff(as.character(seen), as.character(unlist(spec$allowed)))
       report <- add_check(report, paste0("allowed values: ", nm), "schema", !length(unknown),
-                          list(column = nm, unknown_values = as.list(sort(unknown))))
+                          list(column = nm, unknown_values = as.list(sort(unknown))),
+                          spec$severity %||% "error")
     }
   }
   if (!isTRUE(contract$allow_extra_columns)) {

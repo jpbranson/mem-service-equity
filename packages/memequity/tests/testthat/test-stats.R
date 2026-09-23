@@ -87,6 +87,32 @@ test_that("censoring pushes the median above the naive closed-only median", {
   expect_gt(r$value, median(closed))
 })
 
+test_that("count-based KM median matches survival on the expanded records", {
+  set.seed(11)
+  for (k in 1:25) {
+    n <- sample(20:300, 1)
+    tm <- sample(0:40, n, replace = TRUE)
+    ev <- runif(n) > runif(1, 0, 0.5)
+    ref <- metric_censored_median(tm, ev)
+    tab <- aggregate(cbind(e = ev, c = !ev) ~ tm, FUN = sum)
+    got <- km_median_counts(tab$tm, tab$e, tab$c)
+    expect_equal(got, ref, info = paste("iteration", k))
+  }
+})
+
+test_that("count-based KM median handles even-n midpoints and suppression", {
+  x <- 1:20
+  tab <- data.frame(t = x, e = 1, c = 0)
+  expect_equal(km_median_counts(tab$t, tab$e, tab$c)$value, 10.5)
+  expect_true(km_median_counts(1:5, rep(1, 5), rep(0, 5))$suppressed)
+  expect_true(km_median_counts(1:30, c(rep(1, 10), rep(0, 20)), c(rep(0, 10), rep(1, 20)))$suppressed)
+})
+
+test_that("proportion from counts equals proportion from records", {
+  expect_equal(proportion_counts(24, 30), metric_proportion(c(rep(TRUE, 24), rep(FALSE, 6))))
+  expect_true(proportion_counts(3, 10)$suppressed)
+})
+
 test_that("Poisson rate intervals", {
   r <- poisson_rate_ci(0, 1)
   expect_equal(r$ci_low, 0)
