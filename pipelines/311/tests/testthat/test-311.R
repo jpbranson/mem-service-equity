@@ -139,3 +139,38 @@ test_that("golden file: a frozen sample of real data reproduces the frozen outpu
   expect_equal(m$ci_low, want$ci_low, tolerance = 1e-9)
   expect_equal(m$ci_high, want$ci_high, tolerance = 1e-9)
 })
+
+test_that("requests per 1,000 residents: known counts, zeros and the population floor", {
+  through <- as.Date("2026-06-30")
+  df <- data.frame(
+    request_type = c("PW (SM)-Potholes", "PW (SM)-Potholes", "PW (SM)-Potholes", "EE-Illegal Dumping",
+                     "PW (SM)-Potholes"),
+    open_date = through - c(1, 10, 40, 5, 200),
+    citywide = "4748000", zcta = c("38103", "38103", "38103", "38104", "38103"))
+  pops <- list(citywide = data.frame(geo_id = "4748000", population = 10000),
+               zcta = data.frame(geo_id = c("38103", "38104", "38131"), population = c(2000, 3000, 14)))
+  m <- compute_requests_per_1000(df, pops, through)
+  get <- function(g, id, type, days) {
+    r <- m[m$geo_type == g & m$geo_id == id & m$subgroup == type &
+             as.integer(m$window_end - m$window_start) + 1L == days, ]
+    stopifnot(nrow(r) == 1)
+    r
+  }
+  r <- get("zcta", "38103", "PW (SM)-Potholes", 90)
+  expect_equal(r$n, 3L)
+  expect_equal(r$value, 1.5)
+  expect_equal(r$ci_low, qchisq(0.025, 6) / 2 / 2000 * 1000)
+  expect_equal(r$ci_high, qchisq(0.975, 8) / 2 / 2000 * 1000)
+  expect_equal(r$citywide_median, 0.3)  # 3 per 10,000 residents
+  # The request 200 days ago counts only in the 12-month window.
+  expect_equal(get("zcta", "38103", "PW (SM)-Potholes", 365)$n, 4L)
+  # No potholes in 38104: a zero is a result, with an upper bound.
+  z <- get("zcta", "38104", "PW (SM)-Potholes", 90)
+  expect_equal(c(z$n, z$value, z$ci_low), c(0, 0, 0))
+  expect_gt(z$ci_high, 0)
+  # Fewer than 1,000 residents inside the city: suppressed, with its count.
+  s <- get("zcta", "38131", "PW (SM)-Potholes", 90)
+  expect_true(s$suppressed)
+  expect_true(is.na(s$value))
+  expect_equal(unique(m$metric_version), SPEC_VERSIONS[["requests_per_1000"]])
+})

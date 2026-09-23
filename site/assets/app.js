@@ -14,7 +14,7 @@
     radius_100m: 'Same location within 100 m',
   };
 
-  const state = { manifest: null, cols: {}, areas: {}, hex: new Map(), points: new Map(), fresh: true };
+  const state = { manifest: null, cols: {}, areas: {}, demo: null, hex: new Map(), points: new Map(), fresh: true };
 
   // ---- small helpers ---------------------------------------------------------
 
@@ -61,13 +61,15 @@
     if (v == null) return '';
     if (unit === 'proportion') return `${(v * 100).toFixed(1)}%`;
     if (unit === 'business_days') return `${v} business day${v === 1 ? '' : 's'}`;
-    if (unit === 'count_per_1000') return v.toFixed(1);
+    if (unit === 'count_per_1000') return `${fmtRate(v)} per 1,000 residents`;
     return String(v);
   }
   function fmtBound(unit, v) {
     if (unit === 'proportion') return `${(v * 100).toFixed(1)}%`;
+    if (unit === 'count_per_1000') return fmtRate(v);
     return String(v);
   }
+  const fmtRate = (v) => v.toFixed(v < 10 ? 2 : 1);
   function fmtInterval(unit, lo, hi) {
     const high = hi === -1 ? 'longer than observed' : fmtBound(unit, hi);
     return `${fmtBound(unit, lo)} to ${high}`;
@@ -141,8 +143,16 @@
     r.metric === metric && r.variant === variant && r.subgroup === type &&
     r.window_start === win.start && r.window_end === win.end);
 
-  function cellContent(spec, r) {
+  function cellContent(spec, r, geo) {
+    if (!r && geo && spec.geographies && !spec.geographies.includes(geo)) {
+      return el('span', { class: 'muted' }, 'Not reported for this kind of area');
+    }
     if (!r) return el('span', { class: 'muted' }, 'No requests in this window');
+    if (r.suppressed && spec.min_population) {
+      return el('span', { class: 'muted' },
+        `Fewer than ${spec.min_population.toLocaleString()} residents inside the city, too few for a rate `,
+        `(${r.n.toLocaleString()} request${r.n === 1 ? '' : 's'})`);
+    }
     if (r.suppressed) {
       return el('span', { class: 'muted' },
         `Too few requests to report (n = ${r.n.toLocaleString()}; needs ${spec.min_n})`);
@@ -181,14 +191,25 @@
       el('ul', {}, g.missing.map((m) => el('li', {}, m))));
   }
 
-  // columns: [{label, rows}] where rows are objects for one geography.
-  // The verdict compares the first two columns.
+  // columns: [{label, rows, geo}] where rows are objects for one geography
+  // and geo is its geo_type. The verdict compares the first two columns.
+  // Demand (requests per resident) is shown last, under its own heading, so
+  // volume is never read as a measure of service quality.
   function renderMetricTable(columns, type, win) {
     const p = state.manifest.pipelines['311'];
     const wrap = el('div', {});
     if (!state.fresh) return wrap;
     const target = (p.targets || []).find((t) => t.request_type === type);
-    for (const [id, spec] of Object.entries(p.specs)) {
+    const isDemand = (spec) => spec.unit === 'count_per_1000';
+    const ordered = Object.entries(p.specs).sort(([, a], [, b]) => isDemand(a) - isDemand(b));
+    let demandShown = false;
+    for (const [id, spec] of ordered) {
+      if (isDemand(spec) && !demandShown) {
+        demandShown = true;
+        wrap.append(el('h4', { class: 'subhead' }, 'Demand: how often residents report'),
+          el('p', { class: 'fineprint' }, 'Requests per resident reflect awareness of 311 and willingness ',
+            'to report as much as conditions. They say nothing about how well the city responds.'));
+      }
       const gate = p.publish[id];
       const shown = !gate || gate.publishable || state.manifest.preview;
       const block = el('div', { class: 'metric' },
@@ -238,8 +259,50 @@
     const ref = live.length ? live[0].citywide_median : null;
     return el('div', { class: 'table-scroll' }, el('table', {},
       el('thead', {}, el('tr', {}, columns.map((c) => el('th', {}, c.label)))),
-      el('tbody', {}, el('tr', {}, rows.map((r) => el('td', { class: 'num' },
-        cellContent(spec, r), live.length ? intervalBar(r, lo, hi, ref) : null))))));
+      el('tbody', {}, el('tr', {}, rows.map((r, i) => el('td', { class: 'num' },
+        cellContent(spec, r, columns[i].geo), live.length ? intervalBar(r, lo, hi, ref) : null))))));
+  }
+
+  // ---- who lives here (ACS context, D20) ---------------------------------------------
+
+  function fmtDemo(unit, v, moe) {
+    if (v == null) return ['', ''];
+    if (unit === 'proportion') return [`${(v * 100).toFixed(0)}%`, `± ${(moe * 100).toFixed(0)} pts`];
+    if (unit === 'dollars') return [`$${Math.round(v).toLocaleString()}`, `± $${Math.round(moe).toLocaleString()}`];
+    return [Math.round(v).toLocaleString(), `± ${Math.round(moe).toLocaleString()}`];
+  }
+
+  // areas: [{label, geo, id}]. Returns null when no area has demographics.
+  function renderDemographics(areas) {
+    const d = state.demo;
+    if (!d) return null;
+    const found = areas.map((a) => ((d.areas[a.geo] || {})[a.id]) || null);
+    if (found.every((f) => !f)) return null;
+    const partial = areas.map((a, i) => [a, found[i]])
+      .filter(([, f]) => f && f.share_in_city != null && f.share_in_city < 0.98);
+    return el('div', { class: 'demographics' },
+      el('h3', {}, 'Who lives here'),
+      el('p', { class: 'fineprint' }, 'Context for the comparison, not an explanation of it. ',
+        'Differences in who lives in an area do not show that the city treats it differently.'),
+      el('div', { class: 'table-scroll' }, el('table', {},
+        el('thead', {}, el('tr', {}, el('th', {}, ''), areas.map((a) => el('th', {}, a.label)))),
+        el('tbody', {}, d.measures.map((m, mi) => el('tr', {},
+          el('th', { scope: 'row', title: m.note }, m.label),
+          found.map((f) => {
+            const cell = f && f.values[mi];
+            if (!cell || cell[0] == null) return el('td', { class: 'muted' }, 'n/a');
+            const [v, moe] = fmtDemo(m.unit, cell[0], cell[1]);
+            return el('td', { class: 'num' }, v, ' ', el('span', { class: 'ci' }, moe),
+              cell[2] === 'low' ? el('div', { class: 'ci' }, 'Low reliability') : null);
+          })))))),
+      partial.length ? el('p', { class: 'fineprint' }, partial.map(([a, f]) =>
+        `${a.label}: ${Math.round(f.share_in_city * 100)}% of its residents live inside the city. `),
+        'Figures cover only that part.') : null,
+      el('p', { class: 'fineprint' },
+        `American Community Survey ${d.acs_vintage} 5-year estimates, for the part of each area inside `,
+        'the City of Memphis. Block-group estimates are split across areas using 2020 Census block ',
+        'populations. ± is the 90% margin of error (the 311 figures above use 95% intervals). ',
+        '"Low reliability" means the margin is large relative to the estimate.'));
   }
 
   // ---- area comparison -----------------------------------------------------------
@@ -268,6 +331,10 @@
   const areaRows = (value) => {
     const [g, id] = value.split('|');
     return ((state.areas[g] || {})[id] || []).map(asRow);
+  };
+  const areaColumn = (value) => {
+    const [geo, id] = value.split('|');
+    return { label: areaName(value), rows: areaRows(value), geo, id };
   };
 
   function windowsFrom(rows) {
@@ -301,9 +368,10 @@
     const draw = () => {
       const [start, end] = $('#window').value.split('|');
       const a = $('#area-a').value, b = $('#area-b').value;
-      result.replaceChildren(el('div', { class: 'card' }, renderMetricTable(
-        [{ label: areaName(a), rows: areaRows(a) }, { label: areaName(b), rows: areaRows(b) }],
-        $('#req-type').value, { start, end })));
+      const cols = [areaColumn(a), areaColumn(b)];
+      result.replaceChildren(el('div', { class: 'card' },
+        renderMetricTable(cols, $('#req-type').value, { start, end }),
+        renderDemographics(cols)));
     };
     $('#compare-form').addEventListener('change', draw);
     draw();
@@ -430,11 +498,13 @@
       const p = state.manifest.pipelines['311'];
       const near = ((shard.metrics && shard.metrics[cell]) || []).map(asRow);
       const city = Object.values(state.areas.citywide || {})[0] || [];
+      const cityId = Object.keys(state.areas.citywide || {})[0];
       const columns = [
-        { label: 'Near this address', rows: near },
-        { label: 'Citywide', rows: city.map(asRow) },
-        zip ? { label: `ZIP ${zip}`, rows: ((state.areas.zcta || {})[zip] || []).map(asRow) } : null,
-        district ? { label: `District ${district}`, rows: ((state.areas.council_district || {})[district] || []).map(asRow) } : null,
+        { label: 'Near this address', rows: near, geo: 'h3_9' },
+        { label: 'Citywide', rows: city.map(asRow), geo: 'citywide', id: cityId },
+        zip ? { label: `ZIP ${zip}`, rows: ((state.areas.zcta || {})[zip] || []).map(asRow), geo: 'zcta', id: zip } : null,
+        district ? { label: `District ${district}`, rows: ((state.areas.council_district || {})[district] || []).map(asRow),
+          geo: 'council_district', id: district } : null,
       ].filter(Boolean);
 
       const typeSel = el('select', { 'aria-label': 'Request type' });
@@ -461,7 +531,8 @@
           el('label', {}, 'Request type', typeSel),
           wins.length ? el('label', {}, 'Window', winSel) : null) : null,
         tableBox,
-        requestsTable(reqs)),
+        requestsTable(reqs),
+        renderDemographics(columns.filter((c) => c.id))),
         el('p', { class: 'fineprint' }, 'Transit, power, food safety and investment are not live yet; see the five systems below.'));
     } catch (e) {
       out.replaceChildren(el('p', {}, `Something went wrong: ${e.message}`));
@@ -486,6 +557,7 @@
     renderPanels();
     if (state.manifest.pipelines['311']) {
       state.areas = (await getJSON('311/areas.json')) || {};
+      if (state.manifest.demographics) state.demo = await getJSON(state.manifest.demographics.file);
       // Gated builds can write empty geographies as [] rather than {}.
       for (const g of Object.keys(state.areas)) if (Array.isArray(state.areas[g])) state.areas[g] = {};
       setupCompare();

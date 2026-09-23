@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Memphis Service Equity measures whether five systems keep their promises by where you live: MATA transit, MLGW power restoration, 311 city services, food-safety inspections and permits/investment. The output is a static site, and there is no server. Batch pipelines and the shared core are written in R. The long-running collectors are in Python (DECISIONS.md D1).
 
+Current priority (D19): understanding how the experience of services differs between areas comes before the "did the city keep its promise" framing. The guardrails still apply: intervals, minimum n, suppression, no composite scores or rankings.
+
 Read these first:
 - `memphis-service-equity-design-plan-v0.2.md` is the design plan. Section references in code comments, README and DECISIONS ("plan 5.3", "section 8", "6.1") point into it.
 - `DECISIONS.md` has two lists. "Needs a human" (H*) holds items that block work, such as credentials, records requests, audits and spec sign-off. "Decisions made" (D*) records implementation choices. Cite and extend these IDs rather than re-deciding.
@@ -33,6 +35,7 @@ Rscript pipelines/311/run.R --out data/published/311 --raw-cache data/cache/311_
 
 # Static-site data from published outputs. Gated by default; --preview keeps unpublished metrics (local only, D18)
 Rscript site/build_site_data.R data/published site/data [--preview]
+CENSUS_API_KEY=... Rscript geography/fetch_demographics.R   # yearly ACS refresh (D20)
 python3 -m http.server 8765 --directory site     # serve the site locally
 
 # Pollers (Python 3.12)
@@ -45,7 +48,7 @@ CI (`.github/workflows/test-memequity.yml`) runs the package tests and then the 
 
 ## Architecture
 
-**Data flow.** Source → pipeline (fetch → validate → normalize → attach geography → metrics) → flat files in `data/published/<pipeline>/` → `site/build_site_data.R` → sharded JSON in `site/data/` → static front end. The front end reads only pipeline outputs and never computes a statistic. That includes address-level views: each `h3_9` row already covers the cell plus its six neighbours (D16), so the browser only looks one up. The front end (`site/assets/app.js`) is plain JS with no build step. It loads h3-js from jsdelivr (and `methodology.html` loads marked and DOMPurify, pinned versions) and writes data into the page as text only, never as HTML. Metric titles, units and minimum n come from the specs via the manifest, so do not restate definitions in the JS. `data/published/`, `data/poller/`, `data/cache/` and `site/data/` are gitignored. Published runs go to monthly GitHub releases (D17), and poller archives go to weekly releases through `pollers/archive_release.sh` (D7).
+**Data flow.** Source → pipeline (fetch → validate → normalize → attach geography → metrics) → flat files in `data/published/<pipeline>/` → `site/build_site_data.R` → sharded JSON in `site/data/` → static front end. The front end reads only pipeline outputs and never computes a statistic. That includes address-level views: each `h3_9` row already covers the cell plus its six neighbours (D16), so the browser only looks one up. The front end (`site/assets/app.js`) is plain JS with no build step. It loads h3-js from jsdelivr (and `methodology.html` loads marked and DOMPurify, pinned versions) and writes data into the page as text only, never as HTML. Metric titles, units and minimum n come from the specs via the manifest, and demographic labels come from `geography/demographics/measures.csv` via `demographics.json`, so do not restate definitions in the JS. `data/published/`, `data/poller/`, `data/cache/` and `site/data/` are gitignored. Published runs go to monthly GitHub releases (D17), and poller archives go to weekly releases through `pollers/archive_release.sh` (D7).
 
 **`packages/memequity/`** is the shared core, and every pipeline must go through it:
 - `output.R` defines the output contract. `METRICS_COLUMNS` is the exact column order for `metrics_<pipeline>_by_<geo>.csv`, `GEO_TYPES` lists the allowed geographies, and `write_metrics()` refuses invalid tables. Suppressed rows carry no value or interval. Published rows must have both.
@@ -53,6 +56,7 @@ CI (`.github/workflows/test-memequity.yml`) runs the package tests and then the 
 - `specs.R` parses `specs/<pipeline>/<metric>.md`. The YAML front matter is machine-read, `spec_problems()` enforces the rules for freezing a spec, and `render_methodology()` generates the methodology page from the specs. Never hand-edit a generated methodology page.
 - `publish.R` holds `publish_gate()`, which evaluates the publication conditions per metric. As of this writing no metric passes, because every spec is `draft` (H10) and no audit is committed (H3).
 - `geography.R` / `spatial_join.R`: boundaries are listed in `geography/boundaries/registry.csv`, with source and vintage in each file name. `load_boundaries(geo_type)` returns an sf object with a standard `geo_id`. Distance work uses EPSG:32136 (`MSE_CRS_METERS`) and storage uses 4326. A point within 1 m of multiple polygons goes to the lowest `geo_id` and is flagged `on_boundary` (D8). `geography_dir()` walks up from the working directory, or you can set `MSE_GEOGRAPHY_DIR`.
+- `demographics.R`: ACS 5-year estimates apportioned to every geography through 2020 blocks, for the part of each area inside the city (D20). `geography/fetch_demographics.R` refreshes them (needs `CENSUS_API_KEY`); `load_demographics(geo_type)` derives the measures in `geography/demographics/measures.csv` with margins of error, and `area_population(geo_type)` gives rate denominators. If `reference_neighborhoods.csv` changes, rerun the fetch script (a package test checks this).
 - `calendar.R` counts business days on the **City of Memphis** holiday calendar (`inst/extdata/city_holidays.csv`), not the federal one (D10). Age counts days `d` with `open < d <= close` in America/Chicago time, so opening and closing on the same day gives 0 (D5).
 - `stats.R` handles min-n suppression, Wilson and bootstrap intervals, and the Kaplan–Meier censored median (`km_median_counts`). Open requests are right-censored, never dropped (D9).
 

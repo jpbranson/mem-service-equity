@@ -125,6 +125,9 @@ summary { cursor: pointer; color: var(--accent); }
 .interval .ref { position: absolute; top: 0; width: 2px; height: 17px; background: var(--bar-ref); }
 
 .requests { margin-top: 10px; }
+.subhead { font-size: 1rem; margin: 18px 0 2px; padding-top: 12px; border-top: 2px solid var(--line); }
+.demographics { margin-top: 18px; padding-top: 12px; border-top: 2px solid var(--line); }
+.demographics tbody th { font-size: 0.9rem; color: var(--text); font-weight: 500; }
 .requests td:first-child { white-space: nowrap; }
 
 .site-footer { border-top: 1px solid var(--line); margin-top: 48px; padding: 20px 0 40px; font-size: 0.88rem; color: var(--muted); }

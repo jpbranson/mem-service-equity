@@ -7,7 +7,7 @@
 WINDOWS <- c("90d" = 90L, "12m" = 365L)
 
 SPEC_VERSIONS <- c(median_business_days_to_close = "0.1", pct_within_target = "0.1",
-                   reopen_rate = "0.1")
+                   reopen_rate = "0.1", requests_per_1000 = "0.2")
 
 REOPEN_VARIANTS <- data.frame(
   variant = c("primary", "window_14d", "window_60d", "radius_25m", "radius_100m"),
@@ -165,6 +165,52 @@ compute_reopen <- function(pts, through) {
   res <- do.call(rbind, out)
   res$metric <- "reopen_rate"
   list(metrics = res, rereport = cbind(base[, "sr_id", drop = FALSE], as.data.frame(rd)))
+}
+
+# ---- requests per 1,000 residents (demand) ---------------------------------
+
+RATE_GEOS <- c("citywide", "zcta", "council_district", "super_district", "reference_neighborhood")
+MIN_POPULATION <- 1000
+
+#' Requests per 1,000 residents, for every request type seen in the window,
+#' in every area with a population, including areas with no requests of that
+#' type (a zero is a result). Same estimator as memequity::metric_rate(),
+#' vectorized.
+#'
+#' @param populations named list: geo_type -> data.frame(geo_id, population),
+#'   the residents of the part of each area inside the city.
+compute_requests_per_1000 <- function(df, populations, through) {
+  out <- list()
+  for (w in names(WINDOWS)) {
+    win <- window_range(through, WINDOWS[[w]])
+    d <- df[df$open_date >= win[1] & df$open_date <= win[2], ]
+    types <- sort(unique(d$request_type))
+    if (!length(types)) next
+    for (g in intersect(RATE_GEOS, names(populations))) {
+      pop <- populations[[g]]
+      counts <- table(factor(d$request_type, types), factor(d[[g]], pop$geo_id))
+      r <- expand.grid(subgroup = types, geo_id = pop$geo_id, stringsAsFactors = FALSE)
+      r$n <- as.integer(counts[cbind(r$subgroup, r$geo_id)])
+      exposure <- pop$population[match(r$geo_id, pop$geo_id)]
+      ci <- memequity::poisson_rate_ci(r$n, exposure, per = 1000)
+      r$suppressed <- is.na(exposure) | exposure < MIN_POPULATION
+      r$value <- ifelse(r$suppressed, NA_real_, ci$value)
+      r$ci_low <- ifelse(r$suppressed, NA_real_, ci$ci_low)
+      r$ci_high <- ifelse(r$suppressed, NA_real_, ci$ci_high)
+      r$geo_type <- g
+      r$window_start <- win[1]; r$window_end <- win[2]
+      out[[length(out) + 1]] <- r
+    }
+  }
+  res <- do.call(rbind, out)
+  res$metric <- "requests_per_1000"
+  res$variant <- "primary"
+  res$metric_version <- SPEC_VERSIONS[["requests_per_1000"]]
+  # For rates the reference is the citywide rate itself (D4).
+  city <- res[res$geo_type == "citywide", ]
+  key <- function(d) paste(d$subgroup, d$window_start, sep = "\r")
+  res$citywide_median <- city$value[match(key(res), key(city))]
+  res
 }
 
 # ---- citywide reference and assembly --------------------------------------

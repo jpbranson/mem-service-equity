@@ -1,0 +1,12 @@
+id,label,unit,numerator,denominator,note
+population,Residents,count,B01003_001,,Total population.
+households,Households,count,B11001_001,,Occupied housing units.
+pct_black_nh,"Black, not Hispanic",proportion,B03002_004,B03002_001,Share of residents.
+pct_white_nh,"White, not Hispanic",proportion,B03002_003,B03002_001,Share of residents.
+pct_hispanic,Hispanic or Latino (any race),proportion,B03002_012,B03002_001,Share of residents.
+pct_poverty,Below the poverty line,proportion,C17002_002+C17002_003,C17002_001,Share of residents whose poverty status is determined.
+per_capita_income,Income per resident,dollars,B19313_001,B01003_001,"Aggregate income divided by residents, in the survey's inflation-adjusted dollars. Medians cannot be combined across areas, so this is a mean."
+pct_renter,Households that rent,proportion,B25003_003,B25003_001,Share of occupied homes.
+pct_no_vehicle,Households without a vehicle,proportion,B25044_003+B25044_010,B25044_001,Share of occupied homes.
+pct_no_internet,Households without internet access,proportion,B28002_013,B28002_001,Share of households.
+pct_vacant,Vacant homes,proportion,B25002_003,B25002_001,Share of all housing units.

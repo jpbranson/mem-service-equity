@@ -82,6 +82,23 @@ The fetch script is `geography/fetch_boundaries.R`.
 - Tracts: `https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:47%20county:157&key=KEY`
 - ZCTAs: `...&for=zip%20code%20tabulation%20area:38103,38104,...&key=KEY`.
   ZCTA queries do not accept `in=state:`.
+- Verified 2026-09-23 (used by `geography/fetch_demographics.R`, D20):
+  - Block groups: `...&for=block%20group:*&in=state:47%20county:157` returns
+    685 block groups, 919,173 residents. Every table the project uses
+    (B01003, B11001, B03002, C17002, B19313, B25002, B25003, B25044, B28002)
+    is published at block-group level. The 2025 5-year release is not out
+    yet (the API returns 404 until each December's release).
+  - Annotation codes: `-666666666` estimate means not available (e.g.
+    aggregate income in the 5 block groups with no residents: airport, parks,
+    tracts 9801xx); MOE `-555555555` means controlled (exact); MOE
+    `-222222222` means no MOE could be computed.
+  - Aggregate income (B19313) is rounded, so block-group sums can differ from
+    the tract figure by up to $100. Counts sum exactly.
+  - Memphis place (4748000) total population, 2020–2024: 618,980.
+- 2020 Census blocks with population, housing units and internal points:
+  TIGERweb `tigerWMS_Census2020/MapServer/10` (fields POP100, HU100,
+  INTPTLAT, INTPTLON; max 100,000 records per query, no key). Shelby County
+  has 14,498 blocks, summing to the 2020 count of 929,744.
 
 ## Parcels
 

@@ -24,10 +24,14 @@ so far. Source research is in [`docs/research/`](docs/research/).
 | 0 | Geography layer, output schema, spec template, validation harness, business-day calendar | **Done.** `packages/memequity`, `geography/`, `specs/` |
 | 1 | MATA and MLGW pollers started | **Running.** GitHub Actions every 2 hours; raw data archived to weekly releases (`archive-mata-*`, `archive-mlgw-*`) |
 | 2 | Food safety site | **Blocked.** The state inspection portal forbids automated access, so the data needs a records request (DECISIONS.md H11). The request in `docs/records-requests/` was sent on 2026-09-23 |
-| 3 | 311 pipeline and address lookup | **Built, not yet published.** Pipeline, address lookup, area comparison and methodology page all work. `deploy-site` runs daily and deploys to GitHub Pages. Every metric shows which publication conditions it still misses |
+| 3 | 311 pipeline and address lookup | **Built, not yet published.** Pipeline, address lookup, area comparison (with "who lives here" demographics and requests per 1,000 residents) and methodology page all work. `deploy-site` runs daily and deploys to GitHub Pages. Every metric shows which publication conditions it still misses |
 | 4 | Permits | Not started (specs drafted; sources researched) |
 | 5 | MATA panel | Collecting; trip matching not started |
 | 6 | MLGW panel | Collecting; needs six months of history |
+
+**Current priority (DECISIONS D19):** how the experience of city services
+differs from one area to another, with demographic context for each area
+(ACS 2020–2024, D20). Work that depends on official targets is deferred.
 
 **No metric is publishable yet.** Every metric's publish-status file says
 which of the six publication conditions is missing. For every metric, the
@@ -40,7 +44,7 @@ against (H14).
 | Path | What it holds |
 |---|---|
 | `packages/memequity/` | Shared R package: geography layer, grid-hash spatial joins, City of Memphis business-day calendar, stats (suppression, Wilson / bootstrap / Kaplan–Meier intervals), validation harness, output-schema writers, spec parser, publish gate |
-| `geography/` | Boundary files (source and vintage in each file name) plus `registry.csv`, reference neighborhoods, and `fetch_boundaries.R` |
+| `geography/` | Boundary files (source and vintage in each file name) plus `registry.csv`, reference neighborhoods, and `fetch_boundaries.R`. `demographics/` holds ACS 5-year estimates apportioned to every geography (DECISIONS D20), written by `fetch_demographics.R` |
 | `specs/<pipeline>/` | Metric specifications. The YAML front matter is machine-read; methodology pages are generated from these files |
 | `pipelines/311/` | The 311 pipeline: `run.R`, `R/` (fetch, normalize, metrics, hex, audit), `config/`, `tests/` (fixtures, properties, golden files) |
 | `pollers/` | Python collectors for MATA GTFS-Realtime and MLGW outages, with tests and the release-archive script |
@@ -67,6 +71,10 @@ Rscript -e 'testthat::test_dir("pipelines/311/tests/testthat")'
 # only after the tests above pass; otherwise the publish status reports
 # condition 3 as unmet. The deploy workflow sets it after running the tests.
 Rscript pipelines/311/run.R --out data/published/311
+
+# ACS demographics (about once a year, after each December ACS release;
+# needs CENSUS_API_KEY). Writes committed files under geography/demographics/
+Rscript geography/fetch_demographics.R
 
 # Site data from the published outputs (only metrics that pass the publish gate)
 Rscript site/build_site_data.R data/published site/data

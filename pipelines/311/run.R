@@ -82,6 +82,12 @@ agree <- mean(as.character(pts$source_council_district) == pts$council_district,
 rep <- add_check(rep, "council district agrees with source cd_name", "referential", agree >= 0.95,
                  list(agreement = agree), severity = "warning")
 
+# Every area a request can be counted in needs an ACS population (D20).
+pop_ids <- area_population("council_district", geography_dir())$geo_id
+rep <- add_check(rep, "every council district has an ACS population", "referential",
+                 all(na.omit(unique(pts$council_district[pts$in_city])) %in% pop_ids),
+                 list(demographics = demographics_registry(geography_dir())$file[1]))
+
 path <- write_validation_report(finalize_report(rep), out_dir)
 log("validation: ", finalize_report(rep)$status, " -> ", path)
 stop_if_failed(rep)
@@ -97,7 +103,11 @@ city <- res$metrics[res$metrics$geo_type == "citywide", ]
 key <- function(d) paste(d$metric, d$variant, d$subgroup, format(as.Date(d$window_start)), sep = "\r")
 hex$citywide_median <- city$value[match(key(hex), key(city))]
 
-all_m <- rbind(res$metrics[, names(hex)], hex)
+log("computing requests per 1,000 residents")
+populations <- sapply(RATE_GEOS, function(g) area_population(g, geography_dir()), simplify = FALSE)
+rates <- compute_requests_per_1000(base_records(pts), populations, through)
+
+all_m <- rbind(res$metrics[, names(hex)], hex, rates[, names(hex)])
 current_through <- format(through)
 m <- as_metrics_table(all_m, NA, current_through)
 for (g in unique(m$geo_type)) {

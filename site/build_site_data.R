@@ -19,6 +19,9 @@
 #                               browser loads one small file per lookup
 #   311/points/<res6>.json      individual recent requests for the address view
 #                               (column-major, to keep files small)
+#   demographics.json           ACS context per area with margins of error and
+#                               measure labels (D20; not gated: Census estimates,
+#                               not project metrics)
 
 suppressPackageStartupMessages({
   library(jsonlite)
@@ -142,9 +145,41 @@ if (dir.exists(d311)) {
     # Labels come from the specs so the front end never restates a definition.
     specs = lapply(memequity::read_specs("311", "specs"), function(s) list(
       title = s$title, version = s$version, status = s$status, unit = s$unit, min_n = s$min_n,
+      min_population = s$min_population, geographies = I(unlist(s$geographies)),
       promise_kind = s$promise$kind, promise_text = trimws(s$promise$text))),
     headline_types = headline,
     targets = cfg[!is.na(target_high_bd), list(request_type, target_low_bd, target_high_bd, target_source_url)])
+}
+
+# ---- demographics (D20) --------------------------------------------------------
+# ACS context for each area: Census estimates with their margins of error,
+# not project metrics, so they are not subject to the publish gate. They are
+# checked when fetched (geography/demographics/validation_demographics_*.json).
+geo_dir <- file.path("geography")
+if (file.exists(file.path(geo_dir, "demographics", "registry.csv"))) {
+  reg <- memequity::demographics_registry(geo_dir)
+  ms <- memequity::demographic_measures(geo_dir)
+  comp <- memequity::load_demographic_components(dir = geo_dir)
+  demo_areas <- list()
+  for (g in c("citywide", "zcta", "council_district", "super_district", "reference_neighborhood")) {
+    d <- as.data.table(memequity::load_demographics(g, geo_dir))
+    digits <- ifelse(ms$unit[match(d$measure, ms$id)] == "proportion", 4, 0)
+    d[, `:=`(value = round(value, digits), moe = round(moe, digits))]
+    cov <- as.data.table(comp[comp$geo_type == g & comp$variable %in% c("POP100", "POP100_all"), ])
+    cov <- dcast(cov, geo_id ~ variable, value.var = "estimate")
+    demo_areas[[g]] <- lapply(split(d, d$geo_id), function(x) {
+      x <- x[match(ms$id, x$measure)]
+      cv <- cov[geo_id == x$geo_id[1]]
+      list(values = lapply(seq_len(nrow(x)), function(i) list(x$value[i], x$moe[i], x$reliability[i])),
+           share_in_city = if (nrow(cv) && cv$POP100_all > 0) round(cv$POP100 / cv$POP100_all, 3) else NULL)
+    })
+  }
+  write_json_min(list(
+    source = reg$source[1], acs_vintage = reg$acs_vintage[1], universe = reg$universe[1],
+    weights = reg$weights[1],
+    measures = lapply(seq_len(nrow(ms)), function(i) as.list(ms[i, c("id", "label", "unit", "note")])),
+    areas = demo_areas), file.path(out, "demographics.json"))
+  manifest$demographics <- list(file = "demographics.json", acs_vintage = reg$acs_vintage[1])
 }
 
 # ---- panels not yet producing metrics ----------------------------------------

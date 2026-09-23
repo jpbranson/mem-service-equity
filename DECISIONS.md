@@ -222,6 +222,30 @@ made while building, so a reviewer can challenge them.
   ahead of work that depends on official targets. H14 (311 targets), H16
   (MATA terms and on-time definition) and H17 (MLGW notice) are deferred,
   not dropped. `pct_within_target` stays in place, but it is not a priority.
+- **D20. Demographics and population denominators.** ACS 5-year
+  estimates (2020–2024) are fetched at block-group level and split across
+  every geography through 2020 Census blocks. Each block gets its share of its
+  block group's 2020 population, or of its housing units for household and
+  housing tables. Blocks are assigned to areas by their internal points,
+  using the same boundary files and rules as the pipelines. Only blocks
+  inside the City of Memphis count, because the 311 pipeline counts only
+  requests inside the city. A ZIP code that crosses the city line therefore
+  shows its in-city residents, and the site says what share that is.
+  Margins of error use the Census Bureau's approximation formulas. Pieces of
+  one block group within one area are summed before combining, because they
+  are fully correlated. Medians cannot be combined across block groups, so
+  income is shown per resident (aggregate income / population).
+  `geography/fetch_demographics.R` runs about once a year after each ACS
+  release. It needs `CENSUS_API_KEY` (H12) and writes committed files, so
+  the daily pipeline does not need the key. It checks that block-group sums
+  reproduce every published tract and county estimate. The city total must
+  be within 2% of the published Memphis estimate (it is 0.12% low for
+  2020–2024). The demographics are Census estimates, not project metrics,
+  so they are not subject to the publish gate (D18). The site shows them
+  as context next to each comparison, with 90% margins of error and a
+  low-reliability flag above a 40% coefficient of variation.
+  `requests_per_1000` uses the same in-city populations and is suppressed
+  below 1,000 in-city residents (spec v0.2).
 - **D8. Boundary rule.** A point within 1 m of more than one polygon goes to
   the lowest `geo_id` among them and is flagged `on_boundary`.
 - **D9. Censored durations.** Median time-to-close uses a Kaplan–Meier

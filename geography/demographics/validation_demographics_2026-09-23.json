@@ -1,0 +1,126 @@
+{
+  "pipeline": "demographics",
+  "source": "Census ACS 2024 5-year block groups; 2020 Census blocks (TIGERweb)",
+  "run_date": "2026-09-23",
+  "run_at": "2026-09-23T21:56:03Z",
+  "status": "pass",
+  "checks": [
+    {
+      "name": "no block-group estimate is missing",
+      "type": "completeness",
+      "passed": true,
+      "severity": "error",
+      "details": {
+        "missing": []
+      }
+    },
+    {
+      "name": "2020 block population matches the 2020 Census county total",
+      "type": "reconciliation",
+      "passed": true,
+      "severity": "error",
+      "details": {
+        "blocks": 929744,
+        "census": 929744
+      }
+    },
+    {
+      "name": "every ACS block group has 2020 blocks",
+      "type": "referential",
+      "passed": true,
+      "severity": "error",
+      "details": {
+        "missing": []
+      }
+    },
+    {
+      "name": "every block's block group is in the ACS",
+      "type": "referential",
+      "passed": true,
+      "severity": "error",
+      "details": {
+        "missing": []
+      }
+    },
+    {
+      "name": "block weights sum to 1 in every block group",
+      "type": "consistency",
+      "passed": true,
+      "severity": "error",
+      "details": []
+    },
+    {
+      "name": "block-group sums reproduce the county estimates",
+      "type": "reconciliation",
+      "passed": true,
+      "severity": "error",
+      "details": {
+        "variables_off": []
+      }
+    },
+    {
+      "name": "block-group sums reproduce every tract estimate",
+      "type": "reconciliation",
+      "passed": true,
+      "severity": "error",
+      "details": {
+        "tracts": 249,
+        "variables_off": [],
+        "max_income_gap": 100.000000059605
+      }
+    },
+    {
+      "name": "city population within 2% of the published Memphis estimate",
+      "type": "reconciliation",
+      "passed": true,
+      "severity": "error",
+      "details": {
+        "apportioned": 618259,
+        "published": 618980,
+        "relative_gap": -0.0012
+      }
+    },
+    {
+      "name": "council_district populations sum to the city total (within 0.5%)",
+      "type": "consistency",
+      "passed": true,
+      "severity": "error",
+      "details": {
+        "sum": 618259,
+        "city": 618259
+      }
+    },
+    {
+      "name": "super_district populations sum to the city total (within 0.5%)",
+      "type": "consistency",
+      "passed": true,
+      "severity": "error",
+      "details": {
+        "sum": 618259,
+        "city": 618259
+      }
+    },
+    {
+      "name": "no block inside the city is left without a council district",
+      "type": "referential",
+      "passed": true,
+      "severity": "warning",
+      "details": {
+        "blocks": 0
+      }
+    }
+  ],
+  "record_counts": {
+    "block_groups": 685,
+    "blocks": 14498,
+    "blocks_in_city": 10331,
+    "values_zeroed_in_empty_block_groups": 5
+  },
+  "freshness": null,
+  "geocoding": null,
+  "summary": {
+    "checks_run": 11,
+    "checks_passed": 11,
+    "errors": 0
+  }
+}
