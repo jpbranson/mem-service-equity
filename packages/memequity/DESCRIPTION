@@ -1,0 +1,30 @@
+Package: memequity
+Type: Package
+Title: Shared Core for the Memphis Service Equity Pipelines
+Version: 0.1.0
+Authors@R: person("Memphis Service Equity Project", role = c("aut", "cre"),
+    email = "jpbranson@gmail.com")
+Description: Shared geography layer, business-day calendar, statistical
+    treatment (minimum-n suppression, Wilson and bootstrap intervals,
+    censored medians), source-data validation harness, output-schema writers,
+    metric-spec parsing and the publish gate used by every pipeline in the
+    Memphis Service Equity project.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.2)
+Imports:
+    jsonlite,
+    sf,
+    stats,
+    survival,
+    tools,
+    utils,
+    yaml
+Suggests:
+    curl,
+    h3jsr,
+    httr2,
+    testthat (>= 3.0.0),
+    withr
+Config/testthat/edition: 3
+RoxygenNote: 7.3.2
