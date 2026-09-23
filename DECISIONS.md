@@ -69,7 +69,9 @@ made while building, so a reviewer can challenge them.
 - [ ] **H18. Keep scheduled workflows alive.** GitHub disables scheduled
   workflows in a public repository after 60 days without repository
   activity. Any commit resets the timer; re-enable in the Actions tab if
-  needed.
+  needed. This covers `deploy-site` as well as both pollers. If the daily
+  deploy stops, the site hides 311 numbers once the data is more than 3 days
+  old.
 - [ ] **H13. Historical city holiday calendars.** The 2026 city calendar is
   verified. Earlier years are reconstructed from rules, and the weekend
   shifts for MLK Memorial Day and Christmas Eve are inferred. Ask the city's

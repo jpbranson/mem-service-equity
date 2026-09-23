@@ -9,7 +9,7 @@ Memphis Service Equity measures whether five systems keep their promises by wher
 Read these first:
 - `memphis-service-equity-design-plan-v0.2.md` is the design plan. Section references in code comments, README and DECISIONS ("plan 5.3", "section 8", "6.1") point into it.
 - `DECISIONS.md` has two lists. "Needs a human" (H*) holds items that block work, such as credentials, records requests, audits and spec sign-off. "Decisions made" (D*) records implementation choices. Cite and extend these IDs rather than re-deciding.
-- `docs/research/` holds verified notes on each data source, including endpoints, terms and pitfalls.
+- `docs/research/` holds verified notes on each data source, including endpoints, terms and pitfalls. `docs/records-requests/` holds draft records requests; DECISIONS records whether each was sent.
 
 Where the plan conflicts with verified research, the research and DECISIONS win. For example, the plan says Socrata for 311, "3–7 days / 82%" promises and MLGW polygons. DECISIONS D12, D14, H14 and H19 record the corrections.
 
@@ -28,6 +28,7 @@ Rscript -e 'testthat::test_dir("pipelines/311/tests/testthat")'
 Rscript -e 'testthat::test_dir("pipelines/311/tests/testthat", filter = "311")'
 
 # 311 pipeline end to end (fetches about 400k rows, about 3 min). --raw-cache avoids refetching during dev.
+# The publish gate treats tests as passed only when TESTS_PASSED=true is set (the deploy workflow does this after testing).
 Rscript pipelines/311/run.R --out data/published/311 --raw-cache data/cache/311_raw.rds [--as-of YYYY-MM-DD]
 
 # Static-site data from published outputs. Gated by default; --preview keeps unpublished metrics (local only, D18)
@@ -44,7 +45,7 @@ CI (`.github/workflows/test-memequity.yml`) runs the package tests and then the 
 
 ## Architecture
 
-**Data flow.** Source → pipeline (fetch → validate → normalize → attach geography → metrics) → flat files in `data/published/<pipeline>/` → `site/build_site_data.R` → sharded JSON in `site/data/` → static front end. The front end reads only pipeline outputs and never computes a statistic. That includes address-level views: each `h3_9` row already covers the cell plus its six neighbours (D16), so the browser only looks one up. The front end (`site/assets/app.js`) is plain JS with no build step. It uses h3-js from jsdelivr and writes data into the page as text only, never as HTML. Metric titles, units and minimum n come from the specs via the manifest, so do not restate definitions in the JS. `data/published/`, `data/poller/`, `data/cache/` and `site/data/` are gitignored. Published runs go to monthly GitHub releases (D17), and poller archives go to weekly releases through `pollers/archive_release.sh` (D7).
+**Data flow.** Source → pipeline (fetch → validate → normalize → attach geography → metrics) → flat files in `data/published/<pipeline>/` → `site/build_site_data.R` → sharded JSON in `site/data/` → static front end. The front end reads only pipeline outputs and never computes a statistic. That includes address-level views: each `h3_9` row already covers the cell plus its six neighbours (D16), so the browser only looks one up. The front end (`site/assets/app.js`) is plain JS with no build step. It loads h3-js from jsdelivr (and `methodology.html` loads marked and DOMPurify, pinned versions) and writes data into the page as text only, never as HTML. Metric titles, units and minimum n come from the specs via the manifest, so do not restate definitions in the JS. `data/published/`, `data/poller/`, `data/cache/` and `site/data/` are gitignored. Published runs go to monthly GitHub releases (D17), and poller archives go to weekly releases through `pollers/archive_release.sh` (D7).
 
 **`packages/memequity/`** is the shared core, and every pipeline must go through it:
 - `output.R` defines the output contract. `METRICS_COLUMNS` is the exact column order for `metrics_<pipeline>_by_<geo>.csv`, `GEO_TYPES` lists the allowed geographies, and `write_metrics()` refuses invalid tables. Suppressed rows carry no value or interval. Published rows must have both.

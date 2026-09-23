@@ -23,7 +23,7 @@ so far. Source research is in [`docs/research/`](docs/research/).
 |---|---|---|
 | 0 | Geography layer, output schema, spec template, validation harness, business-day calendar | **Done.** `packages/memequity`, `geography/`, `specs/` |
 | 1 | MATA and MLGW pollers started | **Running.** GitHub Actions every 2 hours; raw data archived to weekly releases (`archive-mata-*`, `archive-mlgw-*`) |
-| 2 | Food safety site | **Blocked.** The state inspection portal forbids automated access; waiting on a records request (DECISIONS.md H11) |
+| 2 | Food safety site | **Blocked.** The state inspection portal forbids automated access, so the data needs a records request (DECISIONS.md H11). A draft is in `docs/records-requests/`; it has not been sent |
 | 3 | 311 pipeline and address lookup | **Built, not yet published.** Pipeline, address lookup, area comparison and methodology page all work. `deploy-site` runs daily and deploys to GitHub Pages. Every metric shows which publication conditions it still misses |
 | 4 | Permits | Not started (specs drafted; sources researched) |
 | 5 | MATA panel | Collecting; trip matching not started |
@@ -46,6 +46,7 @@ against (H14).
 | `pollers/` | Python collectors for MATA GTFS-Realtime and MLGW outages, with tests and the release-archive script |
 | `site/` | Static front end (plain HTML/JS, no build step): `index.html`, `methodology.html`, `assets/`. `build_site_data.R` turns published outputs into sharded JSON under `site/data/` (generated, not committed) and leaves out any metric that fails the publish gate |
 | `docs/research/` | Verified notes on every data source |
+| `docs/records-requests/` | Drafts of public records requests (see DECISIONS.md for what has been sent) |
 | `.github/workflows/` | Package and poller tests, the two poller schedules, and the daily `deploy-site` (test, run 311, archive, deploy) |
 
 ## Running things
@@ -62,7 +63,9 @@ Rscript -e 'devtools::test("packages/memequity")'
 R CMD INSTALL packages/memequity
 Rscript -e 'testthat::test_dir("pipelines/311/tests/testthat")'
 
-# 311 pipeline (fetches ~400k requests; about 3 minutes)
+# 311 pipeline (fetches ~400k requests; about 3 minutes). Set TESTS_PASSED=true
+# only after the tests above pass; otherwise the publish status reports
+# condition 3 as unmet. The deploy workflow sets it after running the tests.
 Rscript pipelines/311/run.R --out data/published/311
 
 # Site data from the published outputs (only metrics that pass the publish gate)

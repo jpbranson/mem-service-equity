@@ -10,7 +10,8 @@
 # deploy a preview build.
 #
 # Writes:
-#   manifest.json               pipelines, freshness, validation, publish status
+#   manifest.json               pipelines, freshness, validation, publish status,
+#                               and metric labels read from the specs
 #   311/areas.json              citywide / ZIP / district / reference-neighborhood
 #                               metrics for the headline request types
 #   311/hex/<res6 parent>.json  address-level (H3 res-9 disk) metrics, plus each
