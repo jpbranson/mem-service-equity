@@ -15,8 +15,9 @@ made while building, so a reviewer can challenge them.
   `R2_SECRET_ACCESS_KEY` and `R2_BUCKET` as repository secrets.
   *Blocks:* durable poller archives and versioned dataset storage. *Interim:*
   weekly and monthly GitHub release assets (see D7, D17).
-- [ ] **H2. GitHub Pages.** Enable Pages for this repo with source "GitHub
-  Actions". *Blocks:* the public site, which is not built yet.
+- [x] **H2. GitHub Pages.** Enable Pages for this repo with source "GitHub
+  Actions". *Done 2026-09-23:* https://jpbranson.github.io/mem-service-equity/.
+  Nothing is deployed yet; the site and its deploy workflow are not built.
 
 - [ ] **H12. Census API key.** The Census data API now requires a key for
   every request. Get a free key at https://api.census.gov/data/key_signup.html
