@@ -50,11 +50,42 @@ federal_holidays <- function(years) {
   do.call(rbind, rows)
 }
 
+#' Date of a named holiday rule in a given year.
+#'
+#' Rules marked "inferred" below reproduce the City of Memphis's verified
+#' 2026 dates, but how the city shifts them in other years is our inference
+#' (see DECISIONS.md H13).
 rule_date <- function(rule, year) {
+  fixed <- function(m, d) as.Date(sprintf("%04d-%02d-%02d", year, m, d))
   switch(rule,
+    new_years_day = observed(fixed(1, 1)),
+    mlk_day = nth_weekday(year, 1, 1, 3),
+    presidents_day = nth_weekday(year, 2, 1, 3),
+    memorial_day = nth_weekday(year, 5, 1, -1),
+    juneteenth = observed(fixed(6, 19)),
+    independence_day = observed(fixed(7, 4)),
+    labor_day = nth_weekday(year, 9, 1, 1),
+    columbus_day = nth_weekday(year, 10, 1, 2),
+    veterans_day = observed(fixed(11, 11)),
+    thanksgiving = nth_weekday(year, 11, 4, 4),
+    christmas_day = observed(fixed(12, 25)),
     day_after_thanksgiving = nth_weekday(year, 11, 4, 4) + 1,
     good_friday = easter_sunday(year) - 2,
-    christmas_eve = observed(as.Date(sprintf("%04d-12-24", year))),
+    # Inferred: Dec 24 on a Saturday -> Friday 23rd; on a Sunday (Christmas
+    # observed Monday) -> Friday 22nd.
+    christmas_eve = {
+      d <- fixed(12, 24); w <- iso_wday(d)
+      if (w == 6) d - 1 else if (w == 7) d - 2 else d
+    },
+    # Inferred: April 4 (anniversary of Dr King's assassination). Sunday ->
+    # Monday; Saturday -> Friday unless that Friday is Good Friday, in which
+    # case Monday (verified for 2026: observed Mon Apr 6).
+    mlk_memorial = {
+      d <- fixed(4, 4); w <- iso_wday(d)
+      if (w == 7) d + 1
+      else if (w == 6) { if (d - 1 == easter_sunday(year) - 2) d + 2 else d - 1 }
+      else d
+    },
     stop("Unknown holiday rule: ", rule, call. = FALSE)
   )
 }
@@ -70,11 +101,13 @@ easter_sunday <- function(year) {
   as.Date(sprintf("%04d-%02d-%02d", year, month, day))
 }
 
-#' City of Memphis holidays that are not federal holidays.
+#' City of Memphis observed holidays.
 #'
-#' Read from inst/extdata/city_holidays.csv. Each row is either a rule
-#' (`rule` column, applied to every year between `first_year` and
-#' `last_year`) or an explicit `date`.
+#' Read from inst/extdata/city_holidays.csv, which lists the city's full
+#' holiday schedule (the city does not observe every federal holiday --
+#' notably not Columbus Day -- and observes several that are not federal).
+#' Each row is either a rule (`rule` column, applied to every year between
+#' `first_year` and `last_year`) or an explicit `date`.
 #' @export
 city_holidays <- function(years,
                           path = system.file("extdata", "city_holidays.csv",
@@ -103,10 +136,13 @@ city_holidays <- function(years,
   do.call(rbind, out)
 }
 
-#' The shared holiday calendar: federal plus City of Memphis holidays.
+#' The shared holiday calendar: the City of Memphis observed holidays.
+#'
+#' 311 targets are the city's promise, so business days are the city's
+#' working days. `federal_holidays()` is kept for reference and tests.
 #' @export
 holiday_calendar <- function(years = 2015:2030) {
-  cal <- rbind(federal_holidays(years), city_holidays(years))
+  cal <- city_holidays(years)
   cal <- cal[!duplicated(cal$date), ]
   cal[order(cal$date), ]
 }

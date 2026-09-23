@@ -19,7 +19,7 @@ METRICS_KEY <- c("geo_type", "geo_id", "metric", "metric_version", "variant",
 
 #' Geography types a metrics file may use.
 #' @export
-GEO_TYPES <- c("citywide", "zcta", "council_district", "commission_district", "tract",
+GEO_TYPES <- c("citywide", "zcta", "council_district", "super_district", "commission_district", "tract",
                "h3_8", "h3_9", "reference_neighborhood", "route", "stop",
                "outage_polygon", "establishment", "street_segment")
 

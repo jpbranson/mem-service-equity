@@ -19,6 +19,43 @@ made while building, so a reviewer can challenge them.
 - [ ] **H2. GitHub Pages.** Enable Pages for this repo with source "GitHub
   Actions". *Blocks:* the public site.
 
+- [ ] **H12. Census API key.** The Census data API now requires a key for
+  every request. Get a free key at https://api.census.gov/data/key_signup.html
+  and add it as the repo secret `CENSUS_API_KEY`, or locally as an
+  environment variable. *Blocks:* ACS population denominators, which are
+  needed for per-1,000-resident rates.
+
+### Records requests and agency contacts
+
+- [ ] **H11. Restaurant inspection data (blocks Phase 2).** The state
+  inspection portal (inspections.myhealthdepartment.com) prohibits all
+  automated access in robots.txt, and the project will not scrape it. File a
+  Tennessee Public Records Act request with TDH Environmental Health or the
+  Shelby County Health Department for a bulk export of Shelby County food
+  establishment inspections, and ask whether a recurring export is possible.
+  The request should cover: permit number, establishment name, address,
+  inspection date, inspection type/purpose, score and violations, for
+  2021–present. Rule 1200-23-01-.08(4)(c)5 makes inspection reports public
+  documents. The pipeline is built to ingest that export
+  (`pipelines/food-safety/`); drop files into `pipelines/food-safety/inbox/`.
+- [ ] **H14. Official 311 service targets and on-time figure.** The plan's
+  "3–7 business days" and "82% on-time" figures trace to memphisgov.com, a
+  commercial look-alike domain, not the city (see
+  `docs/research/311-permits-districts.md`). The only official target found
+  is potholes within 5–10 business days. Ask the city's 311 Center or the
+  Office of Performance Management for (a) the official SLA table by request
+  type and (b) any published on-time percentage and how it is computed.
+  *Blocks:* the plan's key reconciliation (6.3, 14) and official-promise
+  framing for every type except potholes.
+- [ ] **H15. Pre-migration 311 history.** The legacy Socrata dataset
+  (`hmd4-ddta`, 2016–2025) is offline. If the history matters, request a
+  bulk export. It is not needed for the current metrics, which never cross
+  the October 2023 migration.
+- [ ] **H13. Historical city holiday calendars.** The 2026 city calendar is
+  verified. Earlier years are reconstructed from rules, and the weekend
+  shifts for MLK Memorial Day and Christmas Eve are inferred. Ask the city's
+  HR / Total Rewards office for its 2023–2025 holiday schedules.
+
 ### Field and manual work (plan 5.6)
 
 - [ ] **H3. Pre-launch manual audit, per panel.** Trace at least 100 random
@@ -72,6 +109,32 @@ made while building, so a reviewer can challenge them.
   *primary* record of the same type within 50 m and 7 days. The rule is not
   transitive, so a pothole re-reported every 5 days for a month produces a
   new primary each week, not a single cluster.
+- **D7. Interim storage.** Until object storage exists (H1), pollers write
+  gzip-compressed daily files to the `data` branch of this repo, and the
+  pipelines write published outputs to `data/published/`. Once H1 is done,
+  the upload step switches to R2 and the branch becomes a mirror.
+- **D10. Business days follow the City of Memphis holiday calendar,** not
+  the federal one, because 311 targets are the city's promise. The city
+  observes Good Friday, MLK Memorial Day (April 4), the day after
+  Thanksgiving and Christmas Eve, and does not observe Columbus Day.
+- **D11. No scraping of sources whose terms or robots.txt forbid it.** This
+  applies to the state inspection portal (see H11). This is plan section 12,
+  applied.
+- **D12. 311 promise sources.** Only memphistn.gov and other official city
+  documents are cited as promises. The pothole target (5–10 business days,
+  memphistn.gov) is the one official 311 target. Every other request type
+  is labelled a comparison against the citywide median until H14 is
+  resolved.
+- **D13. Phase order.** Phase 2 (food safety) is blocked on a records
+  request (H11), so the 311 pipeline (Phase 3) ships first. The
+  food-safety pipeline is still built and tested against the expected
+  export format, so it can run the day the data arrives.
+- **D14. Permit reconciliation target.** Memphis does not appear in the
+  Census Building Permits Survey as a place. Its permits are reported under
+  "Shelby County Unincorporated Area" (place 99990), which covers the joint
+  Memphis/Shelby DPD jurisdiction. Reconciliation therefore compares
+  new-residential-building counts for that joint jurisdiction, not for the
+  city alone.
 - **D8. Boundary rule.** A point within 1 m of more than one polygon goes to
   the lowest `geo_id` among them and is flagged `on_boundary`.
 - **D9. Censored durations.** Median time-to-close uses a Kaplan–Meier

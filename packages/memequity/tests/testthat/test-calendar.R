@@ -33,6 +33,27 @@ test_that("city holiday rules and explicit dates are read from the spec file", {
   expect_equal(nrow(city_holidays(2019, f)), 0)
 })
 
+test_that("the shared calendar reproduces the City of Memphis 2026 holiday schedule exactly", {
+  # Source: https://totalrewards.memphistn.gov/wp-content/uploads/2026/01/image-9.pdf
+  official_2026 <- as.Date(c("2026-01-01", "2026-01-19", "2026-02-16", "2026-04-03",
+                             "2026-04-06", "2026-05-25", "2026-06-19", "2026-07-03",
+                             "2026-09-07", "2026-11-11", "2026-11-26", "2026-11-27",
+                             "2026-12-24", "2026-12-25"))
+  cal <- holiday_calendar(2026)
+  expect_equal(sort(cal$date[format(cal$date, "%Y") == "2026"]), official_2026)
+  expect_false(as.Date("2026-10-12") %in% cal$date) # no Columbus Day
+  # New Year's Day 2027 is a Friday.
+  expect_true(as.Date("2027-01-01") %in% holiday_calendar(2027)$date)
+})
+
+test_that("inferred city rules shift weekend dates without collisions", {
+  cal <- holiday_calendar(2015:2030)
+  expect_false(anyDuplicated(cal$date) > 0)
+  expect_true(all(as.integer(format(cal$date, "%u")) <= 5))
+  # 2023: Dec 24 is a Sunday; Christmas observed Monday 25th, Eve Friday 22nd.
+  expect_true(all(as.Date(c("2023-12-22", "2023-12-25")) %in% cal$date))
+})
+
 test_that("business-day convention: (open date, close date]", {
   hol <- federal_holidays(2024:2026)$date
   bd <- function(a, b) business_days_between(as.Date(a), as.Date(b), hol)

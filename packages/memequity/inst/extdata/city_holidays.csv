@@ -1,1 +1,15 @@
-holiday,rule,date,first_year,last_year,source_url
+holiday,rule,date,first_year,last_year,verified_years,source_url
+new_years_day,new_years_day,,2015,,2026,https://totalrewards.memphistn.gov/wp-content/uploads/2026/01/image-9.pdf
+mlk_birthday,mlk_day,,2015,,2026,https://totalrewards.memphistn.gov/wp-content/uploads/2026/01/image-9.pdf
+presidents_day,presidents_day,,2015,,2026,https://totalrewards.memphistn.gov/wp-content/uploads/2026/01/image-9.pdf
+good_friday,good_friday,,2015,,2026,https://totalrewards.memphistn.gov/wp-content/uploads/2026/01/image-9.pdf
+mlk_memorial,mlk_memorial,,2015,,2026,https://totalrewards.memphistn.gov/wp-content/uploads/2026/01/image-9.pdf
+memorial_day,memorial_day,,2015,,2026,https://totalrewards.memphistn.gov/wp-content/uploads/2026/01/image-9.pdf
+juneteenth,juneteenth,,2021,,2026,https://totalrewards.memphistn.gov/wp-content/uploads/2026/01/image-9.pdf
+independence_day,independence_day,,2015,,2026,https://totalrewards.memphistn.gov/wp-content/uploads/2026/01/image-9.pdf
+labor_day,labor_day,,2015,,2026,https://totalrewards.memphistn.gov/wp-content/uploads/2026/01/image-9.pdf
+veterans_day,veterans_day,,2015,,2026,https://totalrewards.memphistn.gov/wp-content/uploads/2026/01/image-9.pdf
+thanksgiving,thanksgiving,,2015,,2026,https://totalrewards.memphistn.gov/wp-content/uploads/2026/01/image-9.pdf
+thanksgiving_holiday,day_after_thanksgiving,,2015,,2026,https://totalrewards.memphistn.gov/wp-content/uploads/2026/01/image-9.pdf
+christmas_eve,christmas_eve,,2015,,2026,https://totalrewards.memphistn.gov/wp-content/uploads/2026/01/image-9.pdf
+christmas_day,christmas_day,,2015,,2026,https://totalrewards.memphistn.gov/wp-content/uploads/2026/01/image-9.pdf

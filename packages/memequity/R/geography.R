@@ -49,7 +49,8 @@ load_boundaries <- function(geo_type, dir = geography_dir()) {
   b <- sf::st_read(file.path(dir, "boundaries", row$file), quiet = TRUE)
   b$geo_id <- as.character(b[[row$id_field]])
   b <- b[, c("geo_id", setdiff(names(b), c("geo_id", attr(b, "sf_column"))))]
-  sf::st_transform(b, MSE_CRS_LONLAT)
+  # Coordinate rounding on write can introduce slivers; repair on read.
+  sf::st_make_valid(sf::st_transform(b, MSE_CRS_LONLAT))
 }
 
 #' Build an sf point layer from longitude/latitude columns.

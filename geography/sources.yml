@@ -1,0 +1,34 @@
+# ArcGIS layers fetched by fetch_boundaries.R in addition to the Census sets.
+# Each entry must be confirmed against its publisher before enabled: true.
+# Sources: docs/research/311-permits-districts.md
+arcgis_layers:
+  - geo_type: council_district
+    enabled: true
+    url: https://services2.arcgis.com/saWmpKJIUAjyyNVc/arcgis/rest/services/Council_Districts_2023/FeatureServer/0
+    where: "1=1"
+    out_fields: CD
+    id_field: CD
+    expected_features: 7
+    file: council_district_memphis-datahub_2023.geojson
+    source: "City of Memphis Data Hub, Council_Districts_2023 (Ordinance 5870, 2023-06-30)"
+    vintage: "2023"
+  - geo_type: super_district
+    enabled: true
+    url: https://services2.arcgis.com/saWmpKJIUAjyyNVc/arcgis/rest/services/Super_District_2023/FeatureServer/0
+    where: "1=1"
+    out_fields: SD
+    id_field: SD
+    expected_features: 2
+    file: super_district_memphis-datahub_2023.geojson
+    source: "City of Memphis Data Hub, Super_District_2023 (Ordinance 5870, 2023-06-30)"
+    vintage: "2023"
+  - geo_type: commission_district
+    enabled: true
+    url: https://services2.arcgis.com/saWmpKJIUAjyyNVc/arcgis/rest/services/Commission_Districts_WEB/FeatureServer/0
+    where: "1=1"
+    out_fields: ShelbyCoun
+    id_field: ShelbyCoun
+    expected_features: 13
+    file: commission_district_memphis-datahub_2022.geojson
+    source: "City of Memphis Data Hub, Commission_Districts_WEB (post-2020 redistricting)"
+    vintage: "2022"

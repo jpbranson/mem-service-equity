@@ -1,0 +1,7 @@
+"geo_type","file","id_field","source","vintage","fetched"
+"zcta","zcta_census-tigerweb_2020.geojson","GEOID","Census TIGERweb tigerWMS_Census2020 layer 84","2020","2026-09-23"
+"tract","tract_census-tigerweb_2020.geojson","GEOID","Census TIGERweb tigerWMS_Census2020 layer 6","2020","2026-09-23"
+"citywide","citywide_census-tigerweb_2026.geojson","GEOID","Census TIGERweb tigerWMS_Current layer 28 (place 4748000)","2026","2026-09-23"
+"council_district","council_district_memphis-datahub_2023.geojson","CD","City of Memphis Data Hub, Council_Districts_2023 (Ordinance 5870, 2023-06-30)","2023","2026-09-23"
+"super_district","super_district_memphis-datahub_2023.geojson","SD","City of Memphis Data Hub, Super_District_2023 (Ordinance 5870, 2023-06-30)","2023","2026-09-23"
+"commission_district","commission_district_memphis-datahub_2022.geojson","ShelbyCoun","City of Memphis Data Hub, Commission_Districts_WEB (post-2020 redistricting)","2022","2026-09-23"
