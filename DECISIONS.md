@@ -46,7 +46,7 @@ made while building, so a reviewer can challenge them.
   giving an estimated completion date. Follow up if nothing arrives by then. The food-safety pipeline has not been built yet. It will be
   built to ingest that export (`pipelines/food-safety/`, reading from
   `pipelines/food-safety/inbox/`).
-- [ ] **H14. Official 311 service targets and on-time figure.** The plan's
+- [ ] **H14. Official 311 service targets and on-time figure.** *Deferred (D19).* The plan's
   "3–7 business days" and "82% on-time" figures trace to memphisgov.com, a
   commercial look-alike domain, not the city (see
   `docs/research/311-permits-districts.md`). The only official target found
@@ -59,7 +59,7 @@ made while building, so a reviewer can challenge them.
   (`hmd4-ddta`, 2016–2025) is offline. If the history matters, request a
   bulk export. It is not needed for the current metrics, which never cross
   the October 2023 migration.
-- [ ] **H16. MATA data terms and on-time definition.** MATA's GTFS and
+- [ ] **H16. MATA data terms and on-time definition.** *Deferred (D19).* MATA's GTFS and
   GTFS-RT feeds are open and keyless, but no license or developer terms were
   found; the only terms on file cover the GO901 app. Ask MATA to confirm
   that archiving the feeds and publishing derived metrics is acceptable. At
@@ -67,7 +67,7 @@ made while building, so a reviewer can challenge them.
   the "P-OTP 70%" dashboard figure are defined (on-time window, timepoints,
   early departures). *Polling has started* because the plan requires the
   baseline to start early; stop the `poll-mata` workflow if MATA objects.
-- [ ] **H17. MLGW courtesy notice.** No terms of use for the outage map were
+- [ ] **H17. MLGW courtesy notice.** *Deferred (D19).* No terms of use for the outage map were
   found. The poller identifies itself and polls every 5 minutes, which
   matches the map's update rate. Tell MLGW the project exists and ask
   whether a data feed with customer counts per area is available.
@@ -212,6 +212,16 @@ made while building, so a reviewer can challenge them.
   manifest, and the page then shows a preview banner. The deploy workflow
   refuses to publish a preview manifest. Raw nearby 311 requests are source
   records, not statistics, so they are shown either way.
+- **D19. Area comparison comes first; the promise framing is deferred.**
+  The current priority is understanding how the experience of city
+  services differs from one area to another. Whether the city meets an
+  official target comes second. This reverses the order of plan principle 1
+  ("promise vs. delivery"), not its guardrails: intervals, minimum n,
+  suppression, and no composite scores or rankings all still apply. Work on
+  per-area comparison, request-type mix and demographic context (ACS) goes
+  ahead of work that depends on official targets. H14 (311 targets), H16
+  (MATA terms and on-time definition) and H17 (MLGW notice) are deferred,
+  not dropped. `pct_within_target` stays in place, but it is not a priority.
 - **D8. Boundary rule.** A point within 1 m of more than one polygon goes to
   the lowest `geo_id` among them and is flagged `on_boundary`.
 - **D9. Censored durations.** Median time-to-close uses a Kaplan–Meier
