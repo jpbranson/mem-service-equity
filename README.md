@@ -23,7 +23,7 @@ so far. Source research is in [`docs/research/`](docs/research/).
 |---|---|---|
 | 0 | Geography layer, output schema, spec template, validation harness, business-day calendar | **Done.** `packages/memequity`, `geography/`, `specs/` |
 | 1 | MATA and MLGW pollers started | **Running.** GitHub Actions every 2 hours; raw data archived to weekly releases (`archive-mata-*`, `archive-mlgw-*`) |
-| 2 | Food safety site | **Blocked.** The state inspection portal forbids automated access, so the data needs a records request (DECISIONS.md H11). A draft is in `docs/records-requests/`; it has not been sent |
+| 2 | Food safety site | **Blocked.** The state inspection portal forbids automated access, so the data needs a records request (DECISIONS.md H11). The request in `docs/records-requests/` was sent on 2026-09-23 |
 | 3 | 311 pipeline and address lookup | **Built, not yet published.** Pipeline, address lookup, area comparison and methodology page all work. `deploy-site` runs daily and deploys to GitHub Pages. Every metric shows which publication conditions it still misses |
 | 4 | Permits | Not started (specs drafted; sources researched) |
 | 5 | MATA panel | Collecting; trip matching not started |

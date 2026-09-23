@@ -1,7 +1,7 @@
 # Records request: Shelby County food establishment inspections (H11)
 
-Status: **draft, not sent.** When it goes out, record the date, recipient and
-any reference number in DECISIONS.md H11.
+Status: **sent 2026-09-23.** The date, recipient and any reference number are
+recorded in DECISIONS.md H11.
 
 ## Before sending
 

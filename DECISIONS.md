@@ -37,8 +37,12 @@ made while building, so a reviewer can challenge them.
   The request should cover: permit number, establishment name, address,
   inspection date, inspection type/purpose, score and violations, for
   2021–present. Rule 1200-23-01-.08(4)(c)5 makes inspection reports public
-  documents. A draft request is in
-  `docs/records-requests/h11-food-inspections.md` (not sent). The food-safety pipeline has not been built yet. It will be
+  documents. The request is in
+  `docs/records-requests/h11-food-inspections.md`. *Sent 2026-09-23 to TDH;
+  no reference number yet.*
+  Under the Public Records Act the agency must respond within 7 business
+  days (by 2026-10-02) by producing the records, denying the request or
+  giving an estimated completion date. Follow up if nothing arrives by then. The food-safety pipeline has not been built yet. It will be
   built to ingest that export (`pipelines/food-safety/`, reading from
   `pipelines/food-safety/inbox/`).
 - [ ] **H14. Official 311 service targets and on-time figure.** The plan's
