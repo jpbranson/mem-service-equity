@@ -14,10 +14,9 @@ made while building, so a reviewer can challenge them.
   Create a bucket and add `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`,
   `R2_SECRET_ACCESS_KEY` and `R2_BUCKET` as repository secrets.
   *Blocks:* durable poller archives and versioned dataset storage. *Interim:*
-  pollers commit compressed daily files to the `data` branch of this repo
-  (see D7).
+  weekly and monthly GitHub release assets (see D7, D17).
 - [ ] **H2. GitHub Pages.** Enable Pages for this repo with source "GitHub
-  Actions". *Blocks:* the public site.
+  Actions". *Blocks:* the public site, which is not built yet.
 
 - [ ] **H12. Census API key.** The Census data API now requires a key for
   every request. Get a free key at https://api.census.gov/data/key_signup.html
@@ -83,8 +82,12 @@ made while building, so a reviewer can challenge them.
 - [ ] **H5. MATA stopwatch audit.** Record actual arrivals for an hour at
   three stops: a terminal, a mid-route stop and a timepoint. *Blocks:* the
   MATA panel launch.
-- [ ] **H6. Geocoder accuracy check.** Hand-check the 200-address sample in
-  `geography/geocoder_validation/` (plan 7).
+- [ ] **H6. Geocoder accuracy check (plan 7).** Hand-check a sample of 200
+  Memphis addresses geocoded by the Census geocoder. The sample has not been
+  drawn yet. The 311 pipeline does not need this, because it uses the city's
+  own request coordinates. The address lookup does need it. From a browser,
+  the Census geocoder works only through JSONP (it sends no CORS headers);
+  Nominatim is the fallback.
 - [ ] **H7. Independent reviewer.** Candidates are Data Midsouth, a
   University of Memphis faculty member or a former agency analyst (plan 13).
 - [ ] **H8. Agency courtesy previews.** Send each panel and its methodology
@@ -94,6 +97,15 @@ made while building, so a reviewer can challenge them.
 
 - [ ] **H9. Reference-neighborhood ZIP groupings.** The draft is in
   `geography/reference_neighborhoods.csv`. Confirm it or edit it.
+- [ ] **H19. Revise the MLGW specs before freezing.** The outage map
+  publishes points with an `OUTAGE_NO`, not polygons
+  (`docs/research/mata-mlgw.md`). The polygon event-chaining and
+  point-in-polygon joins in `specs/mlgw/` must become OUTAGE_NO chains and
+  radius/area joins.
+- [ ] **H20. Hand-verify the 311 golden file.** `pipelines/311/tests/golden/`
+  was frozen from the v0.1 code as a regression baseline. Plan 5.3 asks for
+  golden outputs checked by hand, so a reviewer should recompute a handful
+  of rows by hand.
 - [ ] **H10. Spec review and freeze.** Every spec under `specs/` is `draft`.
   A human reviewer must read each one, including its adversarial objections,
   and set it to `frozen`. No metric can publish until this happens (5.7).
@@ -101,9 +113,10 @@ made while building, so a reviewer can challenge them.
 ## Decisions made
 
 - **D1. Language split.** Batch pipelines and the shared core are in R, as
-  plan section 9 specifies. The MATA and MLGW pollers are Python standard
-  library only, because long-running collectors are easier to keep running
-  on GitHub Actions without an R toolchain.
+  plan section 9 specifies. The MATA and MLGW pollers are Python, because
+  long-running collectors are easier to keep running on GitHub Actions
+  without an R toolchain. Their only dependency is the official
+  `gtfs-realtime-bindings` protobuf package.
 - **D2. Shared core as an R package.** The geography layer, calendar, stats,
   validation harness, output writers, spec parser and publish gate live in
   `packages/memequity`.
@@ -112,9 +125,9 @@ made while building, so a reviewer can challenge them.
   and has to be identical for the R pipelines and the Python pollers. A small
   harness writing that JSON directly (`R/validation.R`) is simpler than
   converting pointblank output, and it keeps dependencies light.
-- **D4. Output schema extension.** `metrics_*.csv` adds a `variant` column
+- **D4. Output schema extension.** `metrics_*.csv` adds a `variant` column,
   so the threshold alternatives required by 5.1 sit beside the primary
-  series. `citywide_median` holds the citywide median for median metrics and
+  series, and a `subgroup` column (such as the 311 request type). `citywide_median` holds the citywide median for median metrics and
   the citywide pooled value for proportions and rates.
 - **D5. Business-day convention.** A request's age in business days counts
   the business days `d` with `open_date < d <= close_date`, in Memphis local

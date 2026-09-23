@@ -37,6 +37,11 @@ objections:
 Across a year, how many hours without power does the average customer near
 you experience (scaled per 1,000 customers)?
 
+**Revision needed before review (DECISIONS.md H19):** the outage map
+publishes one point per outage with a stable `OUTAGE_NO`, not polygons.
+Event segmentation and the address join below must be restated in those
+terms.
+
 ## Change log
 
 - 0.1 — first draft from design plan 6.2.

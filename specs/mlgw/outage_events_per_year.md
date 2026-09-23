@@ -43,6 +43,11 @@ How many times a year does the power go out in your area?
 **Blocked from publishing** until the poller has six months of history
 including at least one significant weather event (plan 6.2).
 
+**Revision needed before review (DECISIONS.md H19):** the outage map
+publishes one point per outage with a stable `OUTAGE_NO`, not polygons.
+Event segmentation and the address join below must be restated in those
+terms.
+
 ## Change log
 
 - 0.1 — first draft from design plan 6.2.
