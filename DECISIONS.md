@@ -20,11 +20,12 @@ made while building, so a reviewer can challenge them.
   The site and `.github/workflows/deploy-site.yml` are built; the first
   deploy runs once that workflow is pushed to `main`.
 
-- [ ] **H12. Census API key.** The Census data API now requires a key for
+- [x] **H12. Census API key.** The Census data API now requires a key for
   every request. Get a free key at https://api.census.gov/data/key_signup.html
   and add it as the repo secret `CENSUS_API_KEY`, or locally as an
   environment variable. *Blocks:* ACS population denominators, which are
-  needed for per-1,000-resident rates.
+  needed for per-1,000-resident rates. *Done 2026-09-23:* the repo secret
+  is set, and the key is also set locally in `~/.Renviron`.
 
 ### Records requests and agency contacts
 
