@@ -1,7 +1,8 @@
 name: poll-mlgw
 
 # Phase 1 collection (plan 6.2). Outage snapshots every 5 minutes; runs of
-# 140 minutes start every 2 hours so they overlap. The plan requires six
+# 170 minutes start every 2 hours, off the busy top of the hour, so they
+# overlap by 50 minutes and absorb cron delays up to that. The plan requires six
 # months of history including a significant weather event before the MLGW
 # panel can publish.
 
@@ -12,7 +13,7 @@ on:
     inputs:
       minutes:
         description: "Minutes to poll"
-        default: "140"
+        default: "170"
 
 permissions:
   contents: write
@@ -20,7 +21,7 @@ permissions:
 jobs:
   poll:
     runs-on: ubuntu-latest
-    timeout-minutes: 160
+    timeout-minutes: 190
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -29,7 +30,7 @@ jobs:
       - run: pip install -r pollers/requirements.txt
       - name: Poll
         working-directory: pollers
-        run: python mlgw_poller.py --minutes "${{ github.event.inputs.minutes || '140' }}" --out ../data/poller
+        run: python mlgw_poller.py --minutes "${{ github.event.inputs.minutes || '170' }}" --out ../data/poller
       - name: Archive to weekly release
         if: always()
         env:

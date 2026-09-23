@@ -1,19 +1,21 @@
 name: poll-mata
 
-# Phase 1 collection (plan 6.1). Each run polls for 140 minutes and runs
-# start every 2 hours, so consecutive runs overlap and absorb cron delays.
+# Phase 1 collection (plan 6.1). Each run polls for 170 minutes and runs
+# start every 2 hours, so consecutive runs overlap by 50 minutes and absorb
+# cron delays up to that. Runs start at 7 past the hour because GitHub delays,
+# and can drop, scheduled runs at the busy top of the hour.
 # Overlap produces duplicate reports, removed downstream on
 # (vehicle, timestamp). Every poll attempt is logged, so real gaps are
 # measurable.
 
 on:
   schedule:
-    - cron: "0 */2 * * *"
+    - cron: "7 */2 * * *"
   workflow_dispatch:
     inputs:
       minutes:
         description: "Minutes to poll"
-        default: "140"
+        default: "170"
 
 permissions:
   contents: write
@@ -21,7 +23,7 @@ permissions:
 jobs:
   poll:
     runs-on: ubuntu-latest
-    timeout-minutes: 160
+    timeout-minutes: 190
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -30,7 +32,7 @@ jobs:
       - run: pip install -r pollers/requirements.txt
       - name: Poll
         working-directory: pollers
-        run: python mata_poller.py --minutes "${{ github.event.inputs.minutes || '140' }}" --out ../data/poller
+        run: python mata_poller.py --minutes "${{ github.event.inputs.minutes || '170' }}" --out ../data/poller
       - name: Archive to weekly release
         if: always()
         env:

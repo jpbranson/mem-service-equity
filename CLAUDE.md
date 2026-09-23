@@ -62,7 +62,7 @@ CI (`.github/workflows/test-memequity.yml`) runs the package tests and then the 
 
 **Golden files.** `pipelines/311/tests/golden/` holds a frozen sample of real data and the metrics computed from it. Rebuild it with `Rscript pipelines/311/tests/build_golden.R <raw.rds>` **only** when a spec version changes, and say why in the commit message. A golden-test failure is otherwise a regression.
 
-**Pollers (`pollers/`).** `mata_poller.py` (GTFS-Realtime protobuf) and `mlgw_poller.py` (outage map) run on GitHub Actions. Each run lasts 140 minutes and runs start every 2 hours, so they overlap. Dedup happens downstream (D15). Every poll attempt is logged, including failures, because uptime is published and gaps must not look like ghost buses or restored outages. Output is gzip JSON-lines, written as one gzip member per flush so a crash cannot corrupt earlier data. The only third-party dependency is `gtfs-realtime-bindings`. Keep it that way.
+**Pollers (`pollers/`).** `mata_poller.py` (GTFS-Realtime protobuf) and `mlgw_poller.py` (outage map) run on GitHub Actions. Each run lasts 170 minutes and runs start every 2 hours (MATA at :07, MLGW at :30, off the busy top of the hour), so they overlap by 50 minutes to absorb GitHub's scheduling delays. Dedup happens downstream (D15). Every poll attempt is logged, including failures, because uptime is published and gaps must not look like ghost buses or restored outages. Output is gzip JSON-lines, written as one gzip member per flush so a crash cannot corrupt earlier data. The only third-party dependency is `gtfs-realtime-bindings`. Keep it that way.
 
 ## Project rules
 

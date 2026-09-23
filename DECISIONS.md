@@ -150,10 +150,17 @@ made while building, so a reviewer can challenge them.
   the wrong place for about 1 GB a year of raw data, and weekly releases
   stay under GitHub's 1,000-asset limit. Pipelines write published outputs
   to `data/published/`. Once H1 is done, the upload step switches to R2.
-- **D15. Pollers run on GitHub Actions** in 140-minute runs started every
-  2 hours, so consecutive runs overlap. Duplicates from the overlap are
-  removed downstream. Every poll attempt is logged (`*_polls_*`), and uptime
-  is computed from those logs.
+- **D15. Pollers run on GitHub Actions** in 170-minute runs started every
+  2 hours, so consecutive runs overlap by 50 minutes. GitHub delays scheduled
+  runs under load, most at the top of the hour, and can drop them. On the
+  first day, runs started up to 83 minutes late and some never started. The
+  runs were first 140 minutes long and are now 170, and MATA starts at :07 rather than :00.
+  Duplicates from the overlap are removed downstream. Every poll attempt is
+  logged (`*_polls_*`), and uptime is computed from those logs, so remaining
+  gaps are measured rather than hidden. Public repositories get unlimited
+  standard-runner minutes, but GitHub's terms bar GitHub-hosted runners from
+  work "unrelated to" the project. Moving the pollers to a self-hosted runner or
+  a small VM would remove both that question and the scheduling delays.
 - **D10. Business days follow the City of Memphis holiday calendar,** not
   the federal one, because 311 targets are the city's promise. The city
   observes Good Friday, MLK Memorial Day (April 4), the day after
