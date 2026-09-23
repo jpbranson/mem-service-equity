@@ -11,7 +11,7 @@ formula: >
   computation date: count(closed on or before the deadline) / count(all such
   requests). Requests still open past the deadline count as late.
 windows: [90d, 12m]
-geographies: [citywide, zcta, council_district, h3_8]
+geographies: [citywide, zcta, council_district, h3_9]
 min_n: 30
 promise:
   kind: official

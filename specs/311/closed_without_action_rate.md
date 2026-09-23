@@ -10,7 +10,7 @@ formula: >
   count(closed requests), per request type, over deduplicated requests closed
   in the window.
 windows: [90d, 12m]
-geographies: [citywide, zcta, council_district, h3_8]
+geographies: [citywide, zcta, council_district, h3_9]
 min_n: 30
 promise:
   kind: comparison

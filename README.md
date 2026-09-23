@@ -12,7 +12,7 @@ their promises, and whether the answer changes with where you live:
 5. **Investment.** Is the neighborhood being maintained and invested in?
 
 The full design is in
-[`memphis-service-equity-design-plan.md`](memphis-service-equity-design-plan.md).
+[`memphis-service-equity-design-plan-v0.2.md`](memphis-service-equity-design-plan-v0.2.md).
 [`DECISIONS.md`](DECISIONS.md) lists what needs a human (credentials,
 records requests, audits, spec sign-off) and the implementation choices made
 so far. Source research is in [`docs/research/`](docs/research/).

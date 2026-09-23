@@ -35,8 +35,9 @@ made while building, so a reviewer can challenge them.
   The request should cover: permit number, establishment name, address,
   inspection date, inspection type/purpose, score and violations, for
   2021–present. Rule 1200-23-01-.08(4)(c)5 makes inspection reports public
-  documents. The pipeline is built to ingest that export
-  (`pipelines/food-safety/`); drop files into `pipelines/food-safety/inbox/`.
+  documents. The food-safety pipeline has not been built yet. It will be
+  built to ingest that export (`pipelines/food-safety/`, reading from
+  `pipelines/food-safety/inbox/`).
 - [ ] **H14. Official 311 service targets and on-time figure.** The plan's
   "3–7 business days" and "82% on-time" figures trace to memphisgov.com, a
   commercial look-alike domain, not the city (see
@@ -162,8 +163,9 @@ made while building, so a reviewer can challenge them.
   resolved.
 - **D13. Phase order.** Phase 2 (food safety) is blocked on a records
   request (H11), so the 311 pipeline (Phase 3) ships first. The
-  food-safety pipeline is still built and tested against the expected
-  export format, so it can run the day the data arrives.
+  food-safety pipeline is not built yet. When it is, it will be built and
+  tested against the expected export format, so it can run the day the data
+  arrives.
 - **D14. Permit reconciliation target.** Memphis does not appear in the
   Census Building Permits Survey as a place. Its permits are reported under
   "Shelby County Unincorporated Area" (place 99990), which covers the joint

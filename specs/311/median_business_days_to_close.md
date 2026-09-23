@@ -10,7 +10,7 @@ formula: >
   over deduplicated requests opened in the window. Requests still open at
   computation time are right-censored at their current age.
 windows: [90d, 12m]
-geographies: [citywide, zcta, council_district, h3_8]
+geographies: [citywide, zcta, council_district, h3_9]
 min_n: 20
 promise:
   kind: comparison

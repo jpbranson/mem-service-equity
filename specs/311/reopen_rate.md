@@ -10,7 +10,7 @@ formula: >
   before computation, the share followed by a new request of the same type
   within 50 m within 30 days of the close.
 windows: [90d, 12m]
-geographies: [citywide, zcta, council_district, h3_8]
+geographies: [citywide, zcta, council_district, h3_9]
 min_n: 30
 promise:
   kind: comparison
