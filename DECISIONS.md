@@ -246,6 +246,13 @@ made while building, so a reviewer can challenge them.
   low-reliability flag above a 40% coefficient of variation.
   `requests_per_1000` uses the same in-city populations and is suppressed
   below 1,000 in-city residents (spec v0.2).
+- **D21. USPS mail performance is not used for now.** Since September 2025
+  USPS's dashboard has shown on-time mail rates by 5-digit ZIP. The values
+  have no counts, their margins of error cannot be reproduced, USPS's terms
+  require written permission to republish, and the plan's scope test
+  (section 12) covers only promises made by the city or a utility. The owner
+  decided on 2026-09-25 not to use the data for now. The details, and what a
+  panel would need, are in `docs/research/usps-service-performance.md`.
 - **D8. Boundary rule.** A point within 1 m of more than one polygon goes to
   the lowest `geo_id` among them and is flagged `on_boundary`.
 - **D9. Censored durations.** Median time-to-close uses a Kaplan–Meier

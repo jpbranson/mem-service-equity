@@ -2,9 +2,10 @@
 
 _Verified 2026-09-25 by querying the USPS dashboard's own endpoints and
 reading the statute, regulations and Inspector General reports, unless
-marked otherwise._ This is a **candidate source, not part of the plan**. The
-note answers "would USPS service performance data be a valuable addition?"
-so the question does not have to be researched again.
+marked otherwise._ This is a **candidate source, not part of the plan**.
+**It is not used for now** (owner's decision, 2026-09-25; DECISIONS D21).
+The note answers "would USPS service performance data be a valuable
+addition?" so the question does not have to be researched again.
 
 ## Headline findings
 
@@ -30,7 +31,7 @@ so the question does not have to be researched again.
    disadvantage. If anything they run the other way, and part of that
    pattern comes from the mix of mail each ZIP receives.
 5. **Recommendation: do not add USPS as a sixth panel now.** See the last
-   section. Whether to change scope is the owner's decision.
+   section. The owner agreed on 2026-09-25 (D21).
 
 ## What USPS publishes
 
