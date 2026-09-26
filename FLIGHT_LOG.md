@@ -31,9 +31,9 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
 | 3b | USPS branch: review, then merge into local `main` (or recommend deletion) | [x] merged locally; remote branch deletion left to user |
 | 1 | 311 reconciliation: find an official figure, record a D-entry, wire it into the gate | [ ] |
 | 2a | H10 spec freeze: pre-review packet for the 311 specs | [p] packet written; freeze is the reviewer's |
-| 2b | H3 manual audit: 100-record sample with an automated source trace | [ ] |
+| 2b | H3 manual audit: 100-record sample with an automated source trace | [p] 100/100 pass the pre-trace; manual audit open |
 | 2c | H20 golden file: independent recomputation of sample rows | [p] all 515 rows agree; hand check open |
-| 2d | H9 reference ZIPs: evidence packet | [ ] |
+| 2d | H9 reference ZIPs: evidence packet | [p] packet written; decision is the user's |
 | 2e | H6 geocoder check: draw the 200-address sample, automated comparison | [ ] |
 | 2f | H7 reviewer: outreach draft | [p] draft written; not sent |
 | 2g | H8 courtesy preview: letter draft | [p] draft + public log written; not sent |
