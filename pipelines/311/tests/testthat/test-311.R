@@ -140,6 +140,50 @@ test_that("golden file: a frozen sample of real data reproduces the frozen outpu
   expect_equal(m$ci_high, want$ci_high, tolerance = 1e-9)
 })
 
+test_that("SPEC_VERSIONS matches the version in each spec", {
+  specs <- memequity::read_specs("311", file.path(repo_root, "specs"))
+  for (id in names(SPEC_VERSIONS))
+    expect_identical(as.character(specs[[id]]$version), SPEC_VERSIONS[[id]], info = id)
+})
+
+official_file <- function(rows) {
+  path <- tempfile(fileext = ".csv")
+  base <- data.frame(figure_id = "f", measure = "requests_created", subgroup = "",
+                     period_start = "2026-06-01", period_end = "2026-06-30", value = "0",
+                     precision = "1", definition = "requests created", source_title = "Test",
+                     source_url = "https://memphistn.gov/test", source_page = "", published = "2026-07-01",
+                     transcribed = "2026-09-25", gap_note = "", stringsAsFactors = FALSE)
+  out <- base[rep(1, nrow(rows)), ]
+  for (col in names(rows)) out[[col]] <- rows[[col]]
+  utils::write.csv(out, path, row.names = FALSE)
+  path
+}
+
+test_that("reconciliation recomputes official counts by local date, type and category", {
+  raw <- rbind(
+    make_raw(created = "2026-05-31 23:30"),                                   # May, local
+    make_raw(created = "2026-06-01 00:30"),                                   # June, local
+    make_raw(created = "2026-06-30 23:59", type = "EE-Illegal Dumping"),
+    make_raw(created = "2026-06-15 10:00", type = "SWM-Garbage Missed", sysrev = "DUPLICATE"),
+    make_raw(created = "2026-07-01 00:01"))                                   # July
+  path <- official_file(data.frame(
+    figure_id = c("all", "potholes", "two_types", "swm"),
+    subgroup = c("", "PW (SM)-Potholes", "PW (SM)-Potholes|EE-Illegal Dumping", "category:SWM"),
+    value = c("3", "1", "2", "2")))
+  r <- reconcile_311(raw, cfg, path, as.Date("2026-09-25"))
+  expect_equal(r$our_value, c(3, 1, 2, 1))          # duplicates count: the City counts records
+  expect_equal(r$documented, c(TRUE, TRUE, TRUE, FALSE))
+  expect_null(reconcile_311(raw, cfg, tempfile(), as.Date("2026-09-25")))
+})
+
+test_that("reconciliation refuses figures from before the 2023 migration", {
+  path <- official_file(data.frame(figure_id = "fy24", period_start = "2023-07-01",
+                                   period_end = "2024-06-30"))
+  expect_error(reconcile_311(make_raw(), cfg, path, as.Date("2026-09-25")), "migration")
+  bad <- official_file(data.frame(figure_id = "x", measure = "calls_answered"))
+  expect_error(reconcile_311(make_raw(), cfg, bad, as.Date("2026-09-25")), "calls_answered")
+})
+
 test_that("requests per 1,000 residents: known counts, zeros and the population floor", {
   through <- as.Date("2026-06-30")
   df <- data.frame(

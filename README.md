@@ -105,7 +105,12 @@ A metric appears on the site only when all six conditions hold:
 3. Its tests and golden files pass.
 4. Its `n` clears the minimum and it has an interval.
 5. Its reconciliation against an official figure is less than a quarter old.
-6. Its manual audit is committed.
+   Each spec names the figures it is checked against. The pipeline
+   recomputes them on every run from
+   `pipelines/<pipeline>/reconciliation/official_figures.csv`. A gap over
+   2% must be explained (DECISIONS D22).
+6. Its manual audit is committed and complete: at least 100 records, every
+   check answered, and every discrepancy explained (D23).
 
 Otherwise the panel shows which condition is missing. See
 `packages/memequity/R/publish.R`.

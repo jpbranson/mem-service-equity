@@ -16,6 +16,11 @@ promise:
   kind: official
   text: Power stays on.
   source_url: ""
+reconciliation:
+  measures: [saidi, saifi]
+  text: >
+    Plan 5.5: event counts and customer-hours against the reliability indices (SAIDI,
+    SAIFI) in MLGW's annual reports or TVA filings.
 thresholds:
   - name: minimum event size
     primary: "any event with >= 1 customer affected"
@@ -51,3 +56,4 @@ terms.
 ## Change log
 
 - 0.1 — first draft from design plan 6.2.
+- 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.

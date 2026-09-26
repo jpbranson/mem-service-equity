@@ -16,6 +16,13 @@ promise:
   kind: comparison
   text: No official standard. A problem that comes back soon after being closed suggests it was not fixed.
   source_url: ""
+reconciliation:
+  measures: [requests_created]
+  text: >
+    Service request counts the City publishes, recomputed from the same 311 records
+    (DECISIONS.md D22). This checks the fetch, the request-type mapping and the date
+    handling behind this metric. It does not check timing or dispositions; the manual
+    audit (H3) covers those.
 thresholds:
   - name: re-report window
     primary: "30 days"
@@ -35,7 +42,7 @@ objections:
   - objection: "A new pothole 40 m away is a new pothole, not a reopen."
     response: "Published at 25 m, 50 m and 100 m; if the conclusion depends on the radius, the panel says so."
   - objection: "Our system has an explicit reopen status; use it."
-    response: "If the source exposes one it becomes the primary definition and the spatial re-report rule becomes the alternative (see docs/research/311.md)."
+    response: "If the source exposes one it becomes the primary definition and the spatial re-report rule becomes the alternative (see docs/research/311-permits-districts.md)."
   - objection: "Engaged neighborhoods re-report more."
     response: "The metric is shown as a comparison alongside request volume, never as a quality ranking."
 ---
@@ -47,3 +54,4 @@ Of the requests closed near you, how many came back within a month?
 ## Change log
 
 - 0.1 — first draft from design plan 6.3.
+- 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22); corrected file references. No change to the definition.

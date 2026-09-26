@@ -19,6 +19,13 @@ promise:
     window. Where an official target exists (potholes, 5-10 business days)
     it is shown beside the median.
   source_url: "https://memphistn.gov/potholes-repairs-winter-weather"
+reconciliation:
+  measures: [requests_created]
+  text: >
+    Service request counts the City publishes, recomputed from the same 311 records
+    (DECISIONS.md D22). This checks the fetch, the request-type mapping and the date
+    handling behind this metric. It does not check timing or dispositions; the manual
+    audit (H3) covers those.
 thresholds: []
 inclusions:
   - Deduplicated primary requests of the given type opened in the window.
@@ -53,3 +60,4 @@ business days.
 ## Change log
 
 - 0.1 — first draft from design plan 6.3.
+- 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.

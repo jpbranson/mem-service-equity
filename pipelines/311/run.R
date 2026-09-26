@@ -59,6 +59,18 @@ rep <- check_referential(rep, types_seen, cfg$request_types$request_type,
 rep <- check_referential(rep, ifelse(is.na(raw$REQUEST_STATUS), "", raw$REQUEST_STATUS),
                          cfg$status_map$status, "every status is mapped in config/status_map.csv")
 
+# ---- external reconciliation (plan 5.5, DECISIONS.md D22) ---------------------
+# Official City figures, recomputed from the same raw layer. A gap outside
+# tolerance does not stop the run; it keeps the dependent metrics unpublished
+# until it is explained in official_figures.csv.
+recon <- reconcile_311(raw, cfg, file.path(here, "reconciliation", "official_figures.csv"), as_of)
+for (i in seq_len(NROW(recon)))
+  rep <- add_check(rep, paste("reproduces official figure", recon$figure_id[i]), "reconciliation",
+                   recon$documented[i],
+                   as.list(recon[i, c("official_value", "our_value", "gap", "relative_gap",
+                                      "within_tolerance")]),
+                   severity = "warning")
+
 # ---- normalize and attach geography ----------------------------------------
 log("normalizing")
 sr <- normalize_311(raw, cfg, as_of)
@@ -126,18 +138,24 @@ write_points(recent, "311", out_dir,
 
 # ---- methodology, audit worksheets, publish status --------------------------
 specs_dir <- "specs"
-render_methodology("311", specs_dir, out_dir, title = "City services (311)",
-                   reconciliation = list(
-                     date = format(as_of), reference = "No official citywide on-time figure found (DECISIONS.md H14)",
-                     reference_value = "n/a", our_value = "n/a", gap = "n/a",
-                     note = "The figures sometimes quoted (82% on-time) come from a non-city domain and are not used."))
+if (!is.null(recon)) write_reconciliation(recon, "311", out_dir)
+render_methodology("311", specs_dir, out_dir, title = "City services (311)", reconciliation = recon,
+                   reconciliation_note = paste(
+                     if (is.null(recon)) "No official City figure about 311 has been transcribed yet."
+                     else paste("Each figure below was published by the City and is recomputed from the",
+                                "same 311 records on every run (DECISIONS.md D22)."),
+                     "No official on-time percentage or service-level table was found (H14), so",
+                     "`pct_within_target` cannot be reconciled yet. The 82% on-time figure sometimes",
+                     "quoted comes from memphisgov.com, which is not a City site, and is not used."))
 write_audit_worksheets(pts, raw, file.path(out_dir, "audit"), as_of)
 
 specs <- read_specs("311", specs_dir)
-audit_file <- list.files(file.path(here, "audits"), pattern = "^audit_.*\\.csv$", full.names = TRUE)
+# The newest committed audit counts (file names carry the run date).
+audit_file <- sort(list.files(file.path(here, "audits"), pattern = "^audit_.*\\.csv$", full.names = TRUE),
+                   decreasing = TRUE)
 gates <- lapply(specs, function(s) publish_gate(
   s, finalize_report(rep), tests_passed = identical(Sys.getenv("TESTS_PASSED"), "true"),
-  metrics = m[m$metric == s$id, ], reconciliation = NULL,
+  metrics = m[m$metric == s$id, ], reconciliation = spec_reconciliation(s, recon),
   audit_path = if (length(audit_file)) audit_file[1] else NULL, as_of = as_of))
 write_publish_status(gates, "311", out_dir)
 log("done")

@@ -17,6 +17,11 @@ promise:
   kind: comparison
   text: No official standard. More demolition than new construction suggests disinvestment; compared against citywide.
   source_url: ""
+reconciliation:
+  measures: [census_bps_new_residential]
+  text: >
+    Plan 5.5 and DECISIONS.md D14: new residential building counts for the joint
+    Memphis/Shelby jurisdiction against the Census Building Permits Survey (place 99990).
 thresholds: []
 inclusions:
   - Issued demolition and new-construction building permits, residential and commercial (also shown separately).
@@ -42,3 +47,4 @@ permitted to be torn down?
 ## Change log
 
 - 0.1 — first draft from design plan 6.5.
+- 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.

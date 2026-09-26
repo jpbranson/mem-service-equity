@@ -18,6 +18,13 @@ promise:
   kind: comparison
   text: Not a performance measure. Shown separately and labelled as demand.
   source_url: ""
+reconciliation:
+  measures: [requests_created]
+  text: >
+    Service request counts the City publishes, recomputed from the same 311 records
+    (DECISIONS.md D22). This checks the fetch, the request-type mapping and the date
+    handling behind this metric. It does not check timing or dispositions; the manual
+    audit (H3) covers those.
 thresholds: []
 inclusions:
   - Deduplicated primary requests; raw counts published alongside.
@@ -39,7 +46,7 @@ objections:
   - objection: "Population denominators are wrong for downtown and commercial areas."
     response: "The rate is shown with the raw count and the denominator; ZCTAs with small residential populations are flagged."
   - objection: "City crews file requests too, inflating some areas."
-    response: "If the source distinguishes internal from resident-originated requests, the metric is split by origin (see docs/research/311.md)."
+    response: "If the source distinguishes internal from resident-originated requests, the metric is split by origin (see docs/research/311-permits-districts.md)."
 ---
 
 ## Definition
@@ -53,3 +60,4 @@ This measures demand, not how well the city responds.
 - 0.2 — denominator defined as residents inside the city (ACS 2020–2024,
   apportioned through 2020 blocks, D20); added super districts and reference
   neighborhoods; added the 1,000-resident floor.
+- 0.2, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22); corrected file references. No change to the definition.

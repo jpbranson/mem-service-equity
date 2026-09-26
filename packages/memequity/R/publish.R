@@ -33,7 +33,38 @@ publish_gate <- function(spec, report, tests_passed, metrics, reconciliation = N
     missing <- c(missing, "reconciliation gap is not documented")
   if (is.null(audit_path) || !file.exists(audit_path))
     missing <- c(missing, "pre-launch manual audit is not committed")
+  else if (length(ap <- audit_problems(audit_path)))
+    missing <- c(missing, paste("pre-launch manual audit is incomplete:", ap[1]))
   list(metric = spec$id, publishable = !length(missing), missing = missing)
+}
+
+AUDIT_MIN_RECORDS <- 100L
+AUDIT_ANSWERS <- c("yes", "no", "n/a")
+
+#' Problems with a committed manual-audit sheet (empty when complete).
+#'
+#' Plan 5.6: at least 100 records traced by hand. The check columns are the
+#' ones whose names start with a digit and an underscore (e.g.
+#' `1_found_in_source`). A complete sheet answers every check on every row
+#' with yes, no or n/a, names the auditor on every row, and explains every
+#' "no" in `notes`. A blank worksheet copied into place is not an audit.
+#' @export
+audit_problems <- function(path, min_records = AUDIT_MIN_RECORDS) {
+  a <- utils::read.csv(path, stringsAsFactors = FALSE, colClasses = "character",
+                       na.strings = character(), check.names = FALSE, encoding = "UTF-8")
+  checks <- grep("^[0-9]+_", names(a), value = TRUE)
+  p <- character()
+  if (nrow(a) < min_records) p <- c(p, sprintf("%d records traced, %d needed", nrow(a), min_records))
+  if (!length(checks)) return(c(p, "no check columns (named like 1_found_in_source)"))
+  if (!"auditor" %in% names(a) || any(!nzchar(trimws(a$auditor))))
+    p <- c(p, "auditor is missing on some rows")
+  answers <- tolower(trimws(unlist(a[checks], use.names = FALSE)))
+  if (any(!answers %in% AUDIT_ANSWERS))
+    p <- c(p, sprintf("%d check answers are blank or not yes/no/n/a", sum(!answers %in% AUDIT_ANSWERS)))
+  no <- apply(a[checks], 1, function(r) any(tolower(trimws(r)) == "no"))
+  notes <- if ("notes" %in% names(a)) nzchar(trimws(a$notes)) else rep(FALSE, nrow(a))
+  if (any(no & !notes)) p <- c(p, sprintf("%d rows answer no without a note", sum(no & !notes)))
+  p
 }
 
 #' Write publish_status_<pipeline>.json for the front end.

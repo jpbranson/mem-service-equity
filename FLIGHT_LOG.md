@@ -30,7 +30,7 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
 | 0 | Baseline: package, 311 and poller tests pass locally | [x] |
 | 3b | USPS branch: review, then merge into local `main` (or recommend deletion) | [x] merged locally; remote branch deletion left to user |
 | 1 | 311 reconciliation: find an official figure, record a D-entry, wire it into the gate | [ ] |
-| 2a | H10 spec freeze: pre-review packet for the 311 specs | [ ] |
+| 2a | H10 spec freeze: pre-review packet for the 311 specs | [p] packet written; freeze is the reviewer's |
 | 2b | H3 manual audit: 100-record sample with an automated source trace | [ ] |
 | 2c | H20 golden file: independent recomputation of sample rows | [p] all 515 rows agree; hand check open |
 | 2d | H9 reference ZIPs: evidence packet | [ ] |
@@ -105,8 +105,24 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
     `requests_per_1000`, so it waits for a fresh pipeline run (after
     step 1).
 
+- 21:30 CT. Step 1 code done except the figures themselves (uncommitted):
+  `pipelines/311/R/reconcile.R` (`requests_created` measure; refuses
+  pre-migration figures), wired into `run.R` (warning-level validation
+  checks, `reconciliation_311.csv`, methodology, per-spec gate input;
+  newest committed audit wins), `pipelines/311/reconciliation/README.md`,
+  311 spec declarations (`requests_created` for the four comparison
+  metrics, `on_time_rate` for `pct_within_target`), tests: repo-wide spec
+  check, SPEC_VERSIONS sync, reconciliation tests. All suites pass.
+- 21:30 CT. Step 2a prepared: `docs/reviews/h10-311-specs/README.md`.
+  Key finding: 16,774 closed requests have no close date and they cluster
+  in time (Dec 2025 60%, Jan 2026 46%), so 12-month timing metrics drop
+  about half of those months. Also found: geographies, citywide scope and
+  same-day re-report mismatches between specs and code. Fixed broken
+  references in 4 specs (text only), change-log line added to every spec.
+
 ## Next action
 
-Step 1: wait for the research result, then finish the 311 part (list
-under 19:40). Then one fresh 311 run (as of 2026-09-25) feeds steps 2b
-(H3 trace), 2d (H9 packet) and the reconciliation numbers.
+Step 1: still waiting on the research agent for official figures. When it
+reports: fill `pipelines/311/reconciliation/official_figures.csv` (header
+only until then), write D22 (reconciliation) and D23 (audit completeness),
+update README/CLAUDE.md, run the pipeline fresh, commit. Then 2b, 2d, 2e.

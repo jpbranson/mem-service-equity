@@ -18,6 +18,12 @@ promise:
     Food establishments are inspected regularly and pass. Tennessee rules set
     the score below which a follow-up inspection is required.
   source_url: ""
+reconciliation:
+  measures: [inspection_counts]
+  text: >
+    Plan 5.5 names weekly inspection counts in WREG's published roundups and a hand
+    spot-check of scores against the state site. WREG is not an official source, so an
+    official count (TDH or the Shelby County Health Department) is still to be identified.
 thresholds:
   - name: follow-up threshold
     primary: "the state's follow-up score (confirm and cite; see docs/research/food-safety.md)"
@@ -50,3 +56,4 @@ inspection?
 ## Change log
 
 - 0.1 — first draft from design plan 6.4.
+- 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.

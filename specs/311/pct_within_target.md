@@ -19,16 +19,23 @@ promise:
     "The goal aims to address all reported potholes within 5-10 business
     days." (City of Memphis). This is the only official 311 target found;
     other request types get a target only when an official source is
-    confirmed (DECISIONS.md H14, D12). Targets live in
-    pipelines/311/config/targets.csv with a source URL per row.
+    confirmed (DECISIONS.md H14, D12). Targets live in the target_low_bd,
+    target_high_bd and target_source_url columns of
+    pipelines/311/config/request_types.csv.
   source_url: "https://memphistn.gov/potholes-repairs-winter-weather"
+reconciliation:
+  measures: [on_time_rate]
+  text: >
+    The City's own on-time percentage for the same request types, reproduced from the
+    same data (plan 5.5). None has been found (DECISIONS.md H14), so this metric cannot
+    be reconciled or published yet.
 thresholds:
   - name: which end of the published range is the deadline
     primary: "upper bound (10 business days for potholes)"
     alternatives: ["lower bound (5 business days for potholes)", "the city's own on-time rule, once identified"]
     arbitrary: true
 inclusions:
-  - Requests whose type has an official published target in pipelines/311/config/targets.csv.
+  - Requests whose type has an official published target in pipelines/311/config/request_types.csv.
   - Deduplicated primary requests only (shared near-duplicate rule, DECISIONS.md D6).
   - Requests with an accepted geocode (for sub-city geographies); all requests for citywide.
 exclusions:
@@ -77,3 +84,4 @@ threshold.
 ## Change log
 
 - 0.1 — first draft from design plan 6.3.
+- 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22); corrected file references. No change to the definition.

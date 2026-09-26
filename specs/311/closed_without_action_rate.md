@@ -16,6 +16,13 @@ promise:
   kind: comparison
   text: No official standard. Compared against the citywide rate for the same type and window.
   source_url: ""
+reconciliation:
+  measures: [requests_created]
+  text: >
+    Service request counts the City publishes, recomputed from the same 311 records
+    (DECISIONS.md D22). This checks the fetch, the request-type mapping and the date
+    handling behind this metric. It does not check timing or dispositions; the manual
+    audit (H3) covers those.
 thresholds:
   - name: disposition mapping
     primary: "mapping established by the manual disposition audit (DECISIONS.md H4)"
@@ -42,9 +49,12 @@ Of the requests closed near you, what share were closed without the city
 doing the work?
 
 **Blocked:** this metric cannot move past draft until the manual
-disposition audit (DECISIONS.md H4) is done. The draft code mapping lives in
-`pipelines/311/config/disposition_map.csv`.
+disposition audit (DECISIONS.md H4) is done. The mapping will live in
+`pipelines/311/config/disposition_map.csv`, which does not exist yet. The
+worksheet for the audit is generated on every run
+(`audit/disposition_worksheet_<date>.csv`).
 
 ## Change log
 
 - 0.1 — placeholder definition from design plan 6.3.
+- 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22); corrected file references. No change to the definition.

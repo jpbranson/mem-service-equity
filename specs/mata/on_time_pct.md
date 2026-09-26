@@ -17,6 +17,12 @@ promise:
   kind: official
   text: The bus arrives at the scheduled time at the scheduled stop (the published GTFS schedule).
   source_url: ""
+reconciliation:
+  measures: [scheduled_trips, reported_on_time]
+  text: >
+    Plan 5.5: observed against scheduled trips per route per day (GTFS static), and any
+    on-time figure MATA reports to the National Transit Database or its board (definition
+    pending, DECISIONS.md H16).
 thresholds:
   - name: on-time window
     primary: "[-1, +5] minutes (industry convention)"
@@ -54,3 +60,4 @@ Early departures from timepoints are the "-1 minute" edge.
 ## Change log
 
 - 0.1 — first draft from design plan 6.1.
+- 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.

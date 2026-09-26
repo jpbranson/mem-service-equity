@@ -16,6 +16,11 @@ promise:
   kind: official
   text: When power goes out, it is restored by the estimated time shown on the outage map.
   source_url: ""
+reconciliation:
+  measures: [saidi, saifi]
+  text: >
+    Plan 5.5: event counts and customer-hours against the reliability indices (SAIDI,
+    SAIFI) in MLGW's annual reports or TVA filings.
 thresholds:
   - name: reference estimate
     primary: "first published ETR"
@@ -49,3 +54,4 @@ terms.
 ## Change log
 
 - 0.1 — first draft from design plan 6.2.
+- 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.

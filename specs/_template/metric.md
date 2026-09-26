@@ -17,6 +17,12 @@ promise:
   kind: official        # official (a stated standard) | comparison (citywide median only)
   text: The promise, quoted or paraphrased from its source.
   source_url: ""        # required for a frozen official promise
+reconciliation:
+  # Official figures this metric is checked against (plan 5.5, DECISIONS D22).
+  # Each measure names rows of pipelines/<pipeline>/reconciliation/official_figures.csv;
+  # with no such row the metric cannot publish (condition 5).
+  measures: [measure_id]
+  text: Which official figure the pipeline reproduces, and what that checks.
 thresholds:
   - name: example threshold
     primary: "value used for the headline"

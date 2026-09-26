@@ -16,6 +16,12 @@ promise:
   kind: official
   text: Every scheduled trip runs.
   source_url: ""
+reconciliation:
+  measures: [scheduled_trips, reported_on_time]
+  text: >
+    Plan 5.5: observed against scheduled trips per route per day (GTFS static), and any
+    on-time figure MATA reports to the National Transit Database or its board (definition
+    pending, DECISIONS.md H16).
 thresholds:
   - name: observation tolerance
     primary: "+/-15 minutes at any timepoint"
@@ -44,3 +50,4 @@ Of the buses scheduled to serve the stops near you, how many never appeared?
 ## Change log
 
 - 0.1 — first draft from design plan 6.1.
+- 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.

@@ -253,6 +253,42 @@ made while building, so a reviewer can challenge them.
   (section 12) covers only promises made by the city or a utility. The owner
   decided on 2026-09-25 not to use the data for now. The details, and what a
   panel would need, are in `docs/research/usps-service-performance.md`.
+- **D22. Reconciliation is declared per metric and recomputed every run.**
+  Publication condition 5 needs an official figure to reconcile against. The
+  plan's only 311 reconciliation, the City's on-time percentage, does not
+  exist (H14, deferred by D19). With nothing to reconcile against, no 311
+  metric could ever publish, and `run.R` passed no reconciliation at all.
+  - Each spec now has a required `reconciliation` block: `measures` (what it
+    is checked against) and `text` (why that checks it).
+  - Official figures are copied by hand into
+    `pipelines/<pipeline>/reconciliation/official_figures.csv`, with the
+    source, page and the definition the source states.
+  - The pipeline recomputes each figure from the same raw records on every
+    run (`memequity::reconcile_figures`).
+  - A gap is within tolerance at 2% of the official value or half its
+    rounding unit, whichever is larger (the same 2% as the ACS check in
+    D20). A larger gap keeps the dependent metrics unpublished until a
+    `gap_note` records what the investigation found (plan 5.5).
+  - For 311, the four comparison metrics are reconciled against official
+    **request counts** (`requests_created`). That verifies the fetch, the
+    type mapping and the date handling, not timing or dispositions, which
+    rest on the manual audit (H3). Accepting a count for a timing metric is
+    for the spec reviewer to confirm (H10).
+  - `pct_within_target` still needs the City's own on-time figure.
+  - Because the check reruns every run, "less than a quarter old" is always
+    met. The period and publication date of each official figure are shown
+    on the methodology page, so a stale figure is visible.
+  - Figures that start before the 2023-10-16 migration are refused.
+- **D23. A committed audit counts only when complete.** The publish gate
+  used to accept any file named `audit_*.csv` in a pipeline's `audits/`
+  folder, so the blank worksheet copied into place would have met condition
+  6. `memequity::audit_problems()` now requires all of the following:
+  - at least 100 rows;
+  - every check column (`1_…`, `2_…`) answered yes, no or n/a;
+  - an auditor on every row;
+  - a note on every "no".
+
+  When several audits are committed, the newest file name wins.
 - **D8. Boundary rule.** A point within 1 m of more than one polygon goes to
   the lowest `geo_id` among them and is flagged `on_boundary`.
 - **D9. Censored durations.** Median time-to-close uses a Kaplan–Meier
