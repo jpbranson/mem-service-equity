@@ -120,9 +120,27 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
   same-day re-report mismatches between specs and code. Fixed broken
   references in 4 specs (text only), change-log line added to every spec.
 
+- 22:10 CT. Committed step-1 mechanism + D22/D23 + H10 packet (72f6255),
+  H3 + H9 packets (c9d8f29). Fresh 311 run as of 2026-09-25 is in
+  `data/published/311` (raw cache `data/cache/311/raw_2026-09-25.rds`,
+  408,375 rows, validation pass).
+- 22:15 CT. H6: the parcel layer's PropertyAddress is empty on all
+  350,835 records, so `geography/check_geocoder.R` now reverse-geocodes
+  random in-city parcels with the City's own address-point locator
+  (311/LiveLinkGeolocator, no robots.txt) and tests the Census geocoder
+  against those official points. First run ran out of candidates (31%
+  yield); rerunning with an 8x draw.
+- 22:20 CT. Step 4a started. **Found: Data Midsouth robots.txt disallows
+  /api/ for all but Googlebot**, so it cannot be used (D11). Recorded D24,
+  new H21 (demolition permits), corrected the research note. Permits
+  pipeline will use the DPD layer only (27,501 permits, 2021-01 to
+  2026-08, last edited 2026-09-01; no demolitions).
+
 ## Next action
 
-Step 1: still waiting on the research agent for official figures. When it
-reports: fill `pipelines/311/reconciliation/official_figures.csv` (header
-only until then), write D22 (reconciliation) and D23 (audit completeness),
-update README/CLAUDE.md, run the pipeline fresh, commit. Then 2b, 2d, 2e.
+Step 4a (permits pipeline), after H6 finishes. Parts: parcel denominators
+(`geography/fetch_parcels.R`), `pipelines/permits/` (fetch DPD without
+Description, normalize, category map, metrics for permits_per_1000 and
+declared value; demolition ratio blocked by H21), BPS reconciliation,
+tests + golden, site + deploy integration, docs. Step 1 figures still
+pending from the research agent.

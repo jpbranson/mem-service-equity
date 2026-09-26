@@ -81,8 +81,13 @@ _Verified 2026-09-23 by querying the endpoints unless marked otherwise._
     Valuation, Address, City, ZIP_Code, Latitude, Longitude.
   - **No demolitions.**
 - **Data Midsouth, "Building and Demolition Permits - Shelby County"**
-  (Opendatasoft):
-  `https://www.datamidsouth.org/api/explore/v2.1/catalog/datasets/shelby-county-building-and-demolition-permits/records`
+  (Opendatasoft). **Do not collect it automatically.** Checked 2026-09-25:
+  www.datamidsouth.org's robots.txt disallows `/api/` and dataset downloads
+  for every crawler except Googlebot, and the dataset's license says only
+  "See Website Terms of Use" (DECISIONS.md D24, H21). The API path is
+  `https://www.datamidsouth.org/api/explore/v2.1/catalog/datasets/shelby-county-building-and-demolition-permits/records`.
+  It is listed only so a future permission can be acted on. Its publisher is
+  Innovate Memphis, and its attributions are Shelby County and Develop 901.
   - 74,502 rows since 2011.
   - `date_status` is a *status* date, not the issue date.
   - `record_type` has 9 values, including Demolition (3,261).

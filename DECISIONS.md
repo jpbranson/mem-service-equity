@@ -77,6 +77,16 @@ made while building, so a reviewer can challenge them.
   needed. This covers `deploy-site` as well as both pollers. If the daily
   deploy stops, the site hides 311 numbers once the data is more than 3 days
   old.
+- [ ] **H21. Demolition permits (blocks `demolition_to_new_ratio`).**
+  Data Midsouth has demolition permits, but its robots.txt forbids
+  automated access (D24), and the City's DPD layer has none. Options:
+  - ask Innovate Memphis, which publishes Data Midsouth and is also the
+    plan's institutional partner and an H7 candidate, for written permission
+    to use the dataset's API or for a periodic extract;
+  - or ask DPD (Develop 901) for demolition permit records.
+
+  Record the answer here. Until then, the permits panel shows only new,
+  renovation and accessory permits.
 - [ ] **H13. Historical city holiday calendars.** The 2026 city calendar is
   verified. Earlier years are reconstructed from rules, and the weekend
   shifts for MLK Memorial Day and Christmas Eve are inferred. Ask the city's
@@ -289,6 +299,19 @@ made while building, so a reviewer can challenge them.
   - a note on every "no".
 
   When several audits are committed, the newest file name wins.
+- **D24. Data Midsouth's permit API is off-limits (D11).** Checked
+  2026-09-25:
+  - datamidsouth.org's robots.txt disallows `/api/` and dataset downloads
+    (`/explore/dataset/*/download`) for every crawler except Googlebot;
+  - the "Building and Demolition Permits - Shelby County" dataset's license
+    field only says "See Website Terms of Use".
+
+  The permits pipeline therefore uses only the City's DPD Building Permits
+  layer on the Memphis Data Hub (new, alteration, addition and accessory
+  permits since January 2021). That layer has no demolitions, so
+  `demolition_to_new_ratio` and the demolition category cannot be computed
+  until a permitted source exists (H21). The 2026-09-23 research note had
+  listed the Data Midsouth API as an access path; it has been corrected.
 - **D8. Boundary rule.** A point within 1 m of more than one polygon goes to
   the lowest `geo_id` among them and is flagged `on_boundary`.
 - **D9. Censored durations.** Median time-to-close uses a Kaplan–Meier
