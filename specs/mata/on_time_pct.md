@@ -2,7 +2,7 @@
 id: on_time_pct
 pipeline: mata
 title: Share of observed bus arrivals on time at stops near you
-version: "0.1"
+version: "0.2"
 status: draft
 unit: proportion
 formula: >
@@ -53,11 +53,33 @@ schedule?
 
 ## Details
 
-Arrival inference: the first position report within 30 m of the stop with
-the vehicle on the matched trip, interpolated between the bracketing pings.
-Early departures from timepoints are the "-1 minute" edge.
+- **Matching.** Every vehicle report carries MATA's trip_id, which matches
+  the static feed, so trips are matched by id on the service date. The
+  service date is the local date of the report; no MATA trip runs past
+  midnight. The schedule used is the one in force that day: the newest
+  archived GTFS zip dated on or before it.
+- **Arrival inference.**
+  - Each report on the trip is projected onto the trip's shape.
+  - The arrival at a stop is when the distance along the shape reaches the
+    stop's, interpolated linearly between the two bracketing reports.
+  - Reports more than 60 m off the shape are ignored, and so is a bracket
+    wider than 180 s.
+  - A vehicle that halts within 30 m short of a stop (typically at a
+    terminal) arrives at its first report that close.
+  - A report may not project more than 300 m behind the furthest point
+    already reached, so a route that doubles back is not confused.
+- **The first stop of each trip is not scored.** The bus waits there
+  before departing. Early departures from later timepoints are the
+  "−1 minute" edge.
+- **Measurable trips.** A trip counts only if the poller covered its whole
+  scheduled span, plus 15 minutes on each side (DECISIONS.md H22).
+- **Windows** are computed only when archived data cover at least 90% of
+  their days.
+- **Citywide** means the whole MATA system, including route segments
+  outside the city limits.
 
 ## Change log
 
 - 0.1 — first draft from design plan 6.1.
 - 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.
+- 0.2, 2026-09-25 — first computed version: arrival inference by projection onto the shape (replacing the first report within 30 m); first stop excluded; measurability and window-coverage rules stated. Tested on a synthetic route and run on 3 days of archive at 43% coverage.

@@ -3,11 +3,11 @@ name: test-memequity
 on:
   push:
     paths: ["packages/memequity/**", "specs/**", "geography/**", "pipelines/311/**", "pipelines/permits/**",
-            "pipelines/food-safety/**",
+            "pipelines/food-safety/**", "pipelines/mata/**",
             ".github/workflows/test-memequity.yml"]
   pull_request:
     paths: ["packages/memequity/**", "specs/**", "geography/**", "pipelines/311/**", "pipelines/permits/**",
-            "pipelines/food-safety/**"]
+            "pipelines/food-safety/**", "pipelines/mata/**"]
   workflow_dispatch:
 
 jobs:
@@ -33,3 +33,5 @@ jobs:
         run: Rscript -e 'testthat::test_dir("pipelines/permits/tests/testthat", stop_on_failure = TRUE)'
       - name: Run food-safety pipeline tests
         run: Rscript -e 'testthat::test_dir("pipelines/food-safety/tests/testthat", stop_on_failure = TRUE)'
+      - name: Run MATA pipeline tests
+        run: Rscript -e 'testthat::test_dir("pipelines/mata/tests/testthat", stop_on_failure = TRUE)'

@@ -2,7 +2,7 @@
 id: peak_headway_ratio
 pipeline: mata
 title: Median observed peak headway vs. scheduled headway
-version: "0.1"
+version: "0.2"
 status: draft
 unit: ratio
 formula: >
@@ -47,7 +47,23 @@ objections:
 At rush hour, how long is the typical gap between buses, compared with what
 the schedule promises?
 
+## Details
+
+- **Gaps.** Each timepoint stop's scheduled trips are walked in order.
+  - A gap spans a confirmed ghost (the wait a rider really had).
+  - A gap never spans a trip whose outcome is unknown: an unobserved block,
+    a trip in a poller gap, or a trip that ran but could not be timed.
+  - Negative gaps, where one bus overtakes another, are dropped.
+- **Scheduled gaps** come from the same stops and trips.
+
+**Open question for the reviewer:** in the schedules in force on 2026-09-24
+and 2026-09-25, no MATA route ran every 30 minutes or better at peak (the
+most frequent ran every 45). The 30-minute inclusion rule therefore leaves
+this metric empty. Decide whether to raise the limit (for example to 45
+minutes) or retire the metric.
+
 ## Change log
 
 - 0.1 — first draft from design plan 6.1.
 - 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.
+- 0.2, 2026-09-25 — first computed version: gap rules stated. Empty under the current inclusion rule (see Details).

@@ -41,7 +41,7 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
 | 4a | Permits pipeline (Phase 4) | [x] built, tested, on the site (gated); demolitions blocked (H21) |
 | 4b | Food-safety ingest against the expected export (D13) | [x] built + tested on a synthetic export; real export pending (H11) |
 | 4c | H19: MLGW spec revision draft | [p] v0.2 drafts written; H19 confirmation is the reviewer's |
-| 4d | MATA trip matching (Phase 5) | [ ] |
+| 4d | MATA trip matching (Phase 5) | [x] built + tested; runs on the archive; windows need more data (H22) |
 
 ## Log
 
@@ -196,12 +196,40 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
   - H19 stays unchecked, with a note. Nothing is implemented; the MLGW
     pipeline needs 6 months of history anyway.
 
+- 02:40 CT. Step 4d done.
+  - **Found (H22, new):** the pollers cover only about half of the time.
+    MATA vehicle polls covered 49% and 50% of service hours on 9/24 and
+    9/25, and MLGW 50%, because GitHub never starts about half of the
+    scheduled runs (0 failed polls). Gaps last 2-4 h and include both 9/24
+    rush hours. D15 updated with the numbers.
+  - `pipelines/mata/`:
+    - `R/`: archive, gtfs, match, arrivals, metrics, pipeline; plus
+      `run.R --archive DIR`.
+    - Schedule in force per date; match by trip_id (RT start_date is
+      empty; the service date is the local date).
+    - Measurable trips need their full span ±15 min covered. Ghost versus
+      unobserved is decided by block.
+    - Arrivals are interpolated along the shape (shape_dist_traveled is in
+      metres, about 0.3% longer than projected; rescaled). The first stop
+      is excluded.
+    - Windows need 90% of days with data.
+  - First archive (9/23-9/25, local cache `data/cache/mata/2026-W39`):
+    391 measurable trips, 7.4% ghost, about 66-67% on time [-1,+5]; 15 of
+    24 routes above the 85% floor. By default no metric is written, because
+    no window has enough data.
+  - Spec findings, all recorded in the specs:
+    - No route runs every ≤30 min at peak (the best is 45), so
+      peak_headway_ratio is empty under its own rule.
+    - The ghost rate conflicted with the match floor; the floor now applies
+      only to on-time.
+    - Specs bumped to 0.2.
+  - Tests on a synthetic 5 km route (arrivals exact to 1 s). CI runs them.
+
 ## Next action
 
-Step 4d: MATA trip matching (Phase 5). Read `docs/research/mata-mlgw.md`
-(MATA part), `specs/mata/*`, `pollers/mata_poller.py`; decide what can be
-built and tested now (static GTFS + archived RT positions), respecting
-H16 (terms unconfirmed; polling continues per DECISIONS). Parts: parcel denominators
+All steps attempted. Final pass: run every suite, update the plan table
+statuses, commit, then report to the user (nothing pushed; ask about
+pushing and deleting the USPS branch). Parts: parcel denominators
 (`geography/fetch_parcels.R`), `pipelines/permits/` (fetch DPD without
 Description, normalize, category map, metrics for permits_per_1000 and
 declared value; demolition ratio blocked by H21), BPS reconciliation,

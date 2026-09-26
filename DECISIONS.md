@@ -106,6 +106,21 @@ made while building, so a reviewer can challenge them.
 
   Record the answer here. Until then, the permits panel shows only new,
   renovation and accessory permits.
+- [ ] **H22. Move the pollers to an always-on host.** Measured 2026-09-25
+  from the poll logs (every attempt is logged, D15):
+  - Only about **half of the scheduled runs happen**. MATA vehicle polls
+    covered 49% and 50% of service hours (05:00–23:00) on 2026-09-24 and
+    2026-09-25. MLGW outage polls covered 50% of the week so far. No poll
+    failed; whole runs were never started.
+  - Gaps last 2–4 hours and include both rush hours on 2026-09-24.
+  - MATA: trips during gaps are excluded, not counted as ghosts, but the
+    peak headway metric and the match-rate floor need the peaks.
+  - MLGW: restoration is unknown for outages that end in a gap, and the
+    six-month baseline (plan 6.2) accrues at half speed.
+
+  D15 already names the fix: a self-hosted runner or a small VM running
+  both pollers continuously. That needs an account, a host and a cost
+  decision. *Blocks:* usable MATA and MLGW baselines.
 - [ ] **H13. Historical city holiday calendars.** The 2026 city calendar is
   verified. Earlier years are reconstructed from rules, and the weekend
   shifts for MLK Memorial Day and Christmas Eve are inferred. Ask the city's
@@ -210,6 +225,8 @@ made while building, so a reviewer can challenge them.
   standard-runner minutes, but GitHub's terms bar GitHub-hosted runners from
   work "unrelated to" the project. Moving the pollers to a self-hosted runner or
   a small VM would remove both that question and the scheduling delays.
+  Measured in the first two full days, the overlap is not enough: about half
+  of the scheduled runs never started, and coverage was about 50% (H22).
 - **D10. Business days follow the City of Memphis holiday calendar,** not
   the federal one, because 311 targets are the city's promise. The city
   observes Good Friday, MLK Memorial Day (April 4), the day after

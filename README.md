@@ -26,7 +26,7 @@ so far. Source research is in [`docs/research/`](docs/research/).
 | 2 | Food safety site | **Blocked.** The state inspection portal forbids automated access, so the data needs a records request (DECISIONS.md H11). The request in `docs/records-requests/` was sent on 2026-09-23. The pipeline (`pipelines/food-safety/`) is built and tested on a synthetic export and runs once the export arrives |
 | 3 | 311 pipeline and address lookup | **Built, not yet published.** Pipeline, address lookup, area comparison (with "who lives here" demographics and requests per 1,000 residents) and methodology page all work. `deploy-site` runs daily and deploys to GitHub Pages. Every metric shows which publication conditions it still misses |
 | 4 | Permits | **Built, not yet published.** Permits and declared value per 1,000 parcels by ZIP and council district, from the City's DPD layer, with its own comparison section on the site. Demolitions are blocked: Data Midsouth forbids automated access (D24, H21). Reconciled against the Census Building Permits Survey |
-| 5 | MATA panel | Collecting; trip matching not started |
+| 5 | MATA panel | **Trip matching built** (`pipelines/mata/`): schedule in force per day, matching by trip_id, ghost versus unobserved by block, and arrivals interpolated along the shape. It has run on the first archive. No window has enough data yet, and the pollers cover only about half of service hours on GitHub Actions (DECISIONS.md H22). Stopwatch audit (H5) not done |
 | 6 | MLGW panel | Collecting; needs six months of history |
 
 **Current priority (DECISIONS D19):** how the experience of city services
@@ -52,6 +52,7 @@ Review packets that prepare each human step are in `docs/reviews/`.
 | `geography/` | Boundary files (source and vintage in each file name) plus `registry.csv`, reference neighborhoods, and `fetch_boundaries.R`. `demographics/` holds ACS 5-year estimates apportioned to every geography (DECISIONS D20), written by `fetch_demographics.R`. `parcels/` holds the Assessor's in-city parcel counts per area (the permits denominator), written by `fetch_parcels.R`. `check_geocoder.R` measures the address lookup's geocoder (H6) |
 | `specs/<pipeline>/` | Metric specifications. The YAML front matter is machine-read; methodology pages are generated from these files |
 | `pipelines/311/` | The 311 pipeline: `run.R`, `R/` (fetch, normalize, metrics, hex, audit, reconcile), `config/`, `reconciliation/` (official City figures, D22), `tests/` (fixtures, properties, golden files, and `independent/`: a second implementation that checks the golden file and pre-traces the audit sample) |
+| `pipelines/mata/` | MATA trip matching and metrics from the poller archive: `run.R --archive DIR` (weekly release assets), `R/` (archive, gtfs, match, arrivals, metrics), `tests/` on a synthetic route |
 | `pipelines/food-safety/` | The food-safety pipeline for the records-request export (H11): `config/column_map.yml` maps the export's columns, `inbox/` (gitignored) receives the files, `tests/` run on a synthetic export |
 | `pipelines/permits/` | The permits pipeline, same layout: `run.R`, `R/`, `config/` (sector and category maps), `reconciliation/` (Census Building Permits Survey figures, `fetch_bps.R`), `tests/` |
 | `pollers/` | Python collectors for MATA GTFS-Realtime and MLGW outages, with tests and the release-archive script |
