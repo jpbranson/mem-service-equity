@@ -12,6 +12,7 @@ formula: >
 windows: [90d, 12m]
 geographies: [citywide, zcta, council_district, h3_9]
 min_n: 30
+blocked: "The disposition mapping needs the manual disposition audit first (DECISIONS.md H4)."
 promise:
   kind: comparison
   text: No official standard. Compared against the citywide rate for the same type and window.
@@ -58,3 +59,4 @@ worksheet for the audit is generated on every run
 
 - 0.1 — placeholder definition from design plan 6.3.
 - 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22); corrected file references. No change to the definition.
+- 0.1, 2026-09-25 — marked `blocked` until the disposition audit (H4). No change to the definition.

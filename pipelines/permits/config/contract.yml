@@ -1,0 +1,18 @@
+# Schema contract for the raw DPD permits fetch (plan 5.2). Sub_Type and
+# Construction_Type values are checked separately against
+# config/sector_map.csv and config/category_map.csv, so a new value fails the
+# run until it is mapped.
+columns:
+  ObjectId: {type: integer, nullable: false}
+  Record_ID: {type: character, nullable: false}
+  Issued_Date: {type: datetime, nullable: false}
+  Sub_Type: {type: character, nullable: false}
+  Construction_Type: {type: character, nullable: false}
+  Valuation: {type: numeric}
+  Address: {type: character}
+  City: {type: character}
+  ZIP_Code: {type: character}
+  State: {type: character}
+  Latitude: {type: numeric}
+  Longitude: {type: numeric}
+allow_extra_columns: false

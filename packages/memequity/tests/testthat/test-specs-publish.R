@@ -178,6 +178,10 @@ test_that("the publish gate lists everything that is missing", {
   g <- publish_gate(spec, rep, FALSE, m)
   expect_false(g$publishable)
   expect_length(g$missing, 6)
+  spec$blocked <- "No source of demolition permits (H21)."
+  b <- publish_gate(spec, rep, FALSE, m)
+  expect_length(b$missing, 7)
+  expect_equal(b$missing[1], "blocked: No source of demolition permits (H21).")
 })
 
 test_that("the publish gate passes when all six conditions hold", {

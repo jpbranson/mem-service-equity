@@ -13,6 +13,8 @@ formula: >
 windows: [90d, 12m]     # rolling windows the metric is published over
 geographies: [zcta, council_district, h3_8]
 min_n: 30               # 30 for proportions, 20 for medians unless argued otherwise
+# blocked: "Why the metric cannot be computed yet (e.g. no data source, H21)."
+#   Optional. When set, the publish gate reports it as the first missing condition.
 promise:
   kind: official        # official (a stated standard) | comparison (citywide median only)
   text: The promise, quoted or paraphrased from its source.

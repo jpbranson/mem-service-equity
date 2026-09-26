@@ -13,6 +13,7 @@ formula: >
 windows: [12m, 5y]
 geographies: [citywide, zcta, council_district]
 min_n: 20
+blocked: "No permitted source of demolition permits: Data Midsouth forbids automated access and the City's DPD layer has none (DECISIONS.md D24, H21)."
 promise:
   kind: comparison
   text: No official standard. More demolition than new construction suggests disinvestment; compared against citywide.
@@ -48,3 +49,4 @@ permitted to be torn down?
 
 - 0.1 — first draft from design plan 6.5.
 - 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.
+- 0.1, 2026-09-25 — marked `blocked` until a source of demolition permits exists (D24, H21). No change to the definition.

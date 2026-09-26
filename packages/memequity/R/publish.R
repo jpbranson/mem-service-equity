@@ -16,6 +16,9 @@ RECONCILIATION_MAX_AGE_DAYS <- 92L
 publish_gate <- function(spec, report, tests_passed, metrics, reconciliation = NULL,
                          audit_path = NULL, as_of = Sys.Date()) {
   missing <- character()
+  # A spec can say it cannot be computed yet and why (e.g. no data source).
+  if (nzchar(spec$blocked %||% ""))
+    missing <- c(missing, paste("blocked:", trimws(spec$blocked)))
   if (!identical(spec$status, "frozen") || length(spec_problems(spec)))
     missing <- c(missing, "spec is not frozen and versioned")
   if (is.na(report$status)) report <- finalize_report(report)
