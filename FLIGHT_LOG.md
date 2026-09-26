@@ -258,9 +258,23 @@ by every commit above.
 - **Local-only files, not committed:** `.claude/launch.json` (static
   server on :8765) and the data caches under `data/cache/`.
 
+### 2026-09-26
+
+- 20:55 CT (09-25). At the user's request: pushed `main` (bdb1300..c8ae9a2,
+  17 commits) and deleted `origin/claude/usps-service-performance-uwwldp`
+  (merged).
+- The push's CI passed on Linux:
+  - `test-memequity` succeeded (package, 311, permits, food-safety and
+    MATA suites).
+  - `deploy-site` succeeded, including the permits tests, run and archive
+    (new release `data-permits-2026-09`).
+- The live site was rebuilt at 01:51Z, not a preview: 311 through 9/24,
+  permits through 8/31, 0 metrics publishable (expected).
+
 ## Next action
 
-None pending. Wait for the user's decisions above. Parts: parcel denominators
+None pending. The handoff list above still stands (H-items, H21, H22 and
+the spec questions); the push and branch items are done. Parts: parcel denominators
 (`geography/fetch_parcels.R`), `pipelines/permits/` (fetch DPD without
 Description, normalize, category map, metrics for permits_per_1000 and
 declared value; demolition ratio blocked by H21), BPS reconciliation,
