@@ -391,6 +391,14 @@ made while building, so a reviewer can challenge them.
   `demolition_to_new_ratio` and the demolition category cannot be computed
   until a permitted source exists (H21). The 2026-09-23 research note had
   listed the Data Midsouth API as an access path; it has been corrected.
+- **D25. ArcGIS queries retry errors inside HTTP 200 responses.** On
+  2026-09-26 the City's 311 server answered one page of the daily fetch with
+  "User couldn't access this resource" in an HTTP 200 body, after about
+  400k rows. The run stopped and that day's deploy failed until it was
+  rerun. `memequity::arcgis_json()` now retries both dropped connections and
+  ArcGIS error bodies, up to six tries with exponential backoff. Every
+  ArcGIS fetch (311, permits, parcels) uses it. A persistent error still
+  fails the run, so a real outage or permission change is not hidden.
 - **D8. Boundary rule.** A point within 1 m of more than one polygon goes to
   the lowest `geo_id` among them and is flagged `on_boundary`.
 - **D9. Censored durations.** Median time-to-close uses a Kaplan–Meier

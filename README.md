@@ -48,7 +48,7 @@ Review packets that prepare each human step are in `docs/reviews/`.
 
 | Path | What it holds |
 |---|---|
-| `packages/memequity/` | Shared R package: geography layer, grid-hash spatial joins, City of Memphis business-day calendar, stats (suppression, Wilson / bootstrap / Kaplan–Meier intervals), validation harness, output-schema writers, spec parser, publish gate |
+| `packages/memequity/` | Shared R package: geography layer, grid-hash spatial joins, City of Memphis business-day calendar, stats (suppression, Wilson / bootstrap / Kaplan–Meier intervals), validation harness, output-schema writers, spec parser, publish gate and audit check, reconciliation against official figures, ArcGIS queries with retries, demographics and parcel denominators |
 | `geography/` | Boundary files (source and vintage in each file name) plus `registry.csv`, reference neighborhoods, and `fetch_boundaries.R`. `demographics/` holds ACS 5-year estimates apportioned to every geography (DECISIONS D20), written by `fetch_demographics.R`. `parcels/` holds the Assessor's in-city parcel counts per area (the permits denominator), written by `fetch_parcels.R`. `check_geocoder.R` measures the address lookup's geocoder (H6) |
 | `specs/<pipeline>/` | Metric specifications. The YAML front matter is machine-read; methodology pages are generated from these files |
 | `pipelines/311/` | The 311 pipeline: `run.R`, `R/` (fetch, normalize, metrics, hex, audit, reconcile), `config/`, `reconciliation/` (official City figures, D22), `tests/` (fixtures, properties, golden files, and `independent/`: a second implementation that checks the golden file and pre-traces the audit sample) |

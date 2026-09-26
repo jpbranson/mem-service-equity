@@ -18,7 +18,8 @@ done by Claude, only `[p]`.
   `RCMD="/c/Program Files/R/R-4.3.3/bin/R.exe"`.
 - Raw 311 cache from 2026-09-23: `data/cache/311/raw.rds`.
 - Commits go straight to `main` (user preference). **Nothing is pushed
-  without asking the user.** Pushing to `main` triggers `deploy-site`.
+  without asking the user.** A push to `main` that touches `site/` or the
+  workflow triggers `deploy-site`; otherwise it runs daily.
 
 ## Plan
 
@@ -231,12 +232,8 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
 
 ## Handoff: what is left for a person
 
-Nothing is pushed. `origin/main` is at bdb1300 and local `main` is ahead
-by every commit above.
-- **Push and branch cleanup (the user's call).** Push `main`; then
-  `origin/claude/usps-service-performance-uwwldp` can be deleted, since it
-  is merged. The first push triggers `deploy-site`, which now also runs
-  permits.
+Everything is pushed (see the 2026-09-26 entries) and the merged USPS
+branch is deleted.
 - **Prepared, still open** (packets in `docs/reviews/`, drafts in
   `docs/outreach/` and `docs/records-requests/`):
   - H3: audit the 311 sample by hand.
@@ -271,12 +268,19 @@ by every commit above.
 - The live site was rebuilt at 01:51Z, not a preview: 311 through 9/24,
   permits through 8/31, 0 metrics publishable (expected).
 
+- 21:00 CT (09-25). Docs brought up to date (3a10920) and pushed.
+  - Its deploy failed: the City's 311 server answered one page with "User
+    couldn't access this resource" inside an HTTP 200 body, after about
+    400k rows. This was transient; the layer answered normally minutes
+    later.
+  - The failed job was rerun and succeeded; the live site was rebuilt at
+    02:09Z with the new MATA/MLGW notes.
+- 21:15 CT. Added `memequity::arcgis_json()` (e645b4e, D25). It retries
+  dropped connections and ArcGIS errors returned with HTTP 200, and the
+  311, permits and parcel fetches use it. Pushed; `test-memequity` passed.
+  The first scheduled deploy with the retry is the next daily run.
+
 ## Next action
 
 None pending. The handoff list above still stands (H-items, H21, H22 and
-the spec questions); the push and branch items are done. Parts: parcel denominators
-(`geography/fetch_parcels.R`), `pipelines/permits/` (fetch DPD without
-Description, normalize, category map, metrics for permits_per_1000 and
-declared value; demolition ratio blocked by H21), BPS reconciliation,
-tests + golden, site + deploy integration, docs. Step 1 figures still
-pending from the research agent.
+the spec questions); the push and branch items are done.
