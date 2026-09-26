@@ -1,0 +1,2 @@
+"file","source","vintage","parcels_in_layer","parcels_in_city","unlocated","repeated_parcel_ids","in_city_no_council_district","fetched"
+"parcel_counts_assessor-311parcelcentroids_2022-08.csv","Shelby County Assessor of Property tax parcels, via the City of Memphis 311 server (311/ParcelCentroids/MapServer/0)","2022-08","350828","236552","0","7","5","2026-09-25"
