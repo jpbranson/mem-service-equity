@@ -225,11 +225,42 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
     - Specs bumped to 0.2.
   - Tests on a synthetic 5 km route (arrivals exact to 1 s). CI runs them.
 
+- 02:55 CT. Final pass: memequity, 311, permits, food-safety and MATA
+  suites all pass; pollers 11/11; independent golden check 515/515;
+  app.js parses. Preview server stopped.
+
+## Handoff: what is left for a person
+
+Nothing is pushed. `origin/main` is at bdb1300 and local `main` is ahead
+by every commit above.
+- **Push and branch cleanup (the user's call).** Push `main`; then
+  `origin/claude/usps-service-performance-uwwldp` can be deleted, since it
+  is merged. The first push triggers `deploy-site`, which now also runs
+  permits.
+- **Prepared, still open** (packets in `docs/reviews/`, drafts in
+  `docs/outreach/` and `docs/records-requests/`):
+  - H3: audit the 311 sample by hand.
+  - H6: hand-check the geocoder sample; decide the Nominatim fallback.
+  - H7 and H8: send the outreach letters.
+  - H9: decide the reference ZIPs.
+  - H10: review and freeze the specs; confirm D22 (count-only
+    reconciliation for timing metrics).
+  - H11: follow up on 2026-10-05 if TDH is silent.
+  - H19: confirm the MLGW v0.2 specs.
+  - H20: redo three golden rows by hand.
+- **New human items:**
+  - H21: a source of demolition permits.
+  - H22: an always-on host for the pollers.
+- **Spec questions raised:**
+  - The permits 2023 Census gap (−2.1%) is unexplained.
+  - peak_headway_ratio's 30-minute rule excludes every route.
+  - The MLGW denominator: households or housing units.
+- **Local-only files, not committed:** `.claude/launch.json` (static
+  server on :8765) and the data caches under `data/cache/`.
+
 ## Next action
 
-All steps attempted. Final pass: run every suite, update the plan table
-statuses, commit, then report to the user (nothing pushed; ask about
-pushing and deleting the USPS branch). Parts: parcel denominators
+None pending. Wait for the user's decisions above. Parts: parcel denominators
 (`geography/fetch_parcels.R`), `pipelines/permits/` (fetch DPD without
 Description, normalize, category map, metrics for permits_per_1000 and
 declared value; demolition ratio blocked by H21), BPS reconciliation,
