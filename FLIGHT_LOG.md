@@ -40,7 +40,7 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
 | 3a | H11 follow-up: letter draft for use after 2026-10-02 | [p] draft written; send only if no reply by 10-02 |
 | 4a | Permits pipeline (Phase 4) | [x] built, tested, on the site (gated); demolitions blocked (H21) |
 | 4b | Food-safety ingest against the expected export (D13) | [x] built + tested on a synthetic export; real export pending (H11) |
-| 4c | H19: MLGW spec revision draft | [ ] |
+| 4c | H19: MLGW spec revision draft | [p] v0.2 drafts written; H19 confirmation is the reviewer's |
 | 4d | MATA trip matching (Phase 5) | [ ] |
 
 ## Log
@@ -186,10 +186,22 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
   - Specs bumped to 0.2. No golden file or reconciliation figure until the
     real export arrives.
 
+- 01:40 CT. Step 4c drafted.
+  - The three MLGW specs are now v0.2, restated for point outages from the
+    research note and the committed poller fixture: OUTAGE_NO events,
+    two-poll restoration, 2-hour reappearance rule, point-in-area joins
+    plus the D16 disk, planned outages excluded via OUT_CAUSE ("Planned
+    Construction" seen), and customer-hours summed over snapshots with ACS
+    households as the denominator.
+  - H19 stays unchecked, with a note. Nothing is implemented; the MLGW
+    pipeline needs 6 months of history anyway.
+
 ## Next action
 
-Step 4c: draft the MLGW spec revision for H19 (OUTAGE_NO chains, radius
-joins) from `docs/research/mata-mlgw.md` and the poller's actual fields. Parts: parcel denominators
+Step 4d: MATA trip matching (Phase 5). Read `docs/research/mata-mlgw.md`
+(MATA part), `specs/mata/*`, `pollers/mata_poller.py`; decide what can be
+built and tested now (static GTFS + archived RT positions), respecting
+H16 (terms unconfirmed; polling continues per DECISIONS). Parts: parcel denominators
 (`geography/fetch_parcels.R`), `pipelines/permits/` (fetch DPD without
 Description, normalize, category map, metrics for permits_per_1000 and
 declared value; demolition ratio blocked by H21), BPS reconciliation,

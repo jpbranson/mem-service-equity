@@ -141,7 +141,18 @@ made while building, so a reviewer can challenge them.
   publishes points with an `OUTAGE_NO`, not polygons
   (`docs/research/mata-mlgw.md`). The polygon event-chaining and
   point-in-polygon joins in `specs/mlgw/` must become OUTAGE_NO chains and
-  radius/area joins.
+  radius/area joins. *Drafted 2026-09-25 (v0.2 of the three specs):*
+  - an event is one `OUTAGE_NO`;
+  - restoration is inferred when it is absent from two consecutive
+    successful polls, with the span between polls carried as uncertainty;
+  - an `OUTAGE_NO` that reappears within 2 hours continues the same event;
+  - areas are joined by the outage point, and addresses by the D16 disk;
+  - planned outages are excluded using `OUT_CAUSE`;
+  - customer-hours are summed over snapshots, with ACS households as the
+    stand-in denominator.
+
+  A person still has to confirm these choices and settle the questions left
+  open in the specs (the denominator, among others).
 - [ ] **H20. Hand-verify the 311 golden file.** `pipelines/311/tests/golden/`
   was frozen from the v0.1 code as a regression baseline. Plan 5.3 asks for
   golden outputs checked by hand, so a reviewer should recompute a handful
