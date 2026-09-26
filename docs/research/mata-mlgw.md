@@ -34,6 +34,17 @@ questions about MATA and MLGW.
   trip ID, route, heading and timestamp per vehicle.
 - **Terms: not found.** MATA's T&C cover the GO901 app. See DECISIONS.md
   H16.
+- **Seen in the archive (2026-09-23 to 09-25):**
+  - `start_date` is always empty and `direction_id` is never set, so the
+    service date is taken from the report time. No trip runs past
+    midnight.
+  - About 1.6% of reports are on `ADDED` trips that are not in the static
+    feed.
+  - `shape_dist_traveled` is in metres, about 0.3% longer than the
+    projected shape length.
+  - No route is scheduled every 30 minutes or better at peak; the most
+    frequent run every 45.
+  - See `pipelines/mata/` and DECISIONS.md H22 for coverage.
 
 ## MATA on-time performance (reconciliation target)
 
@@ -72,8 +83,13 @@ questions about MATA and MLGW.
 
 **Consequences for the MLGW spec:** events are points, not polygons.
 Plan 6.2's polygon event-chaining becomes an `OUTAGE_NO` chain across
-snapshots, and the address join becomes a radius or area join. The spec
-needs updating before it is frozen.
+snapshots, and the address join becomes a radius or area join.
+- The specs were restated this way in v0.2 (2026-09-25), awaiting
+  confirmation (DECISIONS.md H19).
+- `OUT_CAUSE` sometimes reads "Planned Construction", which marks planned
+  outages.
+- `IMPACT` buckets are "Single Customer", "Half a Block", "One Block", "A
+  Few Blocks" and "A Neighborhood".
 
 ## MLGW reliability (reconciliation target)
 

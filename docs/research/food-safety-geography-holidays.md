@@ -107,9 +107,17 @@ The fetch script is `geography/fetch_boundaries.R`.
 - **Working city-hosted layer:**
   `https://311.memphistn.gov/server/rest/services/311/ParcelCentroids/MapServer/1`
   ("Tax Parcels"; the city credits REGIS of Shelby County as the data
-  source). It has 350,835 records and the fields PARCELID, ZipCode,
-  Council_District, CALC_ACRE, X and Y. Layer 0 (centroids) adds
-  PropertyAddress and TotalAppraisal. There is no land-use field.
+  source; the layer credits the Shelby County Assessor of Property). It has
+  350,835 records and the fields PARCELID, ZipCode, Council_District,
+  CALC_ACRE, X and Y. Layer 0 (centroids) also has PropertyAddress and
+  TotalAppraisal, but **PropertyAddress is empty on every record** (checked
+  2026-09-25). There is no land-use field.
+  - The newest `last_edited_date` is 2022-08, so the layer is a 2022
+    snapshot. `geography/fetch_parcels.R` uses it for the permits
+    denominators, with that vintage in the file name.
+  - The same server hosts the City's address-point geocoder
+    (`311/LiveLinkGeolocator/GeocodeServer`, `PointAddress` matches, no
+    robots.txt). The H6 check uses it as its reference.
 - A third-party layer (`services5.arcgis.com/69z5u4wI9ZLawzrr/.../Shelby_County_Parcels_2026`)
   has the full Assessor schema, including LUC and LANDUSE. It is **not
   official**; use it for prototyping only.

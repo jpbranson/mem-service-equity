@@ -31,7 +31,7 @@ conditions: the H3 audit, reconciliation, and so on.
 
 | Spec | Computed? | Can publish once frozen? |
 |---|---|---|
-| `requests_per_1000` v0.2 | yes | once H3 is done and reconciliation passes |
+| `requests_per_1000` v0.2 | yes | once H3 is done (reconciliation now passes, on one figure; see below) |
 | `median_business_days_to_close` v0.1 | yes | same, but see C3 on missing close dates first |
 | `reopen_rate` v0.1 | yes | same |
 | `pct_within_target` v0.1 | yes (potholes only) | **no.** It needs the City's own on-time figure (H14, deferred by D19) |

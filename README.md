@@ -22,12 +22,12 @@ so far. Source research is in [`docs/research/`](docs/research/).
 | Phase | Plan deliverable | State |
 |---|---|---|
 | 0 | Geography layer, output schema, spec template, validation harness, business-day calendar | **Done.** `packages/memequity`, `geography/`, `specs/` |
-| 1 | MATA and MLGW pollers started | **Running.** GitHub Actions every 2 hours; raw data archived to weekly releases (`archive-mata-*`, `archive-mlgw-*`) |
+| 1 | MATA and MLGW pollers started | **Running, with gaps.** GitHub Actions every 2 hours, raw data archived to weekly releases (`archive-mata-*`, `archive-mlgw-*`). Because GitHub skips about half the scheduled runs, the polls cover only about 50% of the time (DECISIONS.md H22) |
 | 2 | Food safety site | **Blocked.** The state inspection portal forbids automated access, so the data needs a records request (DECISIONS.md H11). The request in `docs/records-requests/` was sent on 2026-09-23. The pipeline (`pipelines/food-safety/`) is built and tested on a synthetic export and runs once the export arrives |
 | 3 | 311 pipeline and address lookup | **Built, not yet published.** Pipeline, address lookup, area comparison (with "who lives here" demographics and requests per 1,000 residents) and methodology page all work. `deploy-site` runs daily and deploys to GitHub Pages. Every metric shows which publication conditions it still misses |
 | 4 | Permits | **Built, not yet published.** Permits and declared value per 1,000 parcels by ZIP and council district, from the City's DPD layer, with its own comparison section on the site. Demolitions are blocked: Data Midsouth forbids automated access (D24, H21). Reconciled against the Census Building Permits Survey |
 | 5 | MATA panel | **Trip matching built** (`pipelines/mata/`): schedule in force per day, matching by trip_id, ghost versus unobserved by block, and arrivals interpolated along the shape. It has run on the first archive. No window has enough data yet, and the pollers cover only about half of service hours on GitHub Actions (DECISIONS.md H22). Stopwatch audit (H5) not done |
-| 6 | MLGW panel | Collecting; needs six months of history |
+| 6 | MLGW panel | Collecting; needs six months of history, which accrues at half speed until H22 is fixed. The specs are restated for point outages (v0.2, H19 awaiting confirmation); no pipeline yet |
 
 **Current priority (DECISIONS D19):** how the experience of city services
 differs from one area to another, with demographic context for each area
@@ -61,7 +61,7 @@ Review packets that prepare each human step are in `docs/reviews/`.
 | `docs/records-requests/` | Drafts of public records requests (see DECISIONS.md for what has been sent) |
 | `docs/reviews/` | Packets that prepare each human step (H3 audit, H6 geocoder, H9 reference neighborhoods, H10 spec review, H20 golden file). They say what was checked automatically and what a person still has to do |
 | `docs/outreach/` | Drafts for the independent reviewer (H7) and the agency courtesy preview (H8), and the public log of preview responses |
-| `.github/workflows/` | Package and poller tests, the two poller schedules, and the daily `deploy-site` (test, run 311, archive, deploy) |
+| `.github/workflows/` | Package, pipeline and poller tests, the two poller schedules, and the daily `deploy-site` (test, run 311 and permits, archive, deploy) |
 
 ## Running things
 
@@ -100,6 +100,17 @@ Rscript pipelines/permits/run.R --out data/published/permits
 Rscript -e 'testthat::test_dir("pipelines/permits/tests/testthat")'
 Rscript geography/fetch_parcels.R
 Rscript pipelines/permits/reconciliation/fetch_bps.R 2021 2025
+
+# Food safety: tests run on a synthetic export; the run needs the H11 export
+# in pipelines/food-safety/inbox/
+Rscript -e 'testthat::test_dir("pipelines/food-safety/tests/testthat")'
+Rscript pipelines/food-safety/run.R
+
+# MATA: download a week of the poller archive, then match trips. No window
+# is computed until data cover 90% of its days.
+gh release download archive-mata-2026-W39 --dir data/cache/mata/2026-W39
+Rscript pipelines/mata/run.R --archive data/cache/mata/2026-W39
+Rscript -e 'testthat::test_dir("pipelines/mata/tests/testthat")'
 
 # Poller tests
 python -m pip install -r pollers/requirements.txt

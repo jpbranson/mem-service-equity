@@ -232,12 +232,14 @@ manifest$pipelines[["food-safety"]] <- list(
                "on a synthetic export in the requested format, and runs once the export arrives."))
 manifest$pipelines[["mata"]] <- list(
   title = "Transit (MATA)", status = "collecting", collecting_since = "2026-09-23",
-  note = paste("Bus positions are archived every 30 seconds. The panel goes live after the",
-               "trip-matching rule clears its match-rate floor and a stopwatch audit at real stops."))
+  note = paste("Bus positions are archived every 30 seconds while the collector runs, which so far",
+               "is about half the day (DECISIONS.md H22). The panel goes live after the trip-matching",
+               "rule clears its match-rate floor and a stopwatch audit at real stops."))
 manifest$pipelines[["mlgw"]] <- list(
   title = "Power (MLGW)", status = "collecting", collecting_since = "2026-09-23",
-  note = paste("Outage snapshots are archived every 5 minutes. The panel goes live after six",
-               "months of history that include a significant weather event."))
+  note = paste("Outage snapshots are archived every 5 minutes while the collector runs, which so",
+               "far is about half the day (DECISIONS.md H22). The panel goes live after six months",
+               "of history that include a significant weather event."))
 if (is.null(manifest$pipelines[["permits"]]))
   manifest$pipelines[["permits"]] <- list(
     title = "Investment (building permits)", status = "in_development",

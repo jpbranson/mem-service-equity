@@ -30,7 +30,7 @@ exclusions:
   - Interior demolition permits that are part of a renovation (mapped to renovation).
 confounders:
   - Demolition of blighted structures can be a precursor to investment, not a sign of abandonment.
-  - City-initiated blight demolitions may not appear as ordinary permits; data coverage is checked against the Data Midsouth demolition dataset.
+  - City-initiated blight demolitions may not appear as ordinary permits. How to check coverage depends on the source that H21 finds.
 objections:
   - objection: "Blight demolition is the city doing its job, not abandonment."
     response: "Acknowledged in the panel text; where the source distinguishes city-initiated demolitions they are shown separately."
@@ -50,3 +50,4 @@ permitted to be torn down?
 - 0.1 — first draft from design plan 6.5.
 - 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.
 - 0.1, 2026-09-25 — marked `blocked` until a source of demolition permits exists (D24, H21). No change to the definition.
+- 0.1, 2026-09-25 — confounder text: coverage can no longer be checked against Data Midsouth (D24). No change to the definition.

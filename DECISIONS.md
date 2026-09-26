@@ -17,8 +17,7 @@ made while building, so a reviewer can challenge them.
   weekly and monthly GitHub release assets (see D7, D17).
 - [x] **H2. GitHub Pages.** Enable Pages for this repo with source "GitHub
   Actions". *Done 2026-09-23:* https://jpbranson.github.io/mem-service-equity/.
-  The site and `.github/workflows/deploy-site.yml` are built; the first
-  deploy runs once that workflow is pushed to `main`.
+  `deploy-site` has deployed daily since that day.
 
 - [x] **H12. Census API key.** The Census data API now requires a key for
   every request. Get a free key at https://api.census.gov/data/key_signup.html
@@ -131,6 +130,9 @@ made while building, so a reviewer can challenge them.
 - [ ] **H3. Pre-launch manual audit, per panel.** Trace at least 100 random
   records by hand, from source to published metric, using the audit sheet
   that each pipeline generates under `audits/`. Commit the completed sheet.
+  *311 prepared 2026-09-25:* the sample was pre-traced against the source
+  automatically, and all 100 matched (`docs/reviews/h3-audit/`). The hand
+  trace is still to do.
 - [ ] **H4. 311 disposition audit.** Read a few hundred closed requests and
   confirm or correct the draft disposition mapping. *Blocks:* the
   closed-without-action metric.
@@ -138,20 +140,28 @@ made while building, so a reviewer can challenge them.
   three stops: a terminal, a mid-route stop and a timepoint. *Blocks:* the
   MATA panel launch.
 - [ ] **H6. Geocoder accuracy check (plan 7).** Hand-check a sample of 200
-  Memphis addresses geocoded by the Census geocoder. The sample has not been
-  drawn yet. The 311 pipeline does not need this, because it uses the city's
+  Memphis addresses geocoded by the Census geocoder. *Sample drawn
+  2026-09-25* against the City's address points (`docs/reviews/h6-geocoder/`):
+  93% Census match, and 96.5% land inside the address point's disk. The
+  hand check of the flagged rows is still to do. The 311 pipeline does not need this, because it uses the city's
   own request coordinates. The address lookup does need it. From a browser,
   the Census geocoder works only through JSONP (it sends no CORS headers);
   Nominatim is the fallback.
 - [ ] **H7. Independent reviewer.** Candidates are Data Midsouth, a
   University of Memphis faculty member or a former agency analyst (plan 13).
+  Outreach draft: `docs/outreach/h7-independent-reviewer.md` (not sent).
 - [ ] **H8. Agency courtesy previews.** Send each panel and its methodology
-  to the agency two weeks before launch.
+  to the agency two weeks before launch. The 311 letter draft is
+  `docs/outreach/h8-courtesy-preview-311.md`; log responses in
+  `docs/outreach/courtesy-preview-log.md`.
 
 ### Judgment calls to confirm
 
 - [ ] **H9. Reference-neighborhood ZIP groupings.** The draft is in
-  `geography/reference_neighborhoods.csv`. Confirm it or edit it.
+  `geography/reference_neighborhoods.csv`. Confirm it or edit it. The
+  evidence is in `docs/reviews/h9-reference-neighborhoods/`: the draft
+  covers 50% of residents and none of the four ZIPs that are over 20%
+  Hispanic.
 - [ ] **H19. Revise the MLGW specs before freezing.** The outage map
   publishes points with an `OUTAGE_NO`, not polygons
   (`docs/research/mata-mlgw.md`). The polygon event-chaining and
@@ -171,10 +181,15 @@ made while building, so a reviewer can challenge them.
 - [ ] **H20. Hand-verify the 311 golden file.** `pipelines/311/tests/golden/`
   was frozen from the v0.1 code as a regression baseline. Plan 5.3 asks for
   golden outputs checked by hand, so a reviewer should recompute a handful
-  of rows by hand.
+  of rows by hand. An independent reimplementation reproduces all 515 rows,
+  and the rows to redo by hand are prepared (`docs/reviews/h20-golden/`).
 - [ ] **H10. Spec review and freeze.** Every spec under `specs/` is `draft`.
   A human reviewer must read each one, including its adversarial objections,
   and set it to `frozen`. No metric can publish until this happens (5.7).
+  The 311 pre-review packet is `docs/reviews/h10-311-specs/`. Its main
+  finding: closed requests with no close date cluster in December 2025 and
+  January 2026. The permits, food-safety and MATA specs are at 0.2, with
+  open questions noted in each.
 
 ## Decisions made
 
