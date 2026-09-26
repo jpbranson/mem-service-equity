@@ -26,6 +26,18 @@ MEASURES_311 <- list(
   requests_created = function(raw, f, cfg) {
     sum(in_period(memequity::local_date(raw$created_date), f) &
           subgroup_filter(raw, f$subgroup, cfg$request_types))
+  },
+  # Mean calendar days from creation to close, over requests created in the
+  # period that are closed with a usable close time (not before creation,
+  # not a year-0001 placeholder).
+  mean_days_to_close = function(raw, f, cfg) {
+    status <- ifelse(is.na(raw$REQUEST_STATUS), "", raw$REQUEST_STATUS)
+    closed <- cfg$status_map$state[match(status, cfg$status_map$status)] %in% "closed"
+    days <- as.numeric(difftime(raw$Closed_Date, raw$created_date, units = "days"))
+    keep <- in_period(memequity::local_date(raw$created_date), f) &
+      subgroup_filter(raw, f$subgroup, cfg$request_types) & closed & !is.na(days) & days >= 0 &
+      memequity::local_date(raw$Closed_Date) >= MIGRATION_DATE
+    if (!any(keep)) NA_real_ else mean(days[keep])
   }
 )
 

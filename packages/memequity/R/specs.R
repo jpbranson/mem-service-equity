@@ -67,7 +67,11 @@ spec_problems <- function(spec) {
 
 fmt_list <- function(x) if (!length(x)) "_None._" else paste0("- ", unlist(x), collapse = "\n")
 
-fmt_num <- function(x) ifelse(is.na(x), "n/a", formatC(x, format = "fg", big.mark = ",", digits = 6))
+fmt_num <- function(x) vapply(x, function(v) {
+  if (is.na(v)) return("n/a")
+  if (abs(v) >= 1000) return(format(round(v), big.mark = ",", scientific = FALSE, trim = TRUE))
+  format(signif(v, 3), scientific = FALSE, trim = TRUE)
+}, "")
 
 # One line per reconciled figure (a data.frame from reconcile_figures()).
 reconciliation_lines <- function(r) {

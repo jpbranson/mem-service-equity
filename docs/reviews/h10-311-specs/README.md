@@ -173,6 +173,17 @@ declarations are adequate:
   on the manual audit (H3). Accepting a volume check for a timing metric is
   a judgment call the reviewer should make explicitly.
 - `pct_within_target` names `on_time_rate`, which does not exist yet.
+- **What the count check rests on today.** The City publishes no citywide
+  311 count. The only official count that reproduces is FY25
+  street-sweeping requests: 1,424 in the FY26 budget book against 1,423 in
+  the layer, about 0.4% of all requests (D22). Condition 5 for the four
+  comparison metrics passes on that single figure. Decide whether that is
+  enough, or whether to wait for the FY27 book's FY26 figures (expected
+  around October 2026) or to ask the City for counts.
+- The pothole "average time to fill" (FY25 2.7 days against the layer's
+  2.56) is shown on the methodology page but gates nothing. Adding it to
+  `median_business_days_to_close`'s measures would make that metric wait
+  until the gap is explained.
 
 ## Sign-off
 

@@ -176,6 +176,21 @@ test_that("reconciliation recomputes official counts by local date, type and cat
   expect_null(reconcile_311(raw, cfg, tempfile(), as.Date("2026-09-25")))
 })
 
+test_that("reconciliation recomputes the mean days to close from the raw times", {
+  raw <- rbind(
+    make_raw(created = "2026-06-01 10:00", closed = "2026-06-03 10:00"),     # 2 days
+    make_raw(created = "2026-06-10 10:00", closed = "2026-06-11 22:00"),     # 1.5 days
+    make_raw(created = "2026-06-12 10:00", closed = NA, status = "Open"),    # not closed
+    make_raw(created = "2026-06-15 10:00", closed = "2026-06-14 10:00"),     # closed before open
+    make_raw(created = "2026-06-20 10:00", closed = "0001-01-01 00:00"),     # placeholder date
+    make_raw(created = "2026-07-02 10:00", closed = "2026-07-03 10:00"))     # outside the period
+  path <- official_file(data.frame(figure_id = "mean", measure = "mean_days_to_close",
+                                   subgroup = "PW (SM)-Potholes", value = "1.75", precision = "0.1"))
+  r <- reconcile_311(raw, cfg, path, as.Date("2026-09-25"))
+  expect_equal(r$our_value, 1.75)
+  expect_true(r$within_tolerance)
+})
+
 test_that("reconciliation refuses figures from before the 2023 migration", {
   path <- official_file(data.frame(figure_id = "fy24", period_start = "2023-07-01",
                                    period_end = "2024-06-30"))

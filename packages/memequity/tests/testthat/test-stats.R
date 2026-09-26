@@ -61,6 +61,19 @@ test_that("bootstrap median interval is reproducible and brackets the median", {
   expect_true(metric_median(1:19)$suppressed)
 })
 
+test_that("bootstrap total interval is reproducible, order-invariant and brackets the total", {
+  set.seed(1)
+  x <- rlnorm(60, 10, 1.5)
+  a <- bootstrap_total_ci(x)
+  expect_equal(a, bootstrap_total_ci(rev(x)))
+  expect_lt(a$ci_low, sum(x)); expect_gt(a$ci_high, sum(x))
+  # Blocked draws give the same answer as one big draw.
+  expect_equal(bootstrap_total_ci(x, block = 100), bootstrap_total_ci(x, block = 1e7))
+  # A constant sample has no uncertainty.
+  expect_equal(unlist(bootstrap_total_ci(rep(5, 20))), c(ci_low = 100, ci_high = 100))
+  expect_true(is.na(bootstrap_total_ci(numeric())$ci_low))
+})
+
 test_that("bootstrap leaves the caller's RNG state untouched", {
   set.seed(99); before <- runif(1)
   set.seed(99); invisible(metric_median(1:50)); after <- runif(1)

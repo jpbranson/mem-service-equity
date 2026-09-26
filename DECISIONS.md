@@ -55,6 +55,20 @@ made while building, so a reviewer can challenge them.
   type and (b) any published on-time percentage and how it is computed.
   *Blocks:* the plan's key reconciliation (6.3, 14) and official-promise
   framing for every type except potholes.
+  *Found 2026-09-25 (official, not yet usable):*
+  - Solid Waste's budget decks publish "% of Bulk Waste Service Requests
+    Collected within 48 Hours": FY25 34.2%, FY26 41.2% through January.
+    This is the only official on-time series for a 311 type, but it does
+    not reproduce from the layer under its literal definition (13.8% of
+    FY25 bulk requests closed within 48 hours). Ask Solid Waste how it is
+    computed.
+  - Pothole targets conflict with one another:
+    - "filled within 2–3 days" (Public Works decks);
+    - average-days goals of 4.2, 4.0 and 3.0;
+    - 5–10 business days (memphistn.gov);
+    - a retired Data Hub story's 95% within 5 days.
+
+  Details are in `docs/research/311-permits-districts.md`.
 - [ ] **H15. Pre-migration 311 history.** The legacy Socrata dataset
   (`hmd4-ddta`, 2016–2025) is offline. If the history matters, request a
   bulk export. It is not needed for the current metrics, which never cross
@@ -289,6 +303,21 @@ made while building, so a reviewer can challenge them.
     met. The period and publication date of each official figure are shown
     on the methodology page, so a stale figure is visible.
   - Figures that start before the 2023-10-16 migration are refused.
+  - **What exists (researched 2026-09-25):**
+    - The City publishes no citywide 311 volume or on-time figure.
+    - Division KPIs in the adopted budget books are annual by fiscal year.
+      One official 311 count reproduces from the layer: street-sweeping
+      requests, FY25, 1,424 in the book (FY26 Adopted Budget Book p. 371)
+      against 1,423 in the layer.
+    - The pothole "average time to fill … (days)", FY25 2.7 (p. 372), is
+      also transcribed. The layer gives 2.56 calendar days, and the book
+      does not define the average. No metric depends on it, so the gap is
+      shown but blocks nothing.
+    - Condition 5 for the four comparison metrics therefore rests on one
+      small request type (about 0.4% of volume). The spec reviewer should
+      decide whether that is enough (H10). The FY27 book, expected around
+      October 2026, should add FY26 figures. Sources and details are in
+      `docs/research/311-permits-districts.md`.
 - **D23. A committed audit counts only when complete.** The publish gate
   used to accept any file named `audit_*.csv` in a pipeline's `audits/`
   folder, so the blank worksheet copied into place would have met condition

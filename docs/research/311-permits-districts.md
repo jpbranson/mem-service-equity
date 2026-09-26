@@ -61,6 +61,69 @@ _Verified 2026-09-23 by querying the endpoints unless marked otherwise._
   `scd_name` (8/9) and `ZipCode`. The pipeline assigns geography itself and
   uses these fields only as a cross-check.
 
+### Official 311 figures for reconciliation (researched 2026-09-25)
+
+A research pass looked for figures the City publishes that the pipeline
+could reproduce (DECISIONS.md D22). Figures marked *verified* were read on
+the page itself; the rest are as reported by that pass.
+
+- **No citywide figure exists.** The City publishes no citywide 311 request
+  volume, time to close or on-time percentage.
+  - The February 24, 2026 Council deck
+    (https://memphistn.gov/wp-content/uploads/2026/02/EXEC-City-Council-311-Updates-Presentation-2-24-2026.pdf)
+    has no numbers. Slide 4 says the web portal replaced "Roadside Litter"
+    with "Bulk Trash"; watch for that in `config/request_types.csv`.
+  - The City's "311 - Public Dashboard" (an ArcGIS dashboard on
+    311.memphistn.gov) reads the same layer, so reconciling against it would
+    be circular.
+- **Division KPIs** in the adopted budget books and in the budget-hearing
+  decks are annual by fiscal year (July–June). The adopted book appears
+  around October; the FY27 book is not out yet.
+- **Street-sweeping requests (verified).** FY26 Adopted Budget Book
+  (https://memphistn.gov/wp-content/uploads/2025/10/FY26-Adopted-Budget-Book.pdf)
+  p. 371 reports 1,424 street-sweeping service requests, with no period
+  stated.
+  - The layer has 1,423 `PW (HE)-Street Cleaning` requests created in FY25,
+    so the figure is FY25.
+  - It is transcribed in `pipelines/311/reconciliation/official_figures.csv`.
+  - The FY25 book's FY24 figure (1,407) spans the migration and cannot be
+    reproduced.
+- **Pothole average days to fill (verified).** Same book, p. 372: "Average
+  time to fill potholes in response to citizen request (days)":
+
+  | FY24 actual | FY25 goal | FY25 actual | FY26 goal |
+  |---|---|---|---|
+  | 3.0 | 4.0 | 2.7 | 3.0 |
+
+  - The book does not define the average or the timestamps.
+  - The layer's FY25 mean from creation to close is 2.56 calendar days
+    (median about 1.1).
+  - The City's pothole page says approved camera detections also create
+    311 requests; a "citizen request" may exclude them.
+- **Bulk waste collected within 48 hours.** Solid Waste FY26 and FY27 budget
+  decks (listed at https://memphistn.gov/fy27-budget/):
+
+  | FY21 | FY22 | FY23 | FY24 | FY25 | FY26 |
+  |---|---|---|---|---|---|
+  | 58.0% | 48.5% | 39.3% | 33.7% | 34.2% | 41.2% (through January) |
+
+  It does not reproduce under the literal definition: 13.8% of FY25
+  `SWM-Missed Bulk Trash` requests closed within 48 hours. See H14.
+- **Not reproducible from the layer:**
+  - code enforcement days to first notice and compliance;
+  - drain maintenance request counts (the book's 7,486 far exceeds the
+    layer's 3,378);
+  - call-centre answer times and abandonment rates, which also conflict
+    between sources;
+  - pothole counts, where decks, the ACFR and the web page disagree.
+- **Correction to the note above.** `DEPARTMENT` is populated for most
+  records. Since July 2025, however, about a third of new rows have it
+  blank. The pipeline does not use it.
+- **Granicus is off-limits.** memphis.granicus.com (Council video and
+  document archive) has a robots.txt that disallows all crawlers. Do not
+  automate retrieval from it (D11). memphistn.gov allows crawling with a
+  10-second delay.
+
 ### Legacy dataset (offline)
 
 - "Service Requests since 2016" (`hmd4-ddta`) had 2.1M rows covering

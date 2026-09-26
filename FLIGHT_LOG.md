@@ -29,7 +29,7 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
 |---|---|---|
 | 0 | Baseline: package, 311 and poller tests pass locally | [x] |
 | 3b | USPS branch: review, then merge into local `main` (or recommend deletion) | [x] merged locally; remote branch deletion left to user |
-| 1 | 311 reconciliation: find an official figure, record a D-entry, wire it into the gate | [ ] |
+| 1 | 311 reconciliation: find an official figure, record a D-entry, wire it into the gate | [x] one official count reproduces; adequacy flagged for H10 |
 | 2a | H10 spec freeze: pre-review packet for the 311 specs | [p] packet written; freeze is the reviewer's |
 | 2b | H3 manual audit: 100-record sample with an automated source trace | [p] 100/100 pass the pre-trace; manual audit open |
 | 2c | H20 golden file: independent recomputation of sample rows | [p] all 515 rows agree; hand check open |
@@ -136,9 +136,29 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
   pipeline will use the DPD layer only (27,501 permits, 2021-01 to
   2026-08, last edited 2026-09-01; no demolitions).
 
+- 23:10 CT. H6 packet committed (7ad103e): 93% Census match, median 35 m,
+  96.5% inside the address point's disk; Nominatim put "HWY 78" 9-20 km
+  off. Parcel denominators committed (032e7bd): 236,552 in-city parcels,
+  vintage 2022-08.
+- 23:40 CT. Step 1 done. Research agent: no citywide 311 figure exists;
+  budget-book KPIs only. **Verified on the PDF pages** and transcribed:
+  FY25 street-sweeping requests 1,424 (p. 371; layer 1,423, within
+  tolerance) and FY25 pothole mean days 2.7 (p. 372; layer 2.56, outside
+  tolerance, gates nothing). D22 and H14 updated (bulk waste 48 h series;
+  conflicting pothole targets), research note updated (incl. Granicus
+  robots.txt disallows all), H10 packet notes condition 5 rests on one
+  small figure. Removed a scratch file with staff usernames.
+- 23:40 CT. Permits so far: `pipelines/permits/R/fetch.R`,
+  `reconciliation/fetch_bps.R` + `official_figures.csv` (BPS 99990,
+  2021-2025: 843/875/707/519/929; DPD new residential 834/891/692/779/906;
+  the Census itself revised 2024 from 824 (Dec YTD) to 519 (annual) and
+  2025 from 816 to 929). `memequity::bootstrap_total_ci` added (untested
+  yet). Raw DPD cache `data/cache/permits/raw_2026-09-25.rds`.
+
 ## Next action
 
-Step 4a (permits pipeline), after H6 finishes. Parts: parcel denominators
+Commit step 1 figures. Then step 4a (permits pipeline): normalize, config
+maps, metrics, run.R, tests + golden, site + deploy, docs. Parts: parcel denominators
 (`geography/fetch_parcels.R`), `pipelines/permits/` (fetch DPD without
 Description, normalize, category map, metrics for permits_per_1000 and
 declared value; demolition ratio blocked by H21), BPS reconciliation,

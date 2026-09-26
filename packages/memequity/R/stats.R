@@ -57,6 +57,26 @@ bootstrap_median_ci <- function(x, conf = 0.95, reps = DEFAULT_REPS, seed = DEFA
   data.frame(ci_low = q[1], ci_high = q[2])
 }
 
+#' Percentile bootstrap interval for a total (sum).
+#'
+#' Like bootstrap_median_ci(): values are sorted and the seed is fixed, so the
+#' result is reproducible and invariant to record order. Resamples are drawn
+#' in blocks of about `block` values, so memory stays bounded for large n.
+#' @export
+bootstrap_total_ci <- function(x, conf = 0.95, reps = DEFAULT_REPS, seed = DEFAULT_SEED,
+                               block = 2e6) {
+  x <- sort(x[!is.na(x)])
+  n <- length(x)
+  if (!n) return(data.frame(ci_low = NA_real_, ci_high = NA_real_))
+  per <- max(1L, floor(block / n))
+  chunks <- split(seq_len(reps), ceiling(seq_len(reps) / per))
+  totals <- with_seed(seed, unlist(lapply(chunks, function(r)
+    colSums(matrix(x[sample.int(n, n * length(r), replace = TRUE)], nrow = n))),
+    use.names = FALSE))
+  q <- stats::quantile(totals, c((1 - conf) / 2, 1 - (1 - conf) / 2), names = FALSE, type = 7)
+  data.frame(ci_low = q[1], ci_high = q[2])
+}
+
 #' Exact (Garwood) Poisson interval for a count, optionally as a rate.
 #' @export
 poisson_rate_ci <- function(count, exposure = 1, per = 1, conf = 0.95) {
