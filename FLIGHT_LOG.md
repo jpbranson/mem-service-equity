@@ -32,7 +32,7 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
 | 1 | 311 reconciliation: find an official figure, record a D-entry, wire it into the gate | [ ] |
 | 2a | H10 spec freeze: pre-review packet for the 311 specs | [ ] |
 | 2b | H3 manual audit: 100-record sample with an automated source trace | [ ] |
-| 2c | H20 golden file: independent recomputation of sample rows | [ ] |
+| 2c | H20 golden file: independent recomputation of sample rows | [p] all 515 rows agree; hand check open |
 | 2d | H9 reference ZIPs: evidence packet | [ ] |
 | 2e | H6 geocoder check: draw the 200-address sample, automated comparison | [ ] |
 | 2f | H7 reviewer: outreach draft | [ ] |
@@ -61,8 +61,37 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
   `claude/usps-service-performance-uwwldp` can be deleted once `main` is
   pushed; that is the user's call. New D-entries start at **D22**.
 
+- 19:40 CT. Step 1 in progress.
+  - Found: `run.R` passes `reconciliation = NULL` to the gate, so condition
+    5 can never pass for 311; the only named 311 reconciliation (city
+    on-time %) does not exist (H14, deferred by D19).
+  - Research on official 311 figures delegated to a background agent
+    (budget books, Feb 2026 Council deck, Data Hub dashboards). Result
+    pending; if the session dies, re-run that research.
+  - Built the general mechanism (uncommitted until the 311 part is done):
+    `packages/memequity/R/reconcile.R` (`read_official_figures`,
+    `reconcile_figures`, `spec_reconciliation`, `write_reconciliation`;
+    tolerance 2% or half the rounding unit, larger gaps need a
+    `gap_note`), `reconciliation` is now a required spec field
+    (`measures` + `text`), methodology renders per-figure lines. Template
+    and all non-311 specs carry plan-5.5 reconciliation declarations.
+    memequity tests pass (incl. 6 new tests).
+  - Still to do for step 1: 311 spec declarations, the official figures
+    file, `pipelines/311/R/reconcile.R`, wiring in `run.R`, a repo-wide
+    spec test, D22, docs.
+
+- 20:15 CT. Step 2c prepared (H20 stays open for a human).
+  - `pipelines/311/tests/independent/` (export_golden.R +
+    recompute_golden.py, stdlib-only second implementation): **all 515
+    golden rows agree** exactly; six deliberate mutations each break
+    agreement (74–245 rows), so the check has teeth.
+  - Packet: `docs/reviews/h20-golden/` (README, comparison.csv, three
+    by-hand worksheets). Human still has to redo the three worksheet rows
+    and look a few `sr_id`s up in the source.
+  - Found for H10: `reopen_rate` silently requires a re-report to open
+    >= 1 day after the close (same-day re-reports never count).
+
 ## Next action
 
-Step 1: research whether the City of Memphis publishes an official 311
-figure we can reconcile against (counts by type or month, not on-time %).
-Start from `docs/research/311-permits-districts.md`.
+Step 1: wait for the research result, then finish the 311 part (list
+under 19:40). Commit step 2c files with step 1 or separately.
