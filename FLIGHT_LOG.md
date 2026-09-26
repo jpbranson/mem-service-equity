@@ -38,7 +38,7 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
 | 2f | H7 reviewer: outreach draft | [p] draft written; not sent |
 | 2g | H8 courtesy preview: letter draft | [p] draft + public log written; not sent |
 | 3a | H11 follow-up: letter draft for use after 2026-10-02 | [p] draft written; send only if no reply by 10-02 |
-| 4a | Permits pipeline (Phase 4) | [ ] |
+| 4a | Permits pipeline (Phase 4) | [x] built, tested, on the site (gated); demolitions blocked (H21) |
 | 4b | Food-safety ingest against the expected export (D13) | [ ] |
 | 4c | H19: MLGW spec revision draft | [ ] |
 | 4d | MATA trip matching (Phase 5) | [ ] |
@@ -155,10 +155,29 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
   2025 from 816 to 929). `memequity::bootstrap_total_ci` added (untested
   yet). Raw DPD cache `data/cache/permits/raw_2026-09-25.rds`.
 
+- 00:40 CT (09-26). Step 4a done.
+  - Commits: 4096036 (step 1 figures), 6cfc243 (permits pipeline); this
+    commit adds the site, workflows and docs.
+  - Permits run end to end on 2026-09-25 data: validation pass (3
+    reconciliation warnings); 18,771 in-city permits; about 2.5 min
+    (bootstrap).
+  - Reconciliation: 2021 and 2022 within 2%; 2023 −2.1% has no note (so
+    the permits metrics stay blocked on condition 5, honestly); 2024 and
+    2025 carry factual notes about the Census's own YTD-vs-annual
+    revisions.
+  - Site: app.js generalized by pipeline, with a new "Compare areas:
+    investment" section. The methodology page loads both pipelines. Checked
+    in the browser pane (gated and preview builds; no console errors).
+    `.claude/launch.json` (static server on :8765) is local and not
+    committed.
+  - deploy-site runs permits after 311 with continue-on-error.
+  - New spec field `blocked` (the gate reports it first).
+
 ## Next action
 
-Commit step 1 figures. Then step 4a (permits pipeline): normalize, config
-maps, metrics, run.R, tests + golden, site + deploy, docs. Parts: parcel denominators
+Step 4b: food-safety ingest against the expected export (D13), built from
+the fields in `docs/records-requests/h11-food-inspections.md`, with a
+column-mapping config so the real export only needs config changes. Parts: parcel denominators
 (`geography/fetch_parcels.R`), `pipelines/permits/` (fetch DPD without
 Description, normalize, category map, metrics for permits_per_1000 and
 declared value; demolition ratio blocked by H21), BPS reconciliation,

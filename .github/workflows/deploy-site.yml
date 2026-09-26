@@ -1,7 +1,8 @@
 name: deploy-site
 
-# Daily: test, run the 311 pipeline, archive its outputs to the monthly data
-# release (D17), build the gated site data and deploy to GitHub Pages (H2).
+# Daily: test, run the 311 and permits pipelines, archive their outputs to
+# the monthly data releases (D17), build the gated site data and deploy to
+# GitHub Pages (H2).
 # The site data is built without --preview, so only metrics that pass the
 # publish gate (plan 5.7) reach the public site.
 
@@ -57,6 +58,33 @@ jobs:
           gh release view "$tag" >/dev/null 2>&1 || gh release create "$tag" \
             --title "311 published outputs $(date -u +%Y-%m)" \
             --notes "Daily 311 pipeline outputs (metrics, points, validation, methodology, publish status). One dated zip per run; see DECISIONS.md D17." \
+            || gh release view "$tag" >/dev/null
+          gh release upload "$tag" "$zip_name" --clobber
+      # Permits must not block the 311 deploy: if its tests or run fail, the
+      # site builds without it and the panel says it has no outputs. It gets
+      # TESTS_PASSED only when its own tests passed (condition 3).
+      - name: Permits pipeline tests
+        id: permits_tests
+        continue-on-error: true
+        run: Rscript -e 'testthat::test_dir("pipelines/permits/tests/testthat", stop_on_failure = TRUE)'
+      - name: Run permits pipeline
+        id: permits_run
+        continue-on-error: true
+        env:
+          TESTS_PASSED: ${{ steps.permits_tests.outcome == 'success' }}
+        run: Rscript pipelines/permits/run.R --out data/published/permits
+      - name: Archive permits outputs to the monthly data release
+        if: steps.permits_run.outcome == 'success'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="data-permits-$(date -u +%Y-%m)"
+          zip_name="data-permits-$(date -u +%Y-%m-%d).zip"
+          (cd data/published && zip -qr "../../$zip_name" permits)
+          gh release view "$tag" >/dev/null 2>&1 || gh release create "$tag" \
+            --title "Permits published outputs $(date -u +%Y-%m)" \
+            --notes "Daily permits pipeline outputs (metrics, validation, reconciliation, methodology, publish status). The source is refreshed monthly. One dated zip per run; see DECISIONS.md D17." \
             || gh release view "$tag" >/dev/null
           gh release upload "$tag" "$zip_name" --clobber
       - name: Build site data (gated)

@@ -53,6 +53,14 @@ test_that("subgroups nest: each category by sector, pooled, and all", {
   expect_true(all(s$all))
 })
 
+test_that("every subgroup has a label for the site", {
+  labels <- utils::read.csv(file.path(repo_root, "pipelines", "permits", "config", "subgroups.csv"),
+                            stringsAsFactors = FALSE)
+  s <- subgroup_masks(data.frame(category = "new", sector = "residential"))
+  expect_setequal(labels$subgroup, names(s))
+  expect_true(all(nzchar(labels$label)))
+})
+
 test_that("permit rates: known counts, zeros, the parcel floor and the citywide reference", {
   through <- as.Date("2026-08-31")
   raw <- rbind(

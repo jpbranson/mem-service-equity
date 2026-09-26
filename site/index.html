@@ -20,7 +20,7 @@
       <p class="lede">Five systems make promises to every Memphis address: the bus, the power,
         311, restaurant inspections and neighborhood investment. This site measures whether
         each promise is kept, and whether the answer depends on where you live.</p>
-      <nav class="site-nav"><a href="#lookup">Look up an address</a><a href="#compare">Compare areas</a><a href="methodology.html">Methodology</a></nav>
+      <nav class="site-nav"><a href="#lookup">Look up an address</a><a href="#compare">Compare areas</a><a href="#compare-permits">Investment</a><a href="methodology.html">Methodology</a></nav>
     </div>
   </header>
 
@@ -58,6 +58,20 @@
         <label>Window <select id="window"></select></label>
       </form>
       <div id="compare-result"></div>
+    </section>
+
+    <section id="compare-permits" class="section">
+      <h2>Compare areas: investment (building permits)</h2>
+      <p class="muted">Permits issued per 1,000 parcels and their declared value, from the City's
+        building permits, which are refreshed monthly. Demolitions are not included yet. Where the
+        two intervals overlap, the areas are not clearly different.</p>
+      <form id="permits-form" class="compare-form">
+        <label>Area A <select id="permits-area-a"></select></label>
+        <label>Area B <select id="permits-area-b"></select></label>
+        <label>Permits <select id="permits-category"></select></label>
+        <label>Window <select id="permits-window"></select></label>
+      </form>
+      <div id="permits-result"></div>
     </section>
   </main>
 

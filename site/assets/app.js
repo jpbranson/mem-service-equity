@@ -12,9 +12,16 @@
     window_60d: 'Re-reported within 60 days',
     radius_25m: 'Same location within 25 m',
     radius_100m: 'Same location within 100 m',
+    excl_minor: 'Leaving out minor permits (declared value under $5,000)',
+    excl_top1pct: 'Leaving out permits above the citywide 99th percentile of declared value',
+    cap_10m: 'Each declared value capped at $10 million',
+    median_per_permit: 'Median declared value per permit',
   };
+  // Variants reported in a different unit from their metric.
+  const VARIANT_UNITS = { median_per_permit: 'dollars' };
 
-  const state = { manifest: null, cols: {}, areas: {}, demo: null, hex: new Map(), points: new Map(), fresh: true };
+  // areas: pipeline key -> geo_type -> geo_id -> rows. fresh: pipeline key -> bool.
+  const state = { manifest: null, cols: {}, areas: {}, demo: null, hex: new Map(), points: new Map(), fresh: {} };
 
   // ---- small helpers ---------------------------------------------------------
 
@@ -62,14 +69,23 @@
     if (unit === 'proportion') return `${(v * 100).toFixed(1)}%`;
     if (unit === 'business_days') return `${v} business day${v === 1 ? '' : 's'}`;
     if (unit === 'count_per_1000') return `${fmtRate(v)} per 1,000 residents`;
+    if (unit === 'count_per_1000_parcels') return `${fmtRate(v)} per 1,000 parcels`;
+    if (unit === 'dollars_per_1000_parcels') return `${fmtMoney(v)} per 1,000 parcels`;
+    if (unit === 'dollars') return fmtMoney(v);
     return String(v);
   }
   function fmtBound(unit, v) {
     if (unit === 'proportion') return `${(v * 100).toFixed(1)}%`;
-    if (unit === 'count_per_1000') return fmtRate(v);
+    if (unit === 'count_per_1000' || unit === 'count_per_1000_parcels') return fmtRate(v);
+    if (unit === 'dollars_per_1000_parcels' || unit === 'dollars') return fmtMoney(v);
     return String(v);
   }
   const fmtRate = (v) => v.toFixed(v < 10 ? 2 : 1);
+  function fmtMoney(v) {
+    if (Math.abs(v) >= 1e9) return `$${(v / 1e9).toFixed(2)} billion`;
+    if (Math.abs(v) >= 1e6) return `$${(v / 1e6).toFixed(1)} million`;
+    return `$${Math.round(v).toLocaleString()}`;
+  }
   function fmtInterval(unit, lo, hi) {
     const high = hi === -1 ? 'longer than observed' : fmtBound(unit, hi);
     return `${fmtBound(unit, lo)} to ${high}`;
@@ -79,36 +95,45 @@
     const d = daysBetween(start, end) + 1;
     if (d >= 85 && d <= 95) return 'Last 90 days';
     if (d >= 360 && d <= 370) return 'Last 12 months';
+    if (d >= 1820 && d <= 1830) return 'Last 5 years';
     return `${fmtDate(start)} to ${fmtDate(end)}`;
   }
 
   // ---- data status and the five panels ----------------------------------------
 
+  // One line per pipeline that produced data; also sets its freshness.
   function renderStatus() {
     const m = state.manifest;
-    const p = m.pipelines['311'];
     const box = $('#data-status');
     box.replaceChildren();
-    if (!p) { box.append('No published data yet.'); return; }
-    const age = daysBetween(p.data_current_through, todayChicago());
-    state.fresh = age <= p.freshness_limit_days;
-    const v = p.validation;
-    box.append(
-      el('strong', {}, '311 data current through ', fmtDate(p.data_current_through)), '. ',
-      `Source validation ${v.status === 'pass' ? 'passed' : 'FAILED'} `,
-      `(${v.summary.checks_passed} of ${v.summary.checks_run} checks) on ${fmtDate(v.run_date)}. `,
-      `${v.record_counts.included_primary_in_city.toLocaleString()} requests inside city limits after removing duplicates.`,
-    );
-    if (!state.fresh) {
-      box.append(el('div', { class: 'gate' },
-        `This data is ${age} days old, past the ${p.freshness_limit_days}-day freshness limit, `,
-        'so its numbers are hidden until the pipeline runs again.'));
+    const counted = {
+      311: (v) => `${v.record_counts.included_primary_in_city.toLocaleString()} requests inside city limits after removing duplicates.`,
+      permits: (v) => `${v.record_counts.included_in_city.toLocaleString()} permits inside city limits. The source is refreshed monthly.`,
+    };
+    for (const key of Object.keys(counted)) {
+      const p = m.pipelines[key];
+      if (!p || !p.data_current_through) continue;
+      const age = daysBetween(p.data_current_through, todayChicago());
+      state.fresh[key] = age <= p.freshness_limit_days;
+      const v = p.validation;
+      const line = el('div', {},
+        el('strong', {}, `${p.title}: data current through `, fmtDate(p.data_current_through)), '. ',
+        `Source validation ${v.status === 'pass' ? 'passed' : 'FAILED'} `,
+        `(${v.summary.checks_passed} of ${v.summary.checks_run} checks) on ${fmtDate(v.run_date)}. `,
+        counted[key](v));
+      if (!state.fresh[key]) {
+        line.append(el('div', { class: 'gate' },
+          `This data is ${age} days old, past the ${p.freshness_limit_days}-day freshness limit, `,
+          'so its numbers are hidden until the pipeline runs again.'));
+      }
+      box.append(line);
     }
+    if (!box.childNodes.length) box.append('No published data yet.');
   }
 
   function panelState(key, p) {
-    if (key === '311') {
-      const any = Object.values(p.publish || {}).some((g) => g.publishable);
+    if (p.publish) {
+      const any = Object.values(p.publish).some((g) => g.publishable);
       return any ? ['live', 'Live'] : ['collecting', 'Computed, not yet published'];
     }
     if (p.status === 'collecting') return ['collecting', `Collecting since ${fmtDate(p.collecting_since)}`];
@@ -124,14 +149,17 @@
       const p = state.manifest.pipelines[key];
       if (!p) continue;
       const [cls, label] = panelState(key, p);
-      const note = key === '311'
-        ? 'Resolution times and re-reports for eight common request types, by ZIP, council district and address.'
-        : p.note;
+      const notes = {
+        311: 'Resolution times and re-reports for eight common request types, by ZIP, council district and address.',
+        permits: 'Building permits and their declared value per 1,000 parcels, by ZIP and council district.',
+      };
+      const links = { 311: '#compare', permits: '#compare-permits' };
+      const live = Boolean(p.publish);
       grid.append(el('article', { class: 'card panel' },
         el('h3', {}, p.title),
         el('div', { class: `state state-${cls}` }, label),
-        el('p', {}, note),
-        key === '311' ? el('p', {}, el('a', { href: '#compare' }, 'Compare areas')) : null));
+        el('p', {}, live ? notes[key] : p.note),
+        live && links[key] ? el('p', {}, el('a', { href: links[key] }, 'Compare areas')) : null));
     }
   }
 
@@ -143,19 +171,27 @@
     r.metric === metric && r.variant === variant && r.subgroup === type &&
     r.window_start === win.start && r.window_end === win.end);
 
+  // spec.noun is the pipeline's unit of record ("request", "permit").
   function cellContent(spec, r, geo) {
+    const noun = spec.noun || 'request';
+    const count = (n) => `${n.toLocaleString()} ${noun}${n === 1 ? '' : 's'}`;
     if (!r && geo && spec.geographies && !spec.geographies.includes(geo)) {
       return el('span', { class: 'muted' }, 'Not reported for this kind of area');
     }
-    if (!r) return el('span', { class: 'muted' }, 'No requests in this window');
-    if (r.suppressed && spec.min_population) {
+    if (!r) return el('span', { class: 'muted' }, `No ${noun}s in this window`);
+    if (r.suppressed && spec.min_population && !(spec.min_n && r.n < spec.min_n)) {
       return el('span', { class: 'muted' },
         `Fewer than ${spec.min_population.toLocaleString()} residents inside the city, too few for a rate `,
-        `(${r.n.toLocaleString()} request${r.n === 1 ? '' : 's'})`);
+        `(${count(r.n)})`);
+    }
+    if (r.suppressed && spec.min_parcels && !(spec.min_n && r.n < spec.min_n)) {
+      return el('span', { class: 'muted' },
+        `Fewer than ${spec.min_parcels.toLocaleString()} parcels inside the city, too few for a rate `,
+        `(${count(r.n)})`);
     }
     if (r.suppressed) {
       return el('span', { class: 'muted' },
-        `Too few requests to report (n = ${r.n.toLocaleString()}; needs ${spec.min_n})`);
+        `Too few ${noun}s to report (n = ${r.n.toLocaleString()}; needs ${spec.min_n})`);
     }
     return el('div', {},
       el('div', {}, fmtValue(spec.unit, r.value)),
@@ -183,27 +219,35 @@
     return 'Intervals do not overlap: the difference is larger than the uncertainty.';
   }
 
+  // A spec can be blocked outright (no data source yet); that reason leads,
+  // and only the six publication conditions are counted.
   function gateBox(g) {
-    const n = g.missing.length;
+    const blocked = g.missing.filter((m) => m.startsWith('blocked:'));
+    const conds = g.missing.filter((m) => !m.startsWith('blocked:'));
+    const n = conds.length;
     return el('details', { class: 'gate' },
-      el('summary', {}, `Not yet published: ${n} of 6 publication conditions ${n === 1 ? 'is' : 'are'} unmet`,
+      el('summary', {}, blocked.length
+        ? `Not computed yet: ${blocked[0].replace(/^blocked:\s*/, '')}`
+        : `Not yet published: ${n} of 6 publication conditions ${n === 1 ? 'is' : 'are'} unmet`,
         state.manifest.preview ? ' (numbers below are shown for review only)' : ''),
-      el('ul', {}, g.missing.map((m) => el('li', {}, m))));
+      el('ul', {}, conds.map((m) => el('li', {}, m))));
   }
 
-  // columns: [{label, rows, geo}] where rows are objects for one geography
-  // and geo is its geo_type. The verdict compares the first two columns.
-  // Demand (requests per resident) is shown last, under its own heading, so
-  // volume is never read as a measure of service quality.
-  function renderMetricTable(columns, type, win) {
-    const p = state.manifest.pipelines['311'];
+  // key: pipeline ('311', 'permits'). columns: [{label, rows, geo}] where
+  // rows are objects for one geography and geo is its geo_type. subgroup is a
+  // request type or permit category. The verdict compares the first two
+  // columns. Demand (requests per resident) is shown last, under its own
+  // heading, so volume is never read as a measure of service quality.
+  function renderMetricTable(key, columns, type, win) {
+    const p = state.manifest.pipelines[key];
     const wrap = el('div', {});
-    if (!state.fresh) return wrap;
+    if (!state.fresh[key]) return wrap;
     const target = (p.targets || []).find((t) => t.request_type === type);
     const isDemand = (spec) => spec.unit === 'count_per_1000';
     const ordered = Object.entries(p.specs).sort(([, a], [, b]) => isDemand(a) - isDemand(b));
     let demandShown = false;
-    for (const [id, spec] of ordered) {
+    for (const [id, pspec] of ordered) {
+      const spec = { ...pspec, noun: p.noun };
       if (isDemand(spec) && !demandShown) {
         demandShown = true;
         wrap.append(el('h4', { class: 'subhead' }, 'Demand: how often residents report'),
@@ -230,7 +274,7 @@
       if (prim.every((r) => !r)) {
         block.append(el('p', { class: 'muted' }, id === 'pct_within_target'
           ? 'Only reported for request types with an official city target.'
-          : 'Not computed for this request type yet.'));
+          : `Not computed for this ${key === '311' ? 'request type' : 'selection'} yet.`));
         wrap.append(block);
         continue;
       }
@@ -245,7 +289,8 @@
           el('summary', {}, 'Same metric under other thresholds'),
           variants.map((vn) => el('div', {},
             el('p', { class: 'ci' }, VARIANT_LABELS[vn] || vn),
-            valueTable(columns, columns.map((c) => pick(c.rows, id, vn, type, win)), spec)))));
+            valueTable(columns, columns.map((c) => pick(c.rows, id, vn, type, win)),
+              { ...spec, unit: VARIANT_UNITS[vn] || spec.unit })))));
       }
       wrap.append(block);
     }
@@ -301,23 +346,25 @@
       el('p', { class: 'fineprint' },
         `American Community Survey ${d.acs_vintage} 5-year estimates, for the part of each area inside `,
         'the City of Memphis. Block-group estimates are split across areas using 2020 Census block ',
-        'populations. ± is the 90% margin of error (the 311 figures above use 95% intervals). ',
+        'populations. ± is the 90% margin of error (the metrics above use 95% intervals). ',
         '"Low reliability" means the margin is large relative to the estimate.'));
   }
 
   // ---- area comparison -----------------------------------------------------------
 
-  function areaOptions(select, selected) {
-    const groups = [
-      ['citywide', 'Citywide', () => 'City of Memphis'],
-      ['reference_neighborhood', 'Reference neighborhoods', (id) => id],
-      ['council_district', 'Council districts', (id) => `Council District ${id}`],
-      ['super_district', 'Super districts', (id) => `Super District ${id}`],
-      ['zcta', 'ZIP codes', (id) => `ZIP ${id}`],
-    ];
+  const AREA_GROUPS = [
+    ['citywide', 'Citywide', () => 'City of Memphis'],
+    ['reference_neighborhood', 'Reference neighborhoods', (id) => id],
+    ['council_district', 'Council districts', (id) => `Council District ${id}`],
+    ['super_district', 'Super districts', (id) => `Super District ${id}`],
+    ['zcta', 'ZIP codes', (id) => `ZIP ${id}`],
+  ];
+
+  // areas: geo_type -> geo_id -> rows, for one pipeline.
+  function areaOptions(select, selected, areas) {
     select.replaceChildren();
-    for (const [g, label, name] of groups) {
-      const ids = Object.keys(state.areas[g] || {}).sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
+    for (const [g, label, name] of AREA_GROUPS) {
+      const ids = Object.keys(areas[g] || {}).sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
       if (!ids.length) continue;
       select.append(el('optgroup', { label }, ids.map((id) =>
         el('option', { value: `${g}|${id}`, selected: `${g}|${id}` === selected }, name(id)))));
@@ -325,16 +372,13 @@
   }
 
   function areaName(value) {
-    const opt = [...$('#area-a').options].find((o) => o.value === value);
-    return opt ? opt.textContent : value;
-  }
-  const areaRows = (value) => {
     const [g, id] = value.split('|');
-    return ((state.areas[g] || {})[id] || []).map(asRow);
-  };
-  const areaColumn = (value) => {
+    const group = AREA_GROUPS.find(([k]) => k === g);
+    return group ? group[2](id) : value;
+  }
+  const areaColumn = (areas, value) => {
     const [geo, id] = value.split('|');
-    return { label: areaName(value), rows: areaRows(value), geo, id };
+    return { label: areaName(value), rows: ((areas[geo] || {})[id] || []).map(asRow), geo, id };
   };
 
   function windowsFrom(rows) {
@@ -348,33 +392,54 @@
     select.replaceChildren(...items.map(([v, t]) => el('option', { value: v, selected: v === keep }, t)));
   }
 
-  function setupCompare() {
-    const p = state.manifest.pipelines['311'];
-    const result = $('#compare-result');
-    const cityRows = Object.values(state.areas.citywide || {})[0] || [];
+  // One comparison section per pipeline. ids names the section's form, result
+  // box, the two area selects, the subgroup select and the window select;
+  // subgroups is [[value, label]]; defaults gives area A and the subgroup.
+  function setupComparison(key, ids, subgroups, defaults) {
+    const p = state.manifest.pipelines[key];
+    const areas = state.areas[key] || {};
+    const form = $(`#${ids.form}`);
+    const result = $(`#${ids.result}`);
+    const cityRows = Object.values(areas.citywide || {})[0] || [];
     if (!cityRows.length) {
-      $('#compare-form').hidden = true;
+      form.hidden = true;
       result.replaceChildren(el('div', { class: 'card' },
-        el('p', {}, 'No 311 metric has passed the publication gate yet, so there is nothing to compare. ',
+        el('p', {}, `No ${p.title} metric has passed the publication gate yet, so there is nothing to compare. `,
           'Each metric and what it still needs:'),
-        renderMetricTable([{ label: '', rows: [] }, { label: '', rows: [] }], p.headline_types[0], {})));
+        renderMetricTable(key, [{ label: '', rows: [] }, { label: '', rows: [] }], subgroups[0][0], {})));
       return;
     }
-    areaOptions($('#area-a'), 'reference_neighborhood|Frayser');
-    areaOptions($('#area-b'), 'citywide|' + Object.keys(state.areas.citywide)[0]);
-    fillSelect($('#req-type'), p.headline_types.map((t) => [t, typeLabel(t)]), 'PW (SM)-Potholes');
+    areaOptions($(`#${ids.a}`), defaults.a, areas);
+    areaOptions($(`#${ids.b}`), 'citywide|' + Object.keys(areas.citywide)[0], areas);
+    fillSelect($(`#${ids.sub}`), subgroups, defaults.sub);
     const wins = windowsFrom(cityRows.map(asRow));
-    fillSelect($('#window'), wins.map((w) => [`${w.start}|${w.end}`, windowLabel(w.start, w.end)]));
+    fillSelect($(`#${ids.win}`), wins.map((w) => [`${w.start}|${w.end}`, windowLabel(w.start, w.end)]));
     const draw = () => {
-      const [start, end] = $('#window').value.split('|');
-      const a = $('#area-a').value, b = $('#area-b').value;
-      const cols = [areaColumn(a), areaColumn(b)];
+      const [start, end] = $(`#${ids.win}`).value.split('|');
+      const cols = [areaColumn(areas, $(`#${ids.a}`).value), areaColumn(areas, $(`#${ids.b}`).value)];
       result.replaceChildren(el('div', { class: 'card' },
-        renderMetricTable(cols, $('#req-type').value, { start, end }),
+        renderMetricTable(key, cols, $(`#${ids.sub}`).value, { start, end }),
         renderDemographics(cols)));
     };
-    $('#compare-form').addEventListener('change', draw);
+    form.addEventListener('change', draw);
     draw();
+  }
+
+  function setupCompare() {
+    const p = state.manifest.pipelines['311'];
+    setupComparison('311',
+      { form: 'compare-form', result: 'compare-result', a: 'area-a', b: 'area-b', sub: 'req-type', win: 'window' },
+      p.headline_types.map((t) => [t, typeLabel(t)]),
+      { a: 'reference_neighborhood|Frayser', sub: 'PW (SM)-Potholes' });
+  }
+
+  function setupComparePermits() {
+    const p = state.manifest.pipelines.permits;
+    setupComparison('permits',
+      { form: 'permits-form', result: 'permits-result', a: 'permits-area-a', b: 'permits-area-b',
+        sub: 'permits-category', win: 'permits-window' },
+      p.subgroups.map((s) => [s.id, s.label]),
+      { a: 'council_district|1', sub: 'all' });
   }
 
   // ---- address lookup ---------------------------------------------------------------
@@ -496,14 +561,15 @@
         district ? el('span', { class: 'tag' }, `Council District ${district}`) : null));
 
       const p = state.manifest.pipelines['311'];
+      const areas = state.areas['311'] || {};
       const near = ((shard.metrics && shard.metrics[cell]) || []).map(asRow);
-      const city = Object.values(state.areas.citywide || {})[0] || [];
-      const cityId = Object.keys(state.areas.citywide || {})[0];
+      const city = Object.values(areas.citywide || {})[0] || [];
+      const cityId = Object.keys(areas.citywide || {})[0];
       const columns = [
         { label: 'Near this address', rows: near, geo: 'h3_9' },
         { label: 'Citywide', rows: city.map(asRow), geo: 'citywide', id: cityId },
-        zip ? { label: `ZIP ${zip}`, rows: ((state.areas.zcta || {})[zip] || []).map(asRow), geo: 'zcta', id: zip } : null,
-        district ? { label: `District ${district}`, rows: ((state.areas.council_district || {})[district] || []).map(asRow),
+        zip ? { label: `ZIP ${zip}`, rows: ((areas.zcta || {})[zip] || []).map(asRow), geo: 'zcta', id: zip } : null,
+        district ? { label: `District ${district}`, rows: ((areas.council_district || {})[district] || []).map(asRow),
           geo: 'council_district', id: district } : null,
       ].filter(Boolean);
 
@@ -517,7 +583,7 @@
       const tableBox = el('div', {});
       const draw = () => {
         const [start, end] = (winSel.value || '|').split('|');
-        tableBox.replaceChildren(renderMetricTable(columns, typeSel.value, { start, end }));
+        tableBox.replaceChildren(renderMetricTable('311', columns, typeSel.value, { start, end }));
       };
       typeSel.addEventListener('change', draw);
       winSel.addEventListener('change', draw);
@@ -555,12 +621,23 @@
     $('#preview-banner').hidden = !state.manifest.preview;
     renderStatus();
     renderPanels();
+    // Gated builds can write empty geographies as [] rather than {}.
+    const loadAreas = async (path) => {
+      const a = (await getJSON(path)) || {};
+      for (const g of Object.keys(a)) if (Array.isArray(a[g])) a[g] = {};
+      return a;
+    };
+    if (state.manifest.demographics) state.demo = await getJSON(state.manifest.demographics.file);
     if (state.manifest.pipelines['311']) {
-      state.areas = (await getJSON('311/areas.json')) || {};
-      if (state.manifest.demographics) state.demo = await getJSON(state.manifest.demographics.file);
-      // Gated builds can write empty geographies as [] rather than {}.
-      for (const g of Object.keys(state.areas)) if (Array.isArray(state.areas[g])) state.areas[g] = {};
+      state.areas['311'] = await loadAreas('311/areas.json');
       setupCompare();
+    }
+    const permits = state.manifest.pipelines.permits;
+    if (permits && permits.publish) {
+      state.areas.permits = await loadAreas('permits/areas.json');
+      setupComparePermits();
+    } else {
+      $('#compare-permits').hidden = true;
     }
     $('#lookup-form').addEventListener('submit', lookup);
   }

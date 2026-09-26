@@ -1,0 +1,13 @@
+subgroup,label
+all,All permits
+new,New construction
+renovation,Renovation (alteration or addition)
+accessory,Accessory structures
+all_residential,All residential permits
+new_residential,New construction: residential
+renovation_residential,Renovation: residential
+accessory_residential,Accessory structures: residential
+all_commercial,All commercial permits
+new_commercial,New construction: commercial
+renovation_commercial,Renovation: commercial
+accessory_commercial,Accessory structures: commercial

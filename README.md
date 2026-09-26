@@ -17,7 +17,7 @@ The full design is in
 records requests, audits, spec sign-off) and the implementation choices made
 so far. Source research is in [`docs/research/`](docs/research/).
 
-## Status (2026-09-23)
+## Status (2026-09-25)
 
 | Phase | Plan deliverable | State |
 |---|---|---|
@@ -25,7 +25,7 @@ so far. Source research is in [`docs/research/`](docs/research/).
 | 1 | MATA and MLGW pollers started | **Running.** GitHub Actions every 2 hours; raw data archived to weekly releases (`archive-mata-*`, `archive-mlgw-*`) |
 | 2 | Food safety site | **Blocked.** The state inspection portal forbids automated access, so the data needs a records request (DECISIONS.md H11). The request in `docs/records-requests/` was sent on 2026-09-23 |
 | 3 | 311 pipeline and address lookup | **Built, not yet published.** Pipeline, address lookup, area comparison (with "who lives here" demographics and requests per 1,000 residents) and methodology page all work. `deploy-site` runs daily and deploys to GitHub Pages. Every metric shows which publication conditions it still misses |
-| 4 | Permits | Not started (specs drafted; sources researched) |
+| 4 | Permits | **Built, not yet published.** Permits and declared value per 1,000 parcels by ZIP and council district, from the City's DPD layer, with its own comparison section on the site. Demolitions are blocked: Data Midsouth forbids automated access (D24, H21). Reconciled against the Census Building Permits Survey |
 | 5 | MATA panel | Collecting; trip matching not started |
 | 6 | MLGW panel | Collecting; needs six months of history |
 
@@ -34,23 +34,31 @@ differs from one area to another, with demographic context for each area
 (ACS 2020–2024, D20). Work that depends on official targets is deferred.
 
 **No metric is publishable yet.** Every metric's publish-status file says
-which of the six publication conditions is missing. For every metric, the
-spec has not been frozen by a reviewer (H10) and no manual audit has been
-committed (H3). For 311 there is also no official figure to reconcile
-against (H14).
+which of the six publication conditions is missing.
+- For every metric, the spec has not been frozen by a reviewer (H10), and
+  no manual audit has been committed (H3).
+- For 311, the comparison metrics reconcile against the one official count
+  that reproduces: FY25 street-sweeping requests (D22). `pct_within_target`
+  has no official on-time figure (H14).
+- For permits, the 2023 Census figure is 2.1% off and not yet explained.
+
+Review packets that prepare each human step are in `docs/reviews/`.
 
 ## Repository layout
 
 | Path | What it holds |
 |---|---|
 | `packages/memequity/` | Shared R package: geography layer, grid-hash spatial joins, City of Memphis business-day calendar, stats (suppression, Wilson / bootstrap / Kaplan–Meier intervals), validation harness, output-schema writers, spec parser, publish gate |
-| `geography/` | Boundary files (source and vintage in each file name) plus `registry.csv`, reference neighborhoods, and `fetch_boundaries.R`. `demographics/` holds ACS 5-year estimates apportioned to every geography (DECISIONS D20), written by `fetch_demographics.R` |
+| `geography/` | Boundary files (source and vintage in each file name) plus `registry.csv`, reference neighborhoods, and `fetch_boundaries.R`. `demographics/` holds ACS 5-year estimates apportioned to every geography (DECISIONS D20), written by `fetch_demographics.R`. `parcels/` holds the Assessor's in-city parcel counts per area (the permits denominator), written by `fetch_parcels.R`. `check_geocoder.R` measures the address lookup's geocoder (H6) |
 | `specs/<pipeline>/` | Metric specifications. The YAML front matter is machine-read; methodology pages are generated from these files |
-| `pipelines/311/` | The 311 pipeline: `run.R`, `R/` (fetch, normalize, metrics, hex, audit), `config/`, `tests/` (fixtures, properties, golden files) |
+| `pipelines/311/` | The 311 pipeline: `run.R`, `R/` (fetch, normalize, metrics, hex, audit, reconcile), `config/`, `reconciliation/` (official City figures, D22), `tests/` (fixtures, properties, golden files, and `independent/`: a second implementation that checks the golden file and pre-traces the audit sample) |
+| `pipelines/permits/` | The permits pipeline, same layout: `run.R`, `R/`, `config/` (sector and category maps), `reconciliation/` (Census Building Permits Survey figures, `fetch_bps.R`), `tests/` |
 | `pollers/` | Python collectors for MATA GTFS-Realtime and MLGW outages, with tests and the release-archive script |
 | `site/` | Static front end (plain HTML/JS, no build step): `index.html`, `methodology.html`, `assets/`. `build_site_data.R` turns published outputs into sharded JSON under `site/data/` (generated, not committed) and leaves out any metric that fails the publish gate |
 | `docs/research/` | Verified notes on every data source |
 | `docs/records-requests/` | Drafts of public records requests (see DECISIONS.md for what has been sent) |
+| `docs/reviews/` | Packets that prepare each human step (H3 audit, H6 geocoder, H9 reference neighborhoods, H10 spec review, H20 golden file). They say what was checked automatically and what a person still has to do |
+| `docs/outreach/` | Drafts for the independent reviewer (H7) and the agency courtesy preview (H8), and the public log of preview responses |
 | `.github/workflows/` | Package and poller tests, the two poller schedules, and the daily `deploy-site` (test, run 311, archive, deploy) |
 
 ## Running things
@@ -83,6 +91,13 @@ Rscript site/build_site_data.R data/published site/data --preview
 
 # Serve the site locally at http://localhost:8765
 python3 -m http.server 8765 --directory site
+
+# Permits pipeline (about 3 minutes) and its tests. Parcel counts and the
+# Census figures are refreshed about once a year:
+Rscript pipelines/permits/run.R --out data/published/permits
+Rscript -e 'testthat::test_dir("pipelines/permits/tests/testthat")'
+Rscript geography/fetch_parcels.R
+Rscript pipelines/permits/reconciliation/fetch_bps.R 2021 2025
 
 # Poller tests
 python -m pip install -r pollers/requirements.txt

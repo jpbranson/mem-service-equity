@@ -19,6 +19,8 @@
 #                               browser loads one small file per lookup
 #   311/points/<res6>.json      individual recent requests for the address view
 #                               (column-major, to keep files small)
+#   permits/areas.json          citywide / ZIP / council-district permit metrics
+#                               for every category subgroup
 #   demographics.json           ACS context per area with margins of error and
 #                               measure labels (D20; not gated: Census estimates,
 #                               not project metrics)
@@ -137,6 +139,7 @@ if (dir.exists(d311)) {
   manifest$pipelines[["311"]] <- list(
     title = "City services (311)",
     status = "live",
+    noun = "request",
     data_current_through = cw$data_current_through[1],
     freshness_limit_days = 3,
     validation = list(status = val$status, run_date = val$run_date, summary = val$summary,
@@ -182,6 +185,45 @@ if (file.exists(file.path(geo_dir, "demographics", "registry.csv"))) {
   manifest$demographics <- list(file = "demographics.json", acs_vintage = reg$acs_vintage[1])
 }
 
+# ---- permits (investment) --------------------------------------------------------
+dper <- file.path(pub, "permits")
+if (file.exists(file.path(dper, "publish_status_permits.json"))) {
+  pubstat_p <- fromJSON(file.path(dper, "publish_status_permits.json"), simplifyVector = FALSE)
+  shown_p <- vapply(pubstat_p$metrics, function(m) m$metric, "")
+  if (!preview) shown_p <- shown_p[vapply(pubstat_p$metrics, function(m) isTRUE(m$publishable), TRUE)]
+  areas_p <- list()
+  for (g in c("citywide", "zcta", "council_district")) {
+    f <- file.path(dper, sprintf("metrics_permits_by_%s.csv", g))
+    if (!file.exists(f)) next
+    m <- fread(f, colClasses = c(geo_id = "character"))[metric %in% shown_p]
+    areas_p[[g]] <- lapply(split(m, m$geo_id), compact)
+  }
+  write_json_min(areas_p, file.path(out, "permits", "areas.json"))
+  file.copy(file.path(dper, "methodology_permits.md"), file.path(out, "permits", "methodology.md"),
+            overwrite = TRUE)
+  val_p <- latest(dper, "^validation_permits_.*\\.json$")
+  file.copy(val_p, file.path(out, "permits", "validation.json"), overwrite = TRUE)
+  val_p <- fromJSON(val_p, simplifyVector = FALSE)
+  cw_p <- fread(file.path(dper, "metrics_permits_by_citywide.csv"))
+  labels <- fread(file.path("pipelines", "permits", "config", "subgroups.csv"))
+  manifest$pipelines[["permits"]] <- list(
+    title = "Investment (building permits)",
+    status = "live",
+    noun = "permit",
+    data_current_through = cw_p$data_current_through[1],
+    # The source is refreshed monthly, so a month-old data date is normal.
+    freshness_limit_days = 75,
+    validation = list(status = val_p$status, run_date = val_p$run_date, summary = val_p$summary,
+                      record_counts = val_p$record_counts),
+    publish = pubstat_p$metrics,
+    specs = lapply(memequity::read_specs("permits", "specs"), function(s) list(
+      title = s$title, version = s$version, status = s$status, unit = s$unit, min_n = s$min_n,
+      min_parcels = s$min_parcels, geographies = I(unlist(s$geographies)),
+      promise_kind = s$promise$kind, promise_text = trimws(s$promise$text))),
+    subgroups = lapply(seq_len(nrow(labels)), function(i) list(id = labels$subgroup[i],
+                                                               label = labels$label[i])))
+}
+
 # ---- panels not yet producing metrics ----------------------------------------
 manifest$pipelines[["food-safety"]] <- list(
   title = "Food safety", status = "blocked",
@@ -196,9 +238,11 @@ manifest$pipelines[["mlgw"]] <- list(
   title = "Power (MLGW)", status = "collecting", collecting_since = "2026-09-23",
   note = paste("Outage snapshots are archived every 5 minutes. The panel goes live after six",
                "months of history that include a significant weather event."))
-manifest$pipelines[["permits"]] <- list(
-  title = "Investment (permits)", status = "in_development",
-  note = "Pipeline in development: building and demolition permits from the city and Data Midsouth.")
+if (is.null(manifest$pipelines[["permits"]]))
+  manifest$pipelines[["permits"]] <- list(
+    title = "Investment (building permits)", status = "in_development",
+    note = paste("The permits pipeline has not produced outputs in this build. It uses the City's",
+                 "DPD building permits; demolitions need another source (DECISIONS.md H21)."))
 
 write_json_min(manifest, file.path(out, "manifest.json"))
 message("site data written to ", out)

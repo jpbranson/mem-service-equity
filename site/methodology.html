@@ -23,12 +23,20 @@
   <script src="https://cdn.jsdelivr.net/npm/marked@18.0.14/lib/marked.umd.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3.4.16/dist/purify.min.js"></script>
   <script>
+    // Each pipeline's methodology, in site order; a pipeline with no outputs
+    // in this build is skipped.
     (async () => {
       const box = document.getElementById('methodology');
+      const parts = [];
       try {
-        const res = await fetch('data/311/methodology.md', { cache: 'no-cache' });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        box.innerHTML = DOMPurify.sanitize(marked.parse(await res.text()));
+        for (const key of ['311', 'permits']) {
+          const res = await fetch(`data/${key}/methodology.md`, { cache: 'no-cache' });
+          if (res.status === 404) continue;
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          parts.push(await res.text());
+        }
+        if (!parts.length) throw new Error('no methodology in this build');
+        box.innerHTML = DOMPurify.sanitize(marked.parse(parts.join('\n\n---\n\n')));
       } catch (e) {
         box.textContent = `Could not load the methodology (${e.message}).`;
       }
