@@ -35,9 +35,9 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
 | 2c | H20 golden file: independent recomputation of sample rows | [p] all 515 rows agree; hand check open |
 | 2d | H9 reference ZIPs: evidence packet | [ ] |
 | 2e | H6 geocoder check: draw the 200-address sample, automated comparison | [ ] |
-| 2f | H7 reviewer: outreach draft | [ ] |
-| 2g | H8 courtesy preview: letter draft | [ ] |
-| 3a | H11 follow-up: letter draft for use after 2026-10-02 | [ ] |
+| 2f | H7 reviewer: outreach draft | [p] draft written; not sent |
+| 2g | H8 courtesy preview: letter draft | [p] draft + public log written; not sent |
+| 3a | H11 follow-up: letter draft for use after 2026-10-02 | [p] draft written; send only if no reply by 10-02 |
 | 4a | Permits pipeline (Phase 4) | [ ] |
 | 4b | Food-safety ingest against the expected export (D13) | [ ] |
 | 4c | H19: MLGW spec revision draft | [ ] |
@@ -91,7 +91,22 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
   - Found for H10: `reopen_rate` silently requires a re-report to open
     >= 1 day after the close (same-day re-reports never count).
 
+- 20:45 CT. While the research agent runs:
+  - Gate hardening for H3 (uncommitted, goes with step 1): `publish_gate`
+    now calls new `audit_problems()`. A blank worksheet copied into
+    `pipelines/311/audits/` used to satisfy condition 6; now the sheet needs
+    >= 100 rows, every `N_*` check answered yes/no/n/a, an auditor on every
+    row, and a note on every "no". Tests added; memequity tests pass.
+  - Drafts written (uncommitted): `docs/records-requests/h11-follow-up.md`,
+    `docs/outreach/h7-independent-reviewer.md`,
+    `docs/outreach/h8-courtesy-preview-311.md`,
+    `docs/outreach/courtesy-preview-log.md`. Nothing sent.
+  - H9 packet needs 311 volumes by ZIP; the local 9/23 outputs predate
+    `requests_per_1000`, so it waits for a fresh pipeline run (after
+    step 1).
+
 ## Next action
 
 Step 1: wait for the research result, then finish the 311 part (list
-under 19:40). Commit step 2c files with step 1 or separately.
+under 19:40). Then one fresh 311 run (as of 2026-09-25) feeds steps 2b
+(H3 trace), 2d (H9 packet) and the reconciliation numbers.
