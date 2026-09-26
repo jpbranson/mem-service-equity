@@ -39,7 +39,7 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
 | 2g | H8 courtesy preview: letter draft | [p] draft + public log written; not sent |
 | 3a | H11 follow-up: letter draft for use after 2026-10-02 | [p] draft written; send only if no reply by 10-02 |
 | 4a | Permits pipeline (Phase 4) | [x] built, tested, on the site (gated); demolitions blocked (H21) |
-| 4b | Food-safety ingest against the expected export (D13) | [ ] |
+| 4b | Food-safety ingest against the expected export (D13) | [x] built + tested on a synthetic export; real export pending (H11) |
 | 4c | H19: MLGW spec revision draft | [ ] |
 | 4d | MATA trip matching (Phase 5) | [ ] |
 
@@ -173,11 +173,23 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
   - deploy-site runs permits after 311 with continue-on-error.
   - New spec field `blocked` (the gate reports it first).
 
+- 01:25 CT. Step 4b done.
+  - `pipelines/food-safety/`: ingest via `config/column_map.yml`
+    (placeholder column names from the records request), inspection-type
+    map, rules.yml (threshold 70 from the 2014 TDH release; 6-month
+    interval from Rule 1200-23-01-.08), a pluggable geocoder (Census
+    exact/non-exact only), and four metrics over citywide, ZIP, district
+    and h3_8.
+  - Tests on a synthetic export (fictitious "Test Grill N") pass, and
+    run.R ran end to end offline via a pre-filled geocode cache.
+  - The inbox is gitignored except its README.
+  - Specs bumped to 0.2. No golden file or reconciliation figure until the
+    real export arrives.
+
 ## Next action
 
-Step 4b: food-safety ingest against the expected export (D13), built from
-the fields in `docs/records-requests/h11-food-inspections.md`, with a
-column-mapping config so the real export only needs config changes. Parts: parcel denominators
+Step 4c: draft the MLGW spec revision for H19 (OUTAGE_NO chains, radius
+joins) from `docs/research/mata-mlgw.md` and the poller's actual fields. Parts: parcel denominators
 (`geography/fetch_parcels.R`), `pipelines/permits/` (fetch DPD without
 Description, normalize, category map, metrics for permits_per_1000 and
 declared value; demolition ratio blocked by H21), BPS reconciliation,

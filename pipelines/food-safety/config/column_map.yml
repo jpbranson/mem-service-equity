@@ -1,0 +1,46 @@
+# Where each field the pipeline uses is found in the records-request export
+# (DECISIONS.md H11, D13). The export has not arrived. The source column
+# names below are the ones the request asked for
+# (docs/records-requests/h11-food-inspections.md) and are placeholders:
+# check them against the real files and edit this file, not the R code.
+#
+# Each table is read from the first file in inbox/ whose name contains
+# file_pattern (case-insensitive; .csv, or .xlsx with the readxl package).
+# A field mapped to null, or to a column the file lacks, is treated as
+# absent. The run fails if a `required` field is absent.
+tables:
+  inspections:
+    file_pattern: inspection
+    required: [inspection_date, inspection_type, score]
+    columns:
+      establishment_id: Permit Number
+      name: Establishment Name
+      address: Address
+      city: City
+      zip: Zip
+      inspection_id: Inspection ID
+      inspection_date: Inspection Date
+      inspection_type: Inspection Type
+      score: Score
+  establishments:
+    file_pattern: establishment
+    required: [address]
+    columns:
+      establishment_id: Permit Number
+      name: Establishment Name
+      address: Address
+      city: City
+      zip: Zip
+      establishment_type: Establishment Type
+      risk_category: Risk Category
+      closed_date: Closure Date
+  violations:
+    file_pattern: violation
+    required: [inspection_id]
+    columns:
+      inspection_id: Inspection ID
+      item: Item Number
+      category: Priority Category
+      corrected_on_site: Corrected On Site
+# Date formats tried in order for every date field.
+date_formats: ["%m/%d/%Y", "%Y-%m-%d", "%m/%d/%Y %H:%M:%S", "%Y-%m-%d %H:%M:%S", "%m/%d/%y"]

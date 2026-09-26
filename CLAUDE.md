@@ -39,6 +39,10 @@ Rscript -e 'testthat::test_dir("pipelines/permits/tests/testthat")'
 Rscript geography/fetch_parcels.R                                   # yearly: parcel denominators
 Rscript pipelines/permits/reconciliation/fetch_bps.R 2021 2025       # yearly: Census permit figures
 
+# Food safety: tests on a synthetic export; the run needs the H11 export in pipelines/food-safety/inbox/
+Rscript -e 'testthat::test_dir("pipelines/food-safety/tests/testthat")'
+Rscript pipelines/food-safety/run.R [--through YYYY-MM-DD]
+
 # Static-site data from published outputs. Gated by default; --preview keeps unpublished metrics (local only, D18)
 Rscript site/build_site_data.R data/published site/data [--preview]
 CENSUS_API_KEY=... Rscript geography/fetch_demographics.R   # yearly ACS refresh (D20)
@@ -68,7 +72,7 @@ CI (`.github/workflows/test-memequity.yml`) runs the package tests and then the 
 - `stats.R` handles min-n suppression, Wilson and bootstrap intervals (median and total), and the Kaplan–Meier censored median (`km_median_counts`). Open requests are right-censored, never dropped (D9).
 - `parcels.R`: `area_parcels(geo_type)` gives in-city parcel counts per area, the permits denominator (`geography/parcels/`, Assessor 2022 snapshot).
 
-**Pipelines (`pipelines/<name>/`)** are not packages. `run.R` and the tests `source()` every file in `R/` and call memequity functions. Request-type mapping, target days and headline flags live in `config/` (`request_types.csv`, `status_map.csv`, `contract.yml` for the source schema). Validation fails if a new source value is not mapped there. The 311 near-duplicate rule is in D6. Audit worksheets are generated into the output `audit/`. Completed ones are committed to `pipelines/<name>/audits/`, where `run.R` looks for them for the publish gate. `311` and `permits` exist. Permits uses only the City's DPD layer (D24: Data Midsouth's robots.txt forbids automated access), so demolitions and `demolition_to_new_ratio` are blocked (H21; the spec's `blocked` field makes the gate say so). Its data run through the end of the month before the layer's last edit (`permits_through()`). Food safety is blocked on H11; MATA and MLGW have not been started.
+**Pipelines (`pipelines/<name>/`)** are not packages. `run.R` and the tests `source()` every file in `R/` and call memequity functions. Request-type mapping, target days and headline flags live in `config/` (`request_types.csv`, `status_map.csv`, `contract.yml` for the source schema). Validation fails if a new source value is not mapped there. The 311 near-duplicate rule is in D6. Audit worksheets are generated into the output `audit/`. Completed ones are committed to `pipelines/<name>/audits/`, where `run.R` looks for them for the publish gate. `311` and `permits` exist. Permits uses only the City's DPD layer (D24: Data Midsouth's robots.txt forbids automated access), so demolitions and `demolition_to_new_ratio` are blocked (H21; the spec's `blocked` field makes the gate say so). Its data run through the end of the month before the layer's last edit (`permits_through()`). `food-safety` is built and tested on a synthetic export; it reads the H11 export from its gitignored `inbox/`, and every source column name lives in `config/column_map.yml` (never hard-code them in R). MATA and MLGW have not been started.
 
 **Independent checks and review packets.** `pipelines/311/tests/independent/` is a stdlib-only Python reimplementation that recomputes the golden file (H20) and pre-traces the audit sample against the live source (H3). If a 311 spec version changes, update it independently of the R code. `docs/reviews/` holds the packets for each human step; never mark an H-item done on the strength of a packet alone.
 

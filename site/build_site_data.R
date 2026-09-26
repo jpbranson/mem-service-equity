@@ -228,8 +228,8 @@ if (file.exists(file.path(dper, "publish_status_permits.json"))) {
 manifest$pipelines[["food-safety"]] <- list(
   title = "Food safety", status = "blocked",
   note = paste("The state inspection site forbids automated collection, so the data must come",
-               "from a public records request (DECISIONS.md H11). The pipeline will be built",
-               "against the expected export format."))
+               "from a public records request (DECISIONS.md H11). The pipeline is built and tested",
+               "on a synthetic export in the requested format, and runs once the export arrives."))
 manifest$pipelines[["mata"]] <- list(
   title = "Transit (MATA)", status = "collecting", collecting_since = "2026-09-23",
   note = paste("Bus positions are archived every 30 seconds. The panel goes live after the",

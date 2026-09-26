@@ -2,20 +2,23 @@
 id: pct_overdue_inspection
 pipeline: food-safety
 title: Share of establishments overdue for a routine inspection
-version: "0.1"
+version: "0.2"
 status: draft
 unit: proportion
 formula: >
   Among active establishments in the area: count(days since latest routine
   inspection > required interval) / count(establishments), evaluated on the
-  data-current-through date.
+  data-current-through date. The clock starts at the latest routine or
+  pre-opening inspection; an active establishment with neither is measured
+  from its first inspection. The required interval is 6 calendar months.
+  Rows carry the 36-month activity window as their window.
 windows: [current]
 geographies: [citywide, zcta, council_district, h3_8]
 min_n: 30
 promise:
   kind: official
-  text: The state requires routine inspections at a set frequency (confirm the rule; see docs/research/food-safety.md).
-  source_url: ""
+  text: The state inspects each food establishment at least once every 6 months (Tenn. Comp. R. & Regs. 1200-23-01-.08(4)(a)1).
+  source_url: "https://www.law.cornell.edu/regulations/tennessee/Tenn-Comp-R-Regs-1200-23-01-.08"
 reconciliation:
   measures: [inspection_counts]
   text: >
@@ -24,8 +27,8 @@ reconciliation:
     official count (TDH or the Shelby County Health Department) is still to be identified.
 thresholds:
   - name: required interval
-    primary: "the state's required frequency, converted to days"
-    alternatives: ["required interval + 30 days grace", "required interval + 90 days grace"]
+    primary: "6 calendar months after the clock inspection"
+    alternatives: ["plus 30 days' grace: variant grace_30d", "plus 90 days' grace: variant grace_90d"]
     arbitrary: true
 inclusions:
   - Establishments with at least one inspection of any type in the last 36 months (proxy for active).
@@ -51,3 +54,4 @@ regular inspection?
 
 - 0.1 — first draft from design plan 6.4.
 - 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.
+- 0.2, 2026-09-25 — first computed version, tested on a synthetic export only; the real export has not arrived (H11). Rules and their sources are in `pipelines/food-safety/config/rules.yml`. Defined the clock inspection and the 6-month interval from the rule.

@@ -43,9 +43,14 @@ made while building, so a reviewer can challenge them.
   no reference number yet.*
   Under the Public Records Act the agency must respond within 7 business
   days (by 2026-10-02) by producing the records, denying the request or
-  giving an estimated completion date. Follow up if nothing arrives by then. The food-safety pipeline has not been built yet. It will be
-  built to ingest that export (`pipelines/food-safety/`, reading from
-  `pipelines/food-safety/inbox/`).
+  giving an estimated completion date. Follow up if nothing arrives by then (draft:
+  `docs/records-requests/h11-follow-up.md`). The food-safety pipeline is
+  built (`pipelines/food-safety/`) and tested on a synthetic export. When the
+  export arrives:
+  - put the files in `pipelines/food-safety/inbox/` (gitignored);
+  - map their columns in `config/column_map.yml` and their inspection types
+    in `config/inspection_types.csv`;
+  - run `pipelines/food-safety/run.R`.
 - [ ] **H14. Official 311 service targets and on-time figure.** *Deferred (D19).* The plan's
   "3–7 business days" and "82% on-time" figures trace to memphisgov.com, a
   commercial look-alike domain, not the city (see
@@ -208,9 +213,11 @@ made while building, so a reviewer can challenge them.
   resolved.
 - **D13. Phase order.** Phase 2 (food safety) is blocked on a records
   request (H11), so the 311 pipeline (Phase 3) ships first. The
-  food-safety pipeline is not built yet. When it is, it will be built and
-  tested against the expected export format, so it can run the day the data
-  arrives.
+  food-safety pipeline was built on 2026-09-25 against the fields the
+  records request asks for, with every source column name in
+  `config/column_map.yml`, so the real export should need only config
+  changes. It is tested on a synthetic export. It has no golden file and no
+  reconciliation figure until real data arrives.
 - **D14. Permit reconciliation target.** Memphis does not appear in the
   Census Building Permits Survey as a place. Its permits are reported under
   "Shelby County Unincorporated Area" (place 99990), which covers the joint

@@ -2,7 +2,7 @@
 id: pct_below_followup_threshold
 pipeline: food-safety
 title: Share of nearby food establishments whose latest routine score requires a follow-up
-version: "0.1"
+version: "0.2"
 status: draft
 unit: proportion
 formula: >
@@ -17,7 +17,7 @@ promise:
   text: >
     Food establishments are inspected regularly and pass. Tennessee rules set
     the score below which a follow-up inspection is required.
-  source_url: ""
+  source_url: "https://www.tn.gov/news/2014/2/19/restaurant-inspections-help-keep-tennesseans-healthy.html"
 reconciliation:
   measures: [inspection_counts]
   text: >
@@ -26,8 +26,8 @@ reconciliation:
     official count (TDH or the Shelby County Health Department) is still to be identified.
 thresholds:
   - name: follow-up threshold
-    primary: "the state's follow-up score (confirm and cite; see docs/research/food-safety.md)"
-    alternatives: ["score < 80", "score < 85"]
+    primary: "score < 70: TDH policy stated in a 2014 TDH release; the rule text sets no number (docs/research/food-safety-geography-holidays.md)"
+    alternatives: ["score < 80: variant below_80", "score < 85: variant below_85"]
     arbitrary: false
 inclusions:
   - Establishments with a stable establishment ID and an accepted geocode.
@@ -57,3 +57,4 @@ inspection?
 
 - 0.1 — first draft from design plan 6.4.
 - 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.
+- 0.2, 2026-09-25 — first computed version, tested on a synthetic export only; the real export has not arrived (H11). Rules and their sources are in `pipelines/food-safety/config/rules.yml`. Primary threshold set to 70 from the cited TDH release.

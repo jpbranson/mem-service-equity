@@ -12,3 +12,7 @@ node_modules/
 /data/published/
 /data/poller/
 /site/data/
+
+# Food-safety records-request exports (H11): only the README is tracked
+/pipelines/food-safety/inbox/*
+!/pipelines/food-safety/inbox/README.md

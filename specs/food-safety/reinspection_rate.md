@@ -2,7 +2,7 @@
 id: reinspection_rate
 pipeline: food-safety
 title: Share of inspections that were follow-ups
-version: "0.1"
+version: "0.2"
 status: draft
 unit: proportion
 formula: >
@@ -46,3 +46,4 @@ one went badly?
 
 - 0.1 — first draft from design plan 6.4.
 - 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.
+- 0.2, 2026-09-25 — first computed version, tested on a synthetic export only; the real export has not arrived (H11). Rules and their sources are in `pipelines/food-safety/config/rules.yml`.

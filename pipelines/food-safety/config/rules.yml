@@ -1,0 +1,18 @@
+# Rules the metrics apply, with their sources (docs/research/
+# food-safety-geography-holidays.md). Change a value here only with a spec
+# change (specs/food-safety/).
+follow_up_threshold:
+  primary: 70
+  alternatives: [80, 85]
+  source: >
+    TDH policy, not rule text: a 2014 TDH release says TDH does follow-up
+    inspections "at facilities that did not achieve a minimum score of 70".
+  source_url: https://www.tn.gov/news/2014/2/19/restaurant-inspections-help-keep-tennesseans-healthy.html
+required_interval:
+  months: 6
+  grace_days_alternatives: [30, 90]
+  source: Tenn. Comp. R. & Regs. 1200-23-01-.08(4)(a)1 ("at least once every 6 months").
+  source_url: https://www.law.cornell.edu/regulations/tennessee/Tenn-Comp-R-Regs-1200-23-01-.08
+active_months: 36          # an establishment inspected in this many months counts as active
+score_window_months: 24    # latest routine score and reinspection window
+excluded_establishment_types: []   # types not scored on the 100-point scale, once known

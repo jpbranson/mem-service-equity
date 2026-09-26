@@ -2,7 +2,7 @@
 id: median_latest_score
 pipeline: food-safety
 title: Median latest routine inspection score
-version: "0.1"
+version: "0.2"
 status: draft
 unit: score_0_100
 formula: >
@@ -13,8 +13,8 @@ geographies: [citywide, zcta, council_district, h3_8]
 min_n: 20
 promise:
   kind: official
-  text: Establishments pass inspection. Shown against the follow-up threshold.
-  source_url: ""
+  text: Establishments pass inspection. Shown against the follow-up threshold (score 70, TDH policy).
+  source_url: "https://www.tn.gov/news/2014/2/19/restaurant-inspections-help-keep-tennesseans-healthy.html"
 reconciliation:
   measures: [inspection_counts]
   text: >
@@ -33,7 +33,7 @@ objections:
   - objection: "Scores cluster near the top; a median hides the failing tail."
     response: "That is why pct_below_followup_threshold is the headline metric; the median is context."
   - objection: "Mixing establishment types is unfair."
-    response: "If the source exposes establishment type, the area view breaks the median down by type."
+    response: "Not yet handled: the export's establishment type is read when present, but no breakdown by type is built."
   - objection: "Each establishment counts once regardless of size."
     response: "Intentional: the unit is the place a resident might eat, not the volume of meals."
 ---
@@ -47,3 +47,4 @@ inspection.
 
 - 0.1 — first draft from design plan 6.4.
 - 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.
+- 0.2, 2026-09-25 — first computed version, tested on a synthetic export only; the real export has not arrived (H11). Rules and their sources are in `pipelines/food-safety/config/rules.yml`. The latest routine inspection is the most recent one with a score; ties on the same day take the higher score.
