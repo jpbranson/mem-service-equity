@@ -23,20 +23,11 @@ LAYER <- "https://311.memphistn.gov/server/rest/services/311/ParcelCentroids/Map
 UA <- "memphis-service-equity (https://github.com/jpbranson/mem-service-equity)"
 GEOS <- c("citywide", "zcta", "council_district", "super_district")
 
-get_json <- function(..., tries = 6) {
-  req <- httr2::request(paste0(LAYER, "/query")) |> httr2::req_url_query(..., f = "json") |>
+# Retries dropped connections and ArcGIS errors returned with HTTP 200.
+get_json <- function(...) {
+  memequity::arcgis_json(httr2::request(paste0(LAYER, "/query")) |> httr2::req_url_query(..., f = "json") |>
     httr2::req_user_agent(UA) |> httr2::req_retry(max_tries = 5, backoff = function(i) 2^i) |>
-    httr2::req_timeout(120)
-  # req_retry covers HTTP 429/503; this also retries dropped connections.
-  for (i in seq_len(tries)) {
-    resp <- tryCatch(httr2::req_perform(req), error = function(e) e)
-    if (!inherits(resp, "error")) break
-    if (i == tries) stop(resp)
-    Sys.sleep(2^i)
-  }
-  b <- jsonlite::fromJSON(httr2::resp_body_string(resp), simplifyVector = TRUE)
-  if (!is.null(b$error)) stop("ArcGIS error: ", b$error$message, call. = FALSE)
-  b
+    httr2::req_timeout(120))
 }
 
 expected <- get_json(where = "1=1", returnCountOnly = "true")$count

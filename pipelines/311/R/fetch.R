@@ -14,16 +14,6 @@ SR_FIELDS <- c("OBJECTID", "INCIDENT_NUMBER", "INCIDENT_TYPE_ID", "REQUEST_TYPE"
 
 SR_DATE_FIELDS <- c("REPORTED_DATE", "created_date", "Closed_Date", "RESOLVED_DATE", "last_edited_date")
 
-perform_with_retry <- function(req, tries = 6) {
-  # req_retry covers HTTP 429/503; this also retries dropped connections.
-  for (i in seq_len(tries)) {
-    resp <- tryCatch(httr2::req_perform(req), error = function(e) e)
-    if (!inherits(resp, "error")) return(resp)
-    if (i == tries) stop(resp)
-    Sys.sleep(2^i)
-  }
-}
-
 arcgis_page <- function(layer, where, fields, after_oid, page_size) {
   req <- httr2::request(paste0(layer, "/query")) |>
     httr2::req_url_query(
@@ -33,9 +23,8 @@ arcgis_page <- function(layer, where, fields, after_oid, page_size) {
     httr2::req_user_agent("memphis-service-equity (https://github.com/jpbranson/mem-service-equity)") |>
     httr2::req_retry(max_tries = 5, backoff = function(i) 2^i) |>
     httr2::req_timeout(120)
-  resp <- perform_with_retry(req)
-  body <- jsonlite::fromJSON(httr2::resp_body_string(resp), simplifyVector = TRUE)
-  if (!is.null(body$error)) stop("ArcGIS error: ", body$error$message, call. = FALSE)
+  # Retries dropped connections and ArcGIS errors returned with HTTP 200.
+  body <- memequity::arcgis_json(req)
   feats <- body$features
   if (!length(feats) || !NROW(feats$attributes)) return(NULL)
   out <- feats$attributes
@@ -68,9 +57,8 @@ fetch_311 <- function(where = "1=1", page_size = 2000L, layer = SR_LAYER, verbos
 
 #' Layer record count, for the fetch-completeness check.
 count_311 <- function(where = "1=1", layer = SR_LAYER) {
-  resp <- httr2::request(paste0(layer, "/query")) |>
+  req <- httr2::request(paste0(layer, "/query")) |>
     httr2::req_url_query(where = where, returnCountOnly = "true", f = "json") |>
-    httr2::req_retry(max_tries = 5) |>
-    httr2::req_perform()
-  jsonlite::fromJSON(httr2::resp_body_string(resp))$count
+    httr2::req_retry(max_tries = 5)
+  memequity::arcgis_json(req)$count
 }

@@ -19,18 +19,8 @@ permits_request <- function(path, ..., layer = PERMITS_LAYER) {
     httr2::req_timeout(120)
 }
 
-# req_retry covers HTTP 429/503; this also retries dropped connections.
-perform_json <- function(req, tries = 6) {
-  for (i in seq_len(tries)) {
-    resp <- tryCatch(httr2::req_perform(req), error = function(e) e)
-    if (!inherits(resp, "error")) break
-    if (i == tries) stop(resp)
-    Sys.sleep(2^i)
-  }
-  body <- jsonlite::fromJSON(httr2::resp_body_string(resp), simplifyVector = TRUE)
-  if (!is.null(body$error)) stop("ArcGIS error: ", body$error$message, call. = FALSE)
-  body
-}
+# Retries dropped connections and ArcGIS errors returned with HTTP 200.
+perform_json <- function(req) memequity::arcgis_json(req)
 
 #' Fetch every permit. Dates come back as epoch milliseconds (UTC).
 fetch_permits <- function(layer = PERMITS_LAYER, page_size = 1000L, verbose = TRUE) {
