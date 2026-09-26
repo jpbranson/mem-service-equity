@@ -34,7 +34,7 @@ adds D21, so it has to land before any new D-entry to avoid an ID clash.
 | 2b | H3 manual audit: 100-record sample with an automated source trace | [p] 100/100 pass the pre-trace; manual audit open |
 | 2c | H20 golden file: independent recomputation of sample rows | [p] all 515 rows agree; hand check open |
 | 2d | H9 reference ZIPs: evidence packet | [p] packet written; decision is the user's |
-| 2e | H6 geocoder check: draw the 200-address sample, automated comparison | [ ] |
+| 2e | H6 geocoder check: draw the 200-address sample, automated comparison | [p] sample drawn + measured (96.5% in disk); hand check open |
 | 2f | H7 reviewer: outreach draft | [p] draft written; not sent |
 | 2g | H8 courtesy preview: letter draft | [p] draft + public log written; not sent |
 | 3a | H11 follow-up: letter draft for use after 2026-10-02 | [p] draft written; send only if no reply by 10-02 |

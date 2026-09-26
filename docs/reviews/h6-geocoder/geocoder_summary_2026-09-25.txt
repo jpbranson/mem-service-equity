@@ -1,0 +1,7 @@
+sample: 200 official address points from random in-city parcels (seed 20260925, 2026-09-25)
+census match: 93.0%; nominatim fallback: 5.0%; no result: 2.0%
+distance to the official address point (located): median 35 m, 90th pct 107 m, 95th pct 138 m
+within 50 m: 64.5%; within 100 m: 86.5%; within 250 m: 95.5%
+same H3 cell: 77.5%; inside the address point's 7-cell disk: 96.5%
+same ZIP (ZCTA): 96.5%; same council district: 97.5%
+flagged for the hand check: 27
