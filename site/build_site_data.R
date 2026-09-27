@@ -246,5 +246,32 @@ if (is.null(manifest$pipelines[["permits"]]))
     note = paste("The permits pipeline has not produced outputs in this build. It uses the City's",
                  "DPD building permits; demolitions need another source (DECISIONS.md H21)."))
 
+# ---- health (read by the project tracker) --------------------------------------
+# The tracker's status contract: this build is the document and each daily
+# pipeline a part. The tracker judges the age of last_success_at itself, so a
+# build or pipeline that stops running shows up as stale. A failed volume check
+# warns (D26); schema warnings and reconciliation gaps are not health (D27).
+pipeline_health <- function(dir, pattern, entry) {
+  report <- latest(dir, pattern)
+  if (is.na(report) || !identical(entry$status, "live"))
+    return(list(status = "fail", last_success_at = NULL, expect_every = "1d",
+                detail = "no outputs in this build: the pipeline or its tests failed"))
+  val <- fromJSON(report, simplifyVector = FALSE)
+  outliers <- Filter(function(c) identical(c$type, "volume") && !isTRUE(c$passed), val$checks)
+  notes <- vapply(outliers, function(c) {
+    day <- if (length(c$details$days)) c$details$days[[1]]
+    if (is.null(day$count)) return(c$name)
+    sprintf("volume outlier on %s: %.0f rows, band %.0f-%.0f", day$date, as.numeric(day$count),
+            as.numeric(day$low), as.numeric(day$high))
+  }, "")
+  list(status = if (length(outliers)) "warn" else "ok", last_success_at = val$run_at, expect_every = "1d",
+       detail = paste(c(paste("data through", entry$data_current_through), notes), collapse = "; "))
+}
+manifest$health <- list(
+  status = if (preview) "warn" else "ok", last_success_at = manifest$generated_at, expect_every = "1d",
+  detail = if (preview) "preview build, not for deployment" else "site built",
+  checks = list(`311` = pipeline_health(d311, "^validation_311_.*\\.json$", manifest$pipelines[["311"]]),
+                permits = pipeline_health(dper, "^validation_permits_.*\\.json$", manifest$pipelines[["permits"]])))
+
 write_json_min(manifest, file.path(out, "manifest.json"))
 message("site data written to ", out)
