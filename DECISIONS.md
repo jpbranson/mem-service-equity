@@ -411,6 +411,18 @@ made while building, so a reviewer can challenge them.
   for other callers. When the deploy job fails, or the permits run fails,
   the workflow keeps the validation reports as the `validation-reports`
   artifact for 14 days, since a halted run's report was lost with the runner.
+- **D27. The site manifest reports health for the project tracker.**
+  `site/data/manifest.json` carries a `health` object in the tracker's status
+  contract (github-project-tracker DESIGN.md §2). The site build is the
+  document, with `last_success_at` its generation time, and 311 and permits
+  are parts, each with the run time of its published validation report. The
+  tracker judges the ages itself, so a deploy or pipeline that stops running
+  reads as stale. A part warns when a volume check failed (D26). Schema
+  warnings and reconciliation gaps are not health: the publish gate and this
+  file already track them, and counting them would leave both parts on warn.
+  Permits without outputs in a build report fail, because its step is
+  `continue-on-error` and the panel alone would show only "in development".
+  The MATA and MLGW pollers are not parts: their status here is fixed text.
 - **D8. Boundary rule.** A point within 1 m of more than one polygon goes to
   the lowest `geo_id` among them and is flagged `on_boundary`.
 - **D9. Censored durations.** Median time-to-close uses a Kaplan–Meier
