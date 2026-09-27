@@ -399,6 +399,18 @@ made while building, so a reviewer can challenge them.
   ArcGIS error bodies, up to six tries with exponential backoff. Every
   ArcGIS fetch (311, permits, parcels) uses it. A persistent error still
   fails the run, so a real outage or permission change is not hidden.
+- **D26. A 311 volume outlier warns; it does not stop the deploy.** On
+  2026-09-27 the 311 run stopped at "daily volume within band". Saturday
+  09-26 had 39 new rows against a weekend band of 58.7-143.3 (median 101).
+  The fetch was complete (408,433 rows); the City's layer simply got about a
+  third of a normal Saturday, and 18 of that day's 28 reports arrived a day
+  late. Fetch completeness, the 300k-row minimum, the schema and freshness
+  checks already catch a broken or partial fetch, so `pipelines/311/run.R`
+  now runs the band at warning severity: the run publishes and the
+  validation report records the outlier. `check_volume()` defaults to error
+  for other callers. When the deploy job fails, or the permits run fails,
+  the workflow keeps the validation reports as the `validation-reports`
+  artifact for 14 days, since a halted run's report was lost with the runner.
 - **D8. Boundary rule.** A point within 1 m of more than one polygon goes to
   the lowest `geo_id` among them and is flagged `on_boundary`.
 - **D9. Censored durations.** Median time-to-close uses a Kaplan–Meier

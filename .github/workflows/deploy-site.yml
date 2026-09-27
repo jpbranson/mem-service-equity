@@ -95,6 +95,17 @@ jobs:
       - uses: actions/upload-pages-artifact@v5
         with:
           path: site
+      # A halted run writes its validation report, which says which check
+      # stopped it, but the runner discards it. Keep it when the job fails or
+      # the permits run fails (its failures don't fail the job). D26.
+      - name: Keep validation reports from a failed run
+        if: failure() || steps.permits_run.outcome == 'failure'
+        uses: actions/upload-artifact@v7
+        with:
+          name: validation-reports
+          path: data/published/*/validation_*.json
+          retention-days: 14
+          if-no-files-found: ignore
 
   deploy:
     needs: build

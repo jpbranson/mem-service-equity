@@ -52,7 +52,9 @@ rep <- check_min_rows(rep, raw, 300000)
 rep <- check_schema(rep, raw, cfg$contract)
 rep <- check_unique(rep, raw$INCIDENT_NUMBER, "unique INCIDENT_NUMBER")
 rep <- check_freshness(rep, raw$created_date, max_lag_days = 2, as_of = as_of)
-rep <- check_volume(rep, raw$created_date, as_of = as_of)
+# A quiet day in a complete fetch is the City's data, not a broken fetch: the
+# checks above catch those, so the band only warns (DECISIONS.md D26).
+rep <- check_volume(rep, raw$created_date, as_of = as_of, severity = "warning")
 types_seen <- raw$REQUEST_TYPE[!is.na(raw$REQUEST_TYPE) & raw$REQUEST_TYPE != ""]
 rep <- check_referential(rep, types_seen, cfg$request_types$request_type,
                          "every request type is mapped in config/request_types.csv")
