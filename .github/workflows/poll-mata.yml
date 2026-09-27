@@ -46,3 +46,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bash pollers/archive_release.sh mata data/poller/mata
+      # Its own step, so a failed archive upload doesn't hold back the status (D28).
+      - name: Publish status for the project tracker
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash pollers/status_release.sh data/poller/status/mata.json

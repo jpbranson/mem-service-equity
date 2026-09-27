@@ -1,3 +1,4 @@
+import json
 import sys
 from pathlib import Path
 
@@ -5,7 +6,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from common import FetchResult, JsonlGzWriter, read_jsonl_gz, run_loop  # noqa: E402
+from common import FetchResult, JsonlGzWriter, StatusFile, read_jsonl_gz, run_loop  # noqa: E402
 from mata_poller import MataPoller, decode_alerts, decode_vehicles  # noqa: E402
 from mlgw_poller import MlgwPoller, parse_outages, parse_summary  # noqa: E402
 
@@ -141,3 +142,52 @@ def test_run_loop_cadence_without_catch_up_bursts():
     gaps = [y - x for x, y in zip(calls["a"], calls["a"][1:])]
     assert all(g >= 30 for g in gaps)          # never faster than the interval
     assert len(calls["b"]) <= 3
+
+
+# ---- status file for the project tracker (D28) -----------------------------
+
+def _status(path):
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def test_status_file_judges_each_feed(tmp_path):
+    s = StatusFile(tmp_path / "status" / "mata.json", "r1", part_every={"static_gtfs": "1d"})
+    s.record("static_gtfs", True, "2026-09-27T19:59:00Z")
+    s.record("vehicle_positions", True, "2026-09-27T20:00:00Z")
+    s.record("vehicle_positions", False, "2026-09-27T20:00:30Z", "HTTP 503")
+    for t in ("20:01:00", "20:01:30", "20:02:00"):
+        s.record("alerts", False, f"2026-09-27T{t}Z", "timeout")
+    doc = _status(tmp_path / "status" / "mata.json")
+    assert (doc["status"], doc["last_success_at"], doc["expect_every"]) == ("ok", "2026-09-27T20:00:00Z", "2h")
+    assert doc["detail"] == "run r1: 6 polls, 4 failed"
+    parts = doc["checks"]
+    assert (parts["static_gtfs"]["status"], parts["static_gtfs"]["expect_every"]) == ("ok", "1d")
+    assert (parts["vehicle_positions"]["status"], parts["vehicle_positions"]["last_success_at"]) == (
+        "warn", "2026-09-27T20:00:00Z")  # half of this run's polls failed
+    assert parts["alerts"]["status"] == "fail" and parts["alerts"]["last_success_at"] is None
+    assert parts["alerts"]["detail"] == "3 polls this run, 3 failed; last error: timeout"
+
+
+def test_status_recovers_and_a_run_with_no_success_fails(tmp_path):
+    s = StatusFile(tmp_path / "mlgw.json", "r2")
+    for _ in range(3):
+        s.record("outages", False, "2026-09-27T20:00:00Z", "not JSON")
+    assert _status(tmp_path / "mlgw.json")["status"] == "fail"
+    for i in range(13):
+        s.record("outages", True, f"2026-09-27T20:{i + 1:02d}:00Z")
+    part = _status(tmp_path / "mlgw.json")["checks"]["outages"]
+    assert part["status"] == "ok" and part["last_success_at"] == "2026-09-27T20:13:00Z"  # 3 of 16 failed
+
+
+def test_pollers_write_status_and_a_quiet_feed_is_healthy(tmp_path):
+    empty = b'{"type": "FeatureCollection", "features": []}'  # no outages right now
+    s = StatusFile(tmp_path / "status" / "mlgw.json", "r3")
+    MlgwPoller(tmp_path, "r3", fetcher=lambda url, **kw: ok(empty, "application/json"), status=s).poll_outages()
+    rejected = b"<html><title>Request Rejected</title></html>"
+    MlgwPoller(tmp_path, "r3", fetcher=lambda url, **kw: ok(rejected, "text/html"), status=s).poll_summary()
+    doc = _status(tmp_path / "status" / "mlgw.json")
+    assert doc["status"] == "ok" and doc["checks"]["outages"]["status"] == "ok"
+    assert doc["checks"]["summary"]["status"] == "warn" and doc["checks"]["summary"]["last_success_at"] is None
+    s2 = StatusFile(tmp_path / "status" / "mata.json", "r4")
+    MataPoller(tmp_path, "r4", fetcher=lambda url, **kw: fail(), status=s2).poll_vehicles()
+    assert _status(tmp_path / "status" / "mata.json")["checks"]["vehicle_positions"]["status"] == "warn"

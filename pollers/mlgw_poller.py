@@ -22,7 +22,7 @@ import json
 import re
 from pathlib import Path
 
-from common import JsonlGzWriter, fetch, iso, run_loop, utc_now
+from common import JsonlGzWriter, StatusFile, fetch, iso, run_loop, utc_now
 
 GEOJSON_URL = "https://outagemap.mlgw.org/geojson.php"
 SUMMARY_URL = "https://outagemap.mlgw.org/OutageSummary.php"
@@ -68,15 +68,19 @@ def parse_summary(body: bytes) -> dict:
 
 
 class MlgwPoller:
-    def __init__(self, out_dir: Path, run_id: str, fetcher=fetch):
+    def __init__(self, out_dir: Path, run_id: str, fetcher=fetch, status: StatusFile | None = None):
         self.fetch = fetcher
+        self.status = status
         self.snapshots = JsonlGzWriter(out_dir / f"mlgw_snapshots_{run_id}.jsonl.gz", flush_every=1)
         self.summaries = JsonlGzWriter(out_dir / f"mlgw_summary_{run_id}.jsonl.gz", flush_every=1)
         self.polls = JsonlGzWriter(out_dir / f"mlgw_polls_{run_id}.jsonl.gz", flush_every=1)
 
     def _log(self, feed, res, **extra):
-        self.polls.write({"poll_time": iso(utc_now()), "feed": feed, "ok": res.ok, "status": res.status,
+        polled = iso(utc_now())
+        self.polls.write({"poll_time": polled, "feed": feed, "ok": res.ok, "status": res.status,
                           "error": res.error, "elapsed_ms": res.elapsed_ms, "bytes": len(res.body), **extra})
+        if self.status:
+            self.status.record(feed, res.ok, polled, res.error)
 
     def poll_outages(self) -> None:
         polled = iso(utc_now())
@@ -121,7 +125,8 @@ def main() -> None:
     args = ap.parse_args()
     start = utc_now()
     out = Path(args.out) / "mlgw" / start.strftime("%Y-%m-%d")
-    p = MlgwPoller(out, start.strftime("%Y%m%dT%H%M%SZ"))
+    run_id = start.strftime("%Y%m%dT%H%M%SZ")
+    p = MlgwPoller(out, run_id, status=StatusFile(Path(args.out) / "status" / "mlgw.json", run_id))
     try:
         run_loop(args.minutes * 60, [(args.outage_interval, p.poll_outages),
                                      (args.summary_interval, p.poll_summary)])

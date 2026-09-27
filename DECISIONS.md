@@ -423,6 +423,19 @@ made while building, so a reviewer can challenge them.
   Permits without outputs in a build report fail, because its step is
   `continue-on-error` and the panel alone would show only "in development".
   The MATA and MLGW pollers are not parts: their status here is fixed text.
+- **D28. The pollers publish a status file for the project tracker.** Each
+  poller keeps its run's status in `data/poller/status/<source>.json`
+  (`common.StatusFile`), rewritten after every poll. `status_release.sh`
+  uploads it to the fixed-tag prerelease `status` every 30 minutes and when
+  the run ends, so `releases/download/status/mata.json` and `mlgw.json` are
+  stable URLs. Each feed is a part: it fails when its last three polls
+  failed and warns when a fifth or more of the run's polls failed. A
+  successful poll counts whatever it returned, so a quiet feed (no buses
+  overnight, no outages) is healthy. The tracker judges the age of each
+  `last_success_at`, so a poller that stops, or whose runs GitHub drops
+  (H22), reads as stale. Runs are expected every 2 hours; the static GTFS
+  zip, fetched once per run, daily. Overlapping runs replace each other's
+  copy, and both are current. Runs still exit 0 when fetches fail.
 - **D8. Boundary rule.** A point within 1 m of more than one polygon goes to
   the lowest `geo_id` among them and is flagged `on_boundary`.
 - **D9. Censored durations.** Median time-to-close uses a Kaplan–Meier
