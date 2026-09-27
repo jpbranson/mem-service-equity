@@ -72,6 +72,16 @@ test_that("weekend lows are not flagged when bands are split by day type", {
   expect_equal(finalize_report(r2)$status, "fail")
 })
 
+test_that("a volume outlier at warning severity is recorded without failing the run", {
+  as_of <- as.Date("2026-09-23")
+  r <- finalize_report(check_volume(validation_report("t"), volume_ts(as_of, 100, 20, last_day_n = 3), as_of,
+                                    severity = "warning"))
+  expect_equal(r$status, "pass")
+  expect_false(r$checks[[1]]$passed)
+  expect_equal(r$checks[[1]]$severity, "warning")
+  expect_equal(r$checks[[1]]$details$days[[1]]$count, 3)
+})
+
 test_that("near-duplicate rule: same type, 50 m, 7 days after a primary", {
   base <- as.POSIXct("2026-09-01 09:00:00", tz = "America/Chicago")
   df <- data.frame(

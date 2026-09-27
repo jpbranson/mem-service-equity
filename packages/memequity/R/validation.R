@@ -135,9 +135,13 @@ check_freshness <- function(report, timestamps, max_lag_days, as_of = Sys.Date()
 #' weekends. A zero MAD is floored at 1 record so a perfectly flat history
 #' does not fail on a single-record change. Days whose comparison pool has
 #' fewer than `min_pool` days are skipped and reported as such.
+#'
+#' @param severity "error" (the default) halts the run on an out-of-band day;
+#'   "warning" records it without halting, for a pipeline whose other checks
+#'   already catch an incomplete fetch.
 #' @export
 check_volume <- function(report, timestamps, as_of = Sys.Date(), window = 60L, k = 3,
-                         check_days = 1L, by_day_type = TRUE, min_pool = 8L) {
+                         check_days = 1L, by_day_type = TRUE, min_pool = 8L, severity = "error") {
   d <- local_date(timestamps)
   as_of <- as.Date(as_of)
   days <- seq(as_of - window - check_days, as_of - 1, by = "day")
@@ -157,7 +161,8 @@ check_volume <- function(report, timestamps, as_of = Sys.Date(), window = 60L, k
          in_band = counts[i] >= med - k * spread && counts[i] <= med + k * spread)
   })
   passed <- all(vapply(results, function(r) is.null(r$in_band) || isTRUE(r$in_band), logical(1)))
-  add_check(report, "daily volume within band", "volume", passed, list(days = results, k = k, window = window))
+  add_check(report, "daily volume within band", "volume", passed, list(days = results, k = k, window = window),
+            severity)
 }
 
 #' Exact duplicates on a set of key columns.
