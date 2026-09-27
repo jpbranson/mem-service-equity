@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import gzip
 import json
+import os
 import time
 import urllib.error
 import urllib.request
@@ -92,6 +93,70 @@ class JsonlGzWriter:
 def read_jsonl_gz(path: Path) -> list[dict]:
     with gzip.open(path, "rt", encoding="utf-8") as f:
         return [json.loads(line) for line in f if line.strip()]
+
+
+def _polls(n: int) -> str:
+    return f"{n} poll{'s' * (n != 1)}"
+
+
+class StatusFile:
+    """This run's status for the project tracker (DECISIONS.md D28), rewritten after
+    every poll; status_release.sh publishes it as a fixed-tag release asset.
+
+    Each feed is a part: fail when its last three polls failed, warn when a fifth
+    or more of this run's polls failed, else ok. A successful poll counts whatever
+    it returned, so a quiet feed (no buses overnight, no outages) is healthy. The
+    tracker judges the age of each last_success_at itself.
+    """
+
+    FAILING_STREAK = 3
+    WARN_SHARE = 0.2
+
+    def __init__(self, path: Path, run_id: str, expect_every: str = "2h",
+                 part_every: dict[str, str] | None = None):
+        self.path = path
+        self.run_id = run_id
+        self.expect_every = expect_every
+        self.part_every = part_every or {}
+        self.feeds: dict[str, dict] = {}
+        path.parent.mkdir(parents=True, exist_ok=True)
+
+    def record(self, feed: str, ok: bool, polled_at: str, error: str | None = None) -> None:
+        f = self.feeds.setdefault(feed, {"polls": 0, "failed": 0, "streak": 0,
+                                         "last_success_at": None, "last_error": None})
+        f["polls"] += 1
+        if ok:
+            f["streak"], f["last_success_at"] = 0, polled_at
+        else:
+            f["failed"] += 1
+            f["streak"] += 1
+            f["last_error"] = error
+        self.write()
+
+    def document(self) -> dict:
+        checks = {}
+        for name, f in self.feeds.items():
+            detail = f"{_polls(f['polls'])} this run, {f['failed']} failed"
+            if f["failed"]:
+                detail += f"; last error: {(f['last_error'] or 'unknown')[:80]}"
+            checks[name] = {
+                "status": ("fail" if f["streak"] >= self.FAILING_STREAK
+                           else "warn" if f["failed"] >= self.WARN_SHARE * f["polls"] else "ok"),
+                "last_success_at": f["last_success_at"], "detail": detail,
+                **({"expect_every": self.part_every[name]} if name in self.part_every else {})}
+        successes = [f["last_success_at"] for f in self.feeds.values() if f["last_success_at"]]
+        polls = sum(f["polls"] for f in self.feeds.values())
+        failed = sum(f["failed"] for f in self.feeds.values())
+        return {"status": "ok" if successes else "fail",
+                "last_success_at": max(successes) if successes else None,
+                "expect_every": self.expect_every,
+                "detail": f"run {self.run_id}: {_polls(polls)}, {failed} failed", "checks": checks}
+
+    def write(self) -> None:
+        # Replaced atomically: status_release.sh may copy it while the poller runs.
+        tmp = self.path.with_name(self.path.name + ".tmp")
+        tmp.write_text(json.dumps(self.document(), indent=1) + "\n", encoding="utf-8")
+        os.replace(tmp, self.path)
 
 
 def run_loop(duration_s: float, tasks: list[tuple[float, callable]], sleep=time.sleep,

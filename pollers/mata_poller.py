@@ -20,7 +20,7 @@ from pathlib import Path
 
 from google.transit import gtfs_realtime_pb2
 
-from common import JsonlGzWriter, fetch, iso, run_loop, utc_now
+from common import JsonlGzWriter, StatusFile, fetch, iso, run_loop, utc_now
 
 RT_BASE = "https://gtfsrt.mata.cadavl.com/ProfilGtfsRt2_0RSProducer-MATA"
 VEHICLE_URL = f"{RT_BASE}/VehiclePosition.pb"
@@ -91,8 +91,9 @@ def decode_alerts(body: bytes) -> tuple[int | None, list[dict]]:
 
 
 class MataPoller:
-    def __init__(self, out_dir: Path, run_id: str, fetcher=fetch):
+    def __init__(self, out_dir: Path, run_id: str, fetcher=fetch, status: StatusFile | None = None):
         self.fetch = fetcher
+        self.status = status
         self.out_dir = out_dir
         self.positions = JsonlGzWriter(out_dir / f"mata_positions_{run_id}.jsonl.gz", flush_every=500)
         self.alerts = JsonlGzWriter(out_dir / f"mata_alerts_{run_id}.jsonl.gz", flush_every=1)
@@ -100,8 +101,11 @@ class MataPoller:
         self.seen: set[tuple] = set()
 
     def _log(self, feed: str, res, **extra) -> None:
-        self.polls.write({"poll_time": iso(utc_now()), "feed": feed, "ok": res.ok, "status": res.status,
+        polled = iso(utc_now())
+        self.polls.write({"poll_time": polled, "feed": feed, "ok": res.ok, "status": res.status,
                           "error": res.error, "elapsed_ms": res.elapsed_ms, "bytes": len(res.body), **extra})
+        if self.status:
+            self.status.record(feed, res.ok, polled, res.error)
 
     def poll_vehicles(self) -> None:
         polled = iso(utc_now())
@@ -170,7 +174,10 @@ def main() -> None:
     args = ap.parse_args()
     start = utc_now()
     out = Path(args.out) / "mata" / start.strftime("%Y-%m-%d")
-    p = MataPoller(out, start.strftime("%Y%m%dT%H%M%SZ"))
+    run_id = start.strftime("%Y%m%dT%H%M%SZ")
+    # The static zip is fetched once per run, so up to a day between successes is fine.
+    status = StatusFile(Path(args.out) / "status" / "mata.json", run_id, part_every={"static_gtfs": "1d"})
+    p = MataPoller(out, run_id, status=status)
     try:
         p.archive_static()
         run_loop(args.minutes * 60, [(args.vehicle_interval, p.poll_vehicles),
