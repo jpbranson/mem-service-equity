@@ -41,6 +41,8 @@ which of the six publication conditions is missing.
   that reproduces: FY25 street-sweeping requests (D22). `pct_within_target`
   has no official on-time figure (H14).
 - For permits, the 2023 Census figure is 2.1% off and not yet explained.
+- For food safety, no official inspection count has been found to
+  reconcile against.
 
 Review packets that prepare each human step are in `docs/reviews/`.
 
@@ -54,7 +56,7 @@ Review packets that prepare each human step are in `docs/reviews/`.
 | `pipelines/311/` | The 311 pipeline: `run.R`, `R/` (fetch, normalize, metrics, hex, audit, reconcile), `config/`, `reconciliation/` (official City figures, D22), `tests/` (fixtures, properties, golden files, and `independent/`: a second implementation that checks the golden file and pre-traces the audit sample) |
 | `pipelines/mata/` | MATA trip matching and metrics from the poller archive: `run.R --archive DIR` (weekly release assets), `R/` (archive, gtfs, match, arrivals, metrics), `tests/` on a synthetic route |
 | `pipelines/food-safety/` | The food-safety pipeline: `run.R --inbox DIR` reads the owner's collector output (D29) or a records-request export (H11); `config/column_map.yml` maps the columns, and `programs.csv`, `establishment_types.csv` and `inspection_types.csv` say what counts; `tests/` (synthetic fixtures and a golden file from a frozen sample of the real data) |
-| `pipelines/permits/` | The permits pipeline, same layout: `run.R`, `R/`, `config/` (sector and category maps), `reconciliation/` (Census Building Permits Survey figures, `fetch_bps.R`), `tests/` |
+| `pipelines/permits/` | The permits pipeline, same layout: `run.R`, `R/` (including `demolitions.R` for the Data Midsouth snapshot, D30), `config/` (sector and category maps, subgroup labels, the snapshot's column map), `reconciliation/` (Census Building Permits Survey figures, `fetch_bps.R`), `tests/` |
 | `pollers/` | Python collectors for MATA GTFS-Realtime and MLGW outages, with tests and the release-archive script |
 | `site/` | Static front end (plain HTML/JS, no build step): `index.html`, `methodology.html`, `assets/`. `build_site_data.R` turns published outputs into sharded JSON under `site/data/` (generated, not committed) and leaves out any metric that fails the publish gate |
 | `docs/research/` | Verified notes on every data source |
@@ -103,8 +105,8 @@ Rscript -e 'testthat::test_dir("pipelines/permits/tests/testthat")'
 Rscript geography/fetch_parcels.R
 Rscript pipelines/permits/reconciliation/fetch_bps.R 2021 2025
 
-# Food safety: tests run on synthetic data; the run reads the owner's
-# collector output for the state portal (D29)
+# Food safety: tests (synthetic fixtures and a golden file); the run reads
+# the owner's collector output for the state portal (D29)
 Rscript -e 'testthat::test_dir("pipelines/food-safety/tests/testthat")'
 Rscript pipelines/food-safety/run.R --inbox ../tn-health-inspections/data
 

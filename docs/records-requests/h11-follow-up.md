@@ -5,6 +5,10 @@ of **Friday 2026-10-02**. The request went to TDH on Wednesday 2026-09-23,
 and 2026-10-02 is the seventh business day after that (no state holidays fall
 in between).
 
+Since 2026-09-27 the project has inspections from 2025 onward from the
+owner's collector (DECISIONS.md D29), so the letter's narrowing offer asks
+for what that data lack: earlier years, violations and closures.
+
 ## What TDH owes by then
 
 Under T.C.A. § 10-7-503(a)(2)(B), a records custodian who cannot produce the
@@ -59,8 +63,9 @@ form. T.C.A. § 10-7-503(a)(2)(B) calls for one of these within seven business
 days. Please let me know the status of the request, any reference number
 assigned, and when I can expect the records.
 
-If it would help, I can narrow the request. For example, the most recent 24
-months could come first, as the original letter offered. If the records are
+If it would help, I can narrow the request. For example, the list of
+permitted establishments with any closure dates, and the inspections from
+2021 through 2024 with their violations, could come first. If the records are
 kept by the Shelby County Health Department rather than the department,
 please tell me so I can send the request there.
 

@@ -97,7 +97,7 @@ made while building, so a reviewer can challenge them.
   needed. This covers `deploy-site` as well as both pollers. If the daily
   deploy stops, the site hides 311 numbers once the data is more than 3 days
   old.
-- [ ] **H21. Demolition permits (blocks `demolition_to_new_ratio`).**
+- [ ] **H21. Demolition permits: permission and a live source.**
   Data Midsouth has demolition permits, but its robots.txt forbids
   automated access (D24), and the City's DPD layer has none. Options:
   - ask Innovate Memphis, which publishes Data Midsouth and is also the
@@ -149,7 +149,10 @@ made while building, so a reviewer can challenge them.
   2026-09-25* against the City's address points (`docs/reviews/h6-geocoder/`):
   93% Census match, and 96.5% land inside the address point's disk. The
   hand check of the flagged rows is still to do. The 311 pipeline does not need this, because it uses the city's
-  own request coordinates. The address lookup does need it. From a browser,
+  own request coordinates. The address lookup does need it, and so does
+  the food-safety pipeline, which places establishments with the Census
+  batch geocoder (exact and non-exact matches only; 6.9% unlocated on
+  2026-09-27). From a browser,
   the Census geocoder works only through JSONP (it sends no CORS headers);
   Nominatim is the fallback.
 - [ ] **H7. Independent reviewer.** Candidates are Data Midsouth, a
@@ -193,8 +196,9 @@ made while building, so a reviewer can challenge them.
   and set it to `frozen`. No metric can publish until this happens (5.7).
   The 311 pre-review packet is `docs/reviews/h10-311-specs/`. Its main
   finding: closed requests with no close date cluster in December 2025 and
-  January 2026. The permits, food-safety and MATA specs are at 0.2, with
-  open questions noted in each.
+  January 2026. The other specs have open questions noted in each: the
+  food-safety specs are at 0.3 (first run on real data, D29), permits at
+  0.2–0.3 (demolitions added, D30), and MATA at 0.2.
 
 ## Decisions made
 
@@ -267,7 +271,9 @@ made while building, so a reviewer can challenge them.
   records request asks for, with every source column name in
   `config/column_map.yml`, so the real export should need only config
   changes. It is tested on a synthetic export. It has no golden file and no
-  reconciliation figure until real data arrives.
+  reconciliation figure until real data arrives. *2026-09-27:* it runs on
+  the owner's collector data (D29) and has a golden file from a frozen
+  sample of it. It still has no official figure to reconcile against.
 - **D14. Permit reconciliation target.** Memphis does not appear in the
   Census Building Permits Survey as a place. Its permits are reported under
   "Shelby County Unincorporated Area" (place 99990), which covers the joint

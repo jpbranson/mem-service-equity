@@ -660,6 +660,7 @@
       setupComparePermits();
     } else {
       $('#compare-permits').hidden = true;
+      $('a[href="#compare-permits"]').hidden = true;
     }
     const food = state.manifest.pipelines['food-safety'];
     if (food && food.publish) {
@@ -667,6 +668,7 @@
       setupCompareFood();
     } else {
       $('#compare-food').hidden = true;
+      $('a[href="#compare-food"]').hidden = true;
     }
     $('#lookup-form').addEventListener('submit', lookup);
   }
