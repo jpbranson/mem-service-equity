@@ -165,17 +165,6 @@ check_volume <- function(report, timestamps, as_of = Sys.Date(), window = 60L, k
             severity)
 }
 
-#' Exact duplicates on a set of key columns.
-#' @export
-check_exact_duplicates <- function(report, df, keys, max_share = 0, severity = "error") {
-  df <- if (inherits(df, "sf")) sf::st_drop_geometry(df) else df
-  dup <- duplicated(df[, keys, drop = FALSE])
-  share <- if (nrow(df)) mean(dup) else 0
-  add_check(report, paste0("exact duplicates on ", paste(keys, collapse = "+")), "duplicates",
-            share <= max_share, list(duplicates = sum(dup), share = share, max_share = max_share),
-            severity)
-}
-
 #' Flag near-duplicate records: same type, within `meters` and within `days`
 #' after an earlier primary record.
 #'

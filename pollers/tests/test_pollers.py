@@ -13,12 +13,12 @@ from mlgw_poller import MlgwPoller, parse_outages, parse_summary  # noqa: E402
 FIX = Path(__file__).parent / "fixtures"
 
 
-def ok(body: bytes, ctype="application/octet-stream"):
-    return FetchResult(True, 200, ctype, body, None, 5)
+def ok(body: bytes):
+    return FetchResult(True, 200, body, None, 5)
 
 
 def fail(msg="timeout"):
-    return FetchResult(False, None, None, b"", msg, 5)
+    return FetchResult(False, None, b"", msg, 5)
 
 
 # ---- MATA -------------------------------------------------------------
@@ -85,7 +85,7 @@ def test_firewall_rejection_page_is_a_failure(tmp_path):
     rejected = b"<html><head><title>Request Rejected</title></head><body>The requested URL was rejected.</body></html>"
     with pytest.raises(ValueError):
         parse_outages(rejected)
-    p = MlgwPoller(tmp_path, "t", fetcher=lambda url, **kw: ok(rejected, "text/html"))
+    p = MlgwPoller(tmp_path, "t", fetcher=lambda url, **kw: ok(rejected))
     p.poll_outages(); p.close()
     polls = read_jsonl_gz(tmp_path / "mlgw_polls_t.jsonl.gz")
     assert polls[0]["ok"] is False
@@ -101,7 +101,7 @@ def test_parse_summary_fixture():
 
 def test_outage_snapshot_written(tmp_path):
     body = (FIX / "mlgw_geojson.json").read_bytes()
-    p = MlgwPoller(tmp_path, "t", fetcher=lambda url, **kw: ok(body, "application/json"))
+    p = MlgwPoller(tmp_path, "t", fetcher=lambda url, **kw: ok(body))
     p.poll_outages(); p.close()
     snaps = read_jsonl_gz(tmp_path / "mlgw_snapshots_t.jsonl.gz")
     assert len(snaps) == 1 and snaps[0]["outages"]
@@ -182,9 +182,9 @@ def test_status_recovers_and_a_run_with_no_success_fails(tmp_path):
 def test_pollers_write_status_and_a_quiet_feed_is_healthy(tmp_path):
     empty = b'{"type": "FeatureCollection", "features": []}'  # no outages right now
     s = StatusFile(tmp_path / "status" / "mlgw.json", "r3")
-    MlgwPoller(tmp_path, "r3", fetcher=lambda url, **kw: ok(empty, "application/json"), status=s).poll_outages()
+    MlgwPoller(tmp_path, "r3", fetcher=lambda url, **kw: ok(empty), status=s).poll_outages()
     rejected = b"<html><title>Request Rejected</title></html>"
-    MlgwPoller(tmp_path, "r3", fetcher=lambda url, **kw: ok(rejected, "text/html"), status=s).poll_summary()
+    MlgwPoller(tmp_path, "r3", fetcher=lambda url, **kw: ok(rejected), status=s).poll_summary()
     doc = _status(tmp_path / "status" / "mlgw.json")
     assert doc["status"] == "ok" and doc["checks"]["outages"]["status"] == "ok"
     assert doc["checks"]["summary"]["status"] == "warn" and doc["checks"]["summary"]["last_success_at"] is None

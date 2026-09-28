@@ -35,7 +35,6 @@ def iso(ts: datetime) -> str:
 class FetchResult:
     ok: bool
     status: int | None
-    content_type: str | None
     body: bytes
     error: str | None
     elapsed_ms: int
@@ -50,13 +49,12 @@ def fetch(url: str, timeout: float = 30.0, retries: int = 2, backoff: float = 3.
             req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
             with urllib.request.urlopen(req, timeout=timeout) as resp:
                 body = resp.read()
-                return FetchResult(True, resp.status, resp.headers.get("Content-Type"), body, None,
-                                   int((time.monotonic() - started) * 1000))
+                return FetchResult(True, resp.status, body, None, int((time.monotonic() - started) * 1000))
         except urllib.error.HTTPError as e:
-            last_err = FetchResult(False, e.code, None, b"", f"HTTP {e.code}",
+            last_err = FetchResult(False, e.code, b"", f"HTTP {e.code}",
                                    int((time.monotonic() - started) * 1000))
         except Exception as e:  # network errors, timeouts
-            last_err = FetchResult(False, None, None, b"", f"{type(e).__name__}: {e}",
+            last_err = FetchResult(False, None, b"", f"{type(e).__name__}: {e}",
                                    int((time.monotonic() - started) * 1000))
         if attempt < retries:
             time.sleep(backoff * (attempt + 1))

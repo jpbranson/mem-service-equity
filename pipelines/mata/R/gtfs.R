@@ -4,14 +4,15 @@
 # newest archived zip dated on or before that date (plan 6.1).
 
 read_gtfs <- function(zip_path) {
+  files <- utils::unzip(zip_path, list = TRUE)$Name
   rd <- function(name) {
-    if (!name %in% utils::unzip(zip_path, list = TRUE)$Name) return(NULL)
+    if (!name %in% files) return(NULL)
     fread(cmd = NULL, file = utils::unzip(zip_path, name, exdir = tempfile("gtfs_")),
           colClasses = "character", encoding = "UTF-8")
   }
   g <- list(trips = rd("trips.txt"), stop_times = rd("stop_times.txt"), stops = rd("stops.txt"),
             shapes = rd("shapes.txt"), calendar = rd("calendar.txt"),
-            calendar_dates = rd("calendar_dates.txt"), routes = rd("routes.txt"))
+            calendar_dates = rd("calendar_dates.txt"))
   g$stop_times[, `:=`(stop_sequence = as.integer(stop_sequence),
                       shape_dist_traveled = as.numeric(shape_dist_traveled),
                       timepoint = timepoint == "1")]
@@ -19,7 +20,6 @@ read_gtfs <- function(zip_path) {
                   shape_pt_lat = as.numeric(shape_pt_lat), shape_pt_lon = as.numeric(shape_pt_lon),
                   shape_dist_traveled = as.numeric(shape_dist_traveled))]
   g$stops[, `:=`(stop_lat = as.numeric(stop_lat), stop_lon = as.numeric(stop_lon))]
-  g$file <- basename(zip_path)
   g
 }
 

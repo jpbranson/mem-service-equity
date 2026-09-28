@@ -130,26 +130,4 @@ test_that("Poisson rate intervals", {
   r <- poisson_rate_ci(0, 1)
   expect_equal(r$ci_low, 0)
   expect_equal(r$ci_high, 3.689, tolerance = 1e-3)
-  m <- metric_rate(50, 10000, per = 1000)
-  expect_equal(m$value, 5)
-  expect_lt(m$ci_low, 5); expect_gt(m$ci_high, 5)
-  expect_true(metric_rate(5, 0, per = 1000)$suppressed)
-})
-
-test_that("choose_window picks the smallest window that clears min n", {
-  end <- as.Date("2026-09-01")
-  busy <- end - rep(0:89, each = 2)
-  quiet <- end - seq(0, 360, by = 12)
-  expect_equal(choose_window(busy, end, 30), 90L)
-  expect_equal(choose_window(quiet, end, 25), 365L)
-  expect_true(is.na(choose_window(end - 1:5, end, 30)))
-  # A record exactly `window` days before the end is outside the window.
-  expect_equal(choose_window(end - c(rep(0, 29), 90), end, 30, windows = 90), NA_integer_)
-})
-
-test_that("interval comparison never over-claims", {
-  expect_equal(compare_intervals(0.5, 0.7, 0.6, 0.8), "not clearly different")
-  expect_equal(compare_intervals(0.8, 0.9, 0.5, 0.7), "higher")
-  expect_equal(compare_intervals(0.1, 0.2, 0.5, 0.7), "lower")
-  expect_equal(compare_intervals(NA, 0.2, 0.5, 0.7), "insufficient data")
 })

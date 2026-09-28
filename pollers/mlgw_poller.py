@@ -120,16 +120,13 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--minutes", type=float, default=125)
     ap.add_argument("--out", default="data/poller")
-    ap.add_argument("--outage-interval", type=float, default=300)
-    ap.add_argument("--summary-interval", type=float, default=900)
     args = ap.parse_args()
     start = utc_now()
     out = Path(args.out) / "mlgw" / start.strftime("%Y-%m-%d")
     run_id = start.strftime("%Y%m%dT%H%M%SZ")
     p = MlgwPoller(out, run_id, status=StatusFile(Path(args.out) / "status" / "mlgw.json", run_id))
     try:
-        run_loop(args.minutes * 60, [(args.outage_interval, p.poll_outages),
-                                     (args.summary_interval, p.poll_summary)])
+        run_loop(args.minutes * 60, [(300, p.poll_outages), (900, p.poll_summary)])
     finally:
         p.close()
 

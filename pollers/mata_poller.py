@@ -169,8 +169,6 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--minutes", type=float, default=125)
     ap.add_argument("--out", default="data/poller")
-    ap.add_argument("--vehicle-interval", type=float, default=30)
-    ap.add_argument("--alert-interval", type=float, default=900)
     args = ap.parse_args()
     start = utc_now()
     out = Path(args.out) / "mata" / start.strftime("%Y-%m-%d")
@@ -180,8 +178,7 @@ def main() -> None:
     p = MataPoller(out, run_id, status=status)
     try:
         p.archive_static()
-        run_loop(args.minutes * 60, [(args.vehicle_interval, p.poll_vehicles),
-                                     (args.alert_interval, p.poll_alerts)])
+        run_loop(args.minutes * 60, [(30, p.poll_vehicles), (900, p.poll_alerts)])
     finally:
         p.close()
 

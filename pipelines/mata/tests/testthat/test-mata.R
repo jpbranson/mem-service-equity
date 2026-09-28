@@ -51,8 +51,6 @@ test_that("trips are classified as observed, ghost, unobserved or not measurable
   setkey(cls, trip_id)
   expect_equal(cls[c("T1", "T2", "T3", "T4"), status], c("observed", "ghost", "observed", "unobserved"))
   expect_equal(cls[c("T1", "T2", "T3", "T4", "T5"), measurable], c(TRUE, TRUE, TRUE, TRUE, FALSE))
-  r <- match_rates(cls)
-  expect_equal(r[route_id == "(all)", c(scheduled, observed)], c(4L, 2L))
 })
 
 test_that("arrivals are interpolated along the shape to within a second", {

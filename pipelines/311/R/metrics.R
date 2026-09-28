@@ -174,8 +174,7 @@ MIN_POPULATION <- 1000
 
 #' Requests per 1,000 residents, for every request type seen in the window,
 #' in every area with a population, including areas with no requests of that
-#' type (a zero is a result). Same estimator as memequity::metric_rate(),
-#' vectorized.
+#' type (a zero is a result), with memequity::poisson_rate_ci() intervals.
 #'
 #' @param populations named list: geo_type -> data.frame(geo_id, population),
 #'   the residents of the part of each area inside the city.

@@ -24,20 +24,3 @@ match_trips <- function(sched, pos, spans, tolerance = OBS_TOLERANCE_MIN) {
   s[, observed := n_reports > 0 & first_report <= to & last_report >= from]
   s[]
 }
-
-#' Per route (and all routes) share of measurable scheduled trips observed.
-match_rates <- function(m) {
-  r <- m[measurable == TRUE, .(scheduled = .N, observed = sum(observed)), by = route_id]
-  r <- rbind(r, m[measurable == TRUE, .(route_id = "(all)", scheduled = .N, observed = sum(observed))])
-  r[, match_rate := observed / scheduled]
-  setorder(r, route_id)
-  r[]
-}
-
-#' Vehicle reports whose trip_id is not in the schedule for their date
-#' (MATA marks most of them ADDED).
-unscheduled_reports <- function(pos, sched) {
-  k <- paste(sched$service_date, sched$trip_id)
-  pos[!paste(service_date, trip_id) %in% k,
-      .(reports = .N, trips = uniqueN(trip_id)), by = schedule_relationship]
-}

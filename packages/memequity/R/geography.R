@@ -8,12 +8,6 @@ MSE_CRS_METERS <- 32136L
 #' @export
 MSE_CRS_LONLAT <- 4326L
 
-METERS_PER_MILE <- 1609.344
-
-#' Convert miles to meters.
-#' @export
-miles_to_m <- function(miles) miles * METERS_PER_MILE
-
 #' Locate the repository's geography directory.
 #'
 #' Uses the MSE_GEOGRAPHY_DIR environment variable if set, otherwise walks up
@@ -140,20 +134,6 @@ assignment_summary <- function(points, prefix) {
     unassigned = sum(located & is.na(points[[prefix]])),
     on_boundary = sum(points[[paste0(prefix, "_on_boundary")]], na.rm = TRUE)
   )
-}
-
-#' Select points within a straight-line radius of an origin.
-#'
-#' @param origin an sf/sfc point (any CRS) or c(lon, lat).
-#' @param meters radius in meters.
-#' @export
-points_within_radius <- function(points, origin, meters) {
-  if (is.numeric(origin)) origin <- sf::st_sfc(sf::st_point(origin), crs = MSE_CRS_LONLAT)
-  o <- sf::st_transform(sf::st_geometry(origin), MSE_CRS_METERS)
-  p <- sf::st_transform(points, MSE_CRS_METERS)
-  keep <- as.vector(sf::st_is_within_distance(p, o, dist = meters, sparse = FALSE)[, 1])
-  keep[sf::st_is_empty(p)] <- FALSE
-  points[keep, ]
 }
 
 #' H3 cell index for each point (resolution 8 by default).

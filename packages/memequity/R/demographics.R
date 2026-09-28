@@ -6,10 +6,6 @@
 # here read that file and derive the published measures, carrying margins of
 # error with the Census Bureau's approximation formulas.
 
-#' Margin of error of a sum of independent estimates (Census approximation).
-#' @export
-acs_moe_sum <- function(moe) sqrt(sum(moe^2))
-
 #' Margin of error of a ratio `num / den` where the numerator is not a subset
 #' of the denominator (e.g. aggregate income per resident).
 #' @export

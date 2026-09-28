@@ -1,5 +1,4 @@
 test_that("ACS margin-of-error formulas give the Census approximations", {
-  expect_equal(acs_moe_sum(c(3, 4)), 5)
   # Proportion: p = 0.2, sqrt(5^2 - 0.2^2 * 10^2) / 100
   expect_equal(acs_moe_prop(20, 100, 5, 10), sqrt(21) / 100)
   # Negative radicand falls back to the ratio formula.

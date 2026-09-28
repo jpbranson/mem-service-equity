@@ -158,13 +158,11 @@ test_that("every repository spec parses and has no problems", {
 test_that("methodology is generated from specs", {
   d <- withr::local_tempdir()
   write_spec(d)
-  out <- render_methodology("demo", d, file.path(d, "out"),
-                            reconciliation = list(date = "2026-09-01", reference = "City", reference_value = "82%",
-                                                  our_value = "81%", gap = "1 pt", note = "ok"))
+  out <- render_methodology("demo", d, file.path(d, "out"))
   txt <- paste(readLines(out), collapse = "\n")
   expect_match(txt, "Demo metric")
   expect_match(txt, "Objection 1")
-  expect_match(txt, "82%")
+  expect_match(txt, "No reconciliation has been run yet")
   expect_match(txt, "No pre-launch audit")
 })
 

@@ -2,14 +2,8 @@
 # Nominatim as fallback, every result cached with its match quality.
 
 CENSUS_BATCH_URL <- "https://geocoding.geo.census.gov/geocoder/locations/addressbatch"
-CENSUS_ONELINE_URL <- "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress"
 NOMINATIM_URL <- "https://nominatim.openstreetmap.org/search"
 CENSUS_BATCH_LIMIT <- 10000L
-
-#' Match-quality levels, best first. Spatial metrics accept `exact` and
-#' `non_exact` by default; anything else is counted as unlocated.
-#' @export
-MATCH_QUALITY_LEVELS <- c("exact", "non_exact", "nominatim", "tie", "no_match")
 
 #' Normalise an address string for use as a cache key.
 #' @export

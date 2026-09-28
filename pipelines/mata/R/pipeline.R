@@ -25,7 +25,7 @@ process_date <- function(archive_dir, date, pos, spans) {
     events <- merge(events, arrivals[, .(trip_id, stop_id, stop_sequence, arrival)],
                     by = c("trip_id", "stop_id", "stop_sequence"), all.x = TRUE)
   else events[, arrival := as.POSIXct(NA)]
-  list(date = as.Date(date), gtfs = basename(z), cls = cls, arrivals = arrivals, events = events,
+  list(date = as.Date(date), cls = cls, arrivals = arrivals, events = events,
        stop_times = s$stop_times[, .(service_date = as.Date(date), trip_id, stop_id)],
        stops = g$stops[, .(stop_id, stop_name, stop_lat, stop_lon)])
 }
@@ -64,5 +64,5 @@ compute_metrics_mata <- function(days, through, min_coverage = 0.9) {
     m[, `:=`(subgroup = "all", metric_version = SPEC_VERSIONS[metric])]
     m <- add_citywide_reference(m)
   }
-  list(metrics = m, windows = windows, classified = cls$primary, arrivals = arrivals)
+  list(metrics = m, windows = windows, classified = cls$primary)
 }

@@ -93,8 +93,7 @@ reconciliation_lines <- function(r) {
 #' Render methodology_<pipeline>.md from the pipeline's specs and the latest
 #' reconciliation and audit records.
 #'
-#' @param reconciliation a data.frame from reconcile_figures(), a list with
-#'   date, reference, reference_value, our_value, gap, note, or NULL.
+#' @param reconciliation a data.frame from reconcile_figures(), or NULL.
 #' @param reconciliation_note text shown under the reconciliation heading,
 #'   e.g. which official figures do not exist.
 #' @param audit list with date, path, records (or NULL).
@@ -106,14 +105,9 @@ render_methodology <- function(pipeline, specs_dir, out_dir, reconciliation = NU
            sprintf("_Generated from `specs/%s/` on %s. Do not edit by hand._", pipeline, format(Sys.Date())), "")
   out <- c(out, "## Reconciliation", "",
            if (!is.null(reconciliation_note)) c(reconciliation_note, ""),
-           if (is.null(reconciliation) || (is.data.frame(reconciliation) && !nrow(reconciliation)))
+           if (is.null(reconciliation) || !nrow(reconciliation))
              "_No reconciliation has been run yet. Metrics are not publishable until one is._"
-           else if (is.data.frame(reconciliation)) reconciliation_lines(reconciliation)
-           else c(sprintf("- **Date:** %s", reconciliation$date),
-                  sprintf("- **Reference:** %s", reconciliation$reference),
-                  sprintf("- **Reference value:** %s; **our value:** %s; **gap:** %s",
-                          reconciliation$reference_value, reconciliation$our_value, reconciliation$gap),
-                  sprintf("- **Note:** %s", reconciliation$note %||% "")), "")
+           else reconciliation_lines(reconciliation), "")
   out <- c(out, "## Manual audit", "",
            if (is.null(audit)) "_No pre-launch audit has been committed yet._"
            else sprintf("- %s: %s records traced end to end (`%s`)", audit$date, audit$records, audit$path), "")

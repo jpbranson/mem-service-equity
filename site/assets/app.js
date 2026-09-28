@@ -34,7 +34,6 @@
       if (v == null || v === false) continue;
       if (k === 'class') node.className = v;
       else if (k === 'style') Object.assign(node.style, v);
-      else if (k.startsWith('on')) node.addEventListener(k.slice(2), v);
       else node.setAttribute(k, v === true ? '' : v);
     }
     for (const kid of kids.flat()) {
@@ -131,7 +130,7 @@
     if (!box.childNodes.length) box.append('No published data yet.');
   }
 
-  function panelState(key, p) {
+  function panelState(p) {
     if (p.publish) {
       const any = Object.values(p.publish).some((g) => g.publishable);
       return any ? ['live', 'Live'] : ['collecting', 'Computed, not yet published'];
@@ -148,7 +147,7 @@
     for (const key of PANEL_ORDER) {
       const p = state.manifest.pipelines[key];
       if (!p) continue;
-      const [cls, label] = panelState(key, p);
+      const [cls, label] = panelState(p);
       const notes = {
         311: 'Resolution times and re-reports for eight common request types, by ZIP, council district and address.',
         permits: 'Building permits and their declared value per 1,000 parcels, by ZIP and council district.',
