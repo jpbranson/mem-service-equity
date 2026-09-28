@@ -33,7 +33,6 @@ test_that("a known address lands in the right ZCTA, tract and city", {
 
 test_that("parcel counts cover every area and add up to the city total", {
   d <- repo_geo()
-  skip_if_not(file.exists(file.path(d, "parcels", "registry.csv")), "no parcel counts yet")
   reg <- parcels_registry(d)
   expect_true(file.exists(file.path(d, "parcels", reg$file[1])))
   city <- area_parcels("citywide", d)

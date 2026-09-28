@@ -123,7 +123,6 @@ test_that("metrics are invariant to input order and to added near-duplicates", {
 test_that("golden file: a frozen sample of real data reproduces the frozen outputs", {
   gold_in <- file.path(repo_root, "pipelines", "311", "tests", "golden", "golden_raw.rds")
   gold_out <- file.path(repo_root, "pipelines", "311", "tests", "golden", "golden_metrics.csv")
-  skip_if_not(file.exists(gold_in) && file.exists(gold_out), "golden files not built")
   raw <- readRDS(gold_in)
   pts <- pipeline_points(raw, "2025-07-01")
   m <- compute_metrics_311(pts, cfg$request_types, as.Date("2025-06-30"))$metrics

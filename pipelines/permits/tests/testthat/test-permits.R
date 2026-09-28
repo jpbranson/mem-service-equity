@@ -163,7 +163,6 @@ test_that("SPEC_VERSIONS matches the version in each spec", {
 
 test_that("golden file: a frozen sample of real data reproduces the frozen outputs", {
   gd <- file.path(repo_root, "pipelines", "permits", "tests", "golden")
-  skip_if_not(file.exists(file.path(gd, "golden_metrics.csv")), "golden files not built")
   raw <- readRDS(file.path(gd, "golden_raw.rds"))
   parcels <- golden_parcels(gd)
   through <- as.Date(readLines(file.path(gd, "golden_through.txt")))
