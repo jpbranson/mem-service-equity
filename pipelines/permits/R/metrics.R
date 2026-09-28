@@ -36,14 +36,6 @@ subgroup_masks <- function(df) {
   out
 }
 
-# Citywide value for the same metric, variant, subgroup and window (D4).
-add_citywide_reference <- function(m) {
-  city <- m[m$geo_type == "citywide", ]
-  key <- function(d) paste(d$metric, d$variant, d$subgroup, format(as.Date(d$window_start)), sep = "\r")
-  m$citywide_median <- city$value[match(key(m), key(city))]
-  m
-}
-
 # ---- permits per 1,000 parcels ------------------------------------------------
 
 compute_permit_rates <- function(df, parcels, through) {
@@ -132,5 +124,6 @@ compute_metrics_permits <- function(pts, parcels, through) {
   df <- base_permits(pts)
   m <- rbind(compute_permit_rates(df, parcels, through), compute_declared_value(df, parcels, through))
   m$metric_version <- SPEC_VERSIONS[m$metric]
-  add_citywide_reference(m)
+  m$citywide_median <- memequity::citywide_reference(m)
+  m
 }

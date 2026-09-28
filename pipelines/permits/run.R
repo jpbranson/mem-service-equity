@@ -119,12 +119,5 @@ render_methodology("permits", specs_dir, out_dir, title = "Investment (building 
                      "its own 2024 and 2025 counts between its year-to-date and annual files."))
 write_permits_audit(pts, file.path(out_dir, "audit"), as_of)
 
-specs <- read_specs("permits", specs_dir)
-audit_file <- sort(list.files(file.path(here, "audits"), pattern = "^audit_.*\\.csv$", full.names = TRUE),
-                   decreasing = TRUE)
-gates <- lapply(specs, function(s) publish_gate(
-  s, finalize_report(rep), tests_passed = identical(Sys.getenv("TESTS_PASSED"), "true"),
-  metrics = m[m$metric == s$id, ], reconciliation = spec_reconciliation(s, recon),
-  audit_path = if (length(audit_file)) audit_file[1] else NULL, as_of = as_of))
-write_publish_status(gates, "permits", out_dir)
+gate_pipeline("permits", rep, m, recon, as_of, out_dir)
 log("done")

@@ -109,12 +109,5 @@ render_methodology("mata", specs_dir, out_dir, title = "Transit (MATA)",
                    reconciliation_note = paste(
                      "No official figure is reconciled yet. MATA's monthly on-time series on the Memphis",
                      "Data Hub has no published definition (DECISIONS.md H16)."))
-specs <- read_specs("mata", specs_dir)
-audit_file <- sort(list.files(file.path(here, "audits"), pattern = "^audit_.*\\.csv$", full.names = TRUE),
-                   decreasing = TRUE)
-gates <- lapply(specs, function(s) publish_gate(
-  s, finalize_report(rep), tests_passed = identical(Sys.getenv("TESTS_PASSED"), "true"),
-  metrics = m[m$metric == s$id, ], reconciliation = NULL,
-  audit_path = if (length(audit_file)) audit_file[1] else NULL, as_of = as_of))
-write_publish_status(gates, "mata", out_dir)
+gate_pipeline("mata", rep, m, NULL, as_of, out_dir)
 log("done")

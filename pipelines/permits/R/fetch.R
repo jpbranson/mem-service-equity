@@ -11,25 +11,24 @@ PERMIT_FIELDS <- c("ObjectId", "Record_ID", "Issued_Date", "Sub_Type", "Construc
 
 UA <- "memphis-service-equity (https://github.com/jpbranson/mem-service-equity)"
 
-permits_request <- function(path, ..., layer = PERMITS_LAYER) {
+# Retries dropped connections and ArcGIS errors returned with HTTP 200.
+permits_json <- function(path, ..., layer = PERMITS_LAYER) {
   httr2::request(paste0(layer, path)) |>
     httr2::req_url_query(..., f = "json") |>
     httr2::req_user_agent(UA) |>
     httr2::req_retry(max_tries = 5, backoff = function(i) 2^i) |>
-    httr2::req_timeout(120)
+    httr2::req_timeout(120) |>
+    memequity::arcgis_json()
 }
-
-# Retries dropped connections and ArcGIS errors returned with HTTP 200.
-perform_json <- function(req) memequity::arcgis_json(req)
 
 #' Fetch every permit. Dates come back as epoch milliseconds (UTC).
 fetch_permits <- function(layer = PERMITS_LAYER, page_size = 1000L, verbose = TRUE) {
   pages <- list(); after <- 0L
   repeat {
-    b <- perform_json(permits_request("/query", where = sprintf("ObjectId > %d", after),
-                                      outFields = paste(PERMIT_FIELDS, collapse = ","),
-                                      orderByFields = "ObjectId ASC", resultRecordCount = page_size,
-                                      returnGeometry = "false", layer = layer))
+    b <- permits_json("/query", where = sprintf("ObjectId > %d", after),
+                      outFields = paste(PERMIT_FIELDS, collapse = ","),
+                      orderByFields = "ObjectId ASC", resultRecordCount = page_size,
+                      returnGeometry = "false", layer = layer)
     a <- b$features$attributes
     if (!NROW(a)) break
     pages[[length(pages) + 1]] <- a
@@ -48,9 +47,8 @@ fetch_permits <- function(layer = PERMITS_LAYER, page_size = 1000L, verbose = TR
 #' Layer record count and the time of its last data edit, for the
 #' completeness check and the data-through date.
 permits_layer_info <- function(layer = PERMITS_LAYER) {
-  count <- perform_json(permits_request("/query", where = "1=1", returnCountOnly = "true",
-                                        layer = layer))$count
-  meta <- perform_json(permits_request("", layer = layer))
+  count <- permits_json("/query", where = "1=1", returnCountOnly = "true", layer = layer)$count
+  meta <- permits_json("", layer = layer)
   edited <- meta$editingInfo$dataLastEditDate %||% meta$editingInfo$lastEditDate
   list(count = count,
        last_edit = if (is.null(edited)) NA else

@@ -174,10 +174,3 @@ compute_headway <- function(events, stop_cells, through, windows = WINDOW_DAYS) 
   if (nrow(res)) res[, metric := "peak_headway_ratio"]
   res[]
 }
-
-add_citywide_reference <- function(m) {
-  city <- m[geo_type == "citywide"]
-  key <- function(d) paste(d$metric, d$variant, format(as.Date(d$window_start)), sep = "\r")
-  m[, citywide_median := city$value[match(key(m), key(city))]]
-  m[]
-}

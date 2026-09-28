@@ -62,7 +62,7 @@ compute_metrics_mata <- function(days, through, min_coverage = 0.9) {
     if (length(windows)) compute_headway(events, cells, through, windows)), fill = TRUE)
   if (nrow(m)) {
     m[, `:=`(subgroup = "all", metric_version = SPEC_VERSIONS[metric])]
-    m <- add_citywide_reference(m)
+    m[, citywide_median := memequity::citywide_reference(m)]
   }
   list(metrics = m, windows = windows, classified = cls$primary)
 }

@@ -206,20 +206,11 @@ compute_requests_per_1000 <- function(df, populations, through) {
   res$variant <- "primary"
   res$metric_version <- SPEC_VERSIONS[["requests_per_1000"]]
   # For rates the reference is the citywide rate itself (D4).
-  city <- res[res$geo_type == "citywide", ]
-  key <- function(d) paste(d$subgroup, d$window_start, sep = "\r")
-  res$citywide_median <- city$value[match(key(res), key(city))]
+  res$citywide_median <- memequity::citywide_reference(res)
   res
 }
 
 # ---- citywide reference and assembly --------------------------------------
-
-add_citywide_reference <- function(m) {
-  city <- m[m$geo_type == "citywide", ]
-  key <- function(d) paste(d$metric, d$variant, d$subgroup, d$window_start, sep = "\r")
-  m$citywide_median <- city$value[match(key(m), key(city))]
-  m
-}
 
 compute_metrics_311 <- function(pts, targets, through) {
   df <- base_records(pts)
@@ -228,6 +219,6 @@ compute_metrics_311 <- function(pts, targets, through) {
   reo <- compute_reopen(pts, through)
   m <- rbind(med, tgt, reo$metrics)
   m$metric_version <- SPEC_VERSIONS[m$metric]
-  m <- add_citywide_reference(m)
+  m$citywide_median <- memequity::citywide_reference(m)
   list(metrics = m, rereport = reo$rereport)
 }

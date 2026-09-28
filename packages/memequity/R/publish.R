@@ -70,6 +70,21 @@ audit_problems <- function(path, min_records = AUDIT_MIN_RECORDS) {
   p
 }
 
+#' Evaluate the publish gate for every spec of a pipeline and write its
+#' publish status. The newest audit committed to pipelines/<pipeline>/audits/
+#' counts (file names carry the run date, D23), and the tests count as passed
+#' only when TESTS_PASSED=true (condition 3).
+#' @export
+gate_pipeline <- function(pipeline, report, metrics, reconciliation, as_of, out_dir, specs_dir = "specs") {
+  audits <- sort(list.files(file.path("pipelines", pipeline, "audits"), pattern = "^audit_.*\\.csv$",
+                            full.names = TRUE), decreasing = TRUE)
+  gates <- lapply(read_specs(pipeline, specs_dir), function(s) publish_gate(
+    s, report, tests_passed = identical(Sys.getenv("TESTS_PASSED"), "true"),
+    metrics = metrics[metrics$metric == s$id, ], reconciliation = spec_reconciliation(s, reconciliation),
+    audit_path = if (length(audits)) audits[1] else NULL, as_of = as_of))
+  write_publish_status(gates, pipeline, out_dir)
+}
+
 #' Write publish_status_<pipeline>.json for the front end.
 #' @export
 write_publish_status <- function(gates, pipeline, dir) {

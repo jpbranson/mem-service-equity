@@ -120,17 +120,11 @@ compute_reinspection <- function(est, ins, rules, through) {
   res
 }
 
-add_citywide_reference <- function(m) {
-  city <- m[m$geo_type == "citywide", ]
-  key <- function(d) paste(d$metric, d$variant, format(as.Date(d$window_start)), sep = "\r")
-  m$citywide_median <- city$value[match(key(m), key(city))]
-  m
-}
-
 compute_metrics_food <- function(est, ins, rules, through) {
   m <- rbind(compute_scores(est, ins, rules, through), compute_overdue(est, ins, rules, through),
              compute_reinspection(est, ins, rules, through))
   m$subgroup <- "all"
   m$metric_version <- SPEC_VERSIONS[m$metric]
-  add_citywide_reference(m)
+  m$citywide_median <- memequity::citywide_reference(m)
+  m
 }

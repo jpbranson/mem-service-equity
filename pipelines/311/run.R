@@ -113,9 +113,7 @@ headline <- cfg$request_types$request_type[cfg$request_types$headline %in% TRUE]
 log("computing hex metrics")
 hex <- compute_hex_metrics(pts, res$rereport, cfg$request_types, headline, through)
 hex$metric_version <- SPEC_VERSIONS[hex$metric]
-city <- res$metrics[res$metrics$geo_type == "citywide", ]
-key <- function(d) paste(d$metric, d$variant, d$subgroup, format(as.Date(d$window_start)), sep = "\r")
-hex$citywide_median <- city$value[match(key(hex), key(city))]
+hex$citywide_median <- citywide_reference(hex, res$metrics[res$metrics$geo_type == "citywide", ])
 
 log("computing requests per 1,000 residents")
 populations <- sapply(RATE_GEOS, function(g) area_population(g, geography_dir()), simplify = FALSE)
@@ -151,13 +149,5 @@ render_methodology("311", specs_dir, out_dir, title = "City services (311)", rec
                      "quoted comes from memphisgov.com, which is not a City site, and is not used."))
 write_audit_worksheets(pts, raw, file.path(out_dir, "audit"), as_of)
 
-specs <- read_specs("311", specs_dir)
-# The newest committed audit counts (file names carry the run date).
-audit_file <- sort(list.files(file.path(here, "audits"), pattern = "^audit_.*\\.csv$", full.names = TRUE),
-                   decreasing = TRUE)
-gates <- lapply(specs, function(s) publish_gate(
-  s, finalize_report(rep), tests_passed = identical(Sys.getenv("TESTS_PASSED"), "true"),
-  metrics = m[m$metric == s$id, ], reconciliation = spec_reconciliation(s, recon),
-  audit_path = if (length(audit_file)) audit_file[1] else NULL, as_of = as_of))
-write_publish_status(gates, "311", out_dir)
+gate_pipeline("311", rep, m, recon, as_of, out_dir)
 log("done")

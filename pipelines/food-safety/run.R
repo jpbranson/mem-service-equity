@@ -110,12 +110,5 @@ render_methodology("food-safety", specs_dir, out_dir, title = "Food safety", rec
                      "metrics cannot be reconciled. Plan 5.5 names WREG's weekly roundups, which are not",
                      "an official source."))
 write_food_audit(pts, ins, cfg$rules, through, file.path(out_dir, "audit"), as_of)
-specs <- read_specs("food-safety", specs_dir)
-audit_file <- sort(list.files(file.path(here, "audits"), pattern = "^audit_.*\\.csv$", full.names = TRUE),
-                   decreasing = TRUE)
-gates <- lapply(specs, function(s) publish_gate(
-  s, finalize_report(rep), tests_passed = identical(Sys.getenv("TESTS_PASSED"), "true"),
-  metrics = m[m$metric == s$id, ], reconciliation = spec_reconciliation(s, recon),
-  audit_path = if (length(audit_file)) audit_file[1] else NULL, as_of = as_of))
-write_publish_status(gates, "food-safety", out_dir)
+gate_pipeline("food-safety", rep, m, recon, as_of, out_dir)
 log("done")

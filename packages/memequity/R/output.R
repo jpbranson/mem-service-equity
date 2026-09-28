@@ -49,6 +49,14 @@ as_metrics_table <- function(rows, metric_version, data_current_through,
   out
 }
 
+#' The citywide reference for each metric row (DECISIONS.md D4): the value of
+#' the citywide row with the same metric, variant, subgroup and window.
+#' @export
+citywide_reference <- function(m, city = m[m$geo_type == "citywide", ]) {
+  key <- function(d) paste(d$metric, d$variant, d$subgroup, format(as.Date(d$window_start)), sep = "\r")
+  city$value[match(key(m), key(city))]
+}
+
 #' Validate a metrics table against the output contract. Returns a character
 #' vector of problems (empty when valid).
 #' @export
