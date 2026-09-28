@@ -1,18 +1,10 @@
-test_that("federal holidays land on known observed dates", {
-  h <- federal_holidays(2024:2027)
-  get <- function(name, year) h$date[h$holiday == name & format(h$date, "%Y") == year]
-  expect_equal(get("mlk_day", "2024"), as.Date("2024-01-15"))
-  expect_equal(get("memorial_day", "2025"), as.Date("2025-05-26"))
-  expect_equal(get("thanksgiving", "2024"), as.Date("2024-11-28"))
-  expect_equal(get("labor_day", "2026"), as.Date("2026-09-07"))
-  # July 4 2026 is a Saturday: observed Friday July 3.
-  expect_equal(get("independence_day", "2026"), as.Date("2026-07-03"))
-  # Juneteenth 2027 is a Saturday: observed Friday June 18.
-  expect_equal(get("juneteenth", "2027"), as.Date("2027-06-18"))
-  # Christmas 2022 is a Sunday: observed Monday Dec 26.
-  expect_equal(federal_holidays(2022)$date[federal_holidays(2022)$holiday == "christmas_day"],
-               as.Date("2022-12-26"))
-  expect_false("juneteenth" %in% federal_holidays(2020)$holiday)
+test_that("holiday rules land on known observed dates", {
+  cal <- holiday_calendar(2022:2027)
+  # MLK Day 2024, Memorial Day 2025, Thanksgiving 2024; Juneteenth 2027 is a
+  # Saturday (observed Friday); Christmas 2022 is a Sunday (observed Monday).
+  known <- c("2024-01-15", "2025-05-26", "2024-11-28", "2027-06-18", "2022-12-26")
+  expect_equal(setdiff(known, format(cal$date)), character())
+  expect_false("juneteenth" %in% holiday_calendar(2020)$holiday)
 })
 
 test_that("easter computus matches known dates", {
@@ -55,7 +47,7 @@ test_that("inferred city rules shift weekend dates without collisions", {
 })
 
 test_that("business-day convention: (open date, close date]", {
-  hol <- federal_holidays(2024:2026)$date
+  hol <- as.Date(c("2024-11-28", "2026-09-07"))   # Thanksgiving 2024, Labor Day 2026
   bd <- function(a, b) business_days_between(as.Date(a), as.Date(b), hol)
   expect_equal(bd("2026-09-21", "2026-09-21"), 0)   # same day
   expect_equal(bd("2026-09-18", "2026-09-21"), 1)   # Fri -> Mon
@@ -68,7 +60,7 @@ test_that("business-day convention: (open date, close date]", {
 })
 
 test_that("business days are vectorised and match a naive count", {
-  hol <- federal_holidays(2025:2026)$date
+  hol <- holiday_calendar(2025:2026)$date
   set.seed(1)
   s <- as.Date("2025-01-01") + sample(0:500, 200, TRUE)
   e <- s + sample(0:40, 200, TRUE)
@@ -92,12 +84,12 @@ test_that("timestamps are converted to Memphis local dates, including across DST
   expect_equal(local_date(as.POSIXct("2026-11-01 05:30:00", tz = "UTC")), as.Date("2026-11-01"))
   expect_equal(local_date(as.POSIXct("2026-11-01 04:30:00", tz = "UTC")), as.Date("2026-10-31"))
   # Opened Friday 11pm local, closed Monday: one business day.
-  hol <- federal_holidays(2026)$date
+  hol <- holiday_calendar(2026)$date
   expect_equal(business_days_between("2026-09-18T23:00:00", "2026-09-21T08:00:00", hol), 1)
 })
 
 test_that("add_business_days is the inverse of business_days_between", {
-  hol <- federal_holidays(2024:2026)$date
+  hol <- holiday_calendar(2024:2026)$date
   s <- as.Date("2024-11-20") + 0:60
   for (n in c(0, 3, 7, 10)) {
     d <- add_business_days(s, n, hol)

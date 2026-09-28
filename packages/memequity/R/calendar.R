@@ -25,31 +25,6 @@ observed <- function(d) {
   d
 }
 
-#' Federal holidays (observed dates) for the given years.
-#' @export
-federal_holidays <- function(years) {
-  rows <- lapply(years, function(y) {
-    fixed <- function(m, d) as.Date(sprintf("%04d-%02d-%02d", y, m, d))
-    h <- list(
-      new_years_day      = observed(fixed(1, 1)),
-      mlk_day            = nth_weekday(y, 1, 1, 3),
-      presidents_day     = nth_weekday(y, 2, 1, 3),
-      memorial_day       = nth_weekday(y, 5, 1, -1),
-      juneteenth         = if (y >= 2021) observed(fixed(6, 19)) else NULL,
-      independence_day   = observed(fixed(7, 4)),
-      labor_day          = nth_weekday(y, 9, 1, 1),
-      columbus_day       = nth_weekday(y, 10, 1, 2),
-      veterans_day       = observed(fixed(11, 11)),
-      thanksgiving       = nth_weekday(y, 11, 4, 4),
-      christmas_day      = observed(fixed(12, 25))
-    )
-    h <- h[!vapply(h, is.null, logical(1))]
-    data.frame(date = do.call(c, unname(h)), holiday = names(h),
-               source = "federal", stringsAsFactors = FALSE)
-  })
-  do.call(rbind, rows)
-}
-
 #' Date of a named holiday rule in a given year.
 #'
 #' Rules marked "inferred" below reproduce the City of Memphis's verified
@@ -139,7 +114,7 @@ city_holidays <- function(years,
 #' The shared holiday calendar: the City of Memphis observed holidays.
 #'
 #' 311 targets are the city's promise, so business days are the city's
-#' working days. `federal_holidays()` is kept for reference and tests.
+#' working days.
 #' @export
 holiday_calendar <- function(years = 2015:2030) {
   cal <- city_holidays(years)
