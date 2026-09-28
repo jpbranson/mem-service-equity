@@ -1,6 +1,6 @@
-# Layer 3 tests for the food-safety pipeline (plan 5.3), on synthetic data in
-# the collector's layout (DECISIONS.md D29). A golden file from the real data
-# is still to come.
+# Layer 3 tests for the food-safety pipeline (plan 5.3): hand-built fixtures
+# in the collector's layout (DECISIONS.md D29) with known answers, property
+# tests, and a golden file from a frozen sample of the real data.
 
 test_that("dates parse in any configured format, and implausible years are rejected", {
   f <- unlist(cfg$column_map$date_formats)
@@ -166,4 +166,19 @@ test_that("SPEC_VERSIONS matches the version in each spec", {
   specs <- memequity::read_specs("food-safety", file.path(repo_root, "specs"))
   for (id in names(SPEC_VERSIONS))
     expect_identical(as.character(specs[[id]]$version), SPEC_VERSIONS[[id]], info = id)
+})
+
+test_that("golden file: a frozen sample of real data reproduces the frozen outputs", {
+  gd <- file.path(repo_root, "pipelines", "food-safety", "tests", "golden")
+  m <- golden_order(golden_food(gd, cfg, geo_dir))
+  want <- utils::read.csv(file.path(gd, "golden_metrics.csv"), stringsAsFactors = FALSE,
+                          colClasses = c(geo_id = "character"))
+  expect_equal(nrow(m), nrow(want))
+  expect_equal(paste(m$metric, m$variant, m$geo_type, m$geo_id, m$window_start),
+               paste(want$metric, want$variant, want$geo_type, want$geo_id, want$window_start))
+  expect_equal(m$n, want$n)
+  expect_equal(m$suppressed, want$suppressed)
+  expect_equal(m$value, want$value, tolerance = 1e-9)
+  expect_equal(m$ci_low, want$ci_low, tolerance = 1e-9)
+  expect_equal(m$ci_high, want$ci_high, tolerance = 1e-9)
 })

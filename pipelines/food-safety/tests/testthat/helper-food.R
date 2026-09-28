@@ -1,5 +1,6 @@
 repo_root <- normalizePath(file.path(testthat::test_path(), "..", "..", "..", ".."))
 for (f in list.files(file.path(repo_root, "pipelines", "food-safety", "R"), full.names = TRUE)) source(f)
+source(file.path(repo_root, "pipelines", "food-safety", "tests", "golden.R"))
 geo_dir <- file.path(repo_root, "geography")
 cfg <- read_food_config(file.path(repo_root, "pipelines", "food-safety", "config"))
 
