@@ -87,22 +87,6 @@ poisson_rate_ci <- function(count, exposure = 1, per = 1, conf = 0.95) {
              ci_high = hi / exposure * per)
 }
 
-#' Proportion metric with Wilson interval and minimum-n suppression.
-#'
-#' @param success logical vector; NA entries are dropped (not counted as
-#'   failures).
-#' @param id optional record ids; duplicates are dropped before computing.
-#' @export
-metric_proportion <- function(success, min_n = MIN_N_PROPORTION, conf = 0.95, id = NULL) {
-  success <- dedupe_by_id(success, id)
-  success <- success[!is.na(success)]
-  n <- length(success)
-  if (n < min_n) return(suppressed_row(n))
-  x <- sum(success)
-  ci <- wilson_ci(x, n, conf)
-  metric_row(x / n, ci$ci_low, ci$ci_high, n, FALSE)
-}
-
 #' Median metric with bootstrap percentile interval and minimum-n suppression.
 #' @export
 metric_median <- function(x, min_n = MIN_N_MEDIAN, conf = 0.95, reps = DEFAULT_REPS,

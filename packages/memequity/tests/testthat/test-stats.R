@@ -8,19 +8,18 @@ test_that("Wilson interval matches a hand-computed value", {
 })
 
 test_that("proportions below the minimum n are suppressed as NA, never zero", {
-  r <- metric_proportion(c(TRUE, FALSE, TRUE), min_n = 30)
+  r <- proportion_counts(2, 3)
   expect_true(r$suppressed)
   expect_true(is.na(r$value))
   expect_true(is.na(r$ci_low))
   expect_equal(r$n, 3L)
-  r0 <- metric_proportion(logical(), min_n = 30)
+  r0 <- proportion_counts(0, 0)
   expect_true(r0$suppressed)
   expect_equal(r0$n, 0L)
 })
 
-test_that("proportion drops NA and computes value with interval", {
-  x <- c(rep(TRUE, 24), rep(FALSE, 6), NA, NA)
-  r <- metric_proportion(x, min_n = 30)
+test_that("proportion from counts computes value with interval", {
+  r <- proportion_counts(24, 30)
   expect_false(r$suppressed)
   expect_equal(r$n, 30L)
   expect_equal(r$value, 0.8)
@@ -31,10 +30,8 @@ test_that("proportion drops NA and computes value with interval", {
 test_that("metrics are invariant to record order", {
   set.seed(42)
   x <- rexp(200)
-  p <- runif(200) > 0.3
   perm <- sample(200)
   expect_equal(metric_median(x), metric_median(x[perm]))
-  expect_equal(metric_proportion(p), metric_proportion(p[perm]))
   ev <- runif(200) > 0.2
   expect_equal(metric_censored_median(x, ev), metric_censored_median(x[perm], ev[perm]))
 })
@@ -44,8 +41,6 @@ test_that("metrics do not change when duplicate records are added (given ids)", 
   x <- rexp(50); id <- seq_along(x)
   dup <- c(x, x[1:10]); dup_id <- c(id, id[1:10])
   expect_equal(metric_median(dup, id = dup_id), metric_median(x, id = id))
-  p <- runif(50) > 0.5
-  expect_equal(metric_proportion(c(p, p[1:10]), id = dup_id), metric_proportion(p, id = id))
   ev <- rep(TRUE, 50)
   expect_equal(metric_censored_median(dup, c(ev, ev[1:10]), id = dup_id),
                metric_censored_median(x, ev, id = id))
@@ -119,11 +114,6 @@ test_that("count-based KM median handles even-n midpoints and suppression", {
   expect_equal(km_median_counts(tab$t, tab$e, tab$c)$value, 10.5)
   expect_true(km_median_counts(1:5, rep(1, 5), rep(0, 5))$suppressed)
   expect_true(km_median_counts(1:30, c(rep(1, 10), rep(0, 20)), c(rep(0, 10), rep(1, 20)))$suppressed)
-})
-
-test_that("proportion from counts equals proportion from records", {
-  expect_equal(proportion_counts(24, 30), metric_proportion(c(rep(TRUE, 24), rep(FALSE, 6))))
-  expect_true(proportion_counts(3, 10)$suppressed)
 })
 
 test_that("Poisson rate intervals", {
