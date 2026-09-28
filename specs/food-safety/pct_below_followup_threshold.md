@@ -2,7 +2,7 @@
 id: pct_below_followup_threshold
 pipeline: food-safety
 title: Share of nearby food establishments whose latest routine score requires a follow-up
-version: "0.2"
+version: "0.3"
 status: draft
 unit: proportion
 formula: >
@@ -34,7 +34,7 @@ inclusions:
   - Routine inspections only; follow-up and complaint inspections do not set the "latest routine score".
 exclusions:
   - Establishments with no routine inspection in 24 months (reported in pct_overdue_inspection instead).
-  - Establishment types not scored on the 100-point scale (if any), listed in the pipeline config.
+  - Permit types that pipelines/food-safety/config/establishment_types.csv excludes: mobile units, school, child-care and senior-meal kitchens, and private homes.
 confounders:
   - Inspector-to-inspector variation; areas served by one inspector may differ systematically.
   - A single bad day skews a small area; minimum n and intervals apply.
@@ -58,3 +58,4 @@ inspection?
 - 0.1 — first draft from design plan 6.4.
 - 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.
 - 0.2, 2026-09-25 — first computed version, tested on a synthetic export only; the real export has not arrived (H11). Rules and their sources are in `pipelines/food-safety/config/rules.yml`. Primary threshold set to 70 from the cited TDH release.
+- 0.3, 2026-09-27 — first run on real data: the state portal via the owner's collector (DECISIONS.md D29), inspections since 2025-01-01. Only the Food Service Establishment program counts, and only restaurant and auxiliary (bar) permits: mobile units, school, child-care and senior-meal kitchens, and private homes are left out (`pipelines/food-safety/config/establishment_types.csv`). Windows start no earlier than the first day the data cover, so they are shorter than their nominal length until 2027 (24 months) and 2028 (the 36-month activity window).

@@ -4,13 +4,21 @@
 # The unit is the establishment (a place a resident might eat), except for
 # reinspection_rate, whose unit is the inspection. Only establishments with an
 # accepted geocode inside the city are counted. Windows end on the day the
-# export is complete through.
+# data are complete through, and start no earlier than the first day they
+# cover (`from`).
 
-SPEC_VERSIONS <- c(median_latest_score = "0.2", pct_below_followup_threshold = "0.2",
-                   pct_overdue_inspection = "0.2", reinspection_rate = "0.2")
+SPEC_VERSIONS <- c(median_latest_score = "0.3", pct_below_followup_threshold = "0.3",
+                   pct_overdue_inspection = "0.3", reinspection_rate = "0.3")
 
 months_back <- function(through, months)
   seq(as.Date(through) + 1L, by = paste0("-", months, " months"), length.out = 2L)[2]
+
+# Start of a window of `months` ending on `through`, cut to `from` when the
+# data begin later.
+window_start <- function(through, months, from = NULL) {
+  start <- months_back(through, months)
+  if (is.null(from)) start else max(start, as.Date(from))
+}
 
 # Adds calendar months; a day that does not exist rolls into the next month.
 add_months <- function(d, months) {
@@ -19,12 +27,11 @@ add_months <- function(d, months) {
   as.Date(lt)
 }
 
-located_in_city <- function(est, rules) {
+# Establishments of excluded permit types were already left out by
+# normalize_establishments().
+located_in_city <- function(est) {
   e <- if (inherits(est, "sf")) sf::st_drop_geometry(est) else est
-  keep <- e$in_city %in% TRUE
-  types <- unlist(rules$excluded_establishment_types)
-  if (length(types)) keep <- keep & !e$establishment_type %in% types
-  e[keep, ]
+  e[e$in_city %in% TRUE, ]
 }
 
 usable <- function(ins) ins[is.na(ins$exclusion), ]
@@ -55,10 +62,10 @@ latest_routine <- function(ins, start, through) {
   r[!duplicated(r$establishment_key), c("establishment_key", "inspection_date", "score")]
 }
 
-compute_scores <- function(est, ins, rules, through) {
-  start <- months_back(through, rules$score_window_months)
+compute_scores <- function(est, ins, rules, through, from = NULL) {
+  start <- window_start(through, rules$score_window_months, from)
   lr <- latest_routine(usable(ins), start, through)
-  d <- merge(lr, located_in_city(est, rules), by = "establishment_key")
+  d <- merge(lr, located_in_city(est), by = "establishment_key")
   if (!nrow(d)) return(NULL)
   med <- by_area(d, function(s) memequity::metric_median(s$score, min_n = 20L))
   med$metric <- "median_latest_score"; med$variant <- "primary"
@@ -79,12 +86,12 @@ compute_scores <- function(est, ins, rules, through) {
 #' Overdue: an active establishment whose latest routine or pre-opening
 #' inspection (or, with neither, its first inspection) is more than the
 #' required interval, plus any grace, before the data-through date.
-compute_overdue <- function(est, ins, rules, through) {
-  start <- months_back(through, rules$active_months)
+compute_overdue <- function(est, ins, rules, through, from = NULL) {
+  start <- window_start(through, rules$active_months, from)
   u <- usable(ins)
   u <- u[u$inspection_date <= through, ]
   seen <- u[u$inspection_date >= start, ]
-  e <- located_in_city(est, rules)
+  e <- located_in_city(est)
   e <- e[e$establishment_key %in% seen$establishment_key &
            (is.na(e$closed_date) | e$closed_date > through), ]
   if (!nrow(e)) return(NULL)
@@ -108,11 +115,11 @@ compute_overdue <- function(est, ins, rules, through) {
   res
 }
 
-compute_reinspection <- function(est, ins, rules, through) {
-  start <- months_back(through, rules$score_window_months)
+compute_reinspection <- function(est, ins, rules, through, from = NULL) {
+  start <- window_start(through, rules$score_window_months, from)
   u <- usable(ins)
   u <- u[u$kind %in% c("routine", "follow_up") & u$inspection_date >= start & u$inspection_date <= through, ]
-  d <- merge(u, located_in_city(est, rules), by = "establishment_key")
+  d <- merge(u, located_in_city(est), by = "establishment_key")
   if (!nrow(d)) return(NULL)
   res <- by_area(d, function(s) memequity::proportion_counts(sum(s$kind == "follow_up"), nrow(s)))
   res$metric <- "reinspection_rate"; res$variant <- "primary"
@@ -120,9 +127,10 @@ compute_reinspection <- function(est, ins, rules, through) {
   res
 }
 
-compute_metrics_food <- function(est, ins, rules, through) {
-  m <- rbind(compute_scores(est, ins, rules, through), compute_overdue(est, ins, rules, through),
-             compute_reinspection(est, ins, rules, through))
+#' @param from first day the data cover; windows start no earlier (NULL: no bound).
+compute_metrics_food <- function(est, ins, rules, through, from = NULL) {
+  m <- rbind(compute_scores(est, ins, rules, through, from), compute_overdue(est, ins, rules, through, from),
+             compute_reinspection(est, ins, rules, through, from))
   m$subgroup <- "all"
   m$metric_version <- SPEC_VERSIONS[m$metric]
   m$citywide_median <- memequity::citywide_reference(m)

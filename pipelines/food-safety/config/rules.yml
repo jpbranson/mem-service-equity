@@ -15,4 +15,6 @@ required_interval:
   source_url: https://www.law.cornell.edu/regulations/tennessee/Tenn-Comp-R-Regs-1200-23-01-.08
 active_months: 36          # an establishment inspected in this many months counts as active
 score_window_months: 24    # latest routine score and reinspection window
-excluded_establishment_types: []   # types not scored on the 100-point scale, once known
+# Which programs and permit types count as food establishments is in
+# programs.csv and establishment_types.csv; windows never start before the
+# first day the data cover (run.R --from).

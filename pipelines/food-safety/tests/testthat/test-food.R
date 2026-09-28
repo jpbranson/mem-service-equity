@@ -1,12 +1,13 @@
-# Layer 3 tests for the food-safety pipeline (plan 5.3), on a synthetic
-# export: the real one has not arrived (DECISIONS.md H11). Golden files come
-# once it does.
+# Layer 3 tests for the food-safety pipeline (plan 5.3), on synthetic data in
+# the collector's layout (DECISIONS.md D29). A golden file from the real data
+# is still to come.
 
 test_that("dates parse in any configured format, and implausible years are rejected", {
   f <- unlist(cfg$column_map$date_formats)
-  d <- parse_dates(c("03/01/2026", "2026-03-01", "03/01/2026 14:05:00", "03/01/26", "", NA, "13/45/2026"), f)
-  expect_equal(d[1:4], as.Date(rep("2026-03-01", 4)))
-  expect_true(all(is.na(d[5:7])))
+  d <- parse_dates(c("03/01/2026", "2026-03-01", "03/01/2026 14:05:00", "03/01/26",
+                     "2026-03-01T00:00:00.000Z", "", NA, "13/45/2026"), f)
+  expect_equal(d[1:5], as.Date(rep("2026-03-01", 5)))
+  expect_true(all(is.na(d[6:8])))
 })
 
 test_that("the column map renames the export and reports absent fields", {
@@ -46,7 +47,8 @@ test_that("inspection kinds are mapped, and unusable inspections are flagged", {
 # inspection on 2026-03-01 scoring 65 (x6), 75 (x6), 82 (x6) or 95 (x12).
 # Numbers 26-30 had their latest routine on 2025-12-15 instead (overdue by
 # 2026-08-31 unless allowed 90 days' grace). Numbers 1-6 got a follow-up.
-# Number 31 has only a pre-opening inspection, on 2026-07-01.
+# Number 31 has only a complaint inspection, on 2026-07-01, so its clock
+# starts then.
 fixture <- function() {
   ids <- 1:30
   latest <- ifelse(ids >= 26, "2025-12-15", "2026-03-01")
@@ -55,7 +57,7 @@ fixture <- function() {
     make_inspections(ids, "2025-03-01", "Routine", 90),
     make_inspections(ids, latest, "Routine", scores),
     make_inspections(1:6, "2026-03-10", "Follow-Up", 88),
-    make_inspections(31, "2026-07-01", "Pre-Opening", NA))
+    make_inspections(31, "2026-07-01", "Complaint", NA))
 }
 
 test_that("food-safety metrics on a known fixture", {
@@ -97,6 +99,52 @@ test_that("unlocated and closed establishments drop out, and order does not matt
   key <- function(m) m[order(m$metric, m$variant, m$geo_type, m$geo_id),
                        c("metric", "variant", "geo_id", "value", "ci_low", "ci_high", "n")]
   expect_equal(key(a$m), key(b$m), ignore_attr = TRUE)
+})
+
+test_that("only the food program and included permit types count", {
+  ins <- rbind(fixture(),
+    # A pool inspection on the same portal, and a child-care kitchen, a mobile
+    # unit and a family child-care home in the food program.
+    make_inspections(40, "2026-03-01", "Routine", 50, program = "Public Swimming Pool",
+                     establishment_type = "Type A- General public and institutional pools"),
+    make_inspections(41:43, "2026-03-01", "Routine", 50,
+                     establishment_type = c("Child Care Facility 51+", "Commercial Food <51 (Mobile)",
+                                            "Family Child Care Home (Fee Exempt)")))
+  ins$inspection_id <- sprintf("I%05d", seq_len(nrow(ins)))
+  seen <- character()
+  geocoder <- function(street, ...) { seen <<- c(seen, street); stub_geocoder(street, ...) }
+  tables <- food_program_only(ingest_export(write_export(ins), cfg), cfg)
+  expect_equal(attr(tables$inspections, "other_program"), 1L)
+  expect_equal(attr(tables$inspections, "file"), "inspections_export.csv")
+  n <- normalize_inspections(tables, cfg, as.Date("2026-08-31"))
+  est <- normalize_establishments(tables, n, cfg)
+  expect_equal(attr(est, "excluded_type"), 3L)
+  geocode_establishments(est, geocoder = geocoder)
+  expect_false(any(c("41 TEST ST", "42 TEST ST", "43 TEST ST") %in% seen))   # never geocoded
+  # The metrics equal the fixture's own.
+  a <- food_pipeline(write_export(ins), "2026-08-31")$m
+  b <- food_pipeline(write_export(fixture()), "2026-08-31")$m
+  key <- function(m) m[order(m$metric, m$variant, m$geo_type, m$geo_id), c("metric", "variant", "value", "n")]
+  expect_equal(key(a), key(b), ignore_attr = TRUE)
+  # Every value the config lists as a key is unique.
+  expect_false(anyDuplicated(cfg$programs$program) > 0)
+  expect_false(anyDuplicated(cfg$establishment_types$establishment_type) > 0)
+  expect_type(cfg$establishment_types$include, "logical")
+})
+
+test_that("windows start no earlier than the first day the data cover", {
+  ins <- fixture()
+  ins$inspection_id <- sprintf("I%05d", seq_len(nrow(ins)))
+  full <- food_pipeline(write_export(ins), "2026-08-31")$m
+  expect_equal(unique(full$window_start[full$metric == "median_latest_score"]), as.Date("2024-09-01"))
+  cut <- food_pipeline(write_export(ins), "2026-08-31", from = "2025-06-01")
+  expect_equal(unique(cut$m$window_start), as.Date("2025-06-01"))
+  # The 2025-03-01 inspections fall before the data begin and are flagged.
+  expect_equal(sum(cut$ins$exclusion %in% "before_data_from"), 30L)
+  # Scores use the latest routine inspections, which are all after 2025-06-01.
+  expect_equal(get_food(cut$m, "median_latest_score")$value, 82)
+  # 30 routine inspections and 6 follow-ups remain.
+  expect_equal(get_food(cut$m, "reinspection_rate")$n, 36L)
 })
 
 test_that("reconciliation counts inspections by kind and period", {

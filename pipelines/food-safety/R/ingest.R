@@ -1,14 +1,35 @@
-# Ingest: read the records-request export from inbox/ and rename its columns
-# to the canonical fields in config/column_map.yml (DECISIONS.md H11, D13).
-# Nothing is fetched from the web: the state portal forbids automated
-# access (D11).
+# Ingest: read the inspection data from inbox/ and rename its columns to the
+# canonical fields in config/column_map.yml. The data are the owner's
+# collector output for the state portal (DECISIONS.md D29), or a
+# records-request export (H11). The pipeline itself fetches nothing.
 
 read_food_config <- function(dir) {
-  types <- utils::read.csv(file.path(dir, "inspection_types.csv"), stringsAsFactors = FALSE,
-                           na.strings = character(), encoding = "UTF-8")
+  csv <- function(f) utils::read.csv(file.path(dir, f), stringsAsFactors = FALSE,
+                                     na.strings = character(), encoding = "UTF-8")
   list(column_map = yaml::read_yaml(file.path(dir, "column_map.yml")),
-       inspection_types = types,
+       inspection_types = csv("inspection_types.csv"),
+       programs = csv("programs.csv"),
+       establishment_types = csv("establishment_types.csv"),
        rules = yaml::read_yaml(file.path(dir, "rules.yml")))
+}
+
+#' Keep only inspections in a program config/programs.csv includes. A source
+#' without a program field (a food-only export) is kept whole.
+#' `attr(, "other_program")` on the result counts the rows left out.
+food_program_only <- function(tables, config) {
+  ins <- tables$inspections
+  if (is.null(ins)) return(tables)
+  if (!"program" %in% names(ins)) {
+    attr(tables$inspections, "other_program") <- 0L
+    return(tables)
+  }
+  p <- config$programs
+  keep <- ins$program %in% p$program[p$include]
+  out <- ins[keep, , drop = FALSE]
+  for (a in c("file", "absent", "missing_required")) attr(out, a) <- attr(ins, a)
+  attr(out, "other_program") <- sum(!keep)
+  tables$inspections <- out
+  tables
 }
 
 #' The export file for one table: the first file in `inbox` whose name

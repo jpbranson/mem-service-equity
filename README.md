@@ -17,15 +17,15 @@ The full design is in
 records requests, audits, spec sign-off) and the implementation choices made
 so far. Source research is in [`docs/research/`](docs/research/).
 
-## Status (2026-09-25)
+## Status (2026-09-27)
 
 | Phase | Plan deliverable | State |
 |---|---|---|
 | 0 | Geography layer, output schema, spec template, validation harness, business-day calendar | **Done.** `packages/memequity`, `geography/`, `specs/` |
 | 1 | MATA and MLGW pollers started | **Running, with gaps.** GitHub Actions every 2 hours, raw data archived to weekly releases (`archive-mata-*`, `archive-mlgw-*`). Because GitHub skips about half the scheduled runs, the polls cover only about 50% of the time (DECISIONS.md H22) |
-| 2 | Food safety site | **Blocked.** The state inspection portal forbids automated access, so the data needs a records request (DECISIONS.md H11). The request in `docs/records-requests/` was sent on 2026-09-23. The pipeline (`pipelines/food-safety/`) is built and tested on a synthetic export and runs once the export arrives |
+| 2 | Food safety site | **Built, not yet published (2026-09-27).** Runs on the owner's collector data for the state inspection portal, 2025 onward (DECISIONS.md D29), with its own comparison section on the site. Restaurants and bars only. Not in the daily deploy until the collector runs daily. The records request (H11, sent 2026-09-23) is still open for earlier years, violations and closures |
 | 3 | 311 pipeline and address lookup | **Built, not yet published.** Pipeline, address lookup, area comparison (with "who lives here" demographics and requests per 1,000 residents) and methodology page all work. `deploy-site` runs daily and deploys to GitHub Pages. Every metric shows which publication conditions it still misses |
-| 4 | Permits | **Built, not yet published.** Permits and declared value per 1,000 parcels by ZIP and council district, from the City's DPD layer, with its own comparison section on the site. Demolitions are blocked: Data Midsouth forbids automated access (D24, H21). Reconciled against the Census Building Permits Survey |
+| 4 | Permits | **Built, not yet published.** Permits and declared value per 1,000 parcels by ZIP and council district, from the City's DPD layer, with its own comparison section on the site. Demolitions and the demolition-to-new ratio come from the owner's Data Midsouth snapshot (D30), in local runs only until its live service exists. Reconciled against the Census Building Permits Survey |
 | 5 | MATA panel | **Trip matching built** (`pipelines/mata/`): schedule in force per day, matching by trip_id, ghost versus unobserved by block, and arrivals interpolated along the shape. It has run on the first archive. No window has enough data yet, and the pollers cover only about half of service hours on GitHub Actions (DECISIONS.md H22). Stopwatch audit (H5) not done |
 | 6 | MLGW panel | Collecting; needs six months of history, which accrues at half speed until H22 is fixed. The specs are restated for point outages (v0.2, H19 awaiting confirmation); no pipeline yet |
 
@@ -53,7 +53,7 @@ Review packets that prepare each human step are in `docs/reviews/`.
 | `specs/<pipeline>/` | Metric specifications. The YAML front matter is machine-read; methodology pages are generated from these files |
 | `pipelines/311/` | The 311 pipeline: `run.R`, `R/` (fetch, normalize, metrics, hex, audit, reconcile), `config/`, `reconciliation/` (official City figures, D22), `tests/` (fixtures, properties, golden files, and `independent/`: a second implementation that checks the golden file and pre-traces the audit sample) |
 | `pipelines/mata/` | MATA trip matching and metrics from the poller archive: `run.R --archive DIR` (weekly release assets), `R/` (archive, gtfs, match, arrivals, metrics), `tests/` on a synthetic route |
-| `pipelines/food-safety/` | The food-safety pipeline for the records-request export (H11): `config/column_map.yml` maps the export's columns, `inbox/` (gitignored) receives the files, `tests/` run on a synthetic export |
+| `pipelines/food-safety/` | The food-safety pipeline: `run.R --inbox DIR` reads the owner's collector output (D29) or a records-request export (H11); `config/column_map.yml` maps the columns, and `programs.csv`, `establishment_types.csv` and `inspection_types.csv` say what counts; `tests/` run on synthetic data |
 | `pipelines/permits/` | The permits pipeline, same layout: `run.R`, `R/`, `config/` (sector and category maps), `reconciliation/` (Census Building Permits Survey figures, `fetch_bps.R`), `tests/` |
 | `pollers/` | Python collectors for MATA GTFS-Realtime and MLGW outages, with tests and the release-archive script |
 | `site/` | Static front end (plain HTML/JS, no build step): `index.html`, `methodology.html`, `assets/`. `build_site_data.R` turns published outputs into sharded JSON under `site/data/` (generated, not committed) and leaves out any metric that fails the publish gate |
@@ -97,14 +97,16 @@ python3 -m http.server 8765 --directory site
 # Permits pipeline (about 3 minutes) and its tests. Parcel counts and the
 # Census figures are refreshed about once a year:
 Rscript pipelines/permits/run.R --out data/published/permits
+# ... with demolitions from the owner's Data Midsouth snapshot (D30)
+Rscript pipelines/permits/run.R --out data/published/permits --demolitions ../mem-demo-permits/shelby_permits.csv
 Rscript -e 'testthat::test_dir("pipelines/permits/tests/testthat")'
 Rscript geography/fetch_parcels.R
 Rscript pipelines/permits/reconciliation/fetch_bps.R 2021 2025
 
-# Food safety: tests run on a synthetic export; the run needs the H11 export
-# in pipelines/food-safety/inbox/
+# Food safety: tests run on synthetic data; the run reads the owner's
+# collector output for the state portal (D29)
 Rscript -e 'testthat::test_dir("pipelines/food-safety/tests/testthat")'
-Rscript pipelines/food-safety/run.R
+Rscript pipelines/food-safety/run.R --inbox ../tn-health-inspections/data
 
 # MATA: download a week of the poller archive, then match trips. No window
 # is computed until data cover 90% of its days.

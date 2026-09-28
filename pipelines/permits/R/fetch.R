@@ -1,7 +1,8 @@
 # Fetch: page through the City's DPD Building Permits layer on the Memphis
 # Data Hub (docs/research/311-permits-districts.md). Read-only `query`
 # requests only. The free-text Description field is never requested.
-# Data Midsouth is not used: its robots.txt forbids automated access (D24).
+# Data Midsouth is never fetched: its robots.txt forbids automated access
+# (D24). Demolitions come from the owner's snapshot of it (R/demolitions.R, D30).
 
 PERMITS_LAYER <- paste0("https://services2.arcgis.com/saWmpKJIUAjyyNVc/arcgis/rest/services/",
                         "DPD_Building_Permits/FeatureServer/0")

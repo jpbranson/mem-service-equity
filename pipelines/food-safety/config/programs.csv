@@ -1,0 +1,9 @@
+program,include,note
+Food Service Establishment,TRUE,the food program (plan 6.4)
+Public Swimming Pool,FALSE,another environmental-health program on the same portal
+Child Care Facility,FALSE,"child-care sanitation inspections; child-care kitchens have food-program permits"
+Hotel,FALSE,another environmental-health program on the same portal
+Tattoo Studios,FALSE,another environmental-health program on the same portal
+Body Piercing Studios,FALSE,another environmental-health program on the same portal
+Organized Camp,FALSE,another environmental-health program on the same portal
+School Building,FALSE,"school sanitation inspections; cafeterias have food-program permits"

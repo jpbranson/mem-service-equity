@@ -36,6 +36,7 @@ inclusions:
 exclusions:
   - Permits with no declared value or a value of zero (53 of 27,501 on 2026-09-25).
   - The same exclusions as permits_per_1000_parcels.
+  - Demolitions: a demolition's declared cost is not investment in the area (D30).
 confounders:
   - Declared value is self-reported and generally understated; understatement may differ by applicant type.
   - A single large project dominates a small area. The largest declared value on 2026-09-25 was $1.8 billion, on a commercial alteration permit.
@@ -59,3 +60,4 @@ here, relative to the number of properties?
 - 0.1 — first draft from design plan 6.5.
 - 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.
 - 0.2, 2026-09-25 — first computed version: the City's DPD layer only (D24); variants named (excl_top1pct, cap_10m, median_per_permit); 250-parcel floor; windows end at the last complete month; unit name. The earlier promise of constant dollars and an address-level list of the largest permits is withdrawn until built.
+- 0.2, 2026-09-27 — demolitions, now available from a separate source (D30), are listed as excluded. No change to the definition.

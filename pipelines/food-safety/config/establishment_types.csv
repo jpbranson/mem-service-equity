@@ -1,0 +1,22 @@
+establishment_type,include,note
+Commercial Food <51,TRUE,restaurant (under 51 seats)
+Commercial Food 51+,TRUE,restaurant (51 seats or more)
+Auxiliary,TRUE,"a second permit at a restaurant or hotel, usually its bar; open to the public"
+Commercial Food <51 (Mobile),FALSE,"mobile unit: the permit address is its base, not where it serves"
+School Cafeteria,FALSE,not open to the public
+Child Care Facility 51+,FALSE,child-care kitchen: not open to the public
+Child Care Facility <51,FALSE,child-care kitchen: not open to the public
+Child Care Center,FALSE,child-care kitchen: not open to the public
+Family Child Care Home (Fee Exempt),FALSE,"a private home: not open to the public, and its address is not published"
+Fee Exempt,FALSE,"mostly family child-care homes and churches: not open to the public"
+Congregate Feeding <51,FALSE,senior meal sites: not open to the public
+Congregate Feeding 51+,FALSE,senior meal sites: not open to the public
+Day Camp,FALSE,another program's permit type on a food-program inspection
+Tattoo Studios,FALSE,another program's permit type on a food-program inspection
+Elementary School Building,FALSE,another program's permit type on a food-program inspection
+Middle/Jr. High School Building,FALSE,another program's permit type on a food-program inspection
+Hotel<51,FALSE,another program's permit type on a food-program inspection
+"Type D- Whirlpools, hot tubs",FALSE,another program's permit type on a food-program inspection
+"Type B - restricted to residents, members, and guests",FALSE,another program's permit type on a food-program inspection
+Bed and Breakfast,FALSE,another program's permit type on a food-program inspection
+Travel Camp 151-250,FALSE,another program's permit type on a food-program inspection

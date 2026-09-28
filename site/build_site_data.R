@@ -21,6 +21,7 @@
 #                               (column-major, to keep files small)
 #   permits/areas.json          citywide / ZIP / council-district permit metrics
 #                               for every category subgroup
+#   food-safety/areas.json      citywide / ZIP / council-district inspection metrics
 #   demographics.json           ACS context per area with margins of error and
 #                               measure labels (D20; not gated: Census estimates,
 #                               not project metrics)
@@ -206,11 +207,14 @@ if (file.exists(file.path(dper, "publish_status_permits.json"))) {
   val_p <- fromJSON(val_p, simplifyVector = FALSE)
   cw_p <- fread(file.path(dper, "metrics_permits_by_citywide.csv"))
   labels <- fread(file.path("pipelines", "permits", "config", "subgroups.csv"))
+  # Demolitions come from a separate snapshot with its own data-through date (D30).
+  is_demo <- cw_p$subgroup == "demolition" | cw_p$metric == "demolition_to_new_ratio"
   manifest$pipelines[["permits"]] <- list(
     title = "Investment (building permits)",
     status = "live",
     noun = "permit",
-    data_current_through = cw_p$data_current_through[1],
+    data_current_through = max(cw_p$data_current_through[!is_demo]),
+    demolitions_through = if (any(is_demo)) min(cw_p$data_current_through[is_demo]),
     # The source is refreshed monthly, so a month-old data date is normal.
     freshness_limit_days = 75,
     validation = list(status = val_p$status, run_date = val_p$run_date, summary = val_p$summary,
@@ -224,12 +228,52 @@ if (file.exists(file.path(dper, "publish_status_permits.json"))) {
                                                                label = labels$label[i])))
 }
 
+# ---- food safety -----------------------------------------------------------------
+dfood <- file.path(pub, "food-safety")
+if (file.exists(file.path(dfood, "publish_status_food-safety.json"))) {
+  pubstat_f <- fromJSON(file.path(dfood, "publish_status_food-safety.json"), simplifyVector = FALSE)
+  shown_f <- vapply(pubstat_f$metrics, function(m) m$metric, "")
+  if (!preview) shown_f <- shown_f[vapply(pubstat_f$metrics, function(m) isTRUE(m$publishable), TRUE)]
+  areas_f <- list()
+  for (g in c("citywide", "zcta", "council_district")) {
+    f <- file.path(dfood, sprintf("metrics_food-safety_by_%s.csv", g))
+    if (!file.exists(f)) next
+    m <- fread(f, colClasses = c(geo_id = "character"))[metric %in% shown_f]
+    areas_f[[g]] <- lapply(split(m, m$geo_id), compact)
+  }
+  write_json_min(areas_f, file.path(out, "food-safety", "areas.json"))
+  file.copy(file.path(dfood, "methodology_food-safety.md"), file.path(out, "food-safety", "methodology.md"),
+            overwrite = TRUE)
+  val_f <- latest(dfood, "^validation_food-safety_.*\\.json$")
+  file.copy(val_f, file.path(out, "food-safety", "validation.json"), overwrite = TRUE)
+  val_f <- fromJSON(val_f, simplifyVector = FALSE)
+  cw_f <- fread(file.path(dfood, "metrics_food-safety_by_citywide.csv"))
+  manifest$pipelines[["food-safety"]] <- list(
+    title = "Food safety",
+    status = "live",
+    noun = "establishment",
+    data_current_through = cw_f$data_current_through[1],
+    # The collector runs by hand for now (D29); the pipeline warns at 60 days.
+    freshness_limit_days = 60,
+    validation = list(status = val_f$status, run_date = val_f$run_date, summary = val_f$summary,
+                      record_counts = val_f$record_counts),
+    publish = pubstat_f$metrics,
+    # reinspection_rate counts inspections; every other metric counts establishments.
+    specs = lapply(memequity::read_specs("food-safety", "specs"), function(s) list(
+      title = s$title, version = s$version, status = s$status, unit = s$unit, min_n = s$min_n,
+      noun = if (identical(s$id, "reinspection_rate")) "inspection" else "establishment",
+      geographies = I(unlist(s$geographies)),
+      promise_kind = s$promise$kind, promise_text = trimws(s$promise$text))),
+    subgroups = list(list(id = "all", label = "Restaurants and bars")))
+}
+
 # ---- panels not yet producing metrics ----------------------------------------
-manifest$pipelines[["food-safety"]] <- list(
-  title = "Food safety", status = "blocked",
-  note = paste("The state inspection site forbids automated collection, so the data must come",
-               "from a public records request (DECISIONS.md H11). The pipeline is built and tested",
-               "on a synthetic export in the requested format, and runs once the export arrives."))
+if (is.null(manifest$pipelines[["food-safety"]]))
+  manifest$pipelines[["food-safety"]] <- list(
+    title = "Food safety", status = "in_development",
+    note = paste("Inspection data come from the state portal through the project owner's collector",
+                 "(DECISIONS.md D29), which does not run with this build yet. The pipeline is built",
+                 "and runs on the collected data."))
 manifest$pipelines[["mata"]] <- list(
   title = "Transit (MATA)", status = "collecting", collecting_since = "2026-09-23",
   note = paste("Bus positions are archived every 30 seconds while the collector runs, which so far",

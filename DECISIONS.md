@@ -43,12 +43,14 @@ made while building, so a reviewer can challenge them.
   Under the Public Records Act the agency must respond within 7 business
   days (by 2026-10-02) by producing the records, denying the request or
   giving an estimated completion date. Follow up if nothing arrives by then (draft:
-  `docs/records-requests/h11-follow-up.md`). The food-safety pipeline is
-  built (`pipelines/food-safety/`) and tested on a synthetic export. When the
-  export arrives:
+  `docs/records-requests/h11-follow-up.md`).
+  *No longer blocking (2026-09-27):* the food-safety pipeline runs on the
+  owner's collector data from 2025 onward (D29). The export would still add
+  2021–2024, violations and closures, and a source the agency provides.
+  When it arrives:
   - put the files in `pipelines/food-safety/inbox/` (gitignored);
-  - map their columns in `config/column_map.yml` and their inspection types
-    in `config/inspection_types.csv`;
+  - map their columns in `config/column_map.yml`, and their inspection
+    types, programs and permit types in the other `config/` files;
   - run `pipelines/food-safety/run.R`.
 - [ ] **H14. Official 311 service targets and on-time figure.** *Deferred (D19).* The plan's
   "3–7 business days" and "82% on-time" figures trace to memphisgov.com, a
@@ -103,8 +105,11 @@ made while building, so a reviewer can challenge them.
     to use the dataset's API or for a periodic extract;
   - or ask DPD (Develop 901) for demolition permit records.
 
-  Record the answer here. Until then, the permits panel shows only new,
-  renovation and accessory permits.
+  Record the answer here. *No longer blocking (2026-09-27):* the owner
+  supplied a Data Midsouth snapshot and directed that it be used for
+  demolitions (D30). Written permission and the planned live service are
+  still open. Until the live service runs in `deploy-site`, the deployed
+  site shows only new, renovation and accessory permits.
 - [ ] **H22. Move the pollers to an always-on host.** Measured 2026-09-25
   from the poll logs (every attempt is logged, D15):
   - Only about **half of the scheduled runs happen**. MATA vehicle polls
@@ -248,7 +253,9 @@ made while building, so a reviewer can challenge them.
   Thanksgiving and Christmas Eve, and does not observe Columbus Day.
 - **D11. No scraping of sources whose terms or robots.txt forbid it.** This
   applies to the state inspection portal (see H11). This is plan section 12,
-  applied.
+  applied. The owner has made two exceptions, in which the pipelines read
+  files the owner collected: the state inspection portal (D29) and Data
+  Midsouth's demolition permits (D30).
 - **D12. 311 promise sources.** Only memphistn.gov and other official city
   documents are cited as promises. The pothole target (5–10 business days,
   memphistn.gov) is the one official 311 target. Every other request type
@@ -391,6 +398,7 @@ made while building, so a reviewer can challenge them.
   `demolition_to_new_ratio` and the demolition category cannot be computed
   until a permitted source exists (H21). The 2026-09-23 research note had
   listed the Data Midsouth API as an access path; it has been corrected.
+  *2026-09-27:* for demolitions, superseded by the owner's decision in D30.
 - **D25. ArcGIS queries retry errors inside HTTP 200 responses.** On
   2026-09-26 the City's 311 server answered one page of the daily fetch with
   "User couldn't access this resource" in an HTTP 200 body, after about
@@ -436,6 +444,65 @@ made while building, so a reviewer can challenge them.
   (H22), reads as stale. Runs are expected every 2 hours; the static GTFS
   zip, fetched once per run, daily. Overlapping runs replace each other's
   copy, and both are current. Runs still exit 0 when fetches fail.
+- **D29. Food inspections come from the owner's collector for the state
+  portal.** On 2026-09-27 the owner directed the project to use the data
+  from their own collector for the state inspection portal
+  (`tn-health-inspections`, outside this repo). In the owner's words: "I
+  built the scraper for the dept of health." This is an exception to D11
+  made by the owner. The portal's robots.txt still disallows every crawler,
+  and the collector's README records that it was refused with HTTP 403 once
+  while its request rate was being tested. This project still fetches
+  nothing from the portal: `pipelines/food-safety/run.R --inbox DIR` reads
+  the collector's `inspections.csv`, and the validation report records its
+  md5. The data are static for now. The owner plans a daily collector,
+  which is not wired into `deploy-site` yet. The data and how they are
+  mapped:
+  - 18,689 inspections from 2025-01-02 to 2026-09-25, across the portal's
+    eight environmental-health programs. Only the Food Service
+    Establishment program is kept (`config/programs.csv`): 13,686
+    inspections.
+  - Permit types (`config/establishment_types.csv`). Counted: restaurants
+    (`Commercial Food <51` and `51+`) and `Auxiliary` permits, which are
+    mostly bars inside restaurants and hotels. Left out: mobile units,
+    whose permit address is a base; school, child-care and senior-meal
+    kitchens; family child-care homes, which are private homes and are
+    never geocoded; and a few other programs' permit types. That leaves
+    3,531 establishments, of which 2,544 geocode inside the city.
+  - The portal's `purpose` is the inspection type: Routine, Follow-Up,
+    Complaint, and Complete, whose meaning is not documented. There are no
+    pre-opening, closure or risk-category fields. Closed restaurants
+    therefore look overdue: 29% of active establishments citywide, or 15%
+    with 90 days' grace.
+  - Windows start no earlier than the first day the data cover (`--from`).
+    Until 2027 the 24-month windows are about 21 months long.
+
+  H11 stays open. An agency export would add 2021–2024, violations and
+  closures, and a source the agency provides.
+- **D30. Demolitions come from the owner's Data Midsouth snapshot.** On
+  2026-09-27 the owner supplied a CSV export of Data Midsouth's "Building
+  and Demolition Permits – Shelby County" (`mem-demo-permits/
+  shelby_permits.csv`, outside this repo, downloaded by the owner's script
+  from the dataset's `/exports/csv` API endpoint) and directed that it be
+  used. A live service is planned. This is an exception to D24 made by the
+  owner: the site's robots.txt still disallows `/api/` for crawlers.
+  Checked against the DPD layer (2026-09-25 cache):
+  - `date_status` is the issue date for permits whose status is Issued
+    (99.9% equal DPD's `Issued_Date`). Otherwise it is a later date: for
+    Closed – Complete, a median of 201 days after issue. The snapshot has
+    no issue date.
+  - 74,502 rows but 66,227 record IDs. Some duplicates are exact copies and
+    some are earlier statuses. Each record keeps its latest status.
+  - October 2021 holds 9,614 rows, from the migration to the current
+    system. 2,592 of the 27,501 DPD permits are not in the snapshot.
+
+  The snapshot is therefore used for demolitions only: 2,315 permits after
+  dropping 946 duplicate rows, with the latest status date 2026-07-31. Each
+  demolition is dated by its latest status. Demolitions form the
+  `demolition` subgroup of `permits_per_1000_parcels`, never part of
+  `all`, and are the numerator of `demolition_to_new_ratio`. Their windows
+  end on the earlier of the two sources' data-through dates. They come in
+  through `run.R --demolitions FILE`. Without that file neither metric is
+  computed, which is how `deploy-site` runs until the live service exists.
 - **D8. Boundary rule.** A point within 1 m of more than one polygon goes to
   the lowest `geo_id` among them and is flagged `on_boundary`.
 - **D9. Censored durations.** Median time-to-close uses a Kaplan–Meier

@@ -4,9 +4,14 @@
 #
 # Usage (from the repository root):
 #   Rscript pipelines/permits/run.R [--as-of YYYY-MM-DD] [--raw-cache FILE] [--out DIR]
+#                                   [--demolitions FILE [--demolitions-through YYYY-MM-DD]]
 #
 # --raw-cache reuses a previously fetched raw .rds (and writes one if the
 # file does not exist), which is useful for development.
+# --demolitions is the Data Midsouth snapshot (DECISIONS.md D30), for the
+# demolition subgroup and demolition_to_new_ratio; --demolitions-through is
+# the last day it is complete (default: its latest status date). Without it
+# neither is computed.
 # Set TESTS_PASSED=true when the metric tests have passed in the same CI run.
 
 suppressPackageStartupMessages({
@@ -22,6 +27,7 @@ arg <- function(name, default = NULL) {
 as_of <- as.Date(arg("as-of", format(Sys.time(), tz = "America/Chicago", "%Y-%m-%d")))
 out_dir <- arg("out", file.path("data", "published", "permits"))
 raw_cache <- arg("raw-cache")
+demo_file <- arg("demolitions")
 here <- file.path("pipelines", "permits")
 for (f in list.files(file.path(here, "R"), full.names = TRUE)) source(f)
 
@@ -44,8 +50,19 @@ if (!is.null(raw_cache) && file.exists(raw_cache)) {
 through <- permits_through(info$last_edit, as_of)
 log(nrow(raw), " permits; layer last edited ", format(info$last_edit), "; complete through ", format(through))
 
+demo <- NULL
+if (!is.null(demo_file)) {
+  log("reading demolitions from ", demo_file)
+  demo <- read_demolitions(demo_file, cfg$demolitions)
+  demo_through <- as.Date(arg("demolitions-through", format(max(demo$status_date, na.rm = TRUE))))
+  log(nrow(demo), " demolition permits (", attr(demo, "duplicate_rows"), " duplicate rows dropped); ",
+      "complete through ", format(demo_through))
+}
+
 # ---- validate the source ---------------------------------------------------
-rep <- validation_report("permits", as_of, source = PERMITS_LAYER)
+rep <- validation_report("permits", as_of, source = paste0(PERMITS_LAYER, if (!is.null(demo)) sprintf(
+  "; demolitions: %s: %s (md5 %s)", trimws(cfg$demolitions$source), basename(demo_file),
+  unname(tools::md5sum(demo_file)))))
 rep <- add_check(rep, "fetch complete", "volume", nrow(raw) >= info$count,
                  list(layer_count_before_fetch = info$count, rows_fetched = nrow(raw)))
 rep <- check_min_rows(rep, raw, 25000)
@@ -65,6 +82,20 @@ prior <- stats::median(vapply(months[-1], function(m) sum(issue_month == m), 1L)
 rep <- add_check(rep, "last complete month's volume is within half to twice the prior 12-month median",
                  "volume", prior > 0 && last_n >= prior / 2 && last_n <= prior * 2,
                  list(month = months[1], permits = last_n, prior_median = prior), severity = "warning")
+
+if (!is.null(demo)) {
+  rep <- add_check(rep, "demolitions: every mapped column is present", "schema", !length(attr(demo, "absent")),
+                   list(absent = as.list(attr(demo, "absent"))))
+  rep <- add_check(rep, "demolitions: at least 1,000 demolition permits", "volume", nrow(demo) >= 1000,
+                   list(demolitions = nrow(demo)))
+  rep <- check_referential(rep, demo$status, names(cfg$demolitions$statuses),
+                           "demolitions: every status is listed in config/demolitions.yml")
+  rep <- add_check(rep, "demolitions: status dates parse", "schema", mean(is.na(demo$status_date)) <= 0.01,
+                   list(unparsed = sum(is.na(demo$status_date))))
+  rep <- add_check(rep, "demolitions: data are less than 62 days old", "freshness",
+                   as.integer(as_of - demo_through) <= 62, list(through = format(demo_through)),
+                   severity = "warning")
+}
 
 # ---- external reconciliation (plan 5.5, DECISIONS.md D14, D22) ---------------
 recon <- reconcile_permits(raw, cfg, file.path(here, "reconciliation", "official_figures.csv"), as_of)
@@ -88,6 +119,19 @@ rep <- add_count(rep, "unlocated", sum(!pts$located))
 rep <- add_count(rep, "outside_city_limits", sum(!pts$in_city & pts$located))
 rep <- add_count(rep, "no_declared_value", sum(is.na(pts$value)))
 rep <- add_count(rep, "included_in_city", sum(is.na(pts$exclusion) & pts$in_city))
+demo_pts <- NULL
+if (!is.null(demo)) {
+  demo_pts <- attach_geography_permits(normalize_demolitions(demo, demo_through), geography_dir())
+  located <- mean(demo_pts$located)
+  rep <- add_check(rep, "demolitions: unlocated share", "geocoding", 1 - located <= 0.03,
+                   list(unlocated_share = 1 - located, max_unlocated_share = 0.03))
+  rep <- add_count(rep, "demolitions_rows_read", attr(demo, "rows_read"))
+  rep <- add_count(rep, "demolitions_duplicate_rows", attr(demo, "duplicate_rows"))
+  rep <- add_count(rep, "demolitions", nrow(demo))
+  for (reason in sort(unique(na.omit(demo_pts$exclusion))))
+    rep <- add_count(rep, paste0("demolitions_excluded_", reason), sum(demo_pts$exclusion == reason, na.rm = TRUE))
+  rep <- add_count(rep, "demolitions_included_in_city", sum(is.na(demo_pts$exclusion) & demo_pts$in_city))
+}
 rep$geography <- lapply(c("zcta", "council_district"), function(g)
   assignment_summary(pts[pts$in_city, ], g))
 parcels <- sapply(PERMIT_GEOS, function(g) area_parcels(g, geography_dir()), simplify = FALSE)
@@ -101,7 +145,9 @@ stop_if_failed(rep)
 
 # ---- metrics ----------------------------------------------------------------
 log("computing metrics")
-m <- as_metrics_table(compute_metrics_permits(pts, parcels, through), NA, through)
+m <- compute_metrics_permits(pts, parcels, through, demo_pts, if (!is.null(demo)) demo_through)
+# Demolition rows end on the earlier data-through date; each row carries its own.
+m <- as_metrics_table(m, NA, m$window_end)
 for (g in unique(m$geo_type)) {
   f <- write_metrics(m[m$geo_type == g, ], "permits", g, out_dir)
   log("wrote ", f, " (", sum(m$geo_type == g), " rows)")

@@ -8,7 +8,7 @@ write_food_audit <- function(est, ins, rules, through, dir, as_of, n = 100L) {
   dir.create(dir, showWarnings = FALSE, recursive = TRUE)
   start <- months_back(through, rules$score_window_months)
   lr <- latest_routine(usable(ins), start, through)
-  e <- located_in_city(est, rules)
+  e <- located_in_city(est)
   d <- merge(e, lr, by = "establishment_key")
   set.seed(as.integer(format(as.Date(as_of), "%Y%m%d")))
   s <- d[sample.int(nrow(d), min(n, nrow(d))), ]

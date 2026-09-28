@@ -13,8 +13,9 @@ establishment_key <- function(id, name, address) {
   ifelse(!is.na(id) & nzchar(id), paste0("permit:", id), fallback)
 }
 
-#' @param through last day the export is complete through.
-normalize_inspections <- function(tables, config, through) {
+#' @param through last day the data are complete through.
+#' @param from first day the data cover (NULL: no lower bound).
+normalize_inspections <- function(tables, config, through, from = NULL) {
   ins <- tables$inspections
   kinds <- config$inspection_types
   type <- col_or_na(ins, "inspection_type")
@@ -24,6 +25,7 @@ normalize_inspections <- function(tables, config, through) {
   exclusion[is.na(date)] <- "missing_inspection_date"
   exclusion[is.na(exclusion) & is.na(kind)] <- "unmapped_inspection_type"
   exclusion[is.na(exclusion) & date > through] <- "after_data_through"
+  if (!is.null(from)) exclusion[is.na(exclusion) & date < from] <- "before_data_from"
   data.frame(
     inspection_id = col_or_na(ins, "inspection_id"),
     establishment_key = establishment_key(col_or_na(ins, "establishment_id"), col_or_na(ins, "name"),
@@ -34,9 +36,12 @@ normalize_inspections <- function(tables, config, through) {
 }
 
 #' One row per establishment: from the establishments table where the export
-#' has one, plus any establishment seen only in inspections (named and placed
-#' by its latest inspection record).
-normalize_establishments <- function(tables, inspections) {
+#' has one, plus any establishment seen only in inspections (named, typed and
+#' placed by its latest inspection record). Establishments of a permit type
+#' that config/establishment_types.csv excludes are left out here, before
+#' geocoding: some are private homes (D29). `attr(, "excluded_type")` counts
+#' them. An establishment with no type is kept.
+normalize_establishments <- function(tables, inspections, config) {
   est <- tables$establishments
   from_est <- if (is.null(est) || !nrow(est)) NULL else data.frame(
     establishment_key = establishment_key(col_or_na(est, "establishment_id"), col_or_na(est, "name"),
@@ -53,10 +58,15 @@ normalize_establishments <- function(tables, inspections) {
     establishment_key = inspections$establishment_key[latest],
     name = col_or_na(ins, "name")[latest], address = col_or_na(ins, "address")[latest],
     city = col_or_na(ins, "city")[latest], zip = col_or_na(ins, "zip")[latest],
-    establishment_type = NA_character_, risk_category = NA_character_,
+    establishment_type = col_or_na(ins, "establishment_type")[latest], risk_category = NA_character_,
     closed_date = as.Date(rep(NA, length(latest))), stringsAsFactors = FALSE)
   out <- rbind(from_est, from_ins[!from_ins$establishment_key %in% from_est$establishment_key, ])
-  out[!duplicated(out$establishment_key), ]
+  out <- out[!duplicated(out$establishment_key), ]
+  types <- config$establishment_types
+  drop <- out$establishment_type %in% types$establishment_type[!types$include]
+  out <- out[!drop, ]
+  attr(out, "excluded_type") <- sum(drop)
+  out
 }
 
 #' Geocode establishments. `geocoder` has the signature of

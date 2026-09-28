@@ -1,0 +1,25 @@
+# Where the demolition fields are found in the Data Midsouth snapshot
+# (DECISIONS.md D30). Only its demolition permits are used; every other
+# category comes from the City's DPD layer, which carries true issue dates.
+# If the live service replaces the snapshot, check its column names and edit
+# this file, not the R code.
+source: >
+  Data Midsouth, "Building and Demolition Permits - Shelby County" (publisher
+  Innovate Memphis; data from Shelby County and Develop 901), exported by the
+  owner (DECISIONS.md D30)
+demolition_record_type: Demolition Permit
+# Every status value, and what its status date means. The date of a
+# demolition is its status date, so a permit still open is dated by its
+# issue and a closed one by its completion. A new value fails the run.
+statuses:
+  Issued: issue date
+  Inspection Phase: date the permit entered inspection
+  Closed - Complete: completion date
+columns:
+  permit_id: record_id
+  record_type: record_type
+  status: status
+  status_date: date_status
+  value: estimate_cost
+  latitude: lat
+  longitude: lon

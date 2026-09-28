@@ -2,16 +2,18 @@
 id: permits_per_1000_parcels
 pipeline: permits
 title: Building permits per 1,000 parcels
-version: "0.2"
+version: "0.3"
 status: draft
 unit: count_per_1000_parcels
 formula: >
   count(permits issued in the window, by category) / count(parcels inside the
   city in the area) x 1000, with an exact Poisson interval. Categories: new
   construction, renovation (alteration + addition) and accessory structures,
-  each for residential, commercial and both. Demolition is not available
-  (DECISIONS.md H21). Windows end on the last day of the last complete month
-  of data (the source is refreshed monthly).
+  each for residential, commercial and both; and demolition, from a separate
+  source (DECISIONS.md D30), as its own subgroup only. Windows end on the last
+  day of the last complete month of data (the source is refreshed monthly);
+  demolition windows end on the earlier of the two sources' data-through
+  dates.
 windows: [12m, 5y]
 geographies: [citywide, zcta, council_district]
 min_n: 0
@@ -33,11 +35,12 @@ thresholds:
     arbitrary: true
 inclusions:
   - Building permits issued (not merely applied for) in the window, from the City's DPD Building Permits layer (new, alteration, addition and accessory permits since January 2021).
+  - Demolition permits from the Data Midsouth snapshot (D30), dated by their latest status, in the `demolition` subgroup only. The snapshot has no issue date. A permit still open is dated by its issue and a closed one by its completion, so each demolition is counted once, in the window of its latest status.
   - Permits located inside the city limits.
 exclusions:
   - Permits whose location is missing, 0,0 or outside Shelby County (counted as unlocated in the validation report).
   - Permits issued after the last complete month.
-  - Demolitions, which are not in the source (DECISIONS.md D24, H21).
+  - Demolitions in the `all` subgroups: the two sources date permits differently, and runs without the snapshot have no demolitions.
 confounders:
   - Permits lead construction by months, and some permitted work is never built.
   - Unpermitted work is invisible and is plausibly more common where enforcement is weaker.
@@ -53,9 +56,9 @@ objections:
 
 ## Definition
 
-How much permitted building activity (new construction, renovation and
-accessory structures) happens around here, relative to the number of
-properties?
+How much permitted building activity (new construction, renovation,
+accessory structures and, separately, demolition) happens around here,
+relative to the number of properties?
 
 ## Details and edge cases
 
@@ -71,3 +74,4 @@ properties?
 - 0.1 — first draft from design plan 6.5.
 - 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.
 - 0.2, 2026-09-25 — first computed version. Source limited to the City's DPD layer, because Data Midsouth forbids automated access (D24), so demolition is unavailable (H21). Added the accessory category, the 250-parcel suppression floor, windows ending at the last complete month, and the unit name.
+- 0.3, 2026-09-27 — added the `demolition` subgroup from the owner's Data Midsouth snapshot (D30), dated by its latest status and kept out of `all`. No change to the other subgroups.

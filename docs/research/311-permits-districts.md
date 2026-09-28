@@ -151,6 +151,14 @@ the page itself; the rest are as reported by that pass.
   `https://www.datamidsouth.org/api/explore/v2.1/catalog/datasets/shelby-county-building-and-demolition-permits/records`.
   It is listed only so a future permission can be acted on. Its publisher is
   Innovate Memphis, and its attributions are Shelby County and Develop 901.
+  *2026-09-27:* the permits pipeline reads the owner's CSV export of it, for
+  demolitions only (DECISIONS.md D30).
+  - Checked against the DPD layer: `date_status` equals DPD's issue date
+    for 99.9% of permits with status Issued. For Closed – Complete it falls
+    a median of 201 days after issue. There is no issue date.
+  - 74,502 rows, 66,227 record IDs: some rows are exact duplicates and
+    some are earlier statuses of the same permit.
+  - 2,592 of the 27,501 DPD permits are not in it.
   - 74,502 rows since 2011.
   - `date_status` is a *status* date, not the issue date.
   - `record_type` has 9 values, including Demolition (3,261).

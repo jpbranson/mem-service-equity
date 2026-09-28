@@ -29,7 +29,7 @@
       const box = document.getElementById('methodology');
       const parts = [];
       try {
-        for (const key of ['311', 'permits']) {
+        for (const key of ['311', 'food-safety', 'permits']) {
           const res = await fetch(`data/${key}/methodology.md`, { cache: 'no-cache' });
           if (res.status === 404) continue;
           if (!res.ok) throw new Error(`HTTP ${res.status}`);

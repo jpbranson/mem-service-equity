@@ -57,7 +57,7 @@ test_that("every subgroup has a label for the site", {
   labels <- utils::read.csv(file.path(repo_root, "pipelines", "permits", "config", "subgroups.csv"),
                             stringsAsFactors = FALSE)
   s <- subgroup_masks(data.frame(category = "new", sector = "residential"))
-  expect_setequal(labels$subgroup, names(s))
+  expect_setequal(labels$subgroup, c(names(s), names(demolition_mask(data.frame()))))
   expect_true(all(nzchar(labels$label)))
 })
 
@@ -153,6 +153,85 @@ test_that("reconciliation counts new residential permits in the whole jurisdicti
   r <- reconcile_permits(raw, cfg, path, as.Date("2026-09-25"))
   expect_equal(r$our_value, 3)
   expect_true(r$within_tolerance)
+})
+
+# Rows shaped like the Data Midsouth snapshot (D30), in its column names.
+write_snapshot <- function(record_id, status, date_status, record_type = "Demolition Permit",
+                           east_m = 0, cost = "14100.0") {
+  n <- max(length(record_id), length(status), length(date_status), length(record_type), length(east_m))
+  d <- data.frame(permit_class = "Demolition Permit", record_id = rep_len(record_id, n),
+                  status = rep_len(status, n), date_status = rep_len(date_status, n),
+                  record_type = rep_len(record_type, n), estimate_cost = cost,
+                  lat = BASE_LAT, lon = BASE_LON + rep_len(east_m, n) / M_PER_DEG_LON,
+                  description = "ALL STRUCTURE, FOUNDATIONS", stringsAsFactors = FALSE)
+  path <- tempfile(fileext = ".csv")
+  utils::write.csv(d, path, row.names = FALSE)
+  path
+}
+
+test_that("demolitions: one row per permit, the latest status wins, other types are left out", {
+  path <- write_snapshot(c("DEM-25-1", "DEM-25-1", "DEM-25-2", "RES-NEW-25-9"),
+                         c("Issued", "Closed - Complete", "Issued", "Issued"),
+                         c("2025-03-01", "2025-05-01", "2025-04-01", "2025-04-01"),
+                         record_type = c(rep("Demolition Permit", 3), "Residential New Construction Permit"))
+  d <- read_demolitions(path, cfg$demolitions)
+  expect_equal(d$permit_id, c("DEM-25-2", "DEM-25-1"))
+  expect_equal(d$status[d$permit_id == "DEM-25-1"], "Closed - Complete")
+  expect_equal(d$status_date[d$permit_id == "DEM-25-1"], as.Date("2025-05-01"))
+  expect_equal(attr(d, "duplicate_rows"), 1L)
+  expect_equal(attr(d, "rows_read"), 4L)
+  expect_length(attr(d, "absent"), 0)
+  n <- normalize_demolitions(d, as.Date("2025-04-15"))
+  expect_equal(n$category, c("demolition", "demolition"))
+  expect_equal(n$exclusion, c(NA, "after_data_through"))
+  expect_equal(n$value, c(14100, 14100))
+})
+
+test_that("demolitions: their own subgroup, never in all, and the ratio to new construction", {
+  through <- as.Date("2026-08-31")
+  # 30 new residential and 10 new commercial permits in the last year, and
+  # renovations that do not count as new.
+  raw <- rbind(make_permits(30, issued = "2026-05-01", east_m = seq(0, by = 5, length.out = 30)),
+               make_permits(10, sub_type = "COM", issued = "2026-05-01", east_m = 20),
+               make_permits(5, construction_type = "ALT", issued = "2026-05-01", east_m = 30))
+  raw$Record_ID <- sprintf("N%d", seq_len(nrow(raw)))
+  pts <- permit_points(raw, through)
+  # 20 demolitions in the window, one after the snapshot's through date and
+  # one older than the 12-month window.
+  dates <- c(rep("2026-03-01", 20), "2026-08-15", "2024-06-01")
+  demo <- read_demolitions(write_snapshot(sprintf("DEM-%02d", seq_along(dates)), "Closed - Complete", dates,
+                                          east_m = seq(0, by = 5, length.out = length(dates))),
+                           cfg$demolitions)
+  dthrough <- as.Date("2026-07-31")
+  dpts <- attach_geography_permits(normalize_demolitions(demo, dthrough), geo_dir)
+  expect_true(all(dpts$zcta == "38103"))
+  m <- compute_metrics_permits(pts, fake_parcels(), through, dpts, dthrough)
+  row <- function(metric, subgroup, years = 1, end = dthrough) {
+    r <- m[m$metric == metric & m$geo_type == "zcta" & m$geo_id == "38103" & m$subgroup == subgroup &
+             m$variant == "primary" & m$window_end == end &
+             as.Date(m$window_start) == window_start_years(end, years), ]
+    stopifnot(nrow(r) == 1)
+    r
+  }
+  expect_equal(row("permits_per_1000_parcels", "demolition")$n, 20L)
+  expect_equal(row("permits_per_1000_parcels", "demolition", years = 5)$n, 21L)
+  expect_equal(row("permits_per_1000_parcels", "all", end = through)$n, 45L)        # no demolitions
+  expect_false(any(m$metric == "declared_value_per_1000_parcels" & m$subgroup == "demolition"))
+  r <- row("demolition_to_new_ratio", "all")
+  ci <- memequity::wilson_ci(20, 60)
+  expect_equal(c(r$value, r$n), c(20 / 40, 60))
+  expect_equal(c(r$ci_low, r$ci_high), c(ci$ci_low / (1 - ci$ci_low), ci$ci_high / (1 - ci$ci_high)))
+  # 38105 has no permits of either kind: suppressed, with its count.
+  z <- m[m$metric == "demolition_to_new_ratio" & m$geo_id == "38105" & m$window_end == dthrough, ]
+  expect_true(all(z$suppressed) && all(z$n == 0))
+  # Without new construction the ratio is undefined, however many demolitions.
+  expect_true(demolition_ratio_row(25, 0)$suppressed)
+  expect_true(demolition_ratio_row(10, 9)$suppressed)                             # D + N < 20
+  # Without the snapshot, neither is computed.
+  m0 <- compute_metrics_permits(pts, fake_parcels(), through)
+  expect_false(any(m0$metric == "demolition_to_new_ratio" | m0$subgroup == "demolition"))
+  tab <- memequity::as_metrics_table(m, NA, m$window_end)
+  expect_length(memequity::metrics_problems(tab), 0)
 })
 
 test_that("SPEC_VERSIONS matches the version in each spec", {

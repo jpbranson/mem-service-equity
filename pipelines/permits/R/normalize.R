@@ -6,11 +6,17 @@
 # points outside it, including the 0,0 placeholders, are unlocated.
 SHELBY_BBOX <- c(xmin = -90.32, ymin = 34.99, xmax = -89.63, ymax = 35.42)
 
+in_shelby <- function(lon, lat)
+  !is.na(lon) & !is.na(lat) &
+    lon >= SHELBY_BBOX[["xmin"]] & lon <= SHELBY_BBOX[["xmax"]] &
+    lat >= SHELBY_BBOX[["ymin"]] & lat <= SHELBY_BBOX[["ymax"]]
+
 read_permits_config <- function(dir) {
   rd <- function(f) utils::read.csv(file.path(dir, f), stringsAsFactors = FALSE,
                                     na.strings = character(), encoding = "UTF-8")
   list(sector_map = rd("sector_map.csv"), category_map = rd("category_map.csv"),
-       contract = memequity::read_contract(file.path(dir, "contract.yml")))
+       contract = memequity::read_contract(file.path(dir, "contract.yml")),
+       demolitions = yaml::read_yaml(file.path(dir, "demolitions.yml")))
 }
 
 #' Last day of data the layer is complete through. The layer is refreshed
@@ -33,9 +39,7 @@ normalize_permits <- function(raw, config, through) {
   value <- ifelse(!is.na(raw$Valuation) & raw$Valuation > 0, raw$Valuation, NA_real_)
 
   lon <- raw$Longitude; lat <- raw$Latitude
-  located <- !is.na(lon) & !is.na(lat) &
-    lon >= SHELBY_BBOX[["xmin"]] & lon <= SHELBY_BBOX[["xmax"]] &
-    lat >= SHELBY_BBOX[["ymin"]] & lat <= SHELBY_BBOX[["ymax"]]
+  located <- in_shelby(lon, lat)
 
   exclusion <- rep(NA_character_, nrow(raw))
   exclusion[is.na(issue_date)] <- "missing_issue_date"

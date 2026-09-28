@@ -2,7 +2,7 @@
 id: median_latest_score
 pipeline: food-safety
 title: Median latest routine inspection score
-version: "0.2"
+version: "0.3"
 status: draft
 unit: score_0_100
 formula: >
@@ -33,7 +33,7 @@ objections:
   - objection: "Scores cluster near the top; a median hides the failing tail."
     response: "That is why pct_below_followup_threshold is the headline metric; the median is context."
   - objection: "Mixing establishment types is unfair."
-    response: "Not yet handled: the export's establishment type is read when present, but no breakdown by type is built."
+    response: "Partly handled: only restaurant and auxiliary (bar) permits count, so school, child-care and senior-meal kitchens are not mixed in. No breakdown by seating size is built yet."
   - objection: "Each establishment counts once regardless of size."
     response: "Intentional: the unit is the place a resident might eat, not the volume of meals."
 ---
@@ -48,3 +48,4 @@ inspection.
 - 0.1 — first draft from design plan 6.4.
 - 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.
 - 0.2, 2026-09-25 — first computed version, tested on a synthetic export only; the real export has not arrived (H11). Rules and their sources are in `pipelines/food-safety/config/rules.yml`. The latest routine inspection is the most recent one with a score; ties on the same day take the higher score.
+- 0.3, 2026-09-27 — first run on real data: the state portal via the owner's collector (DECISIONS.md D29), inspections since 2025-01-01. Only the Food Service Establishment program counts, and only restaurant and auxiliary (bar) permits: mobile units, school, child-care and senior-meal kitchens, and private homes are left out (`pipelines/food-safety/config/establishment_types.csv`). Windows start no earlier than the first day the data cover, so they are shorter than their nominal length until 2027 (24 months) and 2028 (the 36-month activity window).

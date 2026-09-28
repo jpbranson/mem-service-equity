@@ -16,6 +16,10 @@
     excl_top1pct: 'Leaving out permits above the citywide 99th percentile of declared value',
     cap_10m: 'Each declared value capped at $10 million',
     median_per_permit: 'Median declared value per permit',
+    below_80: 'Latest routine score below 80',
+    below_85: 'Latest routine score below 85',
+    grace_30d: 'Overdue by more than 30 days',
+    grace_90d: 'Overdue by more than 90 days',
   };
   // Variants reported in a different unit from their metric.
   const VARIANT_UNITS = { median_per_permit: 'dollars' };
@@ -71,10 +75,13 @@
     if (unit === 'count_per_1000_parcels') return `${fmtRate(v)} per 1,000 parcels`;
     if (unit === 'dollars_per_1000_parcels') return `${fmtMoney(v)} per 1,000 parcels`;
     if (unit === 'dollars') return fmtMoney(v);
+    if (unit === 'score_0_100') return `${v} out of 100`;
+    if (unit === 'ratio') return `${v.toFixed(2)} per new building`;
     return String(v);
   }
   function fmtBound(unit, v) {
     if (unit === 'proportion') return `${(v * 100).toFixed(1)}%`;
+    if (unit === 'ratio') return v.toFixed(2);
     if (unit === 'count_per_1000' || unit === 'count_per_1000_parcels') return fmtRate(v);
     if (unit === 'dollars_per_1000_parcels' || unit === 'dollars') return fmtMoney(v);
     return String(v);
@@ -107,7 +114,9 @@
     box.replaceChildren();
     const counted = {
       311: (v) => `${v.record_counts.included_primary_in_city.toLocaleString()} requests inside city limits after removing duplicates.`,
-      permits: (v) => `${v.record_counts.included_in_city.toLocaleString()} permits inside city limits. The source is refreshed monthly.`,
+      'food-safety': (v) => `${v.record_counts.establishments_in_city.toLocaleString()} restaurants and bars located inside city limits.`,
+      permits: (v, p) => `${v.record_counts.included_in_city.toLocaleString()} permits inside city limits. The source is refreshed monthly.` +
+        (p.demolitions_through ? ` Demolitions (${v.record_counts.demolitions_included_in_city.toLocaleString()} inside city limits) come from a separate snapshot, current through ${fmtDate(p.demolitions_through)}.` : ''),
     };
     for (const key of Object.keys(counted)) {
       const p = m.pipelines[key];
@@ -119,7 +128,7 @@
         el('strong', {}, `${p.title}: data current through `, fmtDate(p.data_current_through)), '. ',
         `Source validation ${v.status === 'pass' ? 'passed' : 'FAILED'} `,
         `(${v.summary.checks_passed} of ${v.summary.checks_run} checks) on ${fmtDate(v.run_date)}. `,
-        counted[key](v));
+        counted[key](v, p));
       if (!state.fresh[key]) {
         line.append(el('div', { class: 'gate' },
           `This data is ${age} days old, past the ${p.freshness_limit_days}-day freshness limit, `,
@@ -151,8 +160,9 @@
       const notes = {
         311: 'Resolution times and re-reports for eight common request types, by ZIP, council district and address.',
         permits: 'Building permits and their declared value per 1,000 parcels, by ZIP and council district.',
+        'food-safety': 'Inspection scores, follow-ups and overdue inspections for restaurants and bars, by ZIP and council district.',
       };
-      const links = { 311: '#compare', permits: '#compare-permits' };
+      const links = { 311: '#compare', permits: '#compare-permits', 'food-safety': '#compare-food' };
       const live = Boolean(p.publish);
       grid.append(el('article', { class: 'card panel' },
         el('h3', {}, p.title),
@@ -170,7 +180,7 @@
     r.metric === metric && r.variant === variant && r.subgroup === type &&
     r.window_start === win.start && r.window_end === win.end);
 
-  // spec.noun is the pipeline's unit of record ("request", "permit").
+  // spec.noun is the unit of record ("request", "permit", "establishment").
   function cellContent(spec, r, geo) {
     const noun = spec.noun || 'request';
     const count = (n) => `${n.toLocaleString()} ${noun}${n === 1 ? '' : 's'}`;
@@ -246,7 +256,7 @@
     const ordered = Object.entries(p.specs).sort(([, a], [, b]) => isDemand(a) - isDemand(b));
     let demandShown = false;
     for (const [id, pspec] of ordered) {
-      const spec = { ...pspec, noun: p.noun };
+      const spec = { ...pspec, noun: pspec.noun || p.noun };
       if (isDemand(spec) && !demandShown) {
         demandShown = true;
         wrap.append(el('h4', { class: 'subhead' }, 'Demand: how often residents report'),
@@ -412,7 +422,11 @@
     areaOptions($(`#${ids.b}`), 'citywide|' + Object.keys(areas.citywide)[0], areas);
     fillSelect($(`#${ids.sub}`), subgroups, defaults.sub);
     const wins = windowsFrom(cityRows.map(asRow));
-    fillSelect($(`#${ids.win}`), wins.map((w) => [`${w.start}|${w.end}`, windowLabel(w.start, w.end)]));
+    // Sources with different data-through dates give windows of the same
+    // length that end on different days; their labels then name the end.
+    const labels = wins.map((w) => windowLabel(w.start, w.end));
+    fillSelect($(`#${ids.win}`), wins.map((w, i) => [`${w.start}|${w.end}`,
+      labels.indexOf(labels[i]) !== labels.lastIndexOf(labels[i]) ? `${labels[i]} to ${fmtDate(w.end)}` : labels[i]]));
     const draw = () => {
       const [start, end] = $(`#${ids.win}`).value.split('|');
       const cols = [areaColumn(areas, $(`#${ids.a}`).value), areaColumn(areas, $(`#${ids.b}`).value)];
@@ -437,6 +451,15 @@
     setupComparison('permits',
       { form: 'permits-form', result: 'permits-result', a: 'permits-area-a', b: 'permits-area-b',
         sub: 'permits-category', win: 'permits-window' },
+      p.subgroups.map((s) => [s.id, s.label]),
+      { a: 'council_district|1', sub: 'all' });
+  }
+
+  function setupCompareFood() {
+    const p = state.manifest.pipelines['food-safety'];
+    setupComparison('food-safety',
+      { form: 'food-form', result: 'food-result', a: 'food-area-a', b: 'food-area-b',
+        sub: 'food-subgroup', win: 'food-window' },
       p.subgroups.map((s) => [s.id, s.label]),
       { a: 'council_district|1', sub: 'all' });
   }
@@ -637,6 +660,13 @@
       setupComparePermits();
     } else {
       $('#compare-permits').hidden = true;
+    }
+    const food = state.manifest.pipelines['food-safety'];
+    if (food && food.publish) {
+      state.areas['food-safety'] = await loadAreas('food-safety/areas.json');
+      setupCompareFood();
+    } else {
+      $('#compare-food').hidden = true;
     }
     $('#lookup-form').addEventListener('submit', lookup);
   }

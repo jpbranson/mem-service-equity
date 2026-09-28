@@ -20,13 +20,16 @@ stub_geocoder <- function(street, city = "Memphis", state = "TN", zip = "", cach
 }
 
 #' Synthetic inspections for fictitious establishments ("Test Grill <n>" at
-#' "<n> TEST ST", permit P<n>), in canonical field names.
-make_inspections <- function(est, dates, types, scores) {
+#' "<n> TEST ST", permit P<n>), in canonical field names. Dates are written
+#' the way the collector writes them (D29).
+make_inspections <- function(est, dates, types, scores, program = "Food Service Establishment",
+                             establishment_type = "Commercial Food 51+") {
   data.frame(establishment_id = paste0("P", est), name = paste("Test Grill", est),
              address = paste(est, "TEST ST"), city = "Memphis", zip = "38103",
              inspection_id = sprintf("I%05d", seq_along(est)),
-             inspection_date = format(as.Date(dates), "%m/%d/%Y"), inspection_type = types,
-             score = scores, stringsAsFactors = FALSE)
+             inspection_date = format(as.Date(dates), "%Y-%m-%dT00:00:00.000Z"), inspection_type = types,
+             score = scores, program = program, establishment_type = establishment_type,
+             stringsAsFactors = FALSE)
 }
 
 #' Write canonical tables to a temp inbox under the export's column names
@@ -44,13 +47,14 @@ write_export <- function(inspections, establishments = NULL) {
   dir
 }
 
-food_pipeline <- function(inbox, through) {
+food_pipeline <- function(inbox, through, from = NULL) {
   through <- as.Date(through)
-  tables <- ingest_export(inbox, cfg)
-  ins <- normalize_inspections(tables, cfg, through)
-  est <- geocode_establishments(normalize_establishments(tables, ins), geocoder = stub_geocoder)
+  if (!is.null(from)) from <- as.Date(from)
+  tables <- food_program_only(ingest_export(inbox, cfg), cfg)
+  ins <- normalize_inspections(tables, cfg, through, from)
+  est <- geocode_establishments(normalize_establishments(tables, ins, cfg), geocoder = stub_geocoder)
   pts <- attach_geography_food(est, geo_dir)
-  list(tables = tables, ins = ins, est = pts, m = compute_metrics_food(pts, ins, cfg$rules, through))
+  list(tables = tables, ins = ins, est = pts, m = compute_metrics_food(pts, ins, cfg$rules, through, from))
 }
 
 get_food <- function(m, metric, geo_type = "citywide", variant = "primary") {

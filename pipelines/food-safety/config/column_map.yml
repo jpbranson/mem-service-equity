@@ -1,27 +1,37 @@
-# Where each field the pipeline uses is found in the records-request export
-# (DECISIONS.md H11, D13). The export has not arrived. The source column
-# names below are the ones the request asked for
-# (docs/records-requests/h11-food-inspections.md) and are placeholders:
-# check them against the real files and edit this file, not the R code.
+# Where each field the pipeline uses is found in the inspection data. The
+# current source is the CSV written by the owner's collector for the state
+# inspection portal (tn-health-inspections, DECISIONS.md D29); the column
+# names below are that file's. If the records-request export (H11) replaces
+# it, check its column names and edit this file, not the R code.
 #
 # Each table is read from the first file in inbox/ whose name contains
 # file_pattern (case-insensitive; .csv, or .xlsx with the readxl package).
 # A field mapped to null, or to a column the file lacks, is treated as
 # absent. The run fails if a `required` field is absent.
+source: >
+  Tennessee Department of Health inspection portal
+  (inspections.myhealthdepartment.com), Shelby County, collected by the
+  owner's tn-health-inspections collector (DECISIONS.md D29)
 tables:
   inspections:
     file_pattern: inspection
     required: [inspection_date, inspection_type, score]
     columns:
-      establishment_id: Permit Number
-      name: Establishment Name
-      address: Address
-      city: City
-      zip: Zip
-      inspection_id: Inspection ID
-      inspection_date: Inspection Date
-      inspection_type: Inspection Type
-      score: Score
+      establishment_id: permitID
+      name: establishmentName
+      address: addressLine1
+      city: city
+      zip: zip
+      inspection_id: inspectionID
+      inspection_date: inspectionDate
+      inspection_type: purpose
+      score: score
+      program: programName
+      establishment_type: permitType
+  # The collector writes no establishments or violations file. These two
+  # entries keep the layout the records request asked for
+  # (docs/records-requests/h11-food-inspections.md); their column names are
+  # placeholders until such an export arrives.
   establishments:
     file_pattern: establishment
     required: [address]
@@ -42,5 +52,7 @@ tables:
       item: Item Number
       category: Priority Category
       corrected_on_site: Corrected On Site
-# Date formats tried in order for every date field.
+# Date formats tried in order for every date field. The collector writes
+# ISO timestamps at midnight UTC ("2025-07-10T00:00:00.000Z"), which carry
+# the local inspection date; "%Y-%m-%d" reads the date part.
 date_formats: ["%m/%d/%Y", "%Y-%m-%d", "%m/%d/%Y %H:%M:%S", "%Y-%m-%d %H:%M:%S", "%m/%d/%y"]

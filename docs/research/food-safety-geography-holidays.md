@@ -14,7 +14,9 @@ _Verified 2026-09-23 by hitting the endpoints unless marked otherwise._
   anthropic-ai, GPTBot and others, and ends with `User-agent: *` /
   `Disallow: /`. An AWS load balancer also returns 403 to non-browser user
   agents. **This project does not scrape the portal** (plan section 12:
-  "check terms of use first").
+  "check terms of use first"). *2026-09-27:* the pipeline now reads the
+  data the owner's own collector gathered from it (DECISIONS.md D29). The
+  project still fetches nothing from the portal itself.
 - There is no bulk download, public API or terms-of-use page. Neither the
   Memphis Data Hub nor Data Midsouth publishes inspection data.
 - **Route:** a public records request for a bulk export, sent to TDH
@@ -26,6 +28,15 @@ _Verified 2026-09-23 by hitting the endpoints unless marked otherwise._
   verified**): establishment name, address, permit, inspection date, score,
   purpose (Routine / Follow-Up), and a violation narrative with priority
   items.
+- *Verified 2026-09-27 from the collector's data (D29):* each search
+  result carries `inspectionID`, `inspectionDate`, `establishmentName`,
+  `addressLine1/2`, `city`, `state`, `zip`, `permitID` (a stable GUID),
+  `permitType`, `programName`/`programCode` (eight environmental-health
+  programs, of which Food Service Establishment is code 605), `purpose`
+  (Routine, Follow-Up, Complaint, Complete), `score`, `recommendation`,
+  `timein` and free-text `comments`. The comments sometimes hold operators'
+  e-mail addresses and phone numbers; the pipeline never reads them. There
+  are no pre-opening, closure or risk-category fields.
 
 ### Scoring rules
 
