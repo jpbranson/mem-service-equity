@@ -113,7 +113,7 @@ Rscript pipelines/mata/run.R --archive data/cache/mata/2026-W39
 Rscript -e 'testthat::test_dir("pipelines/mata/tests/testthat")'
 
 # Poller tests
-python -m pip install -r pollers/requirements.txt
+python -m pip install -r pollers/requirements.txt pytest
 python -m pytest pollers/tests
 ```
 

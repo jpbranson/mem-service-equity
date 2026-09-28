@@ -54,7 +54,7 @@ CENSUS_API_KEY=... Rscript geography/fetch_demographics.R   # yearly ACS refresh
 python3 -m http.server 8765 --directory site     # serve the site locally
 
 # Pollers (Python 3.12)
-python -m pip install -r pollers/requirements.txt
+python -m pip install -r pollers/requirements.txt pytest
 python -m pytest pollers/tests
 python -m pytest pollers/tests/test_pollers.py::test_parse_outage_fixture
 ```

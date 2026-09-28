@@ -37,7 +37,7 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           working-directory: packages/memequity
-          extra-packages: any::devtools, any::data.table, any::h3jsr, any::httr2, local::.
+          extra-packages: any::devtools, local::.
       - name: Package tests
         working-directory: packages/memequity
         run: Rscript -e 'res <- devtools::test(stop_on_failure = TRUE)'
