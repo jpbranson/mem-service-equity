@@ -14,6 +14,7 @@ formula: >
 windows: [12m]
 geographies: [citywide, zcta, council_district, h3_9]
 min_n: 0
+blocked: "Needs six months of poller history, including a significant weather event (plan 6.2); the poller covers about half the time until it moves to an always-on host (DECISIONS.md H22)."
 promise:
   kind: official
   text: Power stays on.
@@ -80,3 +81,4 @@ This event model is shared by all three MLGW specs (DECISIONS.md H19):
 - 0.1 — first draft from design plan 6.2.
 - 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.
 - 0.2, 2026-09-25 — restated for point outages (H19). An event is an `OUTAGE_NO` chain, not a chain of overlapping polygons. The area join is by the outage point, with the D16 disk for addresses instead of `outage_polygon`. Planned outages are excluded using `OUT_CAUSE`. Drafted by Claude; needs the H19 and H10 review.
+- 0.2, 2026-10-01 — marked `blocked` until six months of history exist; the pipeline (`pipelines/mlgw/`) now computes it from the poller archive. No change to the definition.

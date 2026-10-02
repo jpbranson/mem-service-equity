@@ -1,0 +1,4 @@
+out_cause,planned,note
+"",FALSE,"blank on most outages; the map gives no cause"
+"Planned Construction",TRUE,"named in the specs as the marker of a planned outage"
+"Preventive Maintenance",TRUE,"seen 2026-09-23 to 10-01; scheduled work, so treated as planned (to confirm under H19)"

@@ -15,6 +15,7 @@ formula: >
 windows: [12m]
 geographies: [citywide, zcta, council_district]
 min_n: 20
+blocked: "Needs six months of poller history, including a significant weather event (plan 6.2); the poller covers about half the time until it moves to an always-on host (DECISIONS.md H22)."
 promise:
   kind: official
   text: When power goes out, it is restored by the estimated time shown on the outage map.
@@ -65,3 +66,4 @@ The event model is defined in `outage_events_per_year`.
 - 0.1 — first draft from design plan 6.2.
 - 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.
 - 0.2, 2026-09-25 — restated for point outages (H19). Estimates and restoration are tracked per `OUTAGE_NO`, and the area join is by the outage point. The on-time test uses the latest possible restoration time. Planned outages are excluded. Drafted by Claude; needs the H19 and H10 review.
+- 0.2, 2026-10-01 — marked `blocked` until six months of history exist; the pipeline (`pipelines/mlgw/`) now computes it from the poller archive. No change to the definition.

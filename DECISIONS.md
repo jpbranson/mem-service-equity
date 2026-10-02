@@ -193,6 +193,25 @@ made while building, so a reviewer can challenge them.
 
   A person still has to confirm these choices and settle the questions left
   open in the specs (the denominator, among others).
+  *Questions found while building the pipeline (2026-10-01, D31):*
+  - `OUT_CAUSE` also reads "Preventive Maintenance". It is treated as
+    planned, like "Planned Construction" (`config/out_causes.csv`).
+  - 19 of 814 outages had their `TIME_STAMP` revised, by up to 9 minutes
+    earlier. The earliest one is used as the start.
+  - Customer-hours start at the first snapshot, as the formula says. The
+    time between `TIME_STAMP` and the first sighting is not counted, which
+    undercounts outages that begin in a poller gap.
+  - The customer-hours interval is the spec's poll-timing bounds. It leaves
+    out the households' margin of error.
+  - `restoration_vs_estimate` names two area values: the median difference
+    and the share restored by the estimate. One metric ID carries one
+    value, so only the median is computed. The share needs its own metric
+    ID or spec.
+  - "Storm and non-storm shown separately" has no definition of a storm, so
+    events are not split that way yet.
+  - There is no county boundary in `geography/`, so the "outside Shelby
+    County" check cannot be made. Events outside the city are dropped, as
+    in the other pipelines (143 of 814 in the first nine days).
 - [ ] **H20. Hand-verify the 311 golden file.** `pipelines/311/tests/golden/`
   was frozen from the v0.1 code as a regression baseline. Plan 5.3 asks for
   golden outputs checked by hand, so a reviewer should recompute a handful
@@ -522,6 +541,26 @@ made while building, so a reviewer can challenge them.
   end on the earlier of the two sources' data-through dates. They come in
   through `run.R --demolitions FILE`. Without that file neither metric is
   computed, which is how `deploy-site` runs until the live service exists.
+- **D31. The MLGW pipeline follows the v0.2 specs.** Built 2026-10-01 as
+  `pipelines/mlgw/` (`run.R --archive DIR`), ahead of the H19 review and the
+  six months of history, so that both can be checked against real output.
+  - Events follow the specs' rules exactly (R/events.R). The open questions
+    the rules leave are listed under H19.
+  - A window is computed only when successful polls cover 90% of its time,
+    not of its days: an outage that starts and ends inside a gap is
+    invisible, so a count over half-covered days would read low.
+  - Only events inside the city count. Every ZCTA and council district
+    gets a row, so an area with no outages reads 0 with an exact Poisson
+    interval rather than missing. Event counts have no citywide reference,
+    because a citywide count is not comparable with an area's.
+  - Each run writes `events_mlgw.csv`, one row per event, for the hand
+    check of the event rules on storm days (spec objections).
+  - All three specs are `blocked` until six months of history exist, and
+    the pipeline is not in `deploy-site`.
+  - First run (2026-09-23 to 10-01, 1% of a 12-month window): 814 events,
+    84 planned, 671 inside the city. The median outage lasted 80 minutes.
+    235 of 804 restorations fall in poller gaps longer than 30 minutes
+    (H22).
 - **D8. Boundary rule.** A point within 1 m of more than one polygon goes to
   the lowest `geo_id` among them and is flagged `on_boundary`.
 - **D9. Censored durations.** Median time-to-close uses a Kaplan–Meier
