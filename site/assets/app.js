@@ -654,21 +654,22 @@
       state.areas['311'] = await loadAreas('311/areas.json');
       setupCompare();
     }
+    // A section and its nav link hide together. Both may be missing when a
+    // cached index.html predates this script, so a missing one is skipped.
+    const hide = (...sels) => sels.forEach((s) => { const n = $(s); if (n) n.hidden = true; });
     const permits = state.manifest.pipelines.permits;
-    if (permits && permits.publish) {
+    if (permits && permits.publish && $('#compare-permits')) {
       state.areas.permits = await loadAreas('permits/areas.json');
       setupComparePermits();
     } else {
-      $('#compare-permits').hidden = true;
-      $('a[href="#compare-permits"]').hidden = true;
+      hide('#compare-permits', 'a[href="#compare-permits"]');
     }
     const food = state.manifest.pipelines['food-safety'];
-    if (food && food.publish) {
+    if (food && food.publish && $('#compare-food')) {
       state.areas['food-safety'] = await loadAreas('food-safety/areas.json');
       setupCompareFood();
     } else {
-      $('#compare-food').hidden = true;
-      $('a[href="#compare-food"]').hidden = true;
+      hide('#compare-food', 'a[href="#compare-food"]');
     }
     $('#lookup-form').addEventListener('submit', lookup);
   }
