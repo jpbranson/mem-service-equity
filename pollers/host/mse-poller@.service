@@ -1,0 +1,19 @@
+# systemd template for the always-on pollers (DECISIONS.md H22; setup in
+# pollers/host/README.md). One instance per source:
+#   systemctl enable --now mse-poller@mata mse-poller@mlgw
+[Unit]
+Description=Memphis Service Equity %i poller
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=mse
+WorkingDirectory=/opt/mem-service-equity
+EnvironmentFile=/etc/mse-pollers.env
+Environment=PYTHON=/opt/mem-service-equity/.venv/bin/python
+ExecStart=/usr/bin/env bash /opt/mem-service-equity/pollers/host/run_forever.sh %i
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

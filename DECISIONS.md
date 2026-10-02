@@ -122,9 +122,16 @@ made while building, so a reviewer can challenge them.
   - MLGW: restoration is unknown for outages that end in a gap, and the
     six-month baseline (plan 6.2) accrues at half speed.
 
-  D15 already names the fix: a self-hosted runner or a small VM running
-  both pollers continuously. That needs an account, a host and a cost
-  decision. *Blocks:* usable MATA and MLGW baselines.
+  D15 names two fixes: a self-hosted runner, or a small VM running both
+  pollers continuously. Only the VM fixes this. The missing runs were never
+  triggered, so a self-hosted runner would wait for the same schedules.
+  That needs an account, a host and a cost decision. *Blocks:* usable MATA
+  and MLGW baselines.
+  *Prepared 2026-10-01:* `pollers/host/` runs each poller back to back
+  under systemd, with the existing archive and status scripts, and its
+  README is the setup runbook. Re-measured from the poll logs over
+  2026-09-24 to 09-30: MATA 51% of service hours, MLGW 49% of the day,
+  and 38–47% on the weekdays of 09-28 to 09-30. No poll attempt failed.
 - [ ] **H13. Historical city holiday calendars.** The 2026 city calendar is
   verified. Earlier years are reconstructed from rules, and the weekend
   shifts for MLK Memorial Day and Christmas Eve are inferred. Ask the city's
