@@ -16,6 +16,7 @@ columns:
     allowed: ["", "Assigned For Cutting", "Assigned To Staff", "Cutting Complete",
               "Cutting Complete.", "Duplicate", "In Violation", "No Access To Cut",
               "No Violation Found", "OTHER", "Pending Legal Resolution", "PWSMPHMLGW",
+              "Ready To Assign",
               "See Resolution Summary", "Transferred to Code Enforcement", "tree limbs",
               "Under Review", "Violation Notice Sent to Owner", "Work in Progress",
               "Work In Progress"]
