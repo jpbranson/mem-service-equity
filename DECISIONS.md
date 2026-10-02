@@ -279,7 +279,13 @@ made while building, so a reviewer can challenge them.
   "Shelby County Unincorporated Area" (place 99990), which covers the joint
   Memphis/Shelby DPD jurisdiction. Reconciliation therefore compares
   new-residential-building counts for that joint jurisdiction, not for the
-  city alone.
+  city alone. *Found 2026-10-01:* the DPD layer's new residential permits
+  track the Survey's **one-unit** buildings, within one per month in 2023.
+  Apartment buildings (5+ units, 12 of the Survey's 707 in 2023) appear to
+  be recorded as commercial. The measure compares against all residential
+  buildings, so years with many apartment buildings show a gap; 2023's is
+  documented in `official_figures.csv`. The spec reviewer should decide
+  whether to reconcile against one-unit buildings instead (H10).
 - **D16. Address-level area.** For the address lookup, "near this address"
   means the address's H3 resolution-9 cell plus its six neighbors (grid
   disk k = 1). That is about 0.74 km², roughly a 0.3-mile radius, close to
