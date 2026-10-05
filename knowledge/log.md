@@ -1,6 +1,7 @@
 # Knowledge bundle update log
 
 ## 2026-10-04
+* **Creation**: Added [Where 311 runs slow](/analysis/311-slow-service.md), a summary of the exploratory analysis committed in `analysis/311-slow-service/`.
 * **Creation**: Added `check-knowledge.yml`, which runs `.github/scripts/check_knowledge.R` on every push and pull request.
 * **Creation**: Moved the "design plan v0.2 is current" note from Claude's private memory into [Design plan v0.2 is current](/project/design-plan-version.md).
 * **Update**: Merged Claude's private memory note on the owner-supplied data into [Owner-collected sources](/data-collection/owner-collected-sources.md): the owner's reason and how to work with the two sources.
