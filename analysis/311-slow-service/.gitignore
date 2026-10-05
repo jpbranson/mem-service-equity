@@ -1,0 +1,4 @@
+# Regenerated on every run: request-level results (about 10 MB) and the
+# fragment copy of the report used for publishing as an artifact.
+output/results/results.rds
+output/report_artifact.html

@@ -1,0 +1,5 @@
+"spec","label","window","neighbors","tracts","requests","moran_I","expected_I","sd_I","z","p_perm","mean_neighbors","slow_cores","fast_cores","slow_unadj","fast_unadj","outliers","primary_slow_cores_kept","primary_fast_cores_kept","primary_slow_cores_any","primary_fast_cores_any"
+"primary","Main analysis (Jun-Aug 2026, touching tracts)","2026-06-01 to 2026-08-31","contiguity",181,37270,0.760708671117834,-0.00555555555555556,0.0448335335102497,17.091319079238,1e-04,5.8232044198895,29,30,7,5,3,29,30,29,30
+"knn6","Six nearest tracts as neighbors","2026-06-01 to 2026-08-31","knn",181,37270,0.760487884365737,-0.00555555555555556,0.040043828116743,19.1301250641668,1e-04,6,28,31,8,4,3,26,26,28,27
+"y2025","Jun-Jul 2025","2025-06-01 to 2025-07-31","contiguity",178,24939,0.551495513756046,-0.00564971751412429,0.045369477000968,12.28017751358,1e-04,5.76404494382022,15,22,17,7,3,3,22,11,26
+"no_swm","Excluding solid-waste types","2026-06-01 to 2026-08-31","contiguity",164,12704,0.340921606365732,-0.00613496932515337,0.0479707637580714,7.23475193017937,1e-04,5.57317073170732,3,2,13,7,1,0,1,7,6

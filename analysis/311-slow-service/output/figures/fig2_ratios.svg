@@ -1,0 +1,953 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640.0 512.0" role="img" aria-label="Figure 2. The two clusters sit at the ends of the range; most tracts are near average" id="e2" class="fig-svg"><style>
+:root{--page:#f6f6f3;--surface:#fcfcfb;--surface-2:#efeeea;--text-1:#141413;--text-2:#4f4e4a;--muted:#7d7b75;
+--grid:#e3e2dc;--baseline:#b9b8b0;--rule:#dcdbd4;--hatch:#bdbcb4;--accent:#1c5cab;
+--slow-3:#892b2a;--slow-2:#d75853;--slow-1:#f1aea8;--neutral:#e9e8e3;--fast-1:#9ec5f4;--fast-2:#3987e5;--fast-3:#184f95;
+--c-slow:#d75853;--c-fast:#3987e5;--on-3:#ffffff;--on-2:#141413;--on-1:#141413;--on-0:#141413;
+--c1:#1baf7a;--c2:#4a3aa7;--c3:#eda100;--c-other:#c9c8c0;--on-c1:#141413;--on-c2:#ffffff;--on-c3:#141413;--on-c-other:#141413;}
+
+.fig-svg{font-family:inherit;display:block;width:100%;height:auto;overflow:visible}
+.fig-svg text{font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+.tr{stroke:var(--surface);stroke-width:.6}
+.tr.hot,.dot.hot{stroke:var(--text-1);stroke-width:1.8}
+.f3{fill:var(--fast-3)}.f2{fill:var(--fast-2)}.f1{fill:var(--fast-1)}.n0{fill:var(--neutral)}
+.s1{fill:var(--slow-1)}.s2{fill:var(--slow-2)}.s3{fill:var(--slow-3)}
+.l-hh{fill:var(--slow-3)}.l-ll{fill:var(--fast-3)}.l-hl{fill:var(--slow-2)}.l-lh{fill:var(--fast-2)}
+.l-hu{fill:var(--slow-1)}.l-lu{fill:var(--fast-1)}.l-ns{fill:var(--neutral)}
+.hatch-bg{fill:var(--surface)}.hatch-ln{stroke:var(--hatch);stroke-width:1.4}
+.city{fill:none;stroke:var(--text-2);stroke-width:1}
+.nores{fill:var(--surface-2);stroke:none}
+.lbl{font-size:11px;font-weight:600;fill:var(--text-1);stroke:var(--surface);stroke-width:3px;paint-order:stroke;stroke-linejoin:round}
+.leg{font-size:11px;fill:var(--text-2)}
+.ax{font-size:10.5px;fill:var(--muted)}
+.lab{font-size:11.5px;fill:var(--text-1)}
+.val{font-size:11px;fill:var(--text-2);font-variant-numeric:tabular-nums}
+.val.muted{fill:var(--muted)}
+.panel-t{font-size:12.5px;font-weight:600;fill:var(--text-1)}
+.fig-title{font-size:15px;font-weight:600;fill:var(--text-1)}
+.src{font-size:10px;fill:var(--muted)}
+.grid{stroke:var(--grid);stroke-width:1}
+.base{stroke:var(--baseline);stroke-width:1.2}
+.ref{stroke:var(--text-2);stroke-width:1.2;stroke-dasharray:3 3;fill:none}
+.bracket{stroke:var(--baseline);stroke-width:1.5}
+.dot-slow_core{fill:var(--c-slow)}.dot-fast_core{fill:var(--c-fast)}
+.dot-other{fill:var(--surface);stroke:var(--muted);stroke-width:1.1}
+.ci{stroke-width:1.2;stroke-linecap:round}.ci.thick{stroke-width:2.5}
+.ci-slow_core{stroke:var(--c-slow)}.ci-fast_core{stroke:var(--c-fast)}.ci-other{stroke:var(--baseline)}
+.cell-t{font-size:11.5px;font-weight:600;font-variant-numeric:tabular-nums}
+.on-3{fill:var(--on-3)}.on-2{fill:var(--on-2)}.on-1{fill:var(--on-1)}.on-0{fill:var(--on-0)}
+.c1{fill:var(--c1)}.c2{fill:var(--c2)}.c3{fill:var(--c3)}.c-other{fill:var(--c-other)}
+.seg-t{font-size:11px;font-weight:600}
+.on-c1{fill:var(--on-c1)}.on-c2{fill:var(--on-c2)}.on-c3{fill:var(--on-c3)}.on-c-other{fill:var(--on-c-other)}
+.hd-slow_core{fill:var(--c-slow);font-weight:600}.hd-fast_core{fill:var(--c-fast);font-weight:600}
+.fig-svg{background:var(--surface)} text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif}</style><text x="0.0" y="18.0" class="fig-title">Figure 2. The two clusters sit at the ends of the range; most tracts are near average</text><g transform="translate(0,30)"><g transform="translate(0,0.0)"><circle cx="50" cy="12" r="4" class="dot dot-slow_core"/><text x="60.0" y="16.0" class="leg">Slow cluster core</text><circle cx="190" cy="12" r="4" class="dot dot-fast_core"/><text x="200.0" y="16.0" class="leg">Fast cluster core</text><circle cx="326" cy="12" r="3" class="dot dot-other"/><text x="336.0" y="16.0" class="leg">Other tract</text><text x="628.0" y="16.0" class="leg" text-anchor="end">Vertical lines: 95% interval</text><line x1="44" x2="628" y1="239.7" y2="239.7" class="grid"/><text x="38.0" y="243.7" class="ax" text-anchor="end">0.25</text><line x1="44" x2="628" y1="212.9" y2="212.9" class="grid"/><text x="38.0" y="216.9" class="ax" text-anchor="end">0.33</text><line x1="44" x2="628" y1="172.8" y2="172.8" class="grid"/><text x="38.0" y="176.8" class="ax" text-anchor="end">0.5</text><line x1="44" x2="628" y1="144.6" y2="144.6" class="grid"/><text x="38.0" y="148.6" class="ax" text-anchor="end">0.67</text><line x1="44" x2="628" y1="106.0" y2="106.0" class="base"/><text x="38.0" y="110.0" class="ax" text-anchor="end">1.0</text><line x1="44" x2="628" y1="66.9" y2="66.9" class="grid"/><text x="38.0" y="70.9" class="ax" text-anchor="end">1.5</text><line x1="44" x2="628" y1="39.2" y2="39.2" class="grid"/><text x="38.0" y="43.2" class="ax" text-anchor="end">  2</text><line x1="48.0" x2="48.0" y1="266.0" y2="153.7" class="ci ci-fast_core"/><line x1="51.2" x2="51.2" y1="256.0" y2="161.6" class="ci ci-fast_core"/><line x1="54.4" x2="54.4" y1="236.5" y2="160.9" class="ci ci-fast_core"/><line x1="57.6" x2="57.6" y1="229.3" y2="154.2" class="ci ci-fast_core"/><line x1="60.8" x2="60.8" y1="234.8" y2="148.2" class="ci ci-fast_core"/><line x1="64.0" x2="64.0" y1="223.5" y2="156.5" class="ci ci-fast_core"/><line x1="67.2" x2="67.2" y1="210.7" y2="167.1" class="ci ci-fast_core"/><line x1="70.4" x2="70.4" y1="232.2" y2="146.3" class="ci ci-other"/><line x1="73.6" x2="73.6" y1="207.8" y2="157.5" class="ci ci-fast_core"/><line x1="76.8" x2="76.8" y1="213.4" y2="150.6" class="ci ci-fast_core"/><line x1="80.0" x2="80.0" y1="216.3" y2="144.4" class="ci ci-fast_core"/><line x1="83.2" x2="83.2" y1="205.2" y2="152.2" class="ci ci-fast_core"/><line x1="86.4" x2="86.4" y1="217.4" y2="138.2" class="ci ci-other"/><line x1="89.6" x2="89.6" y1="215.5" y2="138.3" class="ci ci-other"/><line x1="92.8" x2="92.8" y1="190.8" y2="150.7" class="ci ci-fast_core"/><line x1="96.0" x2="96.0" y1="186.6" y2="151.0" class="ci ci-fast_core"/><line x1="99.2" x2="99.2" y1="184.6" y2="145.2" class="ci ci-fast_core"/><line x1="102.4" x2="102.4" y1="189.3" y2="141.1" class="ci ci-other"/><line x1="105.6" x2="105.6" y1="183.9" y2="144.9" class="ci ci-fast_core"/><line x1="108.8" x2="108.8" y1="198.5" y2="131.5" class="ci ci-fast_core"/><line x1="112.0" x2="112.0" y1="184.0" y2="137.0" class="ci ci-fast_core"/><line x1="115.2" x2="115.2" y1="178.1" y2="138.9" class="ci ci-other"/><line x1="118.4" x2="118.4" y1="190.3" y2="125.4" class="ci ci-other"/><line x1="121.6" x2="121.6" y1="182.3" y2="128.0" class="ci ci-other"/><line x1="124.8" x2="124.8" y1="199.3" y2="114.2" class="ci ci-fast_core"/><line x1="128.0" x2="128.0" y1="186.2" y2="123.4" class="ci ci-other"/><line x1="131.2" x2="131.2" y1="172.4" y2="131.1" class="ci ci-other"/><line x1="134.4" x2="134.4" y1="176.1" y2="127.2" class="ci ci-other"/><line x1="137.6" x2="137.6" y1="171.3" y2="129.2" class="ci ci-other"/><line x1="140.8" x2="140.8" y1="177.1" y2="123.2" class="ci ci-fast_core"/><line x1="144.0" x2="144.0" y1="174.4" y2="124.7" class="ci ci-fast_core"/><line x1="147.2" x2="147.2" y1="166.1" y2="130.5" class="ci ci-other"/><line x1="150.4" x2="150.4" y1="170.5" y2="126.4" class="ci ci-fast_core"/><line x1="153.6" x2="153.6" y1="170.6" y2="126.2" class="ci ci-fast_core"/><line x1="156.8" x2="156.8" y1="165.2" y2="127.4" class="ci ci-fast_core"/><line x1="160.0" x2="160.0" y1="166.9" y2="124.7" class="ci ci-other"/><line x1="163.2" x2="163.2" y1="171.7" y2="118.3" class="ci ci-fast_core"/><line x1="166.4" x2="166.4" y1="156.8" y2="128.1" class="ci ci-fast_core"/><line x1="169.6" x2="169.6" y1="165.8" y2="119.3" class="ci ci-fast_core"/><line x1="172.8" x2="172.8" y1="164.1" y2="120.0" class="ci ci-fast_core"/><line x1="176.0" x2="176.0" y1="166.0" y2="117.8" class="ci ci-other"/><line x1="179.2" x2="179.2" y1="156.0" y2="125.2" class="ci ci-other"/><line x1="182.4" x2="182.4" y1="160.4" y2="121.2" class="ci ci-other"/><line x1="185.6" x2="185.6" y1="158.2" y2="121.5" class="ci ci-other"/><line x1="188.8" x2="188.8" y1="170.4" y2="109.8" class="ci ci-fast_core"/><line x1="192.0" x2="192.0" y1="170.0" y2="109.2" class="ci ci-other"/><line x1="195.2" x2="195.2" y1="158.9" y2="117.6" class="ci ci-other"/><line x1="198.4" x2="198.4" y1="163.3" y2="113.9" class="ci ci-fast_core"/><line x1="201.6" x2="201.6" y1="153.3" y2="120.7" class="ci ci-other"/><line x1="204.8" x2="204.8" y1="156.7" y2="117.7" class="ci ci-other"/><line x1="208.0" x2="208.0" y1="150.2" y2="123.0" class="ci ci-other"/><line x1="211.2" x2="211.2" y1="160.1" y2="114.7" class="ci ci-other"/><line x1="214.4" x2="214.4" y1="148.4" y2="122.1" class="ci ci-other"/><line x1="217.6" x2="217.6" y1="151.3" y2="118.5" class="ci ci-fast_core"/><line x1="220.8" x2="220.8" y1="146.4" y2="121.2" class="ci ci-other"/><line x1="224.0" x2="224.0" y1="140.5" y2="115.5" class="ci ci-other"/><line x1="227.2" x2="227.2" y1="146.5" y2="109.1" class="ci ci-other"/><line x1="230.4" x2="230.4" y1="143.3" y2="110.5" class="ci ci-other"/><line x1="233.6" x2="233.6" y1="141.0" y2="111.8" class="ci ci-other"/><line x1="236.8" x2="236.8" y1="161.9" y2="95.3" class="ci ci-other"/><line x1="240.0" x2="240.0" y1="147.0" y2="103.7" class="ci ci-other"/><line x1="243.2" x2="243.2" y1="141.1" y2="107.6" class="ci ci-other"/><line x1="246.4" x2="246.4" y1="145.1" y2="103.1" class="ci ci-other"/><line x1="249.6" x2="249.6" y1="139.6" y2="106.1" class="ci ci-other"/><line x1="252.8" x2="252.8" y1="132.3" y2="107.4" class="ci ci-other"/><line x1="256.0" x2="256.0" y1="137.5" y2="101.9" class="ci ci-other"/><line x1="259.2" x2="259.2" y1="138.2" y2="99.9" class="ci ci-other"/><line x1="262.4" x2="262.4" y1="132.2" y2="102.9" class="ci ci-other"/><line x1="265.6" x2="265.6" y1="127.3" y2="104.0" class="ci ci-other"/><line x1="268.8" x2="268.8" y1="128.5" y2="102.7" class="ci ci-other"/><line x1="272.0" x2="272.0" y1="134.6" y2="97.7" class="ci ci-other"/><line x1="275.2" x2="275.2" y1="131.6" y2="99.7" class="ci ci-other"/><line x1="278.4" x2="278.4" y1="146.8" y2="87.9" class="ci ci-other"/><line x1="281.6" x2="281.6" y1="138.1" y2="93.3" class="ci ci-other"/><line x1="284.8" x2="284.8" y1="137.7" y2="93.5" class="ci ci-other"/><line x1="288.0" x2="288.0" y1="127.3" y2="101.5" class="ci ci-other"/><line x1="291.2" x2="291.2" y1="133.7" y2="96.3" class="ci ci-other"/><line x1="294.4" x2="294.4" y1="124.6" y2="101.1" class="ci ci-other"/><line x1="297.6" x2="297.6" y1="124.4" y2="100.6" class="ci ci-other"/><line x1="300.8" x2="300.8" y1="134.2" y2="90.8" class="ci ci-other"/><line x1="304.0" x2="304.0" y1="149.3" y2="80.6" class="ci ci-other"/><line x1="307.2" x2="307.2" y1="125.6" y2="96.1" class="ci ci-other"/><line x1="310.4" x2="310.4" y1="145.3" y2="81.1" class="ci ci-other"/><line x1="313.6" x2="313.6" y1="144.0" y2="82.1" class="ci ci-other"/><line x1="316.8" x2="316.8" y1="119.2" y2="98.3" class="ci ci-other"/><line x1="320.0" x2="320.0" y1="130.6" y2="89.3" class="ci ci-other"/><line x1="323.2" x2="323.2" y1="122.9" y2="95.0" class="ci ci-other"/><line x1="326.4" x2="326.4" y1="119.8" y2="97.0" class="ci ci-other"/><line x1="329.6" x2="329.6" y1="133.6" y2="86.0" class="ci ci-other"/><line x1="332.8" x2="332.8" y1="122.2" y2="94.4" class="ci ci-other"/><line x1="336.0" x2="336.0" y1="127.6" y2="89.5" class="ci ci-other"/><line x1="339.2" x2="339.2" y1="131.6" y2="85.6" class="ci ci-other"/><line x1="342.4" x2="342.4" y1="120.8" y2="93.6" class="ci ci-other"/><line x1="345.6" x2="345.6" y1="122.7" y2="89.2" class="ci ci-other"/><line x1="348.8" x2="348.8" y1="119.6" y2="90.2" class="ci ci-other"/><line x1="352.0" x2="352.0" y1="119.8" y2="88.2" class="ci ci-other"/><line x1="355.2" x2="355.2" y1="119.1" y2="88.7" class="ci ci-other"/><line x1="358.4" x2="358.4" y1="117.4" y2="89.6" class="ci ci-other"/><line x1="361.6" x2="361.6" y1="125.0" y2="83.9" class="ci ci-other"/><line x1="364.8" x2="364.8" y1="113.9" y2="91.7" class="ci ci-other"/><line x1="368.0" x2="368.0" y1="116.8" y2="89.0" class="ci ci-other"/><line x1="371.2" x2="371.2" y1="115.7" y2="89.8" class="ci ci-slow_core"/><line x1="374.4" x2="374.4" y1="118.1" y2="86.5" class="ci ci-other"/><line x1="377.6" x2="377.6" y1="118.1" y2="85.6" class="ci ci-other"/><line x1="380.8" x2="380.8" y1="114.2" y2="88.4" class="ci ci-other"/><line x1="384.0" x2="384.0" y1="136.0" y2="73.3" class="ci ci-other"/><line x1="387.2" x2="387.2" y1="113.9" y2="87.6" class="ci ci-other"/><line x1="390.4" x2="390.4" y1="111.2" y2="89.6" class="ci ci-other"/><line x1="393.6" x2="393.6" y1="110.7" y2="86.7" class="ci ci-other"/><line x1="396.8" x2="396.8" y1="110.7" y2="86.0" class="ci ci-other"/><line x1="400.0" x2="400.0" y1="110.8" y2="84.9" class="ci ci-other"/><line x1="403.2" x2="403.2" y1="108.5" y2="86.2" class="ci ci-other"/><line x1="406.4" x2="406.4" y1="106.1" y2="87.0" class="ci ci-other"/><line x1="409.6" x2="409.6" y1="118.2" y2="78.3" class="ci ci-other"/><line x1="412.8" x2="412.8" y1="108.1" y2="85.0" class="ci ci-other"/><line x1="416.0" x2="416.0" y1="111.3" y2="82.6" class="ci ci-other"/><line x1="419.2" x2="419.2" y1="108.3" y2="84.1" class="ci ci-other"/><line x1="422.4" x2="422.4" y1="106.5" y2="85.2" class="ci ci-other"/><line x1="425.6" x2="425.6" y1="109.2" y2="83.0" class="ci ci-other"/><line x1="428.8" x2="428.8" y1="107.1" y2="84.4" class="ci ci-other"/><line x1="432.0" x2="432.0" y1="105.5" y2="85.6" class="ci ci-other"/><line x1="435.2" x2="435.2" y1="108.4" y2="83.2" class="ci ci-other"/><line x1="438.4" x2="438.4" y1="108.1" y2="83.3" class="ci ci-other"/><line x1="441.6" x2="441.6" y1="108.0" y2="83.2" class="ci ci-other"/><line x1="444.8" x2="444.8" y1="129.6" y2="67.7" class="ci ci-other"/><line x1="448.0" x2="448.0" y1="108.9" y2="80.7" class="ci ci-other"/><line x1="451.2" x2="451.2" y1="112.7" y2="77.7" class="ci ci-other"/><line x1="454.4" x2="454.4" y1="115.2" y2="75.0" class="ci ci-other"/><line x1="457.6" x2="457.6" y1="104.0" y2="82.1" class="ci ci-slow_core"/><line x1="460.8" x2="460.8" y1="102.8" y2="83.0" class="ci ci-other"/><line x1="464.0" x2="464.0" y1="105.9" y2="79.5" class="ci ci-other"/><line x1="467.2" x2="467.2" y1="104.3" y2="80.1" class="ci ci-other"/><line x1="470.4" x2="470.4" y1="98.4" y2="84.2" class="ci ci-slow_core"/><line x1="473.6" x2="473.6" y1="104.8" y2="78.8" class="ci ci-other"/><line x1="476.8" x2="476.8" y1="101.2" y2="80.3" class="ci ci-other"/><line x1="480.0" x2="480.0" y1="100.1" y2="80.1" class="ci ci-other"/><line x1="483.2" x2="483.2" y1="101.3" y2="78.7" class="ci ci-other"/><line x1="486.4" x2="486.4" y1="105.6" y2="75.0" class="ci ci-other"/><line x1="489.6" x2="489.6" y1="101.0" y2="77.4" class="ci ci-other"/><line x1="492.8" x2="492.8" y1="95.1" y2="78.3" class="ci ci-slow_core"/><line x1="496.0" x2="496.0" y1="102.6" y2="72.4" class="ci ci-slow_core"/><line x1="499.2" x2="499.2" y1="109.2" y2="66.6" class="ci ci-other"/><line x1="502.4" x2="502.4" y1="108.7" y2="66.9" class="ci ci-other"/><line x1="505.6" x2="505.6" y1="102.9" y2="70.0" class="ci ci-other"/><line x1="508.8" x2="508.8" y1="96.1" y2="74.3" class="ci ci-other"/><line x1="512.0" x2="512.0" y1="109.1" y2="65.8" class="ci ci-other"/><line x1="515.2" x2="515.2" y1="97.5" y2="72.3" class="ci ci-slow_core"/><line x1="518.4" x2="518.4" y1="100.0" y2="70.6" class="ci ci-other"/><line x1="521.6" x2="521.6" y1="91.9" y2="76.2" class="ci ci-other"/><line x1="524.8" x2="524.8" y1="93.8" y2="74.3" class="ci ci-slow_core"/><line x1="528.0" x2="528.0" y1="96.3" y2="71.6" class="ci ci-other"/><line x1="531.2" x2="531.2" y1="94.7" y2="72.5" class="ci ci-other"/><line x1="534.4" x2="534.4" y1="91.4" y2="74.6" class="ci ci-slow_core"/><line x1="537.6" x2="537.6" y1="94.2" y2="71.8" class="ci ci-other"/><line x1="540.8" x2="540.8" y1="92.2" y2="73.3" class="ci ci-slow_core"/><line x1="544.0" x2="544.0" y1="91.6" y2="73.7" class="ci ci-other"/><line x1="547.2" x2="547.2" y1="89.8" y2="74.8" class="ci ci-slow_core"/><line x1="550.4" x2="550.4" y1="111.0" y2="61.9" class="ci ci-slow_core"/><line x1="553.6" x2="553.6" y1="96.7" y2="69.4" class="ci ci-other"/><line x1="556.8" x2="556.8" y1="89.2" y2="73.8" class="ci ci-slow_core"/><line x1="560.0" x2="560.0" y1="98.9" y2="65.3" class="ci ci-slow_core"/><line x1="563.2" x2="563.2" y1="88.3" y2="72.3" class="ci ci-slow_core"/><line x1="566.4" x2="566.4" y1="86.9" y2="72.6" class="ci ci-slow_core"/><line x1="569.6" x2="569.6" y1="91.8" y2="68.1" class="ci ci-slow_core"/><line x1="572.8" x2="572.8" y1="88.6" y2="68.7" class="ci ci-other"/><line x1="576.0" x2="576.0" y1="94.0" y2="64.9" class="ci ci-slow_core"/><line x1="579.2" x2="579.2" y1="91.9" y2="65.7" class="ci ci-slow_core"/><line x1="582.4" x2="582.4" y1="83.6" y2="71.7" class="ci ci-slow_core"/><line x1="585.6" x2="585.6" y1="90.2" y2="65.4" class="ci ci-other"/><line x1="588.8" x2="588.8" y1="85.0" y2="68.8" class="ci ci-slow_core"/><line x1="592.0" x2="592.0" y1="84.0" y2="69.0" class="ci ci-other"/><line x1="595.2" x2="595.2" y1="83.0" y2="68.1" class="ci ci-slow_core"/><line x1="598.4" x2="598.4" y1="82.8" y2="67.6" class="ci ci-slow_core"/><line x1="601.6" x2="601.6" y1="82.2" y2="67.1" class="ci ci-slow_core"/><line x1="604.8" x2="604.8" y1="82.4" y2="66.9" class="ci ci-slow_core"/><line x1="608.0" x2="608.0" y1="87.8" y2="61.7" class="ci ci-slow_core"/><line x1="611.2" x2="611.2" y1="79.8" y2="64.4" class="ci ci-slow_core"/><line x1="614.4" x2="614.4" y1="85.9" y2="60.0" class="ci ci-slow_core"/><line x1="617.6" x2="617.6" y1="87.3" y2="58.8" class="ci ci-slow_core"/><line x1="620.8" x2="620.8" y1="74.2" y2="60.5" class="ci ci-other"/><line x1="624.0" x2="624.0" y1="69.2" y2="50.4" class="ci ci-slow_core"/><circle cx="48.0" cy="206.7" r="3" class="dot dot-fast_core" data-tip="Census Tract 2 (ZIP 38107)
+1,100 residents in the city
+57 eligible requests
+16% slow vs 45% expected
+Ratio 0.35× (95% CI 0.19 to 0.61)
+Local result: fast cluster core (q = 0.014)" data-tract="47157000200"/><circle cx="51.2" cy="206.6" r="3" class="dot dot-fast_core" data-tip="Census Tract 103 (ZIP 38127, Frayser)
+1,499 residents in the city
+84 eligible requests
+15% slow vs 44% expected
+Ratio 0.35× (95% CI 0.21 to 0.56)
+Local result: fast cluster core (q = 0.0024)" data-tract="47157010300"/><circle cx="54.4" cy="197.1" r="3" class="dot dot-fast_core" data-tip="Census Tract 20 (ZIP 38107)
+1,033 residents in the city
+113 eligible requests
+18% slow vs 46% expected
+Ratio 0.39× (95% CI 0.26 to 0.57)
+Local result: fast cluster core (q = 0.03)" data-tract="47157002000"/><circle cx="57.6" cy="190.0" r="3" class="dot dot-fast_core" data-tip="Census Tract 205.42 (ZIP 38128, Raleigh)
+5,229 residents in the city
+106 eligible requests
+19% slow vs 45% expected
+Ratio 0.42× (95% CI 0.28 to 0.61)
+Local result: fast cluster core (q = 0.0077)" data-tract="47157020542"/><circle cx="60.8" cy="189.3" r="3" class="dot dot-fast_core" data-tip="Census Tract 3 (ZIP 38107)
+535 residents in the city
+82 eligible requests
+18% slow vs 43% expected
+Ratio 0.42× (95% CI 0.26 to 0.65)
+Local result: fast cluster core (q = 0.00091)" data-tract="47157000300"/><circle cx="64.0" cy="188.6" r="3" class="dot dot-fast_core" data-tip="Census Tract 205.23 (ZIP 38128, Raleigh)
+3,767 residents in the city
+127 eligible requests
+20% slow vs 46% expected
+Ratio 0.42× (95% CI 0.30 to 0.59)
+Local result: fast cluster core (q = 0.048)" data-tract="47157020523"/><circle cx="67.2" cy="188.3" r="3" class="dot dot-fast_core" data-tip="Census Tract 100.01 (ZIP 38127, Frayser)
+3,009 residents in the city
+308 eligible requests
+19% slow vs 46% expected
+Ratio 0.43× (95% CI 0.34 to 0.53)
+Local result: fast cluster core (q = 0.0092)" data-tract="47157010001"/><circle cx="70.4" cy="186.9" r="2.2" class="dot dot-other" data-tip="Census Tract 112 (ZIP 38107)
+946 residents in the city
+77 eligible requests
+19% slow vs 45% expected
+Ratio 0.43× (95% CI 0.27 to 0.66)
+Local result: faster (significant before correction only) (q = 0.1)" data-tract="47157011200"/><circle cx="73.6" cy="181.8" r="3" class="dot dot-fast_core" data-tip="Census Tract 206.21 (ZIP 38134)
+5,281 residents in the city
+209 eligible requests
+21% slow vs 46% expected
+Ratio 0.46× (95% CI 0.35 to 0.59)
+Local result: fast cluster core (q = 0.034)" data-tract="47157020621"/><circle cx="76.8" cy="180.6" r="3" class="dot dot-fast_core" data-tip="Census Tract 205.44 (ZIP 38128, Raleigh)
+2,885 residents in the city
+132 eligible requests
+21% slow vs 46% expected
+Ratio 0.46× (95% CI 0.33 to 0.63)
+Local result: fast cluster core (q = 0.0023)" data-tract="47157020544"/><circle cx="80.0" cy="178.4" r="3" class="dot dot-fast_core" data-tip="Census Tract 19 (ZIP 38107)
+1,263 residents in the city
+96 eligible requests
+22% slow vs 46% expected
+Ratio 0.47× (95% CI 0.32 to 0.67)
+Local result: fast cluster core (q = 0.016)" data-tract="47157001900"/><circle cx="83.2" cy="177.7" r="3" class="dot dot-fast_core" data-tip="Census Tract 205.21 (ZIP 38128, Raleigh)
+3,615 residents in the city
+177 eligible requests
+22% slow vs 46% expected
+Ratio 0.48× (95% CI 0.36 to 0.62)
+Local result: fast cluster core (q = 0.00091)" data-tract="47157020521"/><circle cx="86.4" cy="175.4" r="2.2" class="dot dot-other" data-tip="Census Tract 210.23 (ZIP 38016, Cordova)
+2,770 residents in the city
+75 eligible requests
+23% slow vs 47% expected
+Ratio 0.49× (95% CI 0.31 to 0.72)
+Local result: no significant local pattern (q = 0.66)" data-tract="47157021023"/><circle cx="89.6" cy="174.6" r="2.2" class="dot dot-other" data-tip="Census Tract 206.58 (ZIP 38135)
+2,647 residents in the city
+80 eligible requests
+22% slow vs 46% expected
+Ratio 0.49× (95% CI 0.32 to 0.72)
+Local result: no significant local pattern (q = 0.13)" data-tract="47157020658"/><circle cx="92.8" cy="170.1" r="3" class="dot dot-fast_core" data-tip="Census Tract 205.24 (ZIP 38128, Raleigh)
+4,416 residents in the city
+284 eligible requests
+24% slow vs 46% expected
+Ratio 0.51× (95% CI 0.41 to 0.63)
+Local result: fast cluster core (q = 0.0023)" data-tract="47157020524"/><circle cx="96.0" cy="168.3" r="3" class="dot dot-fast_core" data-tip="Census Tract 102.10 (ZIP 38127, Frayser)
+5,979 residents in the city
+352 eligible requests
+24% slow vs 46% expected
+Ratio 0.52× (95% CI 0.43 to 0.63)
+Local result: fast cluster core (q = 0.00091)" data-tract="47157010210"/><circle cx="99.2" cy="164.2" r="3" class="dot dot-fast_core" data-tip="Census Tract 101.20 (ZIP 38127, Frayser)
+5,214 residents in the city
+282 eligible requests
+24% slow vs 45% expected
+Ratio 0.55× (95% CI 0.44 to 0.67)
+Local result: fast cluster core (q = 0.003)" data-tract="47157010120"/><circle cx="102.4" cy="164.2" r="2.2" class="dot dot-other" data-tip="Census Tract 206.10 (ZIP 38134)
+4,322 residents in the city
+189 eligible requests
+24% slow vs 45% expected
+Ratio 0.55× (95% CI 0.42 to 0.69)
+Local result: no significant local pattern (q = 0.3)" data-tract="47157020610"/><circle cx="105.6" cy="163.7" r="3" class="dot dot-fast_core" data-tip="Census Tract 205.41 (ZIP 38128, Raleigh)
+4,362 residents in the city
+282 eligible requests
+25% slow vs 45% expected
+Ratio 0.55× (95% CI 0.45 to 0.67)
+Local result: fast cluster core (q = 0.00091)" data-tract="47157020541"/><circle cx="108.8" cy="163.0" r="3" class="dot dot-fast_core" data-tip="Census Tract 4 (ZIP 38107)
+1,359 residents in the city
+90 eligible requests
+26% slow vs 46% expected
+Ratio 0.55× (95% CI 0.38 to 0.77)
+Local result: fast cluster core (q = 0.0014)" data-tract="47157000400"/><circle cx="112.0" cy="159.5" r="3" class="dot dot-fast_core" data-tip="Census Tract 100.02 (ZIP 38127, Frayser)
+2,996 residents in the city
+180 eligible requests
+26% slow vs 45% expected
+Ratio 0.57× (95% CI 0.45 to 0.73)
+Local result: fast cluster core (q = 0.003)" data-tract="47157010002"/><circle cx="115.2" cy="157.8" r="2.2" class="dot dot-other" data-tip="Census Tract 217.59 (ZIP 38141)
+4,283 residents in the city
+247 eligible requests
+27% slow vs 46% expected
+Ratio 0.58× (95% CI 0.47 to 0.71)
+Local result: no significant local pattern (q = 0.38)" data-tract="47157021759"/><circle cx="118.4" cy="155.8" r="2.2" class="dot dot-other" data-tip="Census Tract 217.57 (ZIP 38115)
+3,368 residents in the city
+88 eligible requests
+27% slow vs 46% expected
+Ratio 0.60× (95% CI 0.42 to 0.82)
+Local result: faster (significant before correction only) (q = 0.1)" data-tract="47157021757"/><circle cx="121.6" cy="153.7" r="2.2" class="dot dot-other" data-tip="Census Tract 217.54 (ZIP 38141)
+2,360 residents in the city
+120 eligible requests
+28% slow vs 46% expected
+Ratio 0.61× (95% CI 0.45 to 0.80)
+Local result: no significant local pattern (q = 0.74)" data-tract="47157021754"/><circle cx="124.8" cy="153.4" r="3" class="dot dot-fast_core" data-tip="Census Tract 1 (ZIP 38107)
+5,420 residents in the city
+54 eligible requests
+26% slow vs 42% expected
+Ratio 0.61× (95% CI 0.38 to 0.92)
+Local result: fast cluster core (q = 0.015)" data-tract="47157000100"/><circle cx="128.0" cy="152.7" r="2.2" class="dot dot-other" data-tip="Census Tract 217.21 (ZIP 38115)
+4,708 residents in the city
+86 eligible requests
+29% slow vs 47% expected
+Ratio 0.62× (95% CI 0.44 to 0.83)
+Local result: no significant local pattern (q = 0.34)" data-tract="47157021721"/><circle cx="131.2" cy="150.8" r="2.2" class="dot dot-other" data-tip="Census Tract 217.60 (ZIP 38141)
+4,737 residents in the city
+203 eligible requests
+29% slow vs 46% expected
+Ratio 0.63× (95% CI 0.50 to 0.77)
+Local result: no significant local pattern (q = 0.15)" data-tract="47157021760"/><circle cx="134.4" cy="150.4" r="2.2" class="dot dot-other" data-tip="Census Tract 111 (ZIP 38108)
+1,549 residents in the city
+146 eligible requests
+29% slow vs 46% expected
+Ratio 0.63× (95% CI 0.48 to 0.80)
+Local result: no significant local pattern (q = 0.35)" data-tract="47157011100"/><circle cx="137.6" cy="149.2" r="2.2" class="dot dot-other" data-tip="Census Tract 211.42 (ZIP 38016, Cordova)
+2,994 residents in the city
+189 eligible requests
+30% slow vs 46% expected
+Ratio 0.64× (95% CI 0.51 to 0.79)
+Local result: no significant local pattern (q = 0.44)" data-tract="47157021142"/><circle cx="140.8" cy="148.6" r="3" class="dot dot-fast_core" data-tip="Census Tract 6 (ZIP 38108)
+1,578 residents in the city
+116 eligible requests
+29% slow vs 46% expected
+Ratio 0.64× (95% CI 0.48 to 0.84)
+Local result: fast cluster core (q = 0.0039)" data-tract="47157000600"/><circle cx="144.0" cy="148.2" r="3" class="dot dot-fast_core" data-tip="Census Tract 206.51 (ZIP 38134)
+4,200 residents in the city
+135 eligible requests
+30% slow vs 46% expected
+Ratio 0.65× (95% CI 0.49 to 0.82)
+Local result: fast cluster core (q = 0.004)" data-tract="47157020651"/><circle cx="147.2" cy="147.6" r="2.2" class="dot dot-other" data-tip="Census Tract 211.36 (ZIP 38016, Cordova)
+3,705 residents in the city
+257 eligible requests
+30% slow vs 47% expected
+Ratio 0.65× (95% CI 0.54 to 0.78)
+Local result: no significant local pattern (q = 0.3)" data-tract="47157021136"/><circle cx="150.4" cy="147.3" r="3" class="dot dot-fast_core" data-tip="Census Tract 8 (ZIP 38108)
+2,102 residents in the city
+172 eligible requests
+30% slow vs 46% expected
+Ratio 0.65× (95% CI 0.51 to 0.81)
+Local result: fast cluster core (q = 0.03)" data-tract="47157000800"/><circle cx="153.6" cy="147.3" r="3" class="dot dot-fast_core" data-tip="Census Tract 101.21 (ZIP 38127, Frayser)
+2,443 residents in the city
+166 eligible requests
+30% slow vs 46% expected
+Ratio 0.65× (95% CI 0.51 to 0.81)
+Local result: fast cluster core (q = 0.013)" data-tract="47157010121"/><circle cx="156.8" cy="145.5" r="3" class="dot dot-fast_core" data-tip="Census Tract 7 (ZIP 38107)
+3,702 residents in the city
+228 eligible requests
+30% slow vs 46% expected
+Ratio 0.66× (95% CI 0.54 to 0.80)
+Local result: fast cluster core (q = 0.03)" data-tract="47157000700"/><circle cx="160.0" cy="144.8" r="2.2" class="dot dot-other" data-tip="Census Tract 9 (ZIP 38108)
+2,435 residents in the city
+180 eligible requests
+31% slow vs 46% expected
+Ratio 0.67× (95% CI 0.53 to 0.82)
+Local result: no significant local pattern (q = 0.33)" data-tract="47157000900"/><circle cx="163.2" cy="143.4" r="3" class="dot dot-fast_core" data-tip="Census Tract 99.02 (ZIP 38127, Frayser)
+2,030 residents in the city
+111 eligible requests
+31% slow vs 45% expected
+Ratio 0.68× (95% CI 0.51 to 0.88)
+Local result: fast cluster core (q = 0.016)" data-tract="47157009902"/><circle cx="166.4" cy="142.0" r="3" class="dot dot-fast_core" data-tip="Census Tract 102.20 (ZIP 38127, Frayser)
+6,127 residents in the city
+387 eligible requests
+31% slow vs 45% expected
+Ratio 0.69× (95% CI 0.59 to 0.80)
+Local result: fast cluster core (q = 0.00091)" data-tract="47157010220"/><circle cx="169.6" cy="141.3" r="3" class="dot dot-fast_core" data-tip="Census Tract 99.01 (ZIP 38127, Frayser)
+3,108 residents in the city
+146 eligible requests
+31% slow vs 44% expected
+Ratio 0.69× (95% CI 0.54 to 0.87)
+Local result: fast cluster core (q = 0.015)" data-tract="47157009901"/><circle cx="172.8" cy="140.9" r="3" class="dot dot-fast_core" data-tip="Census Tract 205.11 (ZIP 38128, Raleigh)
+2,315 residents in the city
+160 eligible requests
+31% slow vs 45% expected
+Ratio 0.70× (95% CI 0.55 to 0.86)
+Local result: fast cluster core (q = 0.0016)" data-tract="47157020511"/><circle cx="176.0" cy="140.5" r="2.2" class="dot dot-other" data-tip="Census Tract 211.26 (ZIP 38016, Cordova)
+3,423 residents in the city
+127 eligible requests
+32% slow vs 46% expected
+Ratio 0.70× (95% CI 0.54 to 0.88)
+Local result: no significant local pattern (q = 0.71)" data-tract="47157021126"/><circle cx="179.2" cy="140.0" r="2.2" class="dot dot-other" data-tip="Census Tract 217.46 (ZIP 38115)
+4,178 residents in the city
+311 eligible requests
+32% slow vs 46% expected
+Ratio 0.70× (95% CI 0.60 to 0.82)
+Local result: no significant local pattern (q = 0.22)" data-tract="47157021746"/><circle cx="182.4" cy="139.8" r="2.2" class="dot dot-other" data-tip="Census Tract 213.33 (ZIP 38119, East Memphis)
+4,172 residents in the city
+190 eligible requests
+33% slow vs 46% expected
+Ratio 0.70× (95% CI 0.57 to 0.85)
+Local result: no significant local pattern (q = 0.34)" data-tract="47157021333"/><circle cx="185.6" cy="139.0" r="2.2" class="dot dot-other" data-tip="Census Tract 213.31 (ZIP 38119, East Memphis)
+3,374 residents in the city
+220 eligible requests
+32% slow vs 45% expected
+Ratio 0.71× (95% CI 0.58 to 0.85)
+Local result: no significant local pattern (q = 0.71)" data-tract="47157021331"/><circle cx="188.8" cy="137.9" r="3" class="dot dot-fast_core" data-tip="Census Tract 21 (ZIP 38105, Downtown)
+1,533 residents in the city
+83 eligible requests
+31% slow vs 44% expected
+Ratio 0.72× (95% CI 0.51 to 0.96)
+Local result: fast cluster core (q = 0.039)" data-tract="47157002100"/><circle cx="192.0" cy="137.2" r="2.2" class="dot dot-other" data-tip="Census Tract 217.24 (ZIP 38115)
+2,442 residents in the city
+75 eligible requests
+33% slow vs 46% expected
+Ratio 0.72× (95% CI 0.51 to 0.97)
+Local result: no significant local pattern (q = 0.33)" data-tract="47157021724"/><circle cx="195.2" cy="137.1" r="2.2" class="dot dot-other" data-tip="Census Tract 89 (ZIP 38108)
+4,090 residents in the city
+164 eligible requests
+34% slow vs 46% expected
+Ratio 0.72× (95% CI 0.58 to 0.89)
+Local result: no significant local pattern (q = 0.19)" data-tract="47157008900"/><circle cx="198.4" cy="137.1" r="3" class="dot dot-fast_core" data-tip="Census Tract 205.43 (ZIP 38128, Raleigh)
+3,047 residents in the city
+121 eligible requests
+32% slow vs 44% expected
+Ratio 0.72× (95% CI 0.55 to 0.92)
+Local result: fast cluster core (q = 0.004)" data-tract="47157020543"/><circle cx="201.6" cy="136.3" r="2.2" class="dot dot-other" data-tip="Census Tract 213.20 (ZIP 38119, East Memphis)
+5,912 residents in the city
+269 eligible requests
+33% slow vs 45% expected
+Ratio 0.73× (95% CI 0.61 to 0.86)
+Local result: no significant local pattern (q = 0.8)" data-tract="47157021320"/><circle cx="204.8" cy="136.2" r="2.2" class="dot dot-other" data-tip="Census Tract 217.31 (ZIP 38115)
+2,813 residents in the city
+186 eligible requests
+33% slow vs 46% expected
+Ratio 0.73× (95% CI 0.59 to 0.89)
+Local result: no significant local pattern (q = 0.78)" data-tract="47157021731"/><circle cx="208.0" cy="136.1" r="2.2" class="dot dot-other" data-tip="Census Tract 217.44 (ZIP 38125)
+5,622 residents in the city
+380 eligible requests
+34% slow vs 46% expected
+Ratio 0.73× (95% CI 0.63 to 0.84)
+Local result: no significant local pattern (q = 0.44)" data-tract="47157021744"/><circle cx="211.2" cy="136.0" r="2.2" class="dot dot-other" data-tip="Census Tract 210.21 (ZIP 38016, Cordova)
+2,487 residents in the city
+133 eligible requests
+34% slow vs 46% expected
+Ratio 0.73× (95% CI 0.57 to 0.91)
+Local result: faster (significant before correction only) (q = 0.12)" data-tract="47157021021"/><circle cx="214.4" cy="134.8" r="2.2" class="dot dot-other" data-tip="Census Tract 211.35 (ZIP 38016, Cordova)
+5,264 residents in the city
+392 eligible requests
+34% slow vs 46% expected
+Ratio 0.74× (95% CI 0.64 to 0.85)
+Local result: no significant local pattern (q = 0.18)" data-tract="47157021135"/><circle cx="217.6" cy="134.2" r="3" class="dot dot-fast_core" data-tip="Census Tract 205.32 (ZIP 38128, Raleigh)
+4,780 residents in the city
+259 eligible requests
+34% slow vs 45% expected
+Ratio 0.75× (95% CI 0.62 to 0.88)
+Local result: fast cluster core (q = 0.00091)" data-tract="47157020532"/><circle cx="220.8" cy="133.3" r="2.2" class="dot dot-other" data-tip="Census Tract 211.41 (ZIP 38016, Cordova)
+7,741 residents in the city
+412 eligible requests
+35% slow vs 47% expected
+Ratio 0.75× (95% CI 0.66 to 0.85)
+Local result: no significant local pattern (q = 0.13)" data-tract="47157021141"/><circle cx="224.0" cy="127.5" r="2.2" class="dot dot-other" data-tip="Census Tract 211.43 (ZIP 38018, Cordova)
+5,900 residents in the city
+381 eligible requests
+37% slow vs 47% expected
+Ratio 0.80× (95% CI 0.70 to 0.91)
+Local result: no significant local pattern (q = 0.41)" data-tract="47157021143"/><circle cx="227.2" cy="126.7" r="2.2" class="dot dot-other" data-tip="Census Tract 217.58 (ZIP 38115)
+3,475 residents in the city
+168 eligible requests
+38% slow vs 46% expected
+Ratio 0.81× (95% CI 0.66 to 0.97)
+Local result: faster (significant before correction only) (q = 0.075)" data-tract="47157021758"/><circle cx="230.4" cy="126.1" r="2.2" class="dot dot-other" data-tip="Census Tract 211.12 (ZIP 38133)
+5,867 residents in the city
+217 eligible requests
+38% slow vs 47% expected
+Ratio 0.81× (95% CI 0.68 to 0.95)
+Local result: no significant local pattern (q = 0.79)" data-tract="47157021112"/><circle cx="233.6" cy="125.8" r="2.2" class="dot dot-other" data-tip="Census Tract 217.47 (ZIP 38141)
+4,654 residents in the city
+282 eligible requests
+37% slow vs 46% expected
+Ratio 0.81× (95% CI 0.70 to 0.94)
+Local result: no significant local pattern (q = 0.24)" data-tract="47157021747"/><circle cx="236.8" cy="124.9" r="2.2" class="dot dot-other" data-tip="Census Tract 217.25 (ZIP 38115)
+3,803 residents in the city
+49 eligible requests
+39% slow vs 47% expected
+Ratio 0.82× (95% CI 0.56 to 1.12)
+Local result: no significant local pattern (q = 0.26)" data-tract="47157021725"/><circle cx="240.0" cy="123.8" r="2.2" class="dot dot-other" data-tip="Census Tract 213.34 (ZIP 38119, East Memphis)
+3,584 residents in the city
+119 eligible requests
+39% slow vs 46% expected
+Ratio 0.83× (95% CI 0.65 to 1.02)
+Local result: no significant local pattern (q = 0.3)" data-tract="47157021334"/><circle cx="243.2" cy="123.4" r="2.2" class="dot dot-other" data-tip="Census Tract 211.40 (ZIP 38018, Cordova)
+3,960 residents in the city
+205 eligible requests
+38% slow vs 46% expected
+Ratio 0.83× (95% CI 0.69 to 0.98)
+Local result: no significant local pattern (q = 0.84)" data-tract="47157021140"/><circle cx="246.4" cy="122.7" r="2.2" class="dot dot-other" data-tip="Census Tract 101.22 (ZIP 38127, Frayser)
+3,315 residents in the city
+134 eligible requests
+37% slow vs 44% expected
+Ratio 0.84× (95% CI 0.67 to 1.03)
+Local result: faster (significant before correction only) (q = 0.075)" data-tract="47157010122"/><circle cx="249.6" cy="121.9" r="2.2" class="dot dot-other" data-tip="Census Tract 211.44 (ZIP 38018, Cordova)
+3,136 residents in the city
+190 eligible requests
+40% slow vs 47% expected
+Ratio 0.85× (95% CI 0.71 to 1.00)
+Local result: no significant local pattern (q = 0.71)" data-tract="47157021144"/><circle cx="252.8" cy="119.3" r="2.2" class="dot dot-other" data-tip="Census Tract 108.20 (ZIP 38115)
+4,859 residents in the city
+330 eligible requests
+41% slow vs 47% expected
+Ratio 0.87× (95% CI 0.76 to 0.99)
+Local result: no significant local pattern (q = 0.8)" data-tract="47157010820"/><circle cx="256.0" cy="118.6" r="2.2" class="dot dot-other" data-tip="Census Tract 92.02 (ZIP 38120, East Memphis)
+3,690 residents in the city
+168 eligible requests
+40% slow vs 45% expected
+Ratio 0.88× (95% CI 0.72 to 1.04)
+Local result: no significant local pattern (q = 0.73)" data-tract="47157009202"/><circle cx="259.2" cy="117.9" r="2.2" class="dot dot-other" data-tip="Census Tract 211.11 (ZIP 38134)
+4,370 residents in the city
+152 eligible requests
+39% slow vs 44% expected
+Ratio 0.88× (95% CI 0.72 to 1.07)
+Local result: no significant local pattern (q = 0.58)" data-tract="47157021111"/><circle cx="262.4" cy="116.8" r="2.2" class="dot dot-other" data-tip="Census Tract 17 (ZIP 38107)
+3,625 residents in the city
+241 eligible requests
+41% slow vs 45% expected
+Ratio 0.89× (95% CI 0.76 to 1.03)
+Local result: no significant local pattern (q = 0.36)" data-tract="47157001700"/><circle cx="265.6" cy="115.2" r="2.2" class="dot dot-other" data-tip="Census Tract 96 (ZIP 38120, East Memphis)
+4,759 residents in the city
+373 eligible requests
+41% slow vs 45% expected
+Ratio 0.91× (95% CI 0.80 to 1.02)
+Local result: no significant local pattern (q = 0.81)" data-tract="47157009600"/><circle cx="268.8" cy="115.0" r="2.2" class="dot dot-other" data-tip="Census Tract 211.22 (ZIP 38134)
+5,842 residents in the city
+285 eligible requests
+43% slow vs 47% expected
+Ratio 0.91× (95% CI 0.79 to 1.03)
+Local result: no significant local pattern (q = 0.81)" data-tract="47157021122"/><circle cx="272.0" cy="115.0" r="2.2" class="dot dot-other" data-tip="Census Tract 16 (ZIP 38107)
+3,052 residents in the city
+161 eligible requests
+39% slow vs 43% expected
+Ratio 0.91× (95% CI 0.74 to 1.09)
+Local result: no significant local pattern (q = 0.92)" data-tract="47157001600"/><circle cx="275.2" cy="114.7" r="2.2" class="dot dot-other" data-tip="Census Tract 211.13 (ZIP 38133)
+3,960 residents in the city
+200 eligible requests
+41% slow vs 45% expected
+Ratio 0.91× (95% CI 0.77 to 1.07)
+Local result: no significant local pattern (q = 0.41)" data-tract="47157021113"/><circle cx="278.4" cy="114.4" r="2.2" class="dot dot-other" data-tip="Census Tract 211.21 (ZIP 38016, Cordova)
+4,857 residents in the city
+60 eligible requests
+40% slow vs 44% expected
+Ratio 0.92× (95% CI 0.65 to 1.21)
+Local result: no significant local pattern (q = 0.24)" data-tract="47157021121"/><circle cx="281.6" cy="113.9" r="2.2" class="dot dot-other" data-tip="Census Tract 117 (ZIP 38106, South Memphis)
+1,036 residents in the city
+99 eligible requests
+41% slow vs 45% expected
+Ratio 0.92× (95% CI 0.72 to 1.14)
+Local result: no significant local pattern (q = 0.16)" data-tract="47157011700"/><circle cx="284.8" cy="113.8" r="2.2" class="dot dot-other" data-tip="Census Tract 42 (ZIP 38103, Downtown)
+3,445 residents in the city
+101 eligible requests
+42% slow vs 45% expected
+Ratio 0.92× (95% CI 0.72 to 1.14)
+Local result: no significant local pattern (q = 0.66)" data-tract="47157004200"/><circle cx="288.0" cy="113.8" r="2.2" class="dot dot-other" data-tip="Census Tract 92.01 (ZIP 38117, East Memphis)
+3,139 residents in the city
+286 eligible requests
+43% slow vs 46% expected
+Ratio 0.92× (95% CI 0.80 to 1.05)
+Local result: no significant local pattern (q = 0.88)" data-tract="47157009201"/><circle cx="291.2" cy="113.7" r="2.2" class="dot dot-other" data-tip="Census Tract 107.20 (ZIP 38115)
+3,648 residents in the city
+136 eligible requests
+43% slow vs 46% expected
+Ratio 0.92× (95% CI 0.75 to 1.11)
+Local result: no significant local pattern (q = 0.25)" data-tract="47157010720"/><circle cx="294.4" cy="112.3" r="2.2" class="dot dot-other" data-tip="Census Tract 93 (ZIP 38117, East Memphis)
+3,698 residents in the city
+339 eligible requests
+43% slow vs 46% expected
+Ratio 0.94× (95% CI 0.82 to 1.05)
+Local result: no significant local pattern (q = 0.73)" data-tract="47157009300"/><circle cx="297.6" cy="112.0" r="2.2" class="dot dot-other" data-tip="Census Tract 94 (ZIP 38117, East Memphis)
+3,118 residents in the city
+327 eligible requests
+43% slow vs 46% expected
+Ratio 0.94× (95% CI 0.83 to 1.06)
+Local result: no significant local pattern (q = 0.6)" data-tract="47157009400"/><circle cx="300.8" cy="110.7" r="2.2" class="dot dot-other" data-tip="Census Tract 211.38 (ZIP 38018, Cordova)
+1,894 residents in the city
+102 eligible requests
+42% slow vs 44% expected
+Ratio 0.95× (95% CI 0.75 to 1.17)
+Local result: no significant local pattern (q = 0.35)" data-tract="47157021138"/><circle cx="304.0" cy="110.6" r="2.2" class="dot dot-other" data-tip="Census Tract 114.02 (ZIP 38126, South Memphis)
+3,763 residents in the city
+41 eligible requests
+41% slow vs 43% expected
+Ratio 0.95× (95% CI 0.64 to 1.30)
+Local result: no significant local pattern (q = 0.48)" data-tract="47157011402"/><circle cx="307.2" cy="110.0" r="2.2" class="dot dot-other" data-tip="Census Tract 74 (ZIP 38111)
+3,178 residents in the city
+205 eligible requests
+44% slow vs 46% expected
+Ratio 0.96× (95% CI 0.82 to 1.11)
+Local result: no significant local pattern (q = 0.6)" data-tract="47157007400"/><circle cx="310.4" cy="109.2" r="2.2" class="dot dot-other" data-tip="Census Tract 217.56 (ZIP 38115)
+1,635 residents in the city
+44 eligible requests
+43% slow vs 45% expected
+Ratio 0.97× (95% CI 0.67 to 1.29)
+Local result: slow outlier (before correction only) (q = 0.098)" data-tract="47157021756"/><circle cx="313.6" cy="109.1" r="2.2" class="dot dot-other" data-tip="Census Tract 114.01 (ZIP 38126, South Memphis)
+1,625 residents in the city
+45 eligible requests
+44% slow vs 46% expected
+Ratio 0.97× (95% CI 0.67 to 1.28)
+Local result: no significant local pattern (q = 0.54)" data-tract="47157011401"/><circle cx="316.8" cy="108.3" r="2.2" class="dot dot-other" data-tip="Census Tract 86 (ZIP 38117, East Memphis)
+5,643 residents in the city
+410 eligible requests
+44% slow vs 45% expected
+Ratio 0.98× (95% CI 0.87 to 1.08)
+Local result: no significant local pattern (q = 0.54)" data-tract="47157008600"/><circle cx="320.0" cy="108.3" r="2.2" class="dot dot-other" data-tip="Census Tract 24 (ZIP 38105, Downtown)
+2,057 residents in the city
+109 eligible requests
+43% slow vs 44% expected
+Ratio 0.98× (95% CI 0.77 to 1.19)
+Local result: slow outlier (before correction only) (q = 0.11)" data-tract="47157002400"/><circle cx="323.2" cy="108.2" r="2.2" class="dot dot-other" data-tip="Census Tract 25 (ZIP 38104, Midtown)
+2,969 residents in the city
+231 eligible requests
+44% slow vs 45% expected
+Ratio 0.98× (95% CI 0.84 to 1.12)
+Local result: no significant local pattern (q = 0.44)" data-tract="47157002500"/><circle cx="326.4" cy="107.8" r="2.2" class="dot dot-other" data-tip="Census Tract 88 (ZIP 38108)
+7,862 residents in the city
+332 eligible requests
+45% slow vs 46% expected
+Ratio 0.98× (95% CI 0.87 to 1.10)
+Local result: no significant local pattern (q = 0.73)" data-tract="47157008800"/><circle cx="329.6" cy="107.6" r="2.2" class="dot dot-other" data-tip="Census Tract 113 (ZIP 38105, Downtown)
+1,221 residents in the city
+81 eligible requests
+43% slow vs 44% expected
+Ratio 0.98× (95% CI 0.75 to 1.23)
+Local result: no significant local pattern (q = 0.21)" data-tract="47157011300"/><circle cx="332.8" cy="107.5" r="2.2" class="dot dot-other" data-tip="Census Tract 32 (ZIP 38104, Midtown)
+3,707 residents in the city
+220 eligible requests
+45% slow vs 46% expected
+Ratio 0.98× (95% CI 0.85 to 1.13)
+Local result: no significant local pattern (q = 0.66)" data-tract="47157003200"/><circle cx="336.0" cy="107.1" r="2.2" class="dot dot-other" data-tip="Census Tract 211.25 (ZIP 38018, Cordova)
+2,660 residents in the city
+122 eligible requests
+44% slow vs 45% expected
+Ratio 0.99× (95% CI 0.80 to 1.19)
+Local result: no significant local pattern (q = 0.27)" data-tract="47157021125"/><circle cx="339.2" cy="106.6" r="2.2" class="dot dot-other" data-tip="Census Tract 73 (ZIP 38111)
+3,837 residents in the city
+89 eligible requests
+43% slow vs 43% expected
+Ratio 0.99× (95% CI 0.77 to 1.24)
+Local result: no significant local pattern (q = 0.55)" data-tract="47157007300"/><circle cx="342.4" cy="106.5" r="2.2" class="dot dot-other" data-tip="Census Tract 70 (ZIP 38111)
+2,636 residents in the city
+237 eligible requests
+45% slow vs 45% expected
+Ratio 1.00× (95% CI 0.86 to 1.14)
+Local result: no significant local pattern (q = 0.4)" data-tract="47157007000"/><circle cx="345.6" cy="104.7" r="2.2" class="dot dot-other" data-tip="Census Tract 60 (ZIP 38106, South Memphis)
+1,633 residents in the city
+144 eligible requests
+47% slow vs 46% expected
+Ratio 1.01× (95% CI 0.84 to 1.19)
+Local result: no significant local pattern (q = 0.19)" data-tract="47157006000"/><circle cx="348.8" cy="103.9" r="2.2" class="dot dot-other" data-tip="Census Tract 33 (ZIP 38104, Midtown)
+2,234 residents in the city
+199 eligible requests
+45% slow vs 44% expected
+Ratio 1.02× (95% CI 0.87 to 1.18)
+Local result: no significant local pattern (q = 0.27)" data-tract="47157003300"/><circle cx="352.0" cy="102.9" r="2.2" class="dot dot-other" data-tip="Census Tract 97 (ZIP 38117, East Memphis)
+2,848 residents in the city
+160 eligible requests
+47% slow vs 45% expected
+Ratio 1.03× (95% CI 0.87 to 1.20)
+Local result: no significant local pattern (q = 0.3)" data-tract="47157009700"/><circle cx="355.2" cy="102.8" r="2.2" class="dot dot-other" data-tip="Census Tract 11 (ZIP 38122)
+3,602 residents in the city
+172 eligible requests
+47% slow vs 46% expected
+Ratio 1.03× (95% CI 0.87 to 1.20)
+Local result: no significant local pattern (q = 0.81)" data-tract="47157001100"/><circle cx="358.4" cy="102.6" r="2.2" class="dot dot-other" data-tip="Census Tract 15 (ZIP 38112, Midtown)
+1,919 residents in the city
+209 eligible requests
+47% slow vs 45% expected
+Ratio 1.04× (95% CI 0.89 to 1.19)
+Local result: no significant local pattern (q = 0.82)" data-tract="47157001500"/><circle cx="361.6" cy="102.5" r="2.2" class="dot dot-other" data-tip="Census Tract 217.10 (ZIP 38115)
+1,782 residents in the city
+93 eligible requests
+47% slow vs 46% expected
+Ratio 1.04× (95% CI 0.82 to 1.26)
+Local result: no significant local pattern (q = 0.81)" data-tract="47157021710"/><circle cx="364.8" cy="102.2" r="2.2" class="dot dot-other" data-tip="Census Tract 87 (ZIP 38122)
+5,833 residents in the city
+328 eligible requests
+47% slow vs 45% expected
+Ratio 1.04× (95% CI 0.92 to 1.16)
+Local result: no significant local pattern (q = 0.41)" data-tract="47157008700"/><circle cx="368.0" cy="102.0" r="2.2" class="dot dot-other" data-tip="Census Tract 71 (ZIP 38111)
+2,518 residents in the city
+205 eligible requests
+47% slow vs 45% expected
+Ratio 1.04× (95% CI 0.89 to 1.19)
+Local result: no significant local pattern (q = 0.39)" data-tract="47157007100"/><circle cx="371.2" cy="102.0" r="3" class="dot dot-slow_core" data-tip="Census Tract 78.10 (ZIP 38114)
+1,980 residents in the city
+221 eligible requests
+49% slow vs 47% expected
+Ratio 1.04× (95% CI 0.90 to 1.18)
+Local result: slow cluster core (q = 0.016)" data-tract="47157007810"/><circle cx="374.4" cy="101.1" r="2.2" class="dot dot-other" data-tip="Census Tract 26 (ZIP 38112, Midtown)
+2,414 residents in the city
+155 eligible requests
+48% slow vs 45% expected
+Ratio 1.05× (95% CI 0.88 to 1.22)
+Local result: no significant local pattern (q = 0.86)" data-tract="47157002600"/><circle cx="377.6" cy="100.6" r="2.2" class="dot dot-other" data-tip="Census Tract 36 (ZIP 38104, Midtown)
+1,145 residents in the city
+151 eligible requests
+47% slow vs 44% expected
+Ratio 1.06× (95% CI 0.88 to 1.24)
+Local result: no significant local pattern (q = 0.39)" data-tract="47157003600"/><circle cx="380.8" cy="100.6" r="2.2" class="dot dot-other" data-tip="Census Tract 72 (ZIP 38111)
+2,782 residents in the city
+244 eligible requests
+47% slow vs 44% expected
+Ratio 1.06× (95% CI 0.92 to 1.20)
+Local result: no significant local pattern (q = 0.6)" data-tract="47157007200"/><circle cx="384.0" cy="99.9" r="2.2" class="dot dot-other" data-tip="Census Tract 206.22 (ZIP 38134)
+421 residents in the city
+37 eligible requests
+49% slow vs 46% expected
+Ratio 1.07× (95% CI 0.73 to 1.40)
+Local result: slow outlier (before correction only) (q = 0.11)" data-tract="47157020622"/><circle cx="387.2" cy="99.9" r="2.2" class="dot dot-other" data-tip="Census Tract 64 (ZIP 38114)
+1,474 residents in the city
+212 eligible requests
+49% slow vs 46% expected
+Ratio 1.07× (95% CI 0.92 to 1.21)
+Local result: no significant local pattern (q = 0.35)" data-tract="47157006400"/><circle cx="390.4" cy="99.8" r="2.2" class="dot dot-other" data-tip="Census Tract 118 (ZIP 38111)
+6,680 residents in the city
+316 eligible requests
+49% slow vs 46% expected
+Ratio 1.07× (95% CI 0.95 to 1.19)
+Local result: no significant local pattern (q = 0.36)" data-tract="47157011800"/><circle cx="393.6" cy="98.0" r="2.2" class="dot dot-other" data-tip="Census Tract 85 (ZIP 38117, East Memphis)
+4,143 residents in the city
+266 eligible requests
+48% slow vs 44% expected
+Ratio 1.09× (95% CI 0.95 to 1.22)
+Local result: no significant local pattern (q = 0.8)" data-tract="47157008500"/><circle cx="396.8" cy="97.5" r="2.2" class="dot dot-other" data-tip="Census Tract 98 (ZIP 38122)
+2,524 residents in the city
+219 eligible requests
+52% slow vs 47% expected
+Ratio 1.09× (95% CI 0.95 to 1.23)
+Local result: no significant local pattern (q = 0.71)" data-tract="47157009800"/><circle cx="400.0" cy="97.0" r="2.2" class="dot dot-other" data-tip="Census Tract 59 (ZIP 38106, South Memphis)
+2,082 residents in the city
+208 eligible requests
+50% slow vs 46% expected
+Ratio 1.10× (95% CI 0.95 to 1.24)
+Local result: slower (significant before correction only) (q = 0.12)" data-tract="47157005900"/><circle cx="403.2" cy="96.7" r="2.2" class="dot dot-other" data-tip="Census Tract 67 (ZIP 38114)
+2,612 residents in the city
+274 eligible requests
+51% slow vs 46% expected
+Ratio 1.10× (95% CI 0.97 to 1.23)
+Local result: no significant local pattern (q = 0.19)" data-tract="47157006700"/><circle cx="406.4" cy="96.1" r="2.2" class="dot dot-other" data-tip="Census Tract 29 (ZIP 38111)
+4,127 residents in the city
+381 eligible requests
+50% slow vs 45% expected
+Ratio 1.11× (95% CI 1.00 to 1.22)
+Local result: no significant local pattern (q = 0.27)" data-tract="47157002900"/><circle cx="409.6" cy="95.9" r="2.2" class="dot dot-other" data-tip="Census Tract 213.12 (ZIP 38120, East Memphis)
+1,628 residents in the city
+80 eligible requests
+52% slow vs 47% expected
+Ratio 1.11× (95% CI 0.88 to 1.33)
+Local result: no significant local pattern (q = 0.72)" data-tract="47157021312"/><circle cx="412.8" cy="95.9" r="2.2" class="dot dot-other" data-tip="Census Tract 31 (ZIP 38104, Midtown)
+3,524 residents in the city
+263 eligible requests
+50% slow vs 45% expected
+Ratio 1.11× (95% CI 0.98 to 1.24)
+Local result: no significant local pattern (q = 0.24)" data-tract="47157003100"/><circle cx="416.0" cy="95.9" r="2.2" class="dot dot-other" data-tip="Census Tract 34 (ZIP 38104, Midtown)
+2,251 residents in the city
+167 eligible requests
+51% slow vs 46% expected
+Ratio 1.11× (95% CI 0.95 to 1.27)
+Local result: no significant local pattern (q = 0.58)" data-tract="47157003400"/><circle cx="419.2" cy="95.4" r="2.2" class="dot dot-other" data-tip="Census Tract 13 (ZIP 38122)
+4,247 residents in the city
+230 eligible requests
+51% slow vs 46% expected
+Ratio 1.12× (95% CI 0.98 to 1.26)
+Local result: no significant local pattern (q = 0.41)" data-tract="47157001300"/><circle cx="422.4" cy="95.2" r="2.2" class="dot dot-other" data-tip="Census Tract 95.01 (ZIP 38117, East Memphis)
+3,237 residents in the city
+292 eligible requests
+52% slow vs 46% expected
+Ratio 1.12× (95% CI 0.99 to 1.24)
+Local result: no significant local pattern (q = 0.71)" data-tract="47157009501"/><circle cx="425.6" cy="95.2" r="2.2" class="dot dot-other" data-tip="Census Tract 62 (ZIP 38106, South Memphis)
+1,635 residents in the city
+193 eligible requests
+52% slow vs 46% expected
+Ratio 1.12× (95% CI 0.97 to 1.27)
+Local result: no significant local pattern (q = 0.24)" data-tract="47157006200"/><circle cx="428.8" cy="95.1" r="2.2" class="dot dot-other" data-tip="Census Tract 115 (ZIP 38106, South Memphis)
+1,925 residents in the city
+271 eligible requests
+51% slow vs 45% expected
+Ratio 1.12× (95% CI 0.99 to 1.25)
+Local result: slower (significant before correction only) (q = 0.12)" data-tract="47157011500"/><circle cx="432.0" cy="95.0" r="2.2" class="dot dot-other" data-tip="Census Tract 80 (ZIP 38111)
+4,732 residents in the city
+337 eligible requests
+52% slow vs 46% expected
+Ratio 1.12× (95% CI 1.01 to 1.24)
+Local result: no significant local pattern (q = 0.35)" data-tract="47157008000"/><circle cx="435.2" cy="95.0" r="2.2" class="dot dot-other" data-tip="Census Tract 30 (ZIP 38111)
+2,512 residents in the city
+216 eligible requests
+51% slow vs 45% expected
+Ratio 1.12× (95% CI 0.98 to 1.27)
+Local result: no significant local pattern (q = 0.36)" data-tract="47157003000"/><circle cx="438.4" cy="94.8" r="2.2" class="dot dot-other" data-tip="Census Tract 63 (ZIP 38114)
+2,248 residents in the city
+215 eligible requests
+52% slow vs 46% expected
+Ratio 1.12× (95% CI 0.98 to 1.27)
+Local result: no significant local pattern (q = 0.32)" data-tract="47157006300"/><circle cx="441.6" cy="94.8" r="2.2" class="dot dot-other" data-tip="Census Tract 213.11 (ZIP 38120, East Memphis)
+4,409 residents in the city
+233 eligible requests
+50% slow vs 44% expected
+Ratio 1.12× (95% CI 0.98 to 1.27)
+Local result: no significant local pattern (q = 0.74)" data-tract="47157021311"/><circle cx="444.8" cy="93.7" r="2.2" class="dot dot-other" data-tip="Census Tract 45 (ZIP 38126, South Memphis)
+673 residents in the city
+36 eligible requests
+50% slow vs 44% expected
+Ratio 1.14× (95% CI 0.78 to 1.49)
+Local result: no significant local pattern (q = 0.41)" data-tract="47157004500"/><circle cx="448.0" cy="93.7" r="2.2" class="dot dot-other" data-tip="Census Tract 65 (ZIP 38114)
+2,091 residents in the city
+166 eligible requests
+52% slow vs 46% expected
+Ratio 1.14× (95% CI 0.97 to 1.30)
+Local result: no significant local pattern (q = 0.19)" data-tract="47157006500"/><circle cx="451.2" cy="93.5" r="2.2" class="dot dot-other" data-tip="Census Tract 91 (ZIP 38122)
+3,039 residents in the city
+105 eligible requests
+52% slow vs 46% expected
+Ratio 1.14× (95% CI 0.93 to 1.34)
+Local result: no significant local pattern (q = 0.29)" data-tract="47157009100"/><circle cx="454.4" cy="93.0" r="2.2" class="dot dot-other" data-tip="Census Tract 213.54 (ZIP 38119, East Memphis)
+3,198 residents in the city
+89 eligible requests
+49% slow vs 43% expected
+Ratio 1.14× (95% CI 0.91 to 1.38)
+Local result: no significant local pattern (q = 0.36)" data-tract="47157021354"/><circle cx="457.6" cy="92.3" r="3" class="dot dot-slow_core" data-tip="Census Tract 221.11 (ZIP 38116, Whitehaven)
+4,977 residents in the city
+256 eligible requests
+54% slow vs 46% expected
+Ratio 1.15× (95% CI 1.02 to 1.28)
+Local result: slow cluster core (q = 0.0025)" data-tract="47157022111"/><circle cx="460.8" cy="92.3" r="2.2" class="dot dot-other" data-tip="Census Tract 81.20 (ZIP 38114)
+3,933 residents in the city
+331 eligible requests
+52% slow vs 45% expected
+Ratio 1.15× (95% CI 1.03 to 1.27)
+Local result: slower (significant before correction only) (q = 0.093)" data-tract="47157008120"/><circle cx="464.0" cy="91.7" r="2.2" class="dot dot-other" data-tip="Census Tract 66 (ZIP 38104, Midtown)
+2,133 residents in the city
+179 eligible requests
+53% slow vs 46% expected
+Ratio 1.16× (95% CI 1.00 to 1.32)
+Local result: no significant local pattern (q = 0.36)" data-tract="47157006600"/><circle cx="467.2" cy="91.4" r="2.2" class="dot dot-other" data-tip="Census Tract 82 (ZIP 38111)
+5,815 residents in the city
+218 eligible requests
+53% slow vs 45% expected
+Ratio 1.16× (95% CI 1.02 to 1.31)
+Local result: no significant local pattern (q = 0.27)" data-tract="47157008200"/><circle cx="470.4" cy="91.0" r="3" class="dot dot-slow_core" data-tip="Census Tract 227 (ZIP 38109)
+6,506 residents in the city
+589 eligible requests
+55% slow vs 47% expected
+Ratio 1.17× (95% CI 1.08 to 1.25)
+Local result: slow cluster core (q = 0.0074)" data-tract="47157022700"/><circle cx="473.6" cy="90.8" r="2.2" class="dot dot-other" data-tip="Census Tract 57 (ZIP 38106, South Memphis)
+1,745 residents in the city
+180 eligible requests
+54% slow vs 46% expected
+Ratio 1.17× (95% CI 1.01 to 1.33)
+Local result: slower (significant before correction only) (q = 0.059)" data-tract="47157005700"/><circle cx="476.8" cy="90.1" r="2.2" class="dot dot-other" data-tip="Census Tract 95.02 (ZIP 38119, East Memphis)
+3,304 residents in the city
+271 eligible requests
+55% slow vs 46% expected
+Ratio 1.18× (95% CI 1.05 to 1.31)
+Local result: no significant local pattern (q = 0.82)" data-tract="47157009502"/><circle cx="480.0" cy="89.5" r="2.2" class="dot dot-other" data-tip="Census Tract 69 (ZIP 38114)
+2,234 residents in the city
+284 eligible requests
+56% slow vs 47% expected
+Ratio 1.19× (95% CI 1.06 to 1.31)
+Local result: no significant local pattern (q = 0.13)" data-tract="47157006900"/><circle cx="483.2" cy="89.2" r="2.2" class="dot dot-other" data-tip="Census Tract 12 (ZIP 38122)
+4,215 residents in the city
+230 eligible requests
+55% slow vs 46% expected
+Ratio 1.19× (95% CI 1.05 to 1.33)
+Local result: no significant local pattern (q = 0.4)" data-tract="47157001200"/><circle cx="486.4" cy="88.9" r="2.2" class="dot dot-other" data-tip="Census Tract 81.10 (ZIP 38114)
+1,857 residents in the city
+130 eligible requests
+54% slow vs 45% expected
+Ratio 1.19× (95% CI 1.00 to 1.38)
+Local result: no significant local pattern (q = 0.21)" data-tract="47157008110"/><circle cx="489.6" cy="88.4" r="2.2" class="dot dot-other" data-tip="Census Tract 35 (ZIP 38104, Midtown)
+2,937 residents in the city
+209 eligible requests
+55% slow vs 46% expected
+Ratio 1.20× (95% CI 1.05 to 1.34)
+Local result: no significant local pattern (q = 0.27)" data-tract="47157003500"/><circle cx="492.8" cy="86.2" r="3" class="dot dot-slow_core" data-tip="Census Tract 221.30 (ZIP 38116, Whitehaven)
+4,920 residents in the city
+383 eligible requests
+57% slow vs 46% expected
+Ratio 1.23× (95% CI 1.12 to 1.33)
+Local result: slow cluster core (q = 0.048)" data-tract="47157022130"/><circle cx="496.0" cy="85.8" r="3" class="dot dot-slow_core" data-tip="Census Tract 221.32 (ZIP 38116, Whitehaven)
+2,777 residents in the city
+109 eligible requests
+59% slow vs 48% expected
+Ratio 1.23× (95% CI 1.04 to 1.42)
+Local result: slow cluster core (q = 0.0012)" data-tract="47157022132"/><circle cx="499.2" cy="85.1" r="2.2" class="dot dot-other" data-tip="Census Tract 50 (ZIP 38126, South Memphis)
+968 residents in the city
+64 eligible requests
+55% slow vs 44% expected
+Ratio 1.24× (95% CI 0.97 to 1.51)
+Local result: no significant local pattern (q = 0.4)" data-tract="47157005000"/><circle cx="502.4" cy="84.9" r="2.2" class="dot dot-other" data-tip="Census Tract 58 (ZIP 38106, South Memphis)
+1,096 residents in the city
+62 eligible requests
+56% slow vs 45% expected
+Ratio 1.24× (95% CI 0.97 to 1.50)
+Local result: no significant local pattern (q = 0.18)" data-tract="47157005800"/><circle cx="505.6" cy="84.8" r="2.2" class="dot dot-other" data-tip="Census Tract 27 (ZIP 38112, Midtown)
+1,627 residents in the city
+111 eligible requests
+54% slow vs 43% expected
+Ratio 1.25× (95% CI 1.03 to 1.45)
+Local result: no significant local pattern (q = 0.52)" data-tract="47157002700"/><circle cx="508.8" cy="84.5" r="2.2" class="dot dot-other" data-tip="Census Tract 226 (ZIP 38118)
+3,782 residents in the city
+254 eligible requests
+54% slow vs 43% expected
+Ratio 1.25× (95% CI 1.11 to 1.39)
+Local result: no significant local pattern (q = 0.61)" data-tract="47157022600"/><circle cx="512.0" cy="84.4" r="2.2" class="dot dot-other" data-tip="Census Tract 46 (ZIP 38104, Midtown)
+1,559 residents in the city
+59 eligible requests
+56% slow vs 45% expected
+Ratio 1.25× (95% CI 0.97 to 1.52)
+Local result: no significant local pattern (q = 0.24)" data-tract="47157004600"/><circle cx="515.2" cy="83.8" r="3" class="dot dot-slow_core" data-tip="Census Tract 55 (ZIP 38109)
+2,062 residents in the city
+169 eligible requests
+57% slow vs 45% expected
+Ratio 1.26× (95% CI 1.09 to 1.42)
+Local result: slow cluster core (q = 0.022)" data-tract="47157005500"/><circle cx="518.4" cy="83.8" r="2.2" class="dot dot-other" data-tip="Census Tract 14 (ZIP 38112, Midtown)
+1,601 residents in the city
+122 eligible requests
+57% slow vs 46% expected
+Ratio 1.26× (95% CI 1.06 to 1.44)
+Local result: no significant local pattern (q = 0.89)" data-tract="47157001400"/><circle cx="521.6" cy="83.6" r="2.2" class="dot dot-other" data-tip="Census Tract 79 (ZIP 38111)
+4,590 residents in the city
+413 eligible requests
+58% slow vs 46% expected
+Ratio 1.26× (95% CI 1.16 to 1.36)
+Local result: no significant local pattern (q = 0.24)" data-tract="47157007900"/><circle cx="524.8" cy="83.4" r="3" class="dot dot-slow_core" data-tip="Census Tract 221.22 (ZIP 38116, Whitehaven)
+3,934 residents in the city
+264 eligible requests
+59% slow vs 46% expected
+Ratio 1.26× (95% CI 1.14 to 1.39)
+Local result: slow cluster core (q = 0.013)" data-tract="47157022122"/><circle cx="528.0" cy="82.9" r="2.2" class="dot dot-other" data-tip="Census Tract 68 (ZIP 38114)
+2,043 residents in the city
+169 eligible requests
+58% slow vs 46% expected
+Ratio 1.27× (95% CI 1.11 to 1.43)
+Local result: no significant local pattern (q = 0.2)" data-tract="47157006800"/><circle cx="531.2" cy="82.8" r="2.2" class="dot dot-other" data-tip="Census Tract 28 (ZIP 38112, Midtown)
+2,735 residents in the city
+212 eligible requests
+58% slow vs 45% expected
+Ratio 1.27× (95% CI 1.12 to 1.42)
+Local result: no significant local pattern (q = 0.13)" data-tract="47157002800"/><circle cx="534.4" cy="82.5" r="3" class="dot dot-slow_core" data-tip="Census Tract 222.20 (ZIP 38109)
+3,845 residents in the city
+339 eligible requests
+60% slow vs 47% expected
+Ratio 1.28× (95% CI 1.16 to 1.39)
+Local result: slow cluster core (q = 0.0034)" data-tract="47157022220"/><circle cx="537.6" cy="82.1" r="2.2" class="dot dot-other" data-tip="Census Tract 53 (ZIP 38109)
+2,606 residents in the city
+202 eligible requests
+58% slow vs 46% expected
+Ratio 1.28× (95% CI 1.13 to 1.43)
+Local result: no significant local pattern (q = 0.36)" data-tract="47157005300"/><circle cx="540.8" cy="82.1" r="3" class="dot dot-slow_core" data-tip="Census Tract 223.21 (ZIP 38109)
+4,105 residents in the city
+263 eligible requests
+60% slow vs 47% expected
+Ratio 1.28× (95% CI 1.15 to 1.40)
+Local result: slow cluster core (q = 0.005)" data-tract="47157022321"/><circle cx="544.0" cy="82.0" r="2.2" class="dot dot-other" data-tip="Census Tract 108.10 (ZIP 38118)
+6,653 residents in the city
+311 eligible requests
+59% slow vs 46% expected
+Ratio 1.28× (95% CI 1.16 to 1.40)
+Local result: no significant local pattern (q = 0.21)" data-tract="47157010810"/><circle cx="547.2" cy="81.9" r="3" class="dot dot-slow_core" data-tip="Census Tract 223.10 (ZIP 38109)
+5,071 residents in the city
+443 eligible requests
+59% slow vs 46% expected
+Ratio 1.28× (95% CI 1.18 to 1.38)
+Local result: slow cluster core (q = 0.0034)" data-tract="47157022310"/><circle cx="550.4" cy="81.8" r="3" class="dot dot-slow_core" data-tip="Census Tract 220.25 (ZIP 38116, Whitehaven)
+3,723 residents in the city
+38 eligible requests
+61% slow vs 47% expected
+Ratio 1.29× (95% CI 0.95 to 1.58)
+Local result: slow cluster core (q = 0.00091)" data-tract="47157022025"/><circle cx="553.6" cy="81.7" r="2.2" class="dot dot-other" data-tip="Census Tract 116 (ZIP 38126, South Memphis)
+2,071 residents in the city
+135 eligible requests
+59% slow vs 45% expected
+Ratio 1.29× (95% CI 1.10 to 1.46)
+Local result: no significant local pattern (q = 0.19)" data-tract="47157011600"/><circle cx="556.8" cy="81.1" r="3" class="dot dot-slow_core" data-tip="Census Tract 221.21 (ZIP 38116, Whitehaven)
+4,652 residents in the city
+399 eligible requests
+60% slow vs 46% expected
+Ratio 1.30× (95% CI 1.19 to 1.40)
+Local result: slow cluster core (q = 0.02)" data-tract="47157022121"/><circle cx="560.0" cy="80.0" r="3" class="dot dot-slow_core" data-tip="Census Tract 105 (ZIP 38118)
+2,844 residents in the city
+86 eligible requests
+59% slow vs 45% expected
+Ratio 1.31× (95% CI 1.08 to 1.53)
+Local result: slow cluster core (q = 0.025)" data-tract="47157010500"/><circle cx="563.2" cy="79.8" r="3" class="dot dot-slow_core" data-tip="Census Tract 106.10 (ZIP 38118)
+5,879 residents in the city
+361 eligible requests
+61% slow vs 46% expected
+Ratio 1.31× (95% CI 1.20 to 1.42)
+Local result: slow cluster core (q = 0.0092)" data-tract="47157010610"/><circle cx="566.4" cy="79.3" r="3" class="dot dot-slow_core" data-tip="Census Tract 223.22 (ZIP 38109)
+3,559 residents in the city
+438 eligible requests
+61% slow vs 46% expected
+Ratio 1.32× (95% CI 1.22 to 1.41)
+Local result: slow cluster core (q = 0.0036)" data-tract="47157022322"/><circle cx="569.6" cy="78.9" r="3" class="dot dot-slow_core" data-tip="Census Tract 106.30 (ZIP 38118)
+4,154 residents in the city
+168 eligible requests
+60% slow vs 45% expected
+Ratio 1.32× (95% CI 1.16 to 1.48)
+Local result: slow cluster core (q = 0.005)" data-tract="47157010630"/><circle cx="572.8" cy="77.9" r="2.2" class="dot dot-other" data-tip="Census Tract 110.10 (ZIP 38118)
+3,525 residents in the city
+237 eligible requests
+60% slow vs 45% expected
+Ratio 1.34× (95% CI 1.20 to 1.47)
+Local result: slower (significant before correction only) (q = 0.071)" data-tract="47157011010"/><circle cx="576.0" cy="77.6" r="3" class="dot dot-slow_core" data-tip="Census Tract 106.20 (ZIP 38118)
+3,409 residents in the city
+96 eligible requests
+64% slow vs 47% expected
+Ratio 1.34× (95% CI 1.13 to 1.53)
+Local result: slow cluster core (q = 0.013)" data-tract="47157010620"/><circle cx="579.2" cy="77.4" r="3" class="dot dot-slow_core" data-tip="Census Tract 110.20 (ZIP 38118)
+1,375 residents in the city
+125 eligible requests
+62% slow vs 46% expected
+Ratio 1.35× (95% CI 1.16 to 1.52)
+Local result: slow cluster core (q = 0.0092)" data-tract="47157011020"/><circle cx="582.4" cy="77.3" r="3" class="dot dot-slow_core" data-tip="Census Tract 224.10 (ZIP 38109)
+5,954 residents in the city
+597 eligible requests
+62% slow vs 46% expected
+Ratio 1.35× (95% CI 1.26 to 1.43)
+Local result: slow cluster core (q = 0.014)" data-tract="47157022410"/><circle cx="585.6" cy="76.4" r="2.2" class="dot dot-other" data-tip="Census Tract 75 (ZIP 38106, South Memphis)
+1,188 residents in the city
+132 eligible requests
+64% slow vs 47% expected
+Ratio 1.36× (95% CI 1.18 to 1.52)
+Local result: slower (significant before correction only) (q = 0.12)" data-tract="47157007500"/><circle cx="588.8" cy="76.3" r="3" class="dot dot-slow_core" data-tip="Census Tract 56 (ZIP 38106, South Memphis)
+3,417 residents in the city
+321 eligible requests
+63% slow vs 46% expected
+Ratio 1.36× (95% CI 1.24 to 1.47)
+Local result: slow cluster core (q = 0.0091)" data-tract="47157005600"/><circle cx="592.0" cy="76.0" r="2.2" class="dot dot-other" data-tip="Census Tract 78.21 (ZIP 38106, South Memphis)
+4,099 residents in the city
+367 eligible requests
+63% slow vs 46% expected
+Ratio 1.37× (95% CI 1.26 to 1.47)
+Local result: slower (significant before correction only) (q = 0.068)" data-tract="47157007821"/><circle cx="595.2" cy="75.0" r="3" class="dot dot-slow_core" data-tip="Census Tract 219 (ZIP 38118)
+5,088 residents in the city
+377 eligible requests
+63% slow vs 46% expected
+Ratio 1.38× (95% CI 1.27 to 1.48)
+Local result: slow cluster core (q = 0.013)" data-tract="47157021900"/><circle cx="598.4" cy="74.7" r="3" class="dot dot-slow_core" data-tip="Census Tract 223.30 (ZIP 38109)
+4,972 residents in the city
+333 eligible requests
+65% slow vs 47% expected
+Ratio 1.38× (95% CI 1.27 to 1.49)
+Local result: slow cluster core (q = 0.004)" data-tract="47157022330"/><circle cx="601.6" cy="74.1" r="3" class="dot dot-slow_core" data-tip="Census Tract 220.24 (ZIP 38116, Whitehaven)
+3,536 residents in the city
+354 eligible requests
+64% slow vs 46% expected
+Ratio 1.39× (95% CI 1.28 to 1.50)
+Local result: slow cluster core (q = 0.0023)" data-tract="47157022024"/><circle cx="604.8" cy="74.1" r="3" class="dot dot-slow_core" data-tip="Census Tract 225 (ZIP 38116, Whitehaven)
+4,588 residents in the city
+333 eligible requests
+64% slow vs 46% expected
+Ratio 1.39× (95% CI 1.28 to 1.50)
+Local result: slow cluster core (q = 0.00091)" data-tract="47157022500"/><circle cx="608.0" cy="73.2" r="3" class="dot dot-slow_core" data-tip="Census Tract 221.31 (ZIP 38116, Whitehaven)
+2,197 residents in the city
+117 eligible requests
+64% slow vs 46% expected
+Ratio 1.41× (95% CI 1.21 to 1.58)
+Local result: slow cluster core (q = 0.015)" data-tract="47157022131"/><circle cx="611.2" cy="71.5" r="3" class="dot dot-slow_core" data-tip="Census Tract 222.10 (ZIP 38109)
+4,277 residents in the city
+300 eligible requests
+67% slow vs 47% expected
+Ratio 1.43× (95% CI 1.31 to 1.54)
+Local result: slow cluster core (q = 0.014)" data-tract="47157022210"/><circle cx="614.4" cy="71.3" r="3" class="dot dot-slow_core" data-tip="Census Tract 78.22 (ZIP 38106, South Memphis)
+1,316 residents in the city
+111 eligible requests
+66% slow vs 46% expected
+Ratio 1.43× (95% CI 1.23 to 1.61)
+Local result: slow cluster core (q = 0.011)" data-tract="47157007822"/><circle cx="617.6" cy="71.3" r="3" class="dot dot-slow_core" data-tip="Census Tract 220.26 (ZIP 38116, Whitehaven)
+1,922 residents in the city
+101 eligible requests
+63% slow vs 44% expected
+Ratio 1.43× (95% CI 1.21 to 1.63)
+Local result: slow cluster core (q = 0.004)" data-tract="47157022026"/><circle cx="620.8" cy="66.8" r="2.2" class="dot dot-other" data-tip="Census Tract 107.10 (ZIP 38118)
+3,959 residents in the city
+349 eligible requests
+69% slow vs 46% expected
+Ratio 1.50× (95% CI 1.39 to 1.60)
+Local result: no significant local pattern (q = 0.34)" data-tract="47157010710"/><circle cx="624.0" cy="58.4" r="3" class="dot dot-slow_core" data-tip="Census Tract 220.23 (ZIP 38116, Whitehaven)
+2,865 residents in the city
+127 eligible requests
+76% slow vs 47% expected
+Ratio 1.64× (95% CI 1.47 to 1.78)
+Local result: slow cluster core (q = 0.004)" data-tract="47157022023"/><text x="52.0" y="100.0" class="ax">1.0 = as expected</text><text x="44.0" y="292.0" class="ax">181 tracts, from fastest to slowest</text><text x="12.0" y="148.0" class="ax" text-anchor="middle" transform="rotate(-90 12 148.0)">Slow vs expected (log scale)</text></g><g transform="translate(0,322.0)"><line x1="171.6" x2="171.6" y1="8" y2="110" class="grid"/><text x="171.6" y="124.0" class="ax" text-anchor="middle">0.5</text><line x1="231.6" x2="231.6" y1="8" y2="110" class="grid"/><text x="231.6" y="124.0" class="ax" text-anchor="middle">0.67</text><line x1="313.7" x2="313.7" y1="8" y2="110" class="base"/><text x="313.7" y="124.0" class="ax" text-anchor="middle">1.0</text><line x1="396.8" x2="396.8" y1="8" y2="110" class="grid"/><text x="396.8" y="124.0" class="ax" text-anchor="middle">1.5</text><text x="140.0" y="29.0" class="lab" text-anchor="end">Fast cluster (30)</text><line x1="188.0" x2="207.1" y1="25.0" y2="25.0" class="ci ci-fast_core thick"/><circle cx="197.6" cy="25.0" r="5" class="dot dot-fast_core" data-tip="Fast cluster: 5,099 requests
+26% slow vs 45% expected
+Ratio 0.57× (95% CI 0.54 to 0.59)"/><text x="422.0" y="29.0" class="val">0.57×: 26% slow vs 45% expected</text><text x="140.0" y="63.0" class="lab" text-anchor="end">Other tracts (122)</text><line x1="308.5" x2="314.2" y1="59.0" y2="59.0" class="ci ci-other thick"/><circle cx="311.4" cy="59.0" r="5" class="dot dot-other" data-tip="Other tracts: 24,164 requests
+45% slow vs 46% expected
+Ratio 0.99× (95% CI 0.98 to 1.00)"/><text x="422.0" y="63.0" class="val">0.99×: 45% slow vs 46% expected</text><text x="140.0" y="97.0" class="lab" text-anchor="end">Slow cluster (29)</text><line x1="365.2" x2="372.5" y1="93.0" y2="93.0" class="ci ci-slow_core thick"/><circle cx="368.9" cy="93.0" r="5" class="dot dot-slow_core" data-tip="Slow cluster: 7,818 requests
+61% slow vs 46% expected
+Ratio 1.31× (95% CI 1.29 to 1.33)"/><text x="422.0" y="97.0" class="val">1.31×: 61% slow vs 46% expected</text><text x="313.7" y="134.0" class="ax" text-anchor="middle">Slow requests vs expected, all of a group's tracts pooled (log scale)</text></g></g><text x="0.0" y="505.0" class="src">Source: City of Memphis 311 service requests (copy of 25 Sep 2026); 2020 census tracts and city limits, Census TIGERweb. Analysis: analysis/311-slow-service.</text></svg>

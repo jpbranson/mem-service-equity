@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "site",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8765", "--directory", "site"],
+      "port": 8765
+    },
+    {
+      "name": "analysis-311-slow-service",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8766", "--directory", "analysis/311-slow-service/output"],
+      "port": 8766
+    }
+  ]
+}

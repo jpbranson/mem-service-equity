@@ -1,0 +1,13 @@
+"code","group","share","n_group"
+"(no code)","fast_core",0.879437869822485,1352
+"other codes","fast_core",0.0791420118343195,1352
+"SWMCT1","fast_core",0.00887573964497041,1352
+"SWMCT4","fast_core",0.0325443786982249,1352
+"(no code)","other",0.280358859339955,6242
+"other codes","other",0.0698494072412688,6242
+"SWMCT1","other",0.350849086831144,6242
+"SWMCT4","other",0.298942646587632,6242
+"(no code)","slow_core",0.00258064516129032,2325
+"other codes","slow_core",0.0283870967741936,2325
+"SWMCT1","slow_core",0.0473118279569892,2325
+"SWMCT4","slow_core",0.921720430107527,2325
