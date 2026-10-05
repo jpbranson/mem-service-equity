@@ -4,12 +4,13 @@ title: Collection architecture
 description: The three ways data enter the project (daily ArcGIS pulls, continuous pollers, files from the owner's collectors) and where each goes next.
 tags: [collection, architecture]
 status: draft
-generated: { by: claude-code/claude-opus-5-5, at: 2026-10-04T20:45:00-05:00 }
+generated: { by: claude-code/claude-opus-5-5, at: 2026-10-04T21:00:00-05:00 }
 stale_after: 2027-01-04T00:00:00-06:00
 sources:
   - id: claude-md
     resource: ../../CLAUDE.md
     title: CLAUDE.md, Architecture section
+    last_modified: 2026-10-04T20:43:05-05:00
   - id: decisions
     resource: ../../DECISIONS.md
     title: DECISIONS.md (D11, D29, D30)

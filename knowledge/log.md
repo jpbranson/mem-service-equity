@@ -1,6 +1,7 @@
 # Knowledge bundle update log
 
 ## 2026-10-04
+* **Update**: Checked every concept against the code and DECISIONS.md; all sources were unchanged since the bundle was written. Added the missing `last_modified` to [Collection architecture](/data-collection/overview.md), attributed the Census block fetch in [ArcGIS batch fetch](/data-collection/arcgis-batch-fetch.md) to `geography/fetch_demographics.R` and noted that `count_311()` sets only a retry count, and corrected [Poller archive](/data-collection/poller-archive.md): the 30-minute upload interval is passed in by the caller.
 * **Creation**: Added [Where 311 runs slow](/analysis/311-slow-service.md), a summary of the exploratory analysis committed in `analysis/311-slow-service/`.
 * **Creation**: Added `check-knowledge.yml`, which runs `.github/scripts/check_knowledge.R` on every push and pull request.
 * **Creation**: Moved the "design plan v0.2 is current" note from Claude's private memory into [Design plan v0.2 is current](/project/design-plan-version.md).

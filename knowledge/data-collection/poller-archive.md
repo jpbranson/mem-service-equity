@@ -4,7 +4,7 @@ title: Poller archive
 description: Poller output is uploaded every 30 minutes, after a gzip -t check, to weekly GitHub releases named archive-<source>-<YYYY>-W<ww>.
 tags: [collection, poller, storage, github-releases]
 status: draft
-generated: { by: claude-code/claude-opus-5-5, at: 2026-10-04T20:45:00-05:00 }
+generated: { by: claude-code/claude-opus-5-5, at: 2026-10-04T21:00:00-05:00 }
 stale_after: 2027-01-04T00:00:00-06:00
 sources:
   - id: archive-release
@@ -37,9 +37,9 @@ sources:
 
 # Upload
 
-- `poll_with_uploads.sh` starts the poller in the background and, every
-  1,800 s while it runs, calls `archive_release.sh` and
-  `status_release.sh`. A failed mid-run upload is only a warning. A lost
+- `poll_with_uploads.sh` starts the poller in the background and, at an
+  interval its caller sets (1,800 s from both workflows and from
+  `pollers/host/`), calls `archive_release.sh` and `status_release.sh`. A failed mid-run upload is only a warning. A lost
   runner therefore costs at most about 30 minutes plus the unflushed
   buffer.[^poll-with-uploads]
 - A final workflow step with `if: always()` uploads everything once the
