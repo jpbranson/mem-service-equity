@@ -65,9 +65,12 @@ python3 -m http.server 8765 --directory site     # serve the site locally
 python -m pip install -r pollers/requirements.txt pytest
 python -m pytest pollers/tests
 python -m pytest pollers/tests/test_pollers.py::test_parse_outage_fixture
+
+# Knowledge bundle check (OKF 0.2 and the conventions below); needs only the yaml package
+Rscript .github/scripts/check_knowledge.R knowledge
 ```
 
-CI (`.github/workflows/test-memequity.yml`) runs the package tests and then the 311, permits, food-safety, MATA and MLGW tests with `stop_on_failure = TRUE`. `test-pollers.yml` runs pytest. `deploy-site.yml` runs daily: tests, then the 311 pipeline with `TESTS_PASSED=true` and a dated zip to the monthly `data-311-YYYY-MM` release; then permits the same way (`data-permits-YYYY-MM`), which is allowed to fail without blocking 311; then the gated site build and a GitHub Pages deploy.
+CI (`.github/workflows/test-memequity.yml`) runs the package tests and then the 311, permits, food-safety, MATA and MLGW tests with `stop_on_failure = TRUE`. `test-pollers.yml` runs pytest. `check-knowledge.yml` runs the knowledge-bundle check on every push, so moving or deleting a file a concept cites fails CI until the concept is updated. `deploy-site.yml` runs daily: tests, then the 311 pipeline with `TESTS_PASSED=true` and a dated zip to the monthly `data-311-YYYY-MM` release; then permits the same way (`data-permits-YYYY-MM`), which is allowed to fail without blocking 311; then the gated site build and a GitHub Pages deploy.
 
 ## Architecture
 
@@ -96,6 +99,19 @@ CI (`.github/workflows/test-memequity.yml`) runs the package tests and then the 
 **Golden files.** `pipelines/311/tests/golden/`, `pipelines/permits/tests/golden/` and `pipelines/food-safety/tests/golden/` hold frozen samples of real data and the metrics computed from them. The permits one also freezes its parcel counts, so a parcel refresh does not break it. The food-safety one freezes its geocodes, so the test never calls the Census geocoder, and keeps only mapped columns and no permit type that can be a private home. Rebuild with `Rscript pipelines/<name>/tests/build_golden.R <raw.rds>` (food safety: `<inspections.csv>` from the collector) **only** when a spec version changes, and say why in the commit message. A golden-test failure is otherwise a regression. MATA gets a golden file once a month is well covered.
 
 **Pollers (`pollers/`).** `mata_poller.py` (GTFS-Realtime protobuf) and `mlgw_poller.py` (outage map) run on GitHub Actions. Each run lasts 170 minutes and runs start every 2 hours (MATA at :07, MLGW at :30, off the busy top of the hour), so they overlap by 50 minutes to absorb GitHub's scheduling delays. That is not enough: GitHub skips about half the scheduled runs, so the polls cover about 50% of the time (H22). Dedup happens downstream (D15). Every poll attempt is logged, including failures, because uptime is published and gaps must not look like ghost buses or restored outages. Output is gzip JSON-lines, written as one gzip member per flush so a crash cannot corrupt earlier data. `poll_with_uploads.sh` uploads the output to the weekly release every 30 minutes during a run, so a lost runner costs at most about 30 minutes plus the unflushed buffer. `archive_release.sh` uploads a copy of each file only if it passes `gzip -t`, so it is safe to run mid-write; set `ARCHIVE_DRY_RUN=1` to test it without uploading. `pollers/host/` runs both pollers continuously on an always-on Linux host under systemd, which is the prepared fix for H22; each run polls into its own directory, because `archive_release.sh` uploads everything under the directory it is given. The only third-party dependency is `gtfs-realtime-bindings`. Keep it that way.
+
+## Knowledge bundle
+
+`knowledge/` is an [Open Knowledge Format](https://github.com/GoogleCloudPlatform/open-knowledge-format/blob/main/SPEC.md) v0.2 bundle. Record what you learn about this repo there, not only in chat or private memory. Follow these conventions:
+
+- Each concept is one markdown file. Its frontmatter carries `type`, `title`, `description`, `tags`, `status`, `generated: { by: claude-code/<model id>, at: <ISO time with offset> }`, `stale_after` and `sources`.
+- Each source gives its `resource` as a repo path relative to the concept file, or as a URL. Repo files also get `last_modified`, taken from `git log -1 --format=%cI`. Attribute specific claims with footnotes keyed to a source `id`.
+- When you add or change a concept, add it to its folder's `index.md` with the same description, and add a dated entry to `knowledge/log.md`.
+- New concepts stay `status: draft` with no `verified` key. The owner marks a concept reviewed by adding `verified: { by: human:jpbranson, at: … }`.
+- When code changes, update or deprecate the concept that describes it. Do not add a second concept that contradicts it.
+- The bundle summarizes the repo and points into it. DECISIONS.md, the specs and `docs/research/` remain the authorities.
+- Knowledge about the project goes in the bundle, not in Claude's private memory. Private memory keeps only personal preferences and this machine's setup.
+- Run `.github/scripts/check_knowledge.R` before committing a change to the bundle. Errors fail CI. A concept past its `stale_after` only warns, and needs rechecking.
 
 ## Project rules
 
