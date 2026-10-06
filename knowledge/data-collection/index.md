@@ -16,4 +16,4 @@
 
 # Files from the owner
 
-* [Owner-collected sources](owner-collected-sources.md) - Food inspections (state portal) and demolition permits (Data Midsouth) come from the owner's own collectors outside the repo; the pipelines only read the files (D29, D30).
+* [Owner-collected sources](owner-collected-sources.md) - Demolition permits (Data Midsouth) come from the owner's collector, and food inspections from a TDH records-request export the owner supplied; the pipelines only read the files (D30, D32).

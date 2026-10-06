@@ -13,3 +13,7 @@ okf_version: "0.2"
 # Project
 
 * [Project](project/) - Decisions about the project's direction that are not recorded elsewhere in the repo.
+
+# Publication
+
+* [Publication](publication/) - Which metrics pass the publish gate, who froze their specs and who audited them.

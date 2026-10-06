@@ -1,5 +1,10 @@
 # Knowledge bundle update log
 
+## 2026-10-06
+* **Creation**: Added [What passes the publish gate, and who signed it](/publication/gate-status.md): five metrics pass since 2026-10-06, with their specs frozen and their audits done by Claude at the owner's direction (D33).
+* **Update**: [Owner-collected sources](/data-collection/owner-collected-sources.md): TDH will not send recurring exports (H11).
+* **Update**: [Owner-collected sources](/data-collection/owner-collected-sources.md) and [Collection architecture](/data-collection/overview.md): food inspections now come from TDH's records-request export (D32, H11), which replaced the owner's collector for the state portal (D29).
+
 ## 2026-10-04
 * **Update**: Checked every concept against the code and DECISIONS.md; all sources were unchanged since the bundle was written. Added the missing `last_modified` to [Collection architecture](/data-collection/overview.md), attributed the Census block fetch in [ArcGIS batch fetch](/data-collection/arcgis-batch-fetch.md) to `geography/fetch_demographics.R` and noted that `count_311()` sets only a retry count, and corrected [Poller archive](/data-collection/poller-archive.md): the 30-minute upload interval is passed in by the caller.
 * **Creation**: Added [Where 311 runs slow](/analysis/311-slow-service.md), a summary of the exploratory analysis committed in `analysis/311-slow-service/`.
