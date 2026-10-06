@@ -96,10 +96,13 @@ reconciliation_lines <- function(r) {
 #' @param reconciliation a data.frame from reconcile_figures(), or NULL.
 #' @param reconciliation_note text shown under the reconciliation heading,
 #'   e.g. which official figures do not exist.
-#' @param audit list with date, path, records (or NULL).
+#' @param audit the committed audit, from committed_audit() (the default), or
+#'   NULL. The page names who traced the records, because the plan's manual
+#'   audit may be done by someone other than a person (DECISIONS.md D33).
 #' @export
 render_methodology <- function(pipeline, specs_dir, out_dir, reconciliation = NULL,
-                               audit = NULL, title = pipeline, reconciliation_note = NULL) {
+                               audit = committed_audit(pipeline), title = pipeline,
+                               reconciliation_note = NULL) {
   specs <- read_specs(pipeline, specs_dir)
   out <- c(sprintf("# Methodology: %s", title), "",
            sprintf("_Generated from `specs/%s/` on %s. Do not edit by hand._", pipeline, format(Sys.Date())), "")
@@ -108,9 +111,12 @@ render_methodology <- function(pipeline, specs_dir, out_dir, reconciliation = NU
            if (is.null(reconciliation) || !nrow(reconciliation))
              "_No reconciliation has been run yet. Metrics are not publishable until one is._"
            else reconciliation_lines(reconciliation), "")
-  out <- c(out, "## Manual audit", "",
+  out <- c(out, "## Pre-launch audit", "",
            if (is.null(audit)) "_No pre-launch audit has been committed yet._"
-           else sprintf("- %s: %s records traced end to end (`%s`)", audit$date, audit$records, audit$path), "")
+           else if (length(audit$problems))
+             sprintf("_The committed audit (`%s`) is incomplete: %s._", audit$path, audit$problems[1])
+           else sprintf("- %s: %s records traced from the source to the published metrics by %s (`%s`)",
+                        audit$date, audit$records, paste(audit$auditors, collapse = "; "), audit$path), "")
   for (s in specs) {
     th <- vapply(s$thresholds %||% list(), function(t) sprintf("- **%s:** %s (alternatives: %s)%s",
       t$name, t$primary, paste(unlist(t$alternatives), collapse = "; "),

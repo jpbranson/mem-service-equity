@@ -70,18 +70,35 @@ audit_problems <- function(path, min_records = AUDIT_MIN_RECORDS) {
   p
 }
 
+#' The newest audit sheet committed for a pipeline, or NULL when there is
+#' none. File names carry the run date, so the newest name wins (D23).
+#'
+#' @param dir the pipeline's audits directory.
+#' @return list(path, date, records, auditors, problems), where `problems`
+#'   is audit_problems() for the sheet.
+#' @export
+committed_audit <- function(pipeline, dir = file.path("pipelines", pipeline, "audits")) {
+  files <- sort(list.files(dir, pattern = "^audit_.*\\.csv$", full.names = TRUE), decreasing = TRUE)
+  if (!length(files)) return(NULL)
+  a <- utils::read.csv(files[1], stringsAsFactors = FALSE, colClasses = "character",
+                       na.strings = character(), check.names = FALSE, encoding = "UTF-8")
+  auditors <- if ("auditor" %in% names(a)) unique(trimws(a$auditor)) else character()
+  date <- regmatches(basename(files[1]), regexpr("\\d{4}-\\d{2}-\\d{2}", basename(files[1])))
+  list(path = files[1], date = if (length(date)) date else NA_character_, records = nrow(a),
+       auditors = auditors[nzchar(auditors)], problems = audit_problems(files[1]))
+}
+
 #' Evaluate the publish gate for every spec of a pipeline and write its
 #' publish status. The newest audit committed to pipelines/<pipeline>/audits/
-#' counts (file names carry the run date, D23), and the tests count as passed
-#' only when TESTS_PASSED=true (condition 3).
+#' counts (committed_audit()), and the tests count as passed only when
+#' TESTS_PASSED=true (condition 3).
 #' @export
 gate_pipeline <- function(pipeline, report, metrics, reconciliation, as_of, out_dir, specs_dir = "specs") {
-  audits <- sort(list.files(file.path("pipelines", pipeline, "audits"), pattern = "^audit_.*\\.csv$",
-                            full.names = TRUE), decreasing = TRUE)
+  audit <- committed_audit(pipeline)
   gates <- lapply(read_specs(pipeline, specs_dir), function(s) publish_gate(
     s, report, tests_passed = identical(Sys.getenv("TESTS_PASSED"), "true"),
     metrics = metrics[metrics$metric == s$id, ], reconciliation = spec_reconciliation(s, reconciliation),
-    audit_path = if (length(audits)) audits[1] else NULL, as_of = as_of))
+    audit_path = audit$path, as_of = as_of))
   write_publish_status(gates, pipeline, out_dir)
 }
 

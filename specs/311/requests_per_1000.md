@@ -3,7 +3,7 @@ id: requests_per_1000
 pipeline: "311"
 title: 311 requests per 1,000 residents (demand, not performance)
 version: "0.2"
-status: draft
+status: frozen
 unit: count_per_1000
 formula: >
   count(deduplicated primary requests inside the city opened in the window)
@@ -44,9 +44,9 @@ objections:
   - objection: "High request volume means people are engaged, not that services are worse."
     response: "Agreed. The UI never presents volume as quality, places it in a separate demand section, and the methodology says why."
   - objection: "Population denominators are wrong for downtown and commercial areas."
-    response: "The rate is shown with the raw count and the denominator; ZCTAs with small residential populations are flagged."
+    response: "The rate is shown with the raw count and the denominator, and areas with fewer than 1,000 residents inside the city are suppressed."
   - objection: "City crews file requests too, inflating some areas."
-    response: "If the source distinguishes internal from resident-originated requests, the metric is split by origin (see docs/research/311-permits-districts.md)."
+    response: "Not handled: the source has no documented field that separates requests filed by crews from those filed by residents. The only clear origin signal is SeeClickFix, on about a fifth of requests, so the metric is not split by origin. The question is put to the City (DECISIONS.md H8; see docs/research/311-permits-districts.md)."
 ---
 
 ## Definition
@@ -61,3 +61,4 @@ This measures demand, not how well the city responds.
   apportioned through 2020 blocks, D20); added super districts and reference
   neighborhoods; added the 1,000-resident floor.
 - 0.2, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22); corrected file references. No change to the definition.
+- 0.2, 2026-10-06 — frozen at the owner's direction, reviewed by Claude (DECISIONS.md D33). Two answers to objections corrected: small areas are suppressed, not flagged, and the metric is not split by origin (H10 packet). No computed value changes.

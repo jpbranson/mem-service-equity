@@ -166,6 +166,27 @@ test_that("methodology is generated from specs", {
   expect_match(txt, "No pre-launch audit")
 })
 
+test_that("the methodology names who did the committed audit", {
+  d <- withr::local_tempdir()
+  write_spec(d)
+  audits <- file.path(d, "audits")
+  dir.create(audits)
+  expect_null(committed_audit("demo", audits))
+  write_audit(audits, auditor = "A. Reviewer", name = "audit_sample_2026-09-01.csv")
+  write_audit(audits, auditor = "B. Reviewer", name = "audit_sample_2026-10-06.csv")
+  a <- committed_audit("demo", audits)
+  expect_equal(basename(a$path), "audit_sample_2026-10-06.csv")   # the newest name wins
+  expect_equal(a[c("date", "records", "auditors")],
+               list(date = "2026-10-06", records = 100L, auditors = "B. Reviewer"))
+  expect_length(a$problems, 0)
+  txt <- paste(readLines(render_methodology("demo", d, file.path(d, "out"), audit = a)), collapse = "\n")
+  expect_match(txt, "2026-10-06: 100 records traced .* by B. Reviewer")
+  write_audit(audits, answer = "", name = "audit_sample_2026-10-07.csv")
+  txt <- paste(readLines(render_methodology("demo", d, file.path(d, "out"),
+                                            audit = committed_audit("demo", audits))), collapse = "\n")
+  expect_match(txt, "is incomplete")
+})
+
 test_that("the publish gate lists everything that is missing", {
   d <- withr::local_tempdir()
   spec <- read_spec(write_spec(d))

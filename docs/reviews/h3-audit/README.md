@@ -5,6 +5,13 @@ done.** Plan 5.6 requires at least 100 random records traced by hand, and no
 one has traced them yet. The publish gate counts an audit only when a person
 has filled in every check column and signed each row (D23)._
 
+_Update 2026-10-06: the owner delegated this audit to Claude (DECISIONS.md
+D33). The completed sheet, for the sample the 2026-10-06 run drew, is
+`pipelines/311/audits/audit_sample_2026-10-06.csv`, and the README beside
+it says what was checked and found. No person has traced a record. The rest
+of this packet describes the 2026-09-25 sample and how a person would
+audit it._
+
 ## What is here
 
 [`audit_sample_2026-09-25_pretrace.csv`](audit_sample_2026-09-25_pretrace.csv)

@@ -3,7 +3,7 @@ id: permits_per_1000_parcels
 pipeline: permits
 title: Building permits per 1,000 parcels
 version: "0.3"
-status: draft
+status: frozen
 unit: count_per_1000_parcels
 formula: >
   count(permits issued in the window, by category) / count(parcels inside the
@@ -30,7 +30,7 @@ reconciliation:
 thresholds:
   - name: permit category mapping
     primary: "sector and category maps in pipelines/permits/config/ (sector_map.csv, category_map.csv)"
-    alternatives: ["exclude minor permits (declared value under $5,000): variant excl_minor",
+    alternatives: ["exclude minor permits (declared value under $5,000; a permit with no declared value is kept): variant excl_minor",
                    "residential only: the *_residential subgroups"]
     arbitrary: true
 inclusions:
@@ -40,6 +40,7 @@ inclusions:
 exclusions:
   - Permits whose location is missing, 0,0 or outside Shelby County (counted as unlocated in the validation report).
   - Permits issued after the last complete month.
+  - Permits with no issue date.
   - Demolitions in the `all` subgroups: the two sources date permits differently, and runs without the snapshot have no demolitions.
 confounders:
   - Permits lead construction by months, and some permitted work is never built.
@@ -75,3 +76,4 @@ relative to the number of properties?
 - 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.
 - 0.2, 2026-09-25 — first computed version. Source limited to the City's DPD layer, because Data Midsouth forbids automated access (D24), so demolition is unavailable (H21). Added the accessory category, the 250-parcel suppression floor, windows ending at the last complete month, and the unit name.
 - 0.3, 2026-09-27 — added the `demolition` subgroup from the owner's Data Midsouth snapshot (D30), dated by its latest status and kept out of `all`. No change to the other subgroups.
+- 0.3, 2026-10-06 — frozen at the owner's direction, reviewed by Claude against `pipelines/permits/R/` (DECISIONS.md D33). The text now also says that permits with no issue date are excluded and that the minor-permit variant keeps permits with no declared value, as computed since 0.2. The audit covers DPD permits only, so the `demolition` subgroup needs its own audit before it is published. No computed value changes.

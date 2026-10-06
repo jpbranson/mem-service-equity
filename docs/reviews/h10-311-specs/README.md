@@ -4,6 +4,10 @@ _Prepared 2026-09-25 by Claude for the human reviewer. **Nothing here is
 frozen.** Freezing a spec is the reviewer's decision (plan 5.7, condition 1),
 and every spec under `specs/311/` is still `draft`._
 
+_Update 2026-10-06: the owner delegated the freeze to Claude (DECISIONS.md
+D33). Three specs are frozen; the sign-off table at the end says how each
+issue below was settled. No person has reviewed them._
+
 This packet compares each spec with what the code actually computes, using
 the independent recomputation (`docs/reviews/h20-golden/`) and the
 2026-09-23 raw data. Where they disagree, it sets out the options. It does not
@@ -191,8 +195,13 @@ For each spec, record the decision here and in the spec's change log.
 
 | Spec | Read | Issues resolved | Frozen (name, date) |
 |---|---|---|---|
-| `requests_per_1000` | | | |
-| `median_business_days_to_close` | | | |
-| `reopen_rate` | | | |
-| `pct_within_target` | | | |
-| `closed_without_action_rate` | | | |
+| `requests_per_1000` | yes | The two objection answers now say what is done: small areas are suppressed, and the metric is not split by origin | Claude, at the owner's direction, 2026-10-06 |
+| `median_business_days_to_close` | yes | C1: both extra geographies added to the spec. C2: the city-limits rule stated. C3: all four close-date problems listed, with a confounder on their concentration in time. C4: the answer now says no worked example exists | Claude, at the owner's direction, 2026-10-06 |
+| `reopen_rate` | yes | C1 and C2 as above. The text now says 1 to 30 days after the close date, as computed. The reopen statuses stay a question for the City (H8) | Claude, at the owner's direction, 2026-10-06 |
+| `pct_within_target` | yes | Left as a draft: no official on-time figure (H14, deferred by D19) | not frozen |
+| `closed_without_action_rate` | yes | Left as a draft: needs the disposition audit (H4) | not frozen |
+
+No code changed, so no computed value and no version changed. The
+reconciliation question was settled by accepting the count check on the one
+figure that reproduces (D22). These are Claude's calls, recorded in D33 for
+the owner or an independent reviewer (H7) to overturn.

@@ -15,8 +15,9 @@ first, so the person doing the audit can focus on judgment:
 
 It writes the worksheet back with `auto_*` columns. The audit columns
 (1_found_in_source ... 5_geography_correct, auditor, notes) stay blank: they
-are for a person, and the publish gate only counts a sheet whose columns a
-person has filled in (D23).
+are for the auditor, and the publish gate only counts a sheet whose check
+columns are all answered and signed (D23). audit_evidence.py gathers the
+rest of the evidence the auditor needs.
 
 Usage (from the repository root):
   Rscript pipelines/311/tests/independent/export_holidays.R <holidays.csv>

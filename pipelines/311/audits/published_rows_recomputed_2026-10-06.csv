@@ -1,0 +1,535 @@
+request_type,zcta,metric,window_start,published_n,recomputed_n,published_value,recomputed_value,agree,differs_in,records_edited_after_run
+CE-Code Miscellaneous,38106,median_business_days_to_close,2025-10-06,305,305,24,24.0,yes,,2
+CE-Code Miscellaneous,38106,median_business_days_to_close,2026-07-08,105,105,18,18.0,yes,,2
+CE-Code Miscellaneous,38109,median_business_days_to_close,2025-10-06,325,325,10,10.0,yes,,2
+CE-Code Miscellaneous,38109,median_business_days_to_close,2026-07-08,121,121,11,11.0,yes,,2
+CE-Code Miscellaneous,38106,reopen_rate,2025-10-06,209,209,0.076555023923445,0.07655502392344497,yes,,2
+CE-Code Miscellaneous,38106,reopen_rate,2026-07-08,45,45,0.111111111111111,0.1111111111111111,yes,,2
+CE-Code Miscellaneous,38109,reopen_rate,2025-10-06,226,226,0.0752212389380531,0.0752212389380531,yes,,2
+CE-Code Miscellaneous,38109,reopen_rate,2026-07-08,68,68,0.0735294117647059,0.07352941176470588,yes,,2
+CE-Code Miscellaneous,38106,requests_per_1000,2025-10-06,321,321,15.0277690700985,,yes,,2
+CE-Code Miscellaneous,38106,requests_per_1000,2026-07-08,105,105,4.91562539676119,,yes,,2
+CE-Code Miscellaneous,38109,requests_per_1000,2025-10-06,347,347,8.16407945733858,,yes,,2
+CE-Code Miscellaneous,38109,requests_per_1000,2026-07-08,122,122,2.87036799364642,,yes,,2
+CE-Junky Yard,38128,median_business_days_to_close,2025-10-06,42,42,59,59.0,yes,,0
+CE-Junky Yard,38128,median_business_days_to_close,2026-07-08,10,10,,,yes,,0
+CE-Junky Yard,38128,reopen_rate,2025-10-06,34,34,0,0.0,yes,,0
+CE-Junky Yard,38128,reopen_rate,2026-07-08,6,6,,,yes,,0
+CE-Junky Yard,38128,requests_per_1000,2025-10-06,44,44,1.16103803344222,,yes,,0
+CE-Junky Yard,38128,requests_per_1000,2026-07-08,10,10,0.263872280327778,,yes,,0
+"CE-Substandard,Derelict Struc",38115,median_business_days_to_close,2025-10-06,55,55,2,2.0,yes,,0
+"CE-Substandard,Derelict Struc",38115,median_business_days_to_close,2026-07-08,20,20,2,2.0,yes,,0
+"CE-Substandard,Derelict Struc",38115,reopen_rate,2025-10-06,52,52,0.0192307692307692,0.019230769230769232,yes,,0
+"CE-Substandard,Derelict Struc",38115,reopen_rate,2026-07-08,16,16,,,yes,,0
+"CE-Substandard,Derelict Struc",38115,requests_per_1000,2025-10-06,57,57,1.48423330210194,,yes,,0
+"CE-Substandard,Derelict Struc",38115,requests_per_1000,2026-07-08,20,20,0.520783614772611,,yes,,0
+CE-Vehicle Violations,38018,median_business_days_to_close,2025-10-06,48,48,11,11.0,yes,,0
+CE-Vehicle Violations,38018,median_business_days_to_close,2026-07-08,12,12,,,yes,,0
+CE-Vehicle Violations,38104,median_business_days_to_close,2025-10-06,104,104,3,3.0,yes,,0
+CE-Vehicle Violations,38104,median_business_days_to_close,2026-07-08,29,29,5,5.0,yes,,0
+CE-Vehicle Violations,38117,median_business_days_to_close,2025-10-06,225,225,9,9.0,yes,,0
+CE-Vehicle Violations,38117,median_business_days_to_close,2026-07-08,78,78,13,13.0,yes,,0
+CE-Vehicle Violations,38119,median_business_days_to_close,2025-10-06,70,70,14,14.0,yes,,0
+CE-Vehicle Violations,38119,median_business_days_to_close,2026-07-08,16,16,,,yes,,0
+CE-Vehicle Violations,38122,median_business_days_to_close,2025-10-06,183,183,26,26.0,yes,,0
+CE-Vehicle Violations,38122,median_business_days_to_close,2026-07-08,66,66,28,28.0,yes,,0
+CE-Vehicle Violations,38125,median_business_days_to_close,2025-10-06,43,43,4.5,4.5,yes,,0
+CE-Vehicle Violations,38125,median_business_days_to_close,2026-07-08,10,10,,,yes,,0
+CE-Vehicle Violations,38127,median_business_days_to_close,2025-10-06,128,128,4,4.0,yes,,0
+CE-Vehicle Violations,38127,median_business_days_to_close,2026-07-08,33,33,5,5.0,yes,,0
+CE-Vehicle Violations,38018,reopen_rate,2025-10-06,40,40,0.075,0.075,yes,,0
+CE-Vehicle Violations,38018,reopen_rate,2026-07-08,10,10,,,yes,,0
+CE-Vehicle Violations,38104,reopen_rate,2025-10-06,97,97,0.195876288659794,0.1958762886597938,yes,,0
+CE-Vehicle Violations,38104,reopen_rate,2026-07-08,17,17,,,yes,,0
+CE-Vehicle Violations,38117,reopen_rate,2025-10-06,176,176,0.232954545454545,0.23295454545454544,yes,,0
+CE-Vehicle Violations,38117,reopen_rate,2026-07-08,34,34,0.147058823529412,0.14705882352941177,yes,,0
+CE-Vehicle Violations,38119,reopen_rate,2025-10-06,54,54,0.037037037037037,0.037037037037037035,yes,,0
+CE-Vehicle Violations,38119,reopen_rate,2026-07-08,7,7,,,yes,,0
+CE-Vehicle Violations,38122,reopen_rate,2025-10-06,137,137,0.0656934306569343,0.06569343065693431,yes,,0
+CE-Vehicle Violations,38122,reopen_rate,2026-07-08,26,26,,,yes,,0
+CE-Vehicle Violations,38125,reopen_rate,2025-10-06,36,36,0.194444444444444,0.19444444444444445,yes,,0
+CE-Vehicle Violations,38125,reopen_rate,2026-07-08,7,7,,,yes,,0
+CE-Vehicle Violations,38127,reopen_rate,2025-10-06,117,117,0.0427350427350427,0.042735042735042736,yes,,0
+CE-Vehicle Violations,38127,reopen_rate,2026-07-08,22,22,,,yes,,0
+CE-Vehicle Violations,38018,requests_per_1000,2025-10-06,62,62,3.53922690725798,,yes,,0
+CE-Vehicle Violations,38018,requests_per_1000,2026-07-08,12,12,0.685011659469287,,yes,,0
+CE-Vehicle Violations,38104,requests_per_1000,2025-10-06,108,108,4.78830801589364,,yes,,0
+CE-Vehicle Violations,38104,requests_per_1000,2026-07-08,29,29,1.28574937463811,,yes,,0
+CE-Vehicle Violations,38117,requests_per_1000,2025-10-06,241,241,9.32431126903373,,yes,,0
+CE-Vehicle Violations,38117,requests_per_1000,2026-07-08,78,78,3.01782688375366,,yes,,0
+CE-Vehicle Violations,38119,requests_per_1000,2025-10-06,79,79,3.4042273005154,,yes,,0
+CE-Vehicle Violations,38119,requests_per_1000,2026-07-08,16,16,0.689463757066411,,yes,,0
+CE-Vehicle Violations,38122,requests_per_1000,2025-10-06,205,205,7.89867533049888,,yes,,0
+CE-Vehicle Violations,38122,requests_per_1000,2026-07-08,66,66,2.542988155185,,yes,,0
+CE-Vehicle Violations,38125,requests_per_1000,2025-10-06,48,48,6.45697114783155,,yes,,0
+CE-Vehicle Violations,38125,requests_per_1000,2026-07-08,10,10,1.34520232246491,,yes,,0
+CE-Vehicle Violations,38127,requests_per_1000,2025-10-06,144,144,4.03134809876165,,yes,,0
+CE-Vehicle Violations,38127,requests_per_1000,2026-07-08,33,33,0.92385060596621,,yes,,0
+CE-Weeds Occupied Property,38107,median_business_days_to_close,2025-10-06,105,105,7,7.0,yes,,0
+CE-Weeds Occupied Property,38107,median_business_days_to_close,2026-07-08,51,51,5,5.0,yes,,0
+CE-Weeds Occupied Property,38112,median_business_days_to_close,2025-10-06,90,90,27,27.0,yes,,0
+CE-Weeds Occupied Property,38112,median_business_days_to_close,2026-07-08,43,43,16,16.0,yes,,0
+CE-Weeds Occupied Property,38133,median_business_days_to_close,2025-10-06,27,27,,,yes,,0
+CE-Weeds Occupied Property,38133,median_business_days_to_close,2026-07-08,11,11,,,yes,,0
+CE-Weeds Occupied Property,38107,reopen_rate,2025-10-06,62,62,0.0967741935483871,0.0967741935483871,yes,,0
+CE-Weeds Occupied Property,38107,reopen_rate,2026-07-08,27,27,,,yes,,0
+CE-Weeds Occupied Property,38112,reopen_rate,2025-10-06,61,61,0.163934426229508,0.16393442622950818,yes,,0
+CE-Weeds Occupied Property,38112,reopen_rate,2026-07-08,22,22,,,yes,,0
+CE-Weeds Occupied Property,38133,reopen_rate,2025-10-06,10,10,,,yes,,0
+CE-Weeds Occupied Property,38133,reopen_rate,2026-07-08,4,4,,,yes,,0
+CE-Weeds Occupied Property,38107,requests_per_1000,2025-10-06,109,109,7.81860380107521,,yes,,0
+CE-Weeds Occupied Property,38107,requests_per_1000,2026-07-08,51,51,3.65824581518198,,yes,,0
+CE-Weeds Occupied Property,38112,requests_per_1000,2025-10-06,94,94,5.53123935126094,,yes,,0
+CE-Weeds Occupied Property,38112,requests_per_1000,2026-07-08,44,44,2.5890907601647,,yes,,0
+CE-Weeds Occupied Property,38133,requests_per_1000,2025-10-06,27,27,2.73914706815394,,yes,,0
+CE-Weeds Occupied Property,38133,requests_per_1000,2026-07-08,11,11,1.1159488055442,,yes,,0
+CW-Weeds Vacant Lots,38106,median_business_days_to_close,2025-10-06,592,592,,,yes,,1
+CW-Weeds Vacant Lots,38106,median_business_days_to_close,2026-07-08,242,242,,,yes,,1
+CW-Weeds Vacant Lots,38108,median_business_days_to_close,2025-10-06,263,263,,,yes,,1
+CW-Weeds Vacant Lots,38108,median_business_days_to_close,2026-07-08,110,110,,,yes,,1
+CW-Weeds Vacant Lots,38114,median_business_days_to_close,2025-10-06,275,275,,,yes,,1
+CW-Weeds Vacant Lots,38114,median_business_days_to_close,2026-07-08,99,99,,,yes,,1
+CW-Weeds Vacant Lots,38106,reopen_rate,2025-10-06,177,177,0.248587570621469,0.24858757062146894,yes,,1
+CW-Weeds Vacant Lots,38106,reopen_rate,2026-07-08,17,17,,,yes,,1
+CW-Weeds Vacant Lots,38108,reopen_rate,2025-10-06,59,59,0.271186440677966,0.2711864406779661,yes,,1
+CW-Weeds Vacant Lots,38108,reopen_rate,2026-07-08,2,2,,,yes,,1
+CW-Weeds Vacant Lots,38114,reopen_rate,2025-10-06,79,79,0.240506329113924,0.24050632911392406,yes,,1
+CW-Weeds Vacant Lots,38114,reopen_rate,2026-07-08,6,6,,,yes,,1
+CW-Weeds Vacant Lots,38106,requests_per_1000,2025-10-06,593,593,27.7615796217085,,yes,,1
+CW-Weeds Vacant Lots,38106,requests_per_1000,2026-07-08,242,242,11.3293461525353,,yes,,1
+CW-Weeds Vacant Lots,38108,requests_per_1000,2025-10-06,264,264,15.9249260380684,,yes,,1
+CW-Weeds Vacant Lots,38108,requests_per_1000,2026-07-08,110,110,6.63538584919517,,yes,,1
+CW-Weeds Vacant Lots,38114,requests_per_1000,2025-10-06,275,275,13.4195908849844,,yes,,1
+CW-Weeds Vacant Lots,38114,requests_per_1000,2026-07-08,99,99,4.8310527185944,,yes,,1
+EE-Illegal Dumping,38104,median_business_days_to_close,2025-10-06,115,115,23,23.0,yes,,0
+EE-Illegal Dumping,38104,median_business_days_to_close,2026-07-08,31,31,10,10.0,yes,,0
+EE-Illegal Dumping,38119,median_business_days_to_close,2025-10-06,48,48,51,51.0,yes,,0
+EE-Illegal Dumping,38119,median_business_days_to_close,2026-07-08,17,17,,,yes,,0
+EE-Illegal Dumping,38104,reopen_rate,2025-10-06,104,104,0.0384615384615385,0.038461538461538464,yes,,0
+EE-Illegal Dumping,38104,reopen_rate,2026-07-08,24,24,,,yes,,0
+EE-Illegal Dumping,38119,reopen_rate,2025-10-06,39,39,0,0.0,yes,,0
+EE-Illegal Dumping,38119,reopen_rate,2026-07-08,23,23,,,yes,,0
+EE-Illegal Dumping,38104,requests_per_1000,2025-10-06,115,115,5.09866131322008,,yes,,0
+EE-Illegal Dumping,38104,requests_per_1000,2026-07-08,31,31,1.3744217453028,,yes,,0
+EE-Illegal Dumping,38119,requests_per_1000,2025-10-06,48,48,2.06839127119923,,yes,,0
+EE-Illegal Dumping,38119,requests_per_1000,2026-07-08,17,17,0.732555241883062,,yes,,0
+EMI-Sewer Backup,38112,median_business_days_to_close,2025-10-06,63,63,0,0.0,yes,,0
+EMI-Sewer Backup,38112,median_business_days_to_close,2026-07-08,15,15,,,yes,,0
+EMI-Sewer Backup,38114,median_business_days_to_close,2025-10-06,121,121,0,0.0,yes,,0
+EMI-Sewer Backup,38114,median_business_days_to_close,2026-07-08,23,23,0,0.0,yes,,0
+EMI-Sewer Backup,38112,reopen_rate,2025-10-06,60,60,0.133333333333333,0.13333333333333333,yes,,0
+EMI-Sewer Backup,38112,reopen_rate,2026-07-08,12,12,,,yes,,0
+EMI-Sewer Backup,38114,reopen_rate,2025-10-06,114,114,0.210526315789474,0.21052631578947367,yes,,0
+EMI-Sewer Backup,38114,reopen_rate,2026-07-08,16,16,,,yes,,0
+EMI-Sewer Backup,38112,requests_per_1000,2025-10-06,64,64,3.76595019660319,,yes,,0
+EMI-Sewer Backup,38112,requests_per_1000,2026-07-08,15,15,0.882644577328874,,yes,,0
+EMI-Sewer Backup,38114,requests_per_1000,2025-10-06,122,122,5.95341850170219,,yes,,0
+EMI-Sewer Backup,38114,requests_per_1000,2026-07-08,23,23,1.12236578310779,,yes,,0
+EMI-Sewer Miscellaneous,38109,median_business_days_to_close,2025-10-06,3,3,,,yes,,0
+EMI-Sewer Miscellaneous,38109,median_business_days_to_close,2026-07-08,2,2,,,yes,,0
+EMI-Sewer Miscellaneous,38109,reopen_rate,2025-10-06,3,3,,,yes,,0
+EMI-Sewer Miscellaneous,38109,reopen_rate,2026-07-08,2,2,,,yes,,0
+EMI-Sewer Miscellaneous,38109,requests_per_1000,2025-10-06,3,3,0.0705828195158955,,yes,,0
+EMI-Sewer Miscellaneous,38109,requests_per_1000,2026-07-08,2,2,0.047055213010597,,yes,,0
+EN-Construction Inspection,38117,median_business_days_to_close,2025-10-06,6,6,,,yes,,0
+EN-Construction Inspection,38117,median_business_days_to_close,2026-07-08,2,2,,,yes,,0
+EN-Construction Inspection,38117,reopen_rate,2025-10-06,4,4,,,yes,,0
+EN-Construction Inspection,38117,reopen_rate,2026-07-08,,0,,,yes,no published row (and none expected: n = 0),0
+EN-Construction Inspection,38117,requests_per_1000,2025-10-06,6,6,0.232140529519512,,yes,,0
+EN-Construction Inspection,38117,requests_per_1000,2026-07-08,2,2,0.077380176506504,,yes,,0
+EN-Maintain Signs,38112,median_business_days_to_close,2025-10-06,60,60,13,13.0,yes,,1
+EN-Maintain Signs,38112,median_business_days_to_close,2026-07-08,19,19,,,yes,,1
+EN-Maintain Signs,38134,median_business_days_to_close,2025-10-06,43,43,14,14.0,yes,,1
+EN-Maintain Signs,38134,median_business_days_to_close,2026-07-08,14,14,,,yes,,1
+EN-Maintain Signs,38112,reopen_rate,2025-10-06,60,60,0.166666666666667,0.16666666666666666,yes,,1
+EN-Maintain Signs,38112,reopen_rate,2026-07-08,17,17,,,yes,,1
+EN-Maintain Signs,38134,reopen_rate,2025-10-06,41,41,0.0487804878048781,0.04878048780487805,yes,,1
+EN-Maintain Signs,38134,reopen_rate,2026-07-08,8,8,,,yes,,1
+EN-Maintain Signs,38112,requests_per_1000,2025-10-06,60,60,3.5305783093155,,yes,,1
+EN-Maintain Signs,38112,requests_per_1000,2026-07-08,19,19,1.11801646461657,,yes,,1
+EN-Maintain Signs,38134,requests_per_1000,2025-10-06,43,43,1.44480697899563,,yes,,1
+EN-Maintain Signs,38134,requests_per_1000,2026-07-08,14,14,0.470402272231136,,yes,,1
+MCSC-Miscellaneous,38107,median_business_days_to_close,2025-10-06,44,44,0,0.0,yes,,0
+MCSC-Miscellaneous,38107,median_business_days_to_close,2026-07-08,20,20,0,0.0,yes,,0
+MCSC-Miscellaneous,38118,median_business_days_to_close,2025-10-06,79,79,0,0.0,yes,,0
+MCSC-Miscellaneous,38118,median_business_days_to_close,2026-07-08,36,36,0,0.0,yes,,0
+MCSC-Miscellaneous,38122,median_business_days_to_close,2025-10-06,61,61,0,0.0,yes,,0
+MCSC-Miscellaneous,38122,median_business_days_to_close,2026-07-08,24,24,0,0.0,yes,,0
+MCSC-Miscellaneous,38107,reopen_rate,2025-10-06,38,38,0.0789473684210526,0.07894736842105263,yes,,0
+MCSC-Miscellaneous,38107,reopen_rate,2026-07-08,15,15,,,yes,,0
+MCSC-Miscellaneous,38118,reopen_rate,2025-10-06,72,72,0.0416666666666667,0.041666666666666664,yes,,0
+MCSC-Miscellaneous,38118,reopen_rate,2026-07-08,30,30,0.1,0.1,yes,,0
+MCSC-Miscellaneous,38122,reopen_rate,2025-10-06,50,50,0.12,0.12,yes,,0
+MCSC-Miscellaneous,38122,reopen_rate,2026-07-08,14,14,,,yes,,0
+MCSC-Miscellaneous,38107,requests_per_1000,2025-10-06,45,45,3.22786395457233,,yes,,0
+MCSC-Miscellaneous,38107,requests_per_1000,2026-07-08,20,20,1.43460620203215,,yes,,0
+MCSC-Miscellaneous,38118,requests_per_1000,2025-10-06,80,80,2.04221003068216,,yes,,0
+MCSC-Miscellaneous,38118,requests_per_1000,2026-07-08,37,37,0.944522139190501,,yes,,0
+MCSC-Miscellaneous,38122,requests_per_1000,2025-10-06,65,65,2.5044580316216,,yes,,0
+MCSC-Miscellaneous,38122,requests_per_1000,2026-07-08,25,25,0.963253089085229,,yes,,0
+PW (HE)-Street Cleaning,38111,median_business_days_to_close,2025-10-06,119,119,1,1.0,yes,,0
+PW (HE)-Street Cleaning,38111,median_business_days_to_close,2026-07-08,32,32,1,1.0,yes,,0
+PW (HE)-Street Cleaning,38133,median_business_days_to_close,2025-10-06,14,14,,,yes,,0
+PW (HE)-Street Cleaning,38133,median_business_days_to_close,2026-07-08,1,1,,,yes,,0
+PW (HE)-Street Cleaning,38111,reopen_rate,2025-10-06,104,104,0.134615384615385,0.1346153846153846,yes,,0
+PW (HE)-Street Cleaning,38111,reopen_rate,2026-07-08,17,17,,,yes,,0
+PW (HE)-Street Cleaning,38133,reopen_rate,2025-10-06,15,15,,,yes,,0
+PW (HE)-Street Cleaning,38133,reopen_rate,2026-07-08,1,1,,,yes,,0
+PW (HE)-Street Cleaning,38111,requests_per_1000,2025-10-06,120,120,2.8628162773817,,yes,,0
+PW (HE)-Street Cleaning,38111,requests_per_1000,2026-07-08,32,32,0.763417673968455,,yes,,0
+PW (HE)-Street Cleaning,38133,requests_per_1000,2025-10-06,14,14,1.42029847978352,,yes,,0
+PW (HE)-Street Cleaning,38133,requests_per_1000,2026-07-08,1,1,0.101449891413109,,yes,,0
+PW (ROW)-Roadside Litter,38104,median_business_days_to_close,2025-10-06,159,159,2,2.0,yes,,0
+PW (ROW)-Roadside Litter,38104,median_business_days_to_close,2026-07-08,39,39,4,4.0,yes,,0
+PW (ROW)-Roadside Litter,38104,reopen_rate,2025-10-06,143,143,0.34965034965035,0.34965034965034963,yes,,0
+PW (ROW)-Roadside Litter,38104,reopen_rate,2026-07-08,32,32,0.25,0.25,yes,,0
+PW (ROW)-Roadside Litter,38104,requests_per_1000,2025-10-06,161,161,7.13812583850811,,yes,,0
+PW (ROW)-Roadside Litter,38104,requests_per_1000,2026-07-08,39,39,1.72911122796159,,yes,,0
+PW (SM)-Pot Hole in Alley,38117,median_business_days_to_close,2025-10-06,3,3,,,yes,,0
+PW (SM)-Pot Hole in Alley,38117,median_business_days_to_close,2026-07-08,2,2,,,yes,,0
+PW (SM)-Pot Hole in Alley,38117,reopen_rate,2025-10-06,1,1,,,yes,,0
+PW (SM)-Pot Hole in Alley,38117,reopen_rate,2026-07-08,,0,,,yes,no published row (and none expected: n = 0),0
+PW (SM)-Pot Hole in Alley,38117,requests_per_1000,2025-10-06,3,3,0.116070264759756,,yes,,0
+PW (SM)-Pot Hole in Alley,38117,requests_per_1000,2026-07-08,2,2,0.077380176506504,,yes,,0
+PW (SM)-Potholes,38103,median_business_days_to_close,2025-10-06,58,58,1,1.0,yes,,0
+PW (SM)-Potholes,38103,median_business_days_to_close,2026-07-08,10,10,,,yes,,0
+PW (SM)-Potholes,38104,median_business_days_to_close,2025-10-06,230,230,1,1.0,yes,,0
+PW (SM)-Potholes,38104,median_business_days_to_close,2026-07-08,44,44,1,1.0,yes,,0
+PW (SM)-Potholes,38109,median_business_days_to_close,2025-10-06,461,461,1,1.0,yes,,0
+PW (SM)-Potholes,38109,median_business_days_to_close,2026-07-08,96,96,1,1.0,yes,,0
+PW (SM)-Potholes,38115,median_business_days_to_close,2025-10-06,153,153,1,1.0,yes,,0
+PW (SM)-Potholes,38115,median_business_days_to_close,2026-07-08,19,19,,,yes,,0
+PW (SM)-Potholes,38116,median_business_days_to_close,2025-10-06,445,445,1,1.0,yes,,0
+PW (SM)-Potholes,38116,median_business_days_to_close,2026-07-08,59,59,1,1.0,yes,,0
+PW (SM)-Potholes,38117,median_business_days_to_close,2025-10-06,244,244,1,1.0,yes,,0
+PW (SM)-Potholes,38117,median_business_days_to_close,2026-07-08,46,46,1,1.0,yes,,0
+PW (SM)-Potholes,38120,median_business_days_to_close,2025-10-06,151,151,1,1.0,yes,,0
+PW (SM)-Potholes,38120,median_business_days_to_close,2026-07-08,22,22,1,1.0,yes,,0
+PW (SM)-Potholes,38127,median_business_days_to_close,2025-10-06,278,278,1,1.0,yes,,0
+PW (SM)-Potholes,38127,median_business_days_to_close,2026-07-08,53,53,1,1.0,yes,,0
+PW (SM)-Potholes,38103,reopen_rate,2025-10-06,54,54,0.0740740740740741,0.07407407407407407,yes,,0
+PW (SM)-Potholes,38103,reopen_rate,2026-07-08,5,5,,,yes,,0
+PW (SM)-Potholes,38104,reopen_rate,2025-10-06,215,215,0.158139534883721,0.15813953488372093,yes,,0
+PW (SM)-Potholes,38104,reopen_rate,2026-07-08,28,28,,,yes,,0
+PW (SM)-Potholes,38109,reopen_rate,2025-10-06,421,421,0.0855106888361045,0.0855106888361045,yes,,0
+PW (SM)-Potholes,38109,reopen_rate,2026-07-08,56,56,0.0178571428571429,0.017857142857142856,yes,,0
+PW (SM)-Potholes,38115,reopen_rate,2025-10-06,148,148,0.0878378378378378,0.08783783783783784,yes,,0
+PW (SM)-Potholes,38115,reopen_rate,2026-07-08,14,14,,,yes,,0
+PW (SM)-Potholes,38116,reopen_rate,2025-10-06,430,430,0.0906976744186047,0.09069767441860466,yes,,0
+PW (SM)-Potholes,38116,reopen_rate,2026-07-08,48,48,0.104166666666667,0.10416666666666667,yes,,0
+PW (SM)-Potholes,38117,reopen_rate,2025-10-06,230,230,0.11304347826087,0.11304347826086956,yes,,0
+PW (SM)-Potholes,38117,reopen_rate,2026-07-08,33,33,0.0303030303030303,0.030303030303030304,yes,,0
+PW (SM)-Potholes,38120,reopen_rate,2025-10-06,150,150,0.0666666666666667,0.06666666666666667,yes,,0
+PW (SM)-Potholes,38120,reopen_rate,2026-07-08,20,20,,,yes,,0
+PW (SM)-Potholes,38127,reopen_rate,2025-10-06,259,259,0.0656370656370656,0.06563706563706563,yes,,0
+PW (SM)-Potholes,38127,reopen_rate,2026-07-08,35,35,0.0857142857142857,0.08571428571428572,yes,,0
+PW (SM)-Potholes,38103,requests_per_1000,2025-10-06,58,58,4.03520311194864,,yes,,0
+PW (SM)-Potholes,38103,requests_per_1000,2026-07-08,10,10,0.695724674473903,,yes,,0
+PW (SM)-Potholes,38104,requests_per_1000,2025-10-06,230,230,10.1973226264402,,yes,,0
+PW (SM)-Potholes,38104,requests_per_1000,2026-07-08,44,44,1.95079215462333,,yes,,0
+PW (SM)-Potholes,38109,requests_per_1000,2025-10-06,461,461,10.8462265989426,,yes,,0
+PW (SM)-Potholes,38109,requests_per_1000,2026-07-08,96,96,2.25865022450866,,yes,,0
+PW (SM)-Potholes,38115,requests_per_1000,2025-10-06,155,155,4.03607301448773,,yes,,0
+PW (SM)-Potholes,38115,requests_per_1000,2026-07-08,20,20,0.520783614772611,,yes,,0
+PW (SM)-Potholes,38116,requests_per_1000,2025-10-06,447,447,11.1773408146001,,yes,,0
+PW (SM)-Potholes,38116,requests_per_1000,2026-07-08,59,59,1.47530896658033,,yes,,0
+PW (SM)-Potholes,38117,requests_per_1000,2025-10-06,247,247,9.55645179855325,,yes,,0
+PW (SM)-Potholes,38117,requests_per_1000,2026-07-08,46,46,1.77974405964959,,yes,,0
+PW (SM)-Potholes,38120,requests_per_1000,2025-10-06,152,152,11.4194478907303,,yes,,0
+PW (SM)-Potholes,38120,requests_per_1000,2026-07-08,22,22,1.65281482628991,,yes,,0
+PW (SM)-Potholes,38127,requests_per_1000,2025-10-06,278,278,7.78274146844262,,yes,,0
+PW (SM)-Potholes,38127,requests_per_1000,2026-07-08,53,53,1.48376006412755,,yes,,0
+PW (SM)-Trees in Street,38111,median_business_days_to_close,2025-10-06,85,85,1,1.0,yes,,0
+PW (SM)-Trees in Street,38111,median_business_days_to_close,2026-07-08,55,55,1,1.0,yes,,0
+PW (SM)-Trees in Street,38111,reopen_rate,2025-10-06,70,70,0.0428571428571429,0.04285714285714286,yes,,0
+PW (SM)-Trees in Street,38111,reopen_rate,2026-07-08,40,40,0.05,0.05,yes,,0
+PW (SM)-Trees in Street,38111,requests_per_1000,2025-10-06,85,85,2.02782819647871,,yes,,0
+PW (SM)-Trees in Street,38111,requests_per_1000,2026-07-08,55,55,1.31212412713328,,yes,,0
+SWM-Cart Lease Application,38109,median_business_days_to_close,2025-10-06,65,65,10,10.0,yes,,0
+SWM-Cart Lease Application,38109,median_business_days_to_close,2026-07-08,16,16,,,yes,,0
+SWM-Cart Lease Application,38116,median_business_days_to_close,2025-10-06,48,48,8.5,8.5,yes,,0
+SWM-Cart Lease Application,38116,median_business_days_to_close,2026-07-08,15,15,,,yes,,0
+SWM-Cart Lease Application,38109,reopen_rate,2025-10-06,59,59,0.0508474576271186,0.05084745762711865,yes,,0
+SWM-Cart Lease Application,38109,reopen_rate,2026-07-08,10,10,,,yes,,0
+SWM-Cart Lease Application,38116,reopen_rate,2025-10-06,48,48,0.0416666666666667,0.041666666666666664,yes,,0
+SWM-Cart Lease Application,38116,reopen_rate,2026-07-08,13,13,,,yes,,0
+SWM-Cart Lease Application,38109,requests_per_1000,2025-10-06,73,73,1.71751527488679,,yes,,0
+SWM-Cart Lease Application,38109,requests_per_1000,2026-07-08,16,16,0.376441704084776,,yes,,0
+SWM-Cart Lease Application,38116,requests_per_1000,2025-10-06,53,53,1.32527754625012,,yes,,0
+SWM-Cart Lease Application,38116,requests_per_1000,2026-07-08,15,15,0.375078550825507,,yes,,0
+SWM-Cart Repair,38117,median_business_days_to_close,2025-10-06,461,461,6,6.0,yes,,0
+SWM-Cart Repair,38117,median_business_days_to_close,2026-07-08,159,159,6,6.0,yes,,0
+SWM-Cart Repair,38118,median_business_days_to_close,2025-10-06,412,412,7,7.0,yes,,0
+SWM-Cart Repair,38118,median_business_days_to_close,2026-07-08,137,137,7,7.0,yes,,0
+SWM-Cart Repair,38119,median_business_days_to_close,2025-10-06,300,300,6,6.0,yes,,0
+SWM-Cart Repair,38119,median_business_days_to_close,2026-07-08,85,85,6,6.0,yes,,0
+SWM-Cart Repair,38122,median_business_days_to_close,2025-10-06,182,182,7,7.0,yes,,0
+SWM-Cart Repair,38122,median_business_days_to_close,2026-07-08,70,70,7,7.0,yes,,0
+SWM-Cart Repair,38117,reopen_rate,2025-10-06,408,408,0.0637254901960784,0.06372549019607843,yes,,0
+SWM-Cart Repair,38117,reopen_rate,2026-07-08,117,117,0.0512820512820513,0.05128205128205128,yes,,0
+SWM-Cart Repair,38118,reopen_rate,2025-10-06,360,360,0.0972222222222222,0.09722222222222222,yes,,0
+SWM-Cart Repair,38118,reopen_rate,2026-07-08,104,104,0.0769230769230769,0.07692307692307693,yes,,0
+SWM-Cart Repair,38119,reopen_rate,2025-10-06,277,277,0.108303249097473,0.10830324909747292,yes,,0
+SWM-Cart Repair,38119,reopen_rate,2026-07-08,72,72,0.0972222222222222,0.09722222222222222,yes,,0
+SWM-Cart Repair,38122,reopen_rate,2025-10-06,164,164,0.0975609756097561,0.0975609756097561,yes,,0
+SWM-Cart Repair,38122,reopen_rate,2026-07-08,64,64,0.125,0.125,yes,,0
+SWM-Cart Repair,38117,requests_per_1000,2025-10-06,544,544,21.0474080097691,,yes,,0
+SWM-Cart Repair,38117,requests_per_1000,2026-07-08,159,159,6.15172403226707,,yes,,0
+SWM-Cart Repair,38118,requests_per_1000,2025-10-06,473,473,12.0745668064083,,yes,,0
+SWM-Cart Repair,38118,requests_per_1000,2026-07-08,137,137,3.49728467754321,,yes,,0
+SWM-Cart Repair,38119,requests_per_1000,2025-10-06,329,329,14.1770985046781,,yes,,0
+SWM-Cart Repair,38119,requests_per_1000,2026-07-08,85,85,3.66277620941531,,yes,,0
+SWM-Cart Repair,38122,requests_per_1000,2025-10-06,219,219,8.43809706038661,,yes,,0
+SWM-Cart Repair,38122,requests_per_1000,2026-07-08,70,70,2.69710864943864,,yes,,0
+SWM-Dead Animal Collection,38109,median_business_days_to_close,2025-10-06,324,324,2,2.0,yes,,0
+SWM-Dead Animal Collection,38109,median_business_days_to_close,2026-07-08,98,98,2,2.0,yes,,0
+SWM-Dead Animal Collection,38141,median_business_days_to_close,2025-10-06,44,44,1,1.0,yes,,0
+SWM-Dead Animal Collection,38141,median_business_days_to_close,2026-07-08,18,18,,,yes,,0
+SWM-Dead Animal Collection,38109,reopen_rate,2025-10-06,300,300,0.07,0.07,yes,,0
+SWM-Dead Animal Collection,38109,reopen_rate,2026-07-08,78,78,0.0512820512820513,0.05128205128205128,yes,,0
+SWM-Dead Animal Collection,38141,reopen_rate,2025-10-06,37,37,0.0810810810810811,0.08108108108108109,yes,,0
+SWM-Dead Animal Collection,38141,reopen_rate,2026-07-08,11,11,,,yes,,0
+SWM-Dead Animal Collection,38109,requests_per_1000,2025-10-06,376,376,8.84638004599224,,yes,,0
+SWM-Dead Animal Collection,38109,requests_per_1000,2026-07-08,98,98,2.30570543751925,,yes,,0
+SWM-Dead Animal Collection,38141,requests_per_1000,2025-10-06,49,49,2.81789799991351,,yes,,0
+SWM-Dead Animal Collection,38141,requests_per_1000,2026-07-08,18,18,1.03514620404986,,yes,,0
+SWM-Garbage Missed,38016,median_business_days_to_close,2025-10-06,528,528,2,2.0,yes,,0
+SWM-Garbage Missed,38016,median_business_days_to_close,2026-07-08,146,146,3,3.0,yes,,0
+SWM-Garbage Missed,38108,median_business_days_to_close,2025-10-06,171,171,1,1.0,yes,,0
+SWM-Garbage Missed,38108,median_business_days_to_close,2026-07-08,62,62,1,1.0,yes,,0
+SWM-Garbage Missed,38109,median_business_days_to_close,2025-10-06,713,713,4,4.0,yes,,0
+SWM-Garbage Missed,38109,median_business_days_to_close,2026-07-08,254,254,3,3.0,yes,,0
+SWM-Garbage Missed,38111,median_business_days_to_close,2025-10-06,512,512,2,2.0,yes,,0
+SWM-Garbage Missed,38111,median_business_days_to_close,2026-07-08,166,166,2,2.0,yes,,0
+SWM-Garbage Missed,38115,median_business_days_to_close,2025-10-06,537,537,3,3.0,yes,,0
+SWM-Garbage Missed,38115,median_business_days_to_close,2026-07-08,164,164,3,3.0,yes,,0
+SWM-Garbage Missed,38116,median_business_days_to_close,2025-10-06,530,530,3,3.0,yes,,0
+SWM-Garbage Missed,38116,median_business_days_to_close,2026-07-08,197,197,2,2.0,yes,,0
+SWM-Garbage Missed,38120,median_business_days_to_close,2025-10-06,145,145,2,2.0,yes,,0
+SWM-Garbage Missed,38120,median_business_days_to_close,2026-07-08,39,39,2,2.0,yes,,0
+SWM-Garbage Missed,38127,median_business_days_to_close,2025-10-06,312,312,0,0.0,yes,,0
+SWM-Garbage Missed,38127,median_business_days_to_close,2026-07-08,102,102,0,0.0,yes,,0
+SWM-Garbage Missed,38134,median_business_days_to_close,2025-10-06,201,201,1,1.0,yes,,0
+SWM-Garbage Missed,38134,median_business_days_to_close,2026-07-08,59,59,1,1.0,yes,,0
+SWM-Garbage Missed,38016,reopen_rate,2025-10-06,479,479,0.110647181628392,0.11064718162839249,yes,,0
+SWM-Garbage Missed,38016,reopen_rate,2026-07-08,93,93,0.118279569892473,0.11827956989247312,yes,,0
+SWM-Garbage Missed,38108,reopen_rate,2025-10-06,149,149,0.114093959731544,0.11409395973154363,yes,,0
+SWM-Garbage Missed,38108,reopen_rate,2026-07-08,40,40,0.05,0.05,yes,,0
+SWM-Garbage Missed,38109,reopen_rate,2025-10-06,660,660,0.1,0.1,yes,,0
+SWM-Garbage Missed,38109,reopen_rate,2026-07-08,248,248,0.108870967741935,0.10887096774193548,yes,,0
+SWM-Garbage Missed,38111,reopen_rate,2025-10-06,456,456,0.116228070175439,0.1162280701754386,yes,,0
+SWM-Garbage Missed,38111,reopen_rate,2026-07-08,117,117,0.145299145299145,0.1452991452991453,yes,,0
+SWM-Garbage Missed,38115,reopen_rate,2025-10-06,500,500,0.116,0.116,yes,,0
+SWM-Garbage Missed,38115,reopen_rate,2026-07-08,165,165,0.103030303030303,0.10303030303030303,yes,,0
+SWM-Garbage Missed,38116,reopen_rate,2025-10-06,481,481,0.103950103950104,0.10395010395010396,yes,,0
+SWM-Garbage Missed,38116,reopen_rate,2026-07-08,165,165,0.145454545454545,0.14545454545454545,yes,,0
+SWM-Garbage Missed,38120,reopen_rate,2025-10-06,130,130,0.0846153846153846,0.08461538461538462,yes,,0
+SWM-Garbage Missed,38120,reopen_rate,2026-07-08,29,29,,,yes,,0
+SWM-Garbage Missed,38127,reopen_rate,2025-10-06,277,277,0.180505415162455,0.18050541516245489,yes,,0
+SWM-Garbage Missed,38127,reopen_rate,2026-07-08,69,69,0.144927536231884,0.14492753623188406,yes,,0
+SWM-Garbage Missed,38134,reopen_rate,2025-10-06,187,187,0.224598930481283,0.22459893048128343,yes,,0
+SWM-Garbage Missed,38134,reopen_rate,2026-07-08,45,45,0.2,0.2,yes,,0
+SWM-Garbage Missed,38016,requests_per_1000,2025-10-06,678,678,22.0564188228958,,yes,,0
+SWM-Garbage Missed,38016,requests_per_1000,2026-07-08,146,146,4.74961231289496,,yes,,0
+SWM-Garbage Missed,38108,requests_per_1000,2025-10-06,203,203,12.245302976242,,yes,,0
+SWM-Garbage Missed,38108,requests_per_1000,2026-07-08,62,62,3.73994475136455,,yes,,0
+SWM-Garbage Missed,38109,requests_per_1000,2025-10-06,848,848,19.9514103164931,,yes,,0
+SWM-Garbage Missed,38109,requests_per_1000,2026-07-08,254,254,5.97601205234582,,yes,,0
+SWM-Garbage Missed,38111,requests_per_1000,2025-10-06,562,562,13.407522899071,,yes,,0
+SWM-Garbage Missed,38111,requests_per_1000,2026-07-08,168,168,4.00794278833439,,yes,,0
+SWM-Garbage Missed,38115,requests_per_1000,2025-10-06,645,645,16.7952715764167,,yes,,0
+SWM-Garbage Missed,38115,requests_per_1000,2026-07-08,165,165,4.29646482187404,,yes,,0
+SWM-Garbage Missed,38116,requests_per_1000,2025-10-06,651,651,16.278409105827,,yes,,0
+SWM-Garbage Missed,38116,requests_per_1000,2026-07-08,197,197,4.92603163417499,,yes,,0
+SWM-Garbage Missed,38120,requests_per_1000,2025-10-06,172,172,12.9220068237211,,yes,,0
+SWM-Garbage Missed,38120,requests_per_1000,2026-07-08,39,39,2.92998991933212,,yes,,0
+SWM-Garbage Missed,38127,requests_per_1000,2025-10-06,386,386,10.8062525425139,,yes,,0
+SWM-Garbage Missed,38127,requests_per_1000,2026-07-08,102,102,2.85553823662283,,yes,,0
+SWM-Garbage Missed,38134,requests_per_1000,2025-10-06,249,249,8.36644041325377,,yes,,0
+SWM-Garbage Missed,38134,requests_per_1000,2026-07-08,59,59,1.98240957583122,,yes,,0
+SWM-Missed Bulk Trash,38016,median_business_days_to_close,2025-10-06,1453,1453,5,5.0,yes,,6
+SWM-Missed Bulk Trash,38016,median_business_days_to_close,2026-07-08,392,392,4,4.0,yes,,6
+SWM-Missed Bulk Trash,38104,median_business_days_to_close,2025-10-06,1006,1006,8,8.0,yes,,6
+SWM-Missed Bulk Trash,38104,median_business_days_to_close,2026-07-08,294,294,10,10.0,yes,,6
+SWM-Missed Bulk Trash,38106,median_business_days_to_close,2025-10-06,1554,1554,10,10.0,yes,,6
+SWM-Missed Bulk Trash,38106,median_business_days_to_close,2026-07-08,568,568,10,10.0,yes,,6
+SWM-Missed Bulk Trash,38108,median_business_days_to_close,2025-10-06,784,784,2,2.0,yes,,6
+SWM-Missed Bulk Trash,38108,median_business_days_to_close,2026-07-08,286,286,3,3.0,yes,,6
+SWM-Missed Bulk Trash,38109,median_business_days_to_close,2025-10-06,2945,2945,13,13.0,yes,,6
+SWM-Missed Bulk Trash,38109,median_business_days_to_close,2026-07-08,994,994,12,12.0,yes,,6
+SWM-Missed Bulk Trash,38111,median_business_days_to_close,2025-10-06,2030,2030,9,9.0,yes,,6
+SWM-Missed Bulk Trash,38111,median_business_days_to_close,2026-07-08,797,797,12,12.0,yes,,6
+SWM-Missed Bulk Trash,38114,median_business_days_to_close,2025-10-06,1702,1702,9,9.0,yes,,6
+SWM-Missed Bulk Trash,38114,median_business_days_to_close,2026-07-08,623,623,10,10.0,yes,,6
+SWM-Missed Bulk Trash,38115,median_business_days_to_close,2025-10-06,1258,1258,3,3.0,yes,,6
+SWM-Missed Bulk Trash,38115,median_business_days_to_close,2026-07-08,487,487,4,4.0,yes,,6
+SWM-Missed Bulk Trash,38116,median_business_days_to_close,2025-10-06,1821,1821,12,12.0,yes,,6
+SWM-Missed Bulk Trash,38116,median_business_days_to_close,2026-07-08,721,721,13,13.0,yes,,6
+SWM-Missed Bulk Trash,38117,median_business_days_to_close,2025-10-06,1441,1441,9,9.0,yes,,6
+SWM-Missed Bulk Trash,38117,median_business_days_to_close,2026-07-08,541,541,10,10.0,yes,,6
+SWM-Missed Bulk Trash,38118,median_business_days_to_close,2025-10-06,1781,1781,12,12.0,yes,,6
+SWM-Missed Bulk Trash,38118,median_business_days_to_close,2026-07-08,654,654,10,10.0,yes,,6
+SWM-Missed Bulk Trash,38119,median_business_days_to_close,2025-10-06,1235,1235,4,4.0,yes,,6
+SWM-Missed Bulk Trash,38119,median_business_days_to_close,2026-07-08,436,436,5,5.0,yes,,6
+SWM-Missed Bulk Trash,38122,median_business_days_to_close,2025-10-06,993,993,7,7.0,yes,,6
+SWM-Missed Bulk Trash,38122,median_business_days_to_close,2026-07-08,322,322,10,10.0,yes,,6
+SWM-Missed Bulk Trash,38133,median_business_days_to_close,2025-10-06,380,380,5,5.0,yes,,6
+SWM-Missed Bulk Trash,38133,median_business_days_to_close,2026-07-08,115,115,5,5.0,yes,,6
+SWM-Missed Bulk Trash,38134,median_business_days_to_close,2025-10-06,685,685,3,3.0,yes,,6
+SWM-Missed Bulk Trash,38134,median_business_days_to_close,2026-07-08,212,212,3,3.0,yes,,6
+SWM-Missed Bulk Trash,38016,reopen_rate,2025-10-06,1333,1333,0.216054013503376,0.21605401350337583,yes,,6
+SWM-Missed Bulk Trash,38016,reopen_rate,2026-07-08,279,279,0.197132616487455,0.1971326164874552,yes,,6
+SWM-Missed Bulk Trash,38104,reopen_rate,2025-10-06,883,883,0.219705549263873,0.21970554926387317,yes,,6
+SWM-Missed Bulk Trash,38104,reopen_rate,2026-07-08,222,222,0.189189189189189,0.1891891891891892,yes,,6
+SWM-Missed Bulk Trash,38106,reopen_rate,2025-10-06,1287,1287,0.206682206682207,0.2066822066822067,yes,,6
+SWM-Missed Bulk Trash,38106,reopen_rate,2026-07-08,412,412,0.216019417475728,0.21601941747572814,yes,,6
+SWM-Missed Bulk Trash,38108,reopen_rate,2025-10-06,683,683,0.278184480234261,0.2781844802342606,yes,,6
+SWM-Missed Bulk Trash,38108,reopen_rate,2026-07-08,183,183,0.306010928961749,0.30601092896174864,yes,,6
+SWM-Missed Bulk Trash,38109,reopen_rate,2025-10-06,2480,2480,0.171774193548387,0.1717741935483871,yes,,6
+SWM-Missed Bulk Trash,38109,reopen_rate,2026-07-08,859,859,0.142025611175786,0.1420256111757858,yes,,6
+SWM-Missed Bulk Trash,38111,reopen_rate,2025-10-06,1652,1652,0.187651331719128,0.18765133171912832,yes,,6
+SWM-Missed Bulk Trash,38111,reopen_rate,2026-07-08,506,506,0.181818181818182,0.18181818181818182,yes,,6
+SWM-Missed Bulk Trash,38114,reopen_rate,2025-10-06,1422,1422,0.239099859353024,0.2390998593530239,yes,,6
+SWM-Missed Bulk Trash,38114,reopen_rate,2026-07-08,453,453,0.242825607064018,0.24282560706401765,yes,,6
+SWM-Missed Bulk Trash,38115,reopen_rate,2025-10-06,1021,1021,0.287952987267385,0.28795298726738494,yes,,6
+SWM-Missed Bulk Trash,38115,reopen_rate,2026-07-08,257,257,0.369649805447471,0.36964980544747084,yes,,6
+SWM-Missed Bulk Trash,38116,reopen_rate,2025-10-06,1468,1468,0.174386920980926,0.17438692098092642,yes,,6
+SWM-Missed Bulk Trash,38116,reopen_rate,2026-07-08,447,447,0.154362416107383,0.15436241610738255,yes,,6
+SWM-Missed Bulk Trash,38117,reopen_rate,2025-10-06,1167,1167,0.179948586118252,0.17994858611825193,yes,,6
+SWM-Missed Bulk Trash,38117,reopen_rate,2026-07-08,297,297,0.208754208754209,0.20875420875420875,yes,,6
+SWM-Missed Bulk Trash,38118,reopen_rate,2025-10-06,1361,1361,0.193975018368846,0.19397501836884642,yes,,6
+SWM-Missed Bulk Trash,38118,reopen_rate,2026-07-08,378,378,0.185185185185185,0.18518518518518517,yes,,6
+SWM-Missed Bulk Trash,38119,reopen_rate,2025-10-06,1020,1020,0.274509803921569,0.27450980392156865,yes,,6
+SWM-Missed Bulk Trash,38119,reopen_rate,2026-07-08,215,215,0.293023255813953,0.2930232558139535,yes,,6
+SWM-Missed Bulk Trash,38122,reopen_rate,2025-10-06,846,846,0.173758865248227,0.17375886524822695,yes,,6
+SWM-Missed Bulk Trash,38122,reopen_rate,2026-07-08,224,224,0.142857142857143,0.14285714285714285,yes,,6
+SWM-Missed Bulk Trash,38133,reopen_rate,2025-10-06,346,346,0.225433526011561,0.2254335260115607,yes,,6
+SWM-Missed Bulk Trash,38133,reopen_rate,2026-07-08,75,75,0.173333333333333,0.17333333333333334,yes,,6
+SWM-Missed Bulk Trash,38134,reopen_rate,2025-10-06,613,613,0.287112561174551,0.28711256117455136,yes,,6
+SWM-Missed Bulk Trash,38134,reopen_rate,2026-07-08,149,149,0.25503355704698,0.2550335570469799,yes,,6
+SWM-Missed Bulk Trash,38016,requests_per_1000,2025-10-06,1719,1719,55.9218052456605,,yes,,6
+SWM-Missed Bulk Trash,38016,requests_per_1000,2026-07-08,393,393,12.7849153353953,,yes,,6
+SWM-Missed Bulk Trash,38104,requests_per_1000,2025-10-06,1177,1177,52.1836901361742,,yes,,6
+SWM-Missed Bulk Trash,38104,requests_per_1000,2026-07-08,295,295,13.0791746730428,,yes,,6
+SWM-Missed Bulk Trash,38106,requests_per_1000,2025-10-06,1789,1789,83.7528936648169,,yes,,6
+SWM-Missed Bulk Trash,38106,requests_per_1000,2026-07-08,571,571,26.7316390623871,,yes,,6
+SWM-Missed Bulk Trash,38108,requests_per_1000,2025-10-06,922,922,55.6165977541632,,yes,,6
+SWM-Missed Bulk Trash,38108,requests_per_1000,2026-07-08,287,287,17.3123248974456,,yes,,6
+SWM-Missed Bulk Trash,38109,requests_per_1000,2025-10-06,3471,3471,81.6643221798911,,yes,,6
+SWM-Missed Bulk Trash,38109,requests_per_1000,2026-07-08,995,995,23.409968472772,,yes,,6
+SWM-Missed Bulk Trash,38111,requests_per_1000,2025-10-06,2419,2419,57.7096047915529,,yes,,6
+SWM-Missed Bulk Trash,38111,requests_per_1000,2026-07-08,799,799,19.0615850468998,,yes,,6
+SWM-Missed Bulk Trash,38114,requests_per_1000,2025-10-06,1944,1944,94.8643079287628,,yes,,6
+SWM-Missed Bulk Trash,38114,requests_per_1000,2026-07-08,625,625,30.4990701931465,,yes,,6
+SWM-Missed Bulk Trash,38115,requests_per_1000,2025-10-06,1374,1374,35.7778343348783,,yes,,6
+SWM-Missed Bulk Trash,38115,requests_per_1000,2026-07-08,487,487,12.6810810197131,,yes,,6
+SWM-Missed Bulk Trash,38116,requests_per_1000,2025-10-06,2227,2227,55.6866621792269,,yes,,6
+SWM-Missed Bulk Trash,38116,requests_per_1000,2026-07-08,724,724,18.1037913865111,,yes,,6
+SWM-Missed Bulk Trash,38117,requests_per_1000,2025-10-06,1802,1802,69.7195390323601,,yes,,6
+SWM-Missed Bulk Trash,38117,requests_per_1000,2026-07-08,542,542,20.9700278332626,,yes,,6
+SWM-Missed Bulk Trash,38118,requests_per_1000,2025-10-06,1959,1959,50.0086181263295,,yes,,6
+SWM-Missed Bulk Trash,38118,requests_per_1000,2026-07-08,655,655,16.7205946262102,,yes,,6
+SWM-Missed Bulk Trash,38119,requests_per_1000,2025-10-06,1414,1414,60.9313595307441,,yes,,6
+SWM-Missed Bulk Trash,38119,requests_per_1000,2026-07-08,436,436,18.7878873800597,,yes,,6
+SWM-Missed Bulk Trash,38122,requests_per_1000,2025-10-06,1200,1200,46.236148276091,,yes,,6
+SWM-Missed Bulk Trash,38122,requests_per_1000,2026-07-08,323,323,12.4452299109812,,yes,,6
+SWM-Missed Bulk Trash,38133,requests_per_1000,2025-10-06,472,472,47.8843487469873,,yes,,6
+SWM-Missed Bulk Trash,38133,requests_per_1000,2026-07-08,115,115,11.6667375125075,,yes,,6
+SWM-Missed Bulk Trash,38134,requests_per_1000,2025-10-06,816,816,27.4177324386148,,yes,,6
+SWM-Missed Bulk Trash,38134,requests_per_1000,2026-07-08,213,213,7.15683457037371,,yes,,6
+SWM-Missing Cart,38104,median_business_days_to_close,2025-10-06,267,267,6,6.0,yes,,0
+SWM-Missing Cart,38104,median_business_days_to_close,2026-07-08,94,94,6,6.0,yes,,0
+SWM-Missing Cart,38105,median_business_days_to_close,2025-10-06,48,48,7,7.0,yes,,0
+SWM-Missing Cart,38105,median_business_days_to_close,2026-07-08,16,16,,,yes,,0
+SWM-Missing Cart,38109,median_business_days_to_close,2025-10-06,419,419,5,5.0,yes,,0
+SWM-Missing Cart,38109,median_business_days_to_close,2026-07-08,171,171,5,5.0,yes,,0
+SWM-Missing Cart,38112,median_business_days_to_close,2025-10-06,248,248,6,6.0,yes,,0
+SWM-Missing Cart,38112,median_business_days_to_close,2026-07-08,81,81,5,5.0,yes,,0
+SWM-Missing Cart,38116,median_business_days_to_close,2025-10-06,268,268,5,5.0,yes,,0
+SWM-Missing Cart,38116,median_business_days_to_close,2026-07-08,92,92,6,6.0,yes,,0
+SWM-Missing Cart,38117,median_business_days_to_close,2025-10-06,274,274,5,5.0,yes,,0
+SWM-Missing Cart,38117,median_business_days_to_close,2026-07-08,86,86,5,5.0,yes,,0
+SWM-Missing Cart,38128,median_business_days_to_close,2025-10-06,297,297,5,5.0,yes,,0
+SWM-Missing Cart,38128,median_business_days_to_close,2026-07-08,87,87,5,5.0,yes,,0
+SWM-Missing Cart,38104,reopen_rate,2025-10-06,238,238,0.121848739495798,0.12184873949579832,yes,,0
+SWM-Missing Cart,38104,reopen_rate,2026-07-08,65,65,0.153846153846154,0.15384615384615385,yes,,0
+SWM-Missing Cart,38105,reopen_rate,2025-10-06,43,43,0.0697674418604651,0.06976744186046512,yes,,0
+SWM-Missing Cart,38105,reopen_rate,2026-07-08,11,11,,,yes,,0
+SWM-Missing Cart,38109,reopen_rate,2025-10-06,351,351,0.0398860398860399,0.039886039886039885,yes,,0
+SWM-Missing Cart,38109,reopen_rate,2026-07-08,96,96,0.03125,0.03125,yes,,0
+SWM-Missing Cart,38112,reopen_rate,2025-10-06,225,225,0.0444444444444444,0.044444444444444446,yes,,0
+SWM-Missing Cart,38112,reopen_rate,2026-07-08,64,64,0.03125,0.03125,yes,,0
+SWM-Missing Cart,38116,reopen_rate,2025-10-06,228,228,0.043859649122807,0.043859649122807015,yes,,0
+SWM-Missing Cart,38116,reopen_rate,2026-07-08,50,50,0.02,0.02,yes,,0
+SWM-Missing Cart,38117,reopen_rate,2025-10-06,249,249,0.0642570281124498,0.0642570281124498,yes,,0
+SWM-Missing Cart,38117,reopen_rate,2026-07-08,62,62,0.032258064516129,0.03225806451612903,yes,,0
+SWM-Missing Cart,38128,reopen_rate,2025-10-06,269,269,0.0446096654275093,0.04460966542750929,yes,,0
+SWM-Missing Cart,38128,reopen_rate,2026-07-08,60,60,0,0.0,yes,,0
+SWM-Missing Cart,38104,requests_per_1000,2025-10-06,325,325,14.4092602330133,,yes,,0
+SWM-Missing Cart,38104,requests_per_1000,2026-07-08,94,94,4.16760142124076,,yes,,0
+SWM-Missing Cart,38105,requests_per_1000,2025-10-06,48,48,8.35275348518639,,yes,,0
+SWM-Missing Cart,38105,requests_per_1000,2026-07-08,16,16,2.7842511617288,,yes,,0
+SWM-Missing Cart,38109,requests_per_1000,2025-10-06,462,462,10.8697542054479,,yes,,0
+SWM-Missing Cart,38109,requests_per_1000,2026-07-08,171,171,4.02322071240604,,yes,,0
+SWM-Missing Cart,38112,requests_per_1000,2025-10-06,276,276,16.2406602228513,,yes,,0
+SWM-Missing Cart,38112,requests_per_1000,2026-07-08,81,81,4.76628071757592,,yes,,0
+SWM-Missing Cart,38116,requests_per_1000,2025-10-06,285,285,7.12649246568463,,yes,,0
+SWM-Missing Cart,38116,requests_per_1000,2026-07-08,92,92,2.30048177839644,,yes,,0
+SWM-Missing Cart,38117,requests_per_1000,2025-10-06,306,306,11.8391670054951,,yes,,0
+SWM-Missing Cart,38117,requests_per_1000,2026-07-08,86,86,3.32734758977967,,yes,,0
+SWM-Missing Cart,38128,requests_per_1000,2025-10-06,340,340,8.97165753114445,,yes,,0
+SWM-Missing Cart,38128,requests_per_1000,2026-07-08,88,88,2.32207606688445,,yes,,0
+SWM-Missing Recycle Cart,38106,median_business_days_to_close,2025-10-06,16,16,,,yes,,0
+SWM-Missing Recycle Cart,38106,median_business_days_to_close,2026-07-08,5,5,,,yes,,0
+SWM-Missing Recycle Cart,38106,reopen_rate,2025-10-06,18,18,,,yes,,0
+SWM-Missing Recycle Cart,38106,reopen_rate,2026-07-08,4,4,,,yes,,0
+SWM-Missing Recycle Cart,38106,requests_per_1000,2025-10-06,19,19,0.88949411941393,,yes,,0
+SWM-Missing Recycle Cart,38106,requests_per_1000,2026-07-08,5,5,0.234077399845771,,yes,,0
+SWM-New Start Garbage Request,38109,median_business_days_to_close,2025-10-06,403,403,5,5.0,yes,,1
+SWM-New Start Garbage Request,38109,median_business_days_to_close,2026-07-08,119,119,6,6.0,yes,,1
+SWM-New Start Garbage Request,38122,median_business_days_to_close,2025-10-06,173,173,6,6.0,yes,,1
+SWM-New Start Garbage Request,38122,median_business_days_to_close,2026-07-08,64,64,5,5.0,yes,,1
+SWM-New Start Garbage Request,38109,reopen_rate,2025-10-06,361,361,0.0581717451523546,0.05817174515235457,yes,,1
+SWM-New Start Garbage Request,38109,reopen_rate,2026-07-08,92,92,0.0326086956521739,0.03260869565217391,yes,,1
+SWM-New Start Garbage Request,38122,reopen_rate,2025-10-06,154,154,0.0454545454545455,0.045454545454545456,yes,,1
+SWM-New Start Garbage Request,38122,reopen_rate,2026-07-08,39,39,0.0512820512820513,0.05128205128205128,yes,,1
+SWM-New Start Garbage Request,38109,requests_per_1000,2025-10-06,465,465,10.9403370249638,,yes,,1
+SWM-New Start Garbage Request,38109,requests_per_1000,2026-07-08,119,119,2.79978517413052,,yes,,1
+SWM-New Start Garbage Request,38122,requests_per_1000,2025-10-06,196,196,7.5519042184282,,yes,,1
+SWM-New Start Garbage Request,38122,requests_per_1000,2026-07-08,64,64,2.46592790805819,,yes,,1
+SWM-Recycle Bin New Start,38117,median_business_days_to_close,2025-10-06,24,24,57,57.0,yes,,0
+SWM-Recycle Bin New Start,38117,median_business_days_to_close,2026-07-08,9,9,,,yes,,0
+SWM-Recycle Bin New Start,38117,reopen_rate,2025-10-06,25,25,,,yes,,0
+SWM-Recycle Bin New Start,38117,reopen_rate,2026-07-08,4,4,,,yes,,0
+SWM-Recycle Bin New Start,38117,requests_per_1000,2025-10-06,24,24,0.928562118078048,,yes,,0
+SWM-Recycle Bin New Start,38117,requests_per_1000,2026-07-08,9,9,0.348210794279268,,yes,,0
+SWM-Recycling Missed,38107,median_business_days_to_close,2025-10-06,38,38,1,1.0,yes,,0
+SWM-Recycling Missed,38107,median_business_days_to_close,2026-07-08,12,12,,,yes,,0
+SWM-Recycling Missed,38111,median_business_days_to_close,2025-10-06,379,379,2,2.0,yes,,0
+SWM-Recycling Missed,38111,median_business_days_to_close,2026-07-08,139,139,2,2.0,yes,,0
+SWM-Recycling Missed,38117,median_business_days_to_close,2025-10-06,522,522,2,2.0,yes,,0
+SWM-Recycling Missed,38117,median_business_days_to_close,2026-07-08,237,237,2,2.0,yes,,0
+SWM-Recycling Missed,38122,median_business_days_to_close,2025-10-06,219,219,3,3.0,yes,,0
+SWM-Recycling Missed,38122,median_business_days_to_close,2026-07-08,72,72,3,3.0,yes,,0
+SWM-Recycling Missed,38107,reopen_rate,2025-10-06,35,35,0.142857142857143,0.14285714285714285,yes,,0
+SWM-Recycling Missed,38107,reopen_rate,2026-07-08,9,9,,,yes,,0
+SWM-Recycling Missed,38111,reopen_rate,2025-10-06,335,335,0.202985074626866,0.20298507462686566,yes,,0
+SWM-Recycling Missed,38111,reopen_rate,2026-07-08,101,101,0.237623762376238,0.2376237623762376,yes,,0
+SWM-Recycling Missed,38117,reopen_rate,2025-10-06,466,466,0.201716738197425,0.2017167381974249,yes,,0
+SWM-Recycling Missed,38117,reopen_rate,2026-07-08,179,179,0.273743016759777,0.2737430167597765,yes,,0
+SWM-Recycling Missed,38122,reopen_rate,2025-10-06,192,192,0.1875,0.1875,yes,,0
+SWM-Recycling Missed,38122,reopen_rate,2026-07-08,51,51,0.176470588235294,0.17647058823529413,yes,,0
+SWM-Recycling Missed,38107,requests_per_1000,2025-10-06,46,46,3.29959426467394,,yes,,0
+SWM-Recycling Missed,38107,requests_per_1000,2026-07-08,12,12,0.860763721219289,,yes,,0
+SWM-Recycling Missed,38111,requests_per_1000,2025-10-06,440,440,10.4969930170662,,yes,,0
+SWM-Recycling Missed,38111,requests_per_1000,2026-07-08,140,140,3.33995232361199,,yes,,0
+SWM-Recycling Missed,38117,requests_per_1000,2025-10-06,595,595,23.0206025106849,,yes,,0
+SWM-Recycling Missed,38117,requests_per_1000,2026-07-08,237,237,9.16955091602073,,yes,,0
+SWM-Recycling Missed,38122,requests_per_1000,2025-10-06,250,250,9.63253089085229,,yes,,0
+SWM-Recycling Missed,38122,requests_per_1000,2026-07-08,72,72,2.77416889656546,,yes,,0
+SWM-Service Quality,38106,median_business_days_to_close,2025-10-06,158,158,4,4.0,yes,,1
+SWM-Service Quality,38106,median_business_days_to_close,2026-07-08,71,71,3,3.0,yes,,1
+SWM-Service Quality,38106,reopen_rate,2025-10-06,128,128,0.0859375,0.0859375,yes,,1
+SWM-Service Quality,38106,reopen_rate,2026-07-08,45,45,0.0666666666666667,0.06666666666666667,yes,,1
+SWM-Service Quality,38106,requests_per_1000,2025-10-06,181,181,8.47360187441691,,yes,,1
+SWM-Service Quality,38106,requests_per_1000,2026-07-08,71,71,3.32389907780995,,yes,,1
