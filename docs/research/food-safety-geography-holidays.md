@@ -37,6 +37,52 @@ _Verified 2026-09-23 by hitting the endpoints unless marked otherwise._
   `timein` and free-text `comments`. The comments sometimes hold operators'
   e-mail addresses and phone numbers; the pipeline never reads them. There
   are no pre-opening, closure or risk-category fields.
+- *Verified 2026-10-06 from TDH's records-request export (H11, D32):* one
+  workbook with two sheets. "Food Inspection Information" (food program
+  only, 2021-01-04 to 2026-10-02): inspection date, permit name, score,
+  inspector, address, city, state, ZIP, permit type, status, establishment
+  ID (a nine-digit number starting 605, not the portal's GUID), purpose and
+  risk (1-4). "Permit Information": one row per food-program permit with
+  establishment number, name, address, permit type, seats, issue and
+  expiration dates, status, assigned inspector, billing contact and the
+  latest routine inspection date. No inspection ID, violations or closure
+  date. Purposes beyond the portal's: Consultation (four variants),
+  Routine Complaint and Preliminary. Over 2025-01-02 to 2026-09-25 it holds
+  99.6% of the portal's food inspections plus 930 the portal had not
+  posted, and 27 rows identical in every column.
+
+### Official inspection counts (reconciliation, D22)
+
+Searched 2026-10-06. No official count of Shelby County food inspections
+for a stated period since 2021 was found, so the food-safety metrics still
+have nothing to reconcile against (H23).
+
+- **Found, but it does not reproduce:** the Shelby County Health
+  Department's
+  [Commission District Health Profile 2024](https://www.shelbytnhealth.com/DocumentCenter/View/7105/2024-CommissionDistrictReport_Final_PDF),
+  p. 102, says "In 2023, the program inspected 4,332 food establishments".
+  It does not define "food establishments" or say whether 2023 is the
+  calendar year, and its footnote cites only the program's web page, which
+  shows no numbers now. TDH's export has 3,677 distinct establishment IDs
+  with an inspection in calendar 2023 (15% fewer) and 6,467 inspections;
+  July 2022 to June 2023 gives 3,714 and 6,477. Neither reading matches,
+  so the figure is not in `official_figures.csv`.
+- **Not read:** Shelby County's adopted budget books
+  ([index](https://www.shelbycountytn.gov/163/Budget-Documents)).
+  shelbycountytn.gov answers automated requests with HTTP 403, and the
+  project did not work around that. Search-engine summaries suggest the
+  Health Services section lists a "number of restaurant inspections"
+  measure; this is unverified, and a person has to open the books.
+- **Statewide only:** the Tennessee Comptroller's September 2022
+  [performance audit of TDH](https://www.capitol.tn.gov/Archives/Joint/committees/gov-opps/ed/Department%20of%20Health%20Audit.pdf)
+  gives inspection counts for state staff in the 90 non-contract counties
+  (Table 4, p. 17), which exclude Shelby. It has no Shelby count.
+- **Nothing usable:** Shelby County's FY2023 financial report (operating
+  indicators), the Health Department's reports and statistics pages, its
+  Community Health Assessment 2022-2025 (which only repeats the 4,332), and
+  TDH's open data portal.
+- A "Shelby County 2024 Annual Report" with "434 routine food inspections"
+  that search engines return is Shelby County, Indiana.
 
 ### Scoring rules
 

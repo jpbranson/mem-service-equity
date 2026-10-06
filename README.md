@@ -17,15 +17,15 @@ The full design is in
 records requests, audits, spec sign-off) and the implementation choices made
 so far. Source research is in [`docs/research/`](docs/research/).
 
-## Status (2026-09-27)
+## Status (2026-10-06)
 
 | Phase | Plan deliverable | State |
 |---|---|---|
 | 0 | Geography layer, output schema, spec template, validation harness, business-day calendar | **Done.** `packages/memequity`, `geography/`, `specs/` |
 | 1 | MATA and MLGW pollers started | **Running, with gaps.** GitHub Actions every 2 hours, raw data archived to weekly releases (`archive-mata-*`, `archive-mlgw-*`). Because GitHub skips about half the scheduled runs, the polls cover only about 50% of the time (DECISIONS.md H22) |
-| 2 | Food safety site | **Built, not yet published (2026-09-27).** Runs on the owner's collector data for the state inspection portal, 2025 onward (DECISIONS.md D29), with its own comparison section on the site. Restaurants and bars only. Not in the daily deploy until the collector runs daily. The records request (H11, sent 2026-09-23) is still open for earlier years, violations and closures |
-| 3 | 311 pipeline and address lookup | **Built, not yet published.** Pipeline, address lookup, area comparison (with "who lives here" demographics and requests per 1,000 residents) and methodology page all work. `deploy-site` runs daily and deploys to GitHub Pages. Every metric shows which publication conditions it still misses |
-| 4 | Permits | **Built, not yet published.** Permits and declared value per 1,000 parcels by ZIP and council district, from the City's DPD layer, with its own comparison section on the site. Demolitions and the demolition-to-new ratio come from the owner's Data Midsouth snapshot (D30), in local runs only until its live service exists. Reconciled against the Census Building Permits Survey |
+| 2 | Food safety site | **Built, not yet published.** Runs on TDH's records-request export, 2021-01-04 to 2026-10-02 (DECISIONS.md H11, D32; received 2026-10-06), with its own comparison section on the site. Restaurants and bars only. Not in the daily deploy: the export is a one-off file that is not committed. It has no violations or closure dates |
+| 3 | 311 pipeline and address lookup | **Three metrics pass the publish gate (2026-10-06, D33); not yet deployed.** Pipeline, address lookup, area comparison (with "who lives here" demographics and requests per 1,000 residents) and methodology page all work. `deploy-site` runs daily and deploys to GitHub Pages. The other two metrics show which publication conditions they still miss |
+| 4 | Permits | **Two metrics pass the publish gate (2026-10-06, D33); not yet deployed.** Permits and declared value per 1,000 parcels by ZIP and council district, from the City's DPD layer, with its own comparison section on the site. Demolitions and the demolition-to-new ratio come from the owner's Data Midsouth snapshot (D30), in local runs only until its live service exists. Reconciled against the Census Building Permits Survey |
 | 5 | MATA panel | **Trip matching built** (`pipelines/mata/`): schedule in force per day, matching by trip_id, ghost versus unobserved by block, and arrivals interpolated along the shape. It has run on the first archive. No window has enough data yet, and the pollers cover only about half of service hours on GitHub Actions (DECISIONS.md H22). Stopwatch audit (H5) not done |
 | 6 | MLGW panel | Collecting; needs six months of history, which accrues at half speed until H22 is fixed. The specs are restated for point outages (v0.2, H19 awaiting confirmation). **Pipeline built** (`pipelines/mlgw/`, D31): outage events, customer-hours and restoration against the map's estimates, from the poller archive. It has run on the first nine days |
 
@@ -33,16 +33,36 @@ so far. Source research is in [`docs/research/`](docs/research/).
 differs from one area to another, with demographic context for each area
 (ACS 2020–2024, D20). Work that depends on official targets is deferred.
 
-**No metric is publishable yet.** Every metric's publish-status file says
-which of the six publication conditions is missing.
-- For every metric, the spec has not been frozen by a reviewer (H10), and
-  no manual audit has been committed (H3).
-- For 311, the comparison metrics reconcile against the one official count
-  that reproduces: FY25 street-sweeping requests (D22). `pct_within_target`
-  has no official on-time figure (H14).
-- For permits, the 2023 Census figure is 2.1% off and not yet explained.
-- For food safety, no official inspection count has been found to
-  reconcile against.
+**Five metrics pass the publish gate** as of 2026-10-06. For 311: median
+business days to close, the re-report rate and requests per 1,000
+residents. For permits: permits and declared value per 1,000 parcels.
+- Their specs were frozen and their audits done by Claude at the owner's
+  direction (DECISIONS.md D33). No person has reviewed a spec or traced a
+  record, and the audit sheets and the methodology page say so. The
+  independent reviewer (H7) and the agency previews (H8) are still open.
+- Each audit took the 100 records its run drew, fetched them again, and
+  checked them with independent code, the City's own fields and Census
+  geocodes. The published rows those records count in were recomputed from
+  a fresh fetch and all match. What the audits found is in
+  `pipelines/311/audits/` and `pipelines/permits/audits/`.
+- The numbers reach the public site when these commits are pushed and the
+  daily deploy next runs.
+
+Every other metric's publish-status file says which of the six conditions
+is missing.
+- For 311, `pct_within_target` has no official on-time figure (H14), and
+  the closed-without-action rate waits on the disposition audit (H4). The
+  comparison metrics reconcile against the one official count that
+  reproduces: FY25 street-sweeping requests (D22).
+- For permits, the Census figures for 2021 and 2022 reproduce within 2%,
+  and the larger gaps for 2023 to 2025 are investigated and documented in
+  `pipelines/permits/reconciliation/official_figures.csv`. The
+  demolition-to-new ratio is a draft and is not computed in the deploy
+  (D30).
+- For food safety, the specs are drafts, no audit exists, and no official
+  inspection count has been found to reconcile against (H23). TDH will not
+  send recurring exports, so the data end on 2026-10-02 (H11).
+- MATA and MLGW wait on data (H22) and on their spec reviews.
 
 Review packets that prepare each human step are in `docs/reviews/`.
 
@@ -53,10 +73,10 @@ Review packets that prepare each human step are in `docs/reviews/`.
 | `packages/memequity/` | Shared R package: geography layer, grid-hash spatial joins, City of Memphis business-day calendar, stats (suppression, Wilson / bootstrap / Kaplan–Meier intervals), validation harness, output-schema writers, spec parser, publish gate and audit check, reconciliation against official figures, ArcGIS queries with retries, demographics and parcel denominators |
 | `geography/` | Boundary files (source and vintage in each file name) plus `registry.csv`, reference neighborhoods, and `fetch_boundaries.R`. `demographics/` holds ACS 5-year estimates apportioned to every geography (DECISIONS D20), written by `fetch_demographics.R`. `parcels/` holds the Assessor's in-city parcel counts per area (the permits denominator), written by `fetch_parcels.R`. `check_geocoder.R` measures the address lookup's geocoder (H6) |
 | `specs/<pipeline>/` | Metric specifications. The YAML front matter is machine-read; methodology pages are generated from these files |
-| `pipelines/311/` | The 311 pipeline: `run.R`, `R/` (fetch, normalize, metrics, hex, audit, reconcile), `config/`, `reconciliation/` (official City figures, D22), `tests/` (fixtures, properties, golden files, and `independent/`: a second implementation that checks the golden file and pre-traces the audit sample) |
+| `pipelines/311/` | The 311 pipeline: `run.R`, `R/` (fetch, normalize, metrics, hex, audit, reconcile), `config/`, `reconciliation/` (official City figures, D22), `audits/` (the completed audit, D33), `tests/` (fixtures, properties, golden files, and `independent/`: a second implementation that checks the golden file and pre-traces the audit sample) |
 | `pipelines/mata/` | MATA trip matching and metrics from the poller archive: `run.R --archive DIR` (weekly release assets), `R/` (archive, gtfs, match, arrivals, metrics), `tests/` on a synthetic route |
 | `pipelines/mlgw/` | MLGW outage events and metrics from the poller archive: `run.R --archive DIR` (weekly release assets), `R/` (archive, events, metrics), `config/out_causes.csv` (which causes are planned), `tests/` on a synthetic archive |
-| `pipelines/food-safety/` | The food-safety pipeline: `run.R --inbox DIR` reads the owner's collector output (D29) or a records-request export (H11); `config/column_map.yml` maps the columns, and `programs.csv`, `establishment_types.csv` and `inspection_types.csv` say what counts; `tests/` (synthetic fixtures and a golden file from a frozen sample of the real data) |
+| `pipelines/food-safety/` | The food-safety pipeline: `run.R` reads TDH's records-request export from the gitignored `inbox/` (H11, D32); `config/column_map.yml` maps the columns, and `programs.csv`, `establishment_types.csv` and `inspection_types.csv` say what counts; `tests/` (synthetic fixtures and a golden file from a frozen sample of the real data) |
 | `pipelines/permits/` | The permits pipeline, same layout: `run.R`, `R/` (including `demolitions.R` for the Data Midsouth snapshot, D30), `config/` (sector and category maps, subgroup labels, the snapshot's column map), `reconciliation/` (Census Building Permits Survey figures, `fetch_bps.R`), `tests/` |
 | `pollers/` | Python collectors for MATA GTFS-Realtime and MLGW outages, with tests and the release-archive script |
 | `site/` | Static front end (plain HTML/JS, no build step): `index.html`, `methodology.html`, `assets/`. `build_site_data.R` turns published outputs into sharded JSON under `site/data/` (generated, not committed) and leaves out any metric that fails the publish gate |
@@ -107,9 +127,9 @@ Rscript geography/fetch_parcels.R
 Rscript pipelines/permits/reconciliation/fetch_bps.R 2021 2025
 
 # Food safety: tests (synthetic fixtures and a golden file); the run reads
-# the owner's collector output for the state portal (D29)
+# TDH's records-request export in pipelines/food-safety/inbox/ (D32)
 Rscript -e 'testthat::test_dir("pipelines/food-safety/tests/testthat")'
-Rscript pipelines/food-safety/run.R --inbox ../tn-health-inspections/data
+Rscript pipelines/food-safety/run.R
 
 # MATA: download a week of the poller archive, then match trips. No window
 # is computed until data cover 90% of its days.

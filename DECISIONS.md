@@ -47,11 +47,32 @@ made while building, so a reviewer can challenge them.
   *No longer blocking (2026-09-27):* the food-safety pipeline runs on the
   owner's collector data from 2025 onward (D29). The export would still add
   2021–2024, violations and closures, and a source the agency provides.
-  When it arrives:
-  - put the files in `pipelines/food-safety/inbox/` (gitignored);
-  - map their columns in `config/column_map.yml`, and their inspection
-    types, programs and permit types in the other `config/` files;
-  - run `pipelines/food-safety/run.R`.
+  *Received by 2026-10-06 from TDH (reference number not recorded):*
+  `Shelby County Information Request.xlsx`, md5
+  `7d9f511352cffea62f542f15174ac2f7`, 4,045,333 bytes, now in
+  `pipelines/food-safety/inbox/`. Two sheets: "Food Inspection
+  Information" (41,212 food-program inspections, 2021-01-04 to 2026-10-02:
+  date, permit name, score, inspector, address, permit type, status,
+  establishment ID, purpose, risk) and "Permit Information" (6,161
+  food-program permits, with status but no closure date). It has no
+  inspection ID and no violations. Over 2025-01-02 to 2026-09-25, 99.6% of
+  the collector's food inspections are in it (same date, address and
+  score), and it has 930 more, mostly recent restaurant routines not yet on
+  the portal. It also has 198 same-day repeats (same establishment, date
+  and purpose; most with different scores), which the collector never has:
+  in 36 of the 48 such pairs since 2025 the portal shows only one, and not
+  always the higher score. New values needing a mapping: purposes
+  Consultation (four variants), Routine Complaint and Preliminary; permit
+  types Hotel 51-150, Type C - Wading pools and Child Care Inst.
+  *Wired in 2026-10-06 (D32):* the pipeline now reads only this export.
+  *Still open:* the request asked for violations, which the export lacks.
+  The owner decides whether to ask TDH for them.
+  *No recurring export (2026-10-06):* the owner reports that TDH will not
+  send recurring exports. The food-safety data therefore end on 2026-10-02
+  until someone files a new request, and the pipeline warns once they are
+  60 days old. How the panel stays current is undecided: a new records
+  request every few months, or the owner's collector for the months after
+  the export (D29, which D32 replaced).
 - [ ] **H14. Official 311 service targets and on-time figure.** *Deferred (D19).* The plan's
   "3–7 business days" and "82% on-time" figures trace to memphisgov.com, a
   commercial look-alike domain, not the city (see
@@ -136,6 +157,24 @@ made while building, so a reviewer can challenge them.
   verified. Earlier years are reconstructed from rules, and the weekend
   shifts for MLK Memorial Day and Christmas Eve are inferred. Ask the city's
   HR / Total Rewards office for its 2023–2025 holiday schedules.
+- [ ] **H23. An official food-inspection count to reconcile against.**
+  Publication condition 5 is unmet for all four food-safety metrics: no
+  official count of Shelby County food inspections for a period since 2021
+  was found (searched 2026-10-06; details in
+  `docs/research/food-safety-geography-holidays.md`). Two ways forward:
+  - open Shelby County's adopted budget books (FY22 onward, Health
+    Services section) in a browser and look for an actual count of
+    restaurant or food inspections by fiscal year. The site refuses
+    automated requests, so this was not read;
+  - or ask the Shelby County Health Department or TDH for annual counts
+    and how they are defined.
+
+  The one figure found, "4,332 food establishments" inspected in 2023
+  (Health Department district profile), does not reproduce from TDH's
+  export under either reading (3,677 establishments, 6,467 inspections),
+  so it is not used. Copy a figure into
+  `pipelines/food-safety/reconciliation/official_figures.csv` only from
+  the document itself (D22). *Blocks:* publishing any food-safety metric.
 
 ### Field and manual work (plan 5.6)
 
@@ -145,6 +184,10 @@ made while building, so a reviewer can challenge them.
   *311 prepared 2026-09-25:* the sample was pre-traced against the source
   automatically, and all 100 matched (`docs/reviews/h3-audit/`). The hand
   trace is still to do.
+  *311 and permits audited 2026-10-06 by Claude, at the owner's direction
+  (D33):* the sheets are in `pipelines/311/audits/` and
+  `pipelines/permits/audits/`. No person has traced a record. Food safety,
+  MATA, MLGW and the permits `demolition` subgroup still need an audit.
 - [ ] **H4. 311 disposition audit.** Read a few hundred closed requests and
   confirm or correct the draft disposition mapping. *Blocks:* the
   closed-without-action metric.
@@ -169,6 +212,13 @@ made while building, so a reviewer can challenge them.
   to the agency two weeks before launch. The 311 letter draft is
   `docs/outreach/h8-courtesy-preview-311.md`; log responses in
   `docs/outreach/courtesy-preview-log.md`.
+  *Not sent as of 2026-10-06.* Five metrics now pass the publish gate
+  (D33), and the gate does not know about this step: once those commits
+  are pushed, the daily deploy shows the numbers publicly. Send the
+  preview first, or decide to launch without it. Two questions from the
+  audit belong in the 311 letter: why at least 23,684 requests were closed
+  in batches on 2025-09-22, and whether a missed collection reported a
+  week after an earlier one is a new miss (D6 treats it as a duplicate).
 
 ### Judgment calls to confirm
 
@@ -223,7 +273,11 @@ made while building, so a reviewer can challenge them.
   The 311 pre-review packet is `docs/reviews/h10-311-specs/`. Its main
   finding: closed requests with no close date cluster in December 2025 and
   January 2026. The other specs have open questions noted in each: the
-  food-safety specs are at 0.3 (first run on real data, D29), permits at
+  *Five frozen 2026-10-06 by Claude, at the owner's direction (D33):* 311
+  `median_business_days_to_close`, `reopen_rate` and `requests_per_1000`;
+  permits `permits_per_1000_parcels` and `declared_value_per_1000_parcels`.
+  The rest are still `draft`.
+  food-safety specs are at 0.4 (TDH's export, D32), permits at
   0.2–0.3 (demolitions added, D30), and MATA at 0.2.
 
 ## Decisions made
@@ -516,6 +570,8 @@ made while building, so a reviewer can challenge them.
 
   H11 stays open. An agency export would add 2021–2024, violations and
   closures, and a source the agency provides.
+  *Superseded 2026-10-06 by D32:* the pipeline now reads TDH's export. The
+  export has 2021 onward but no violations or closure dates.
 - **D30. Demolitions come from the owner's Data Midsouth snapshot.** On
   2026-09-27 the owner supplied a CSV export of Data Midsouth's "Building
   and Demolition Permits – Shelby County" (`mem-demo-permits/
@@ -561,6 +617,90 @@ made while building, so a reviewer can challenge them.
     84 planned, 671 inside the city. The median outage lasted 80 minutes.
     235 of 804 restorations fall in poller gaps longer than 30 minutes
     (H22).
+- **D32. Food inspections come from TDH's records-request export.** On
+  2026-10-06 the owner chose the export (H11) as the pipeline's only
+  source, replacing the collector (D29). `config/column_map.yml` maps the
+  export's two sheets, and the collector's `inspections.csv` can no longer
+  be read without editing it. The specs moved to 0.4 and the golden file
+  was rebuilt from the export. The owner's choices on what the export
+  brought:
+  - Rows identical in every column, inspector included, are read once (27
+    in the first export). Same-day repeats that differ in any column,
+    nearly always the score, are kept as separate inspections (171 groups,
+    nearly all pairs):
+    the portal usually shows only one of each, but not always the higher
+    score, so no rule picks the right one. The latest-score metrics
+    already take the higher score on a same-day tie.
+  - Preliminary counts as pre-opening (it starts the 6-month clock).
+    Consultation (four variants), Routine Complaint and Complete are
+    `other` and enter no metric.
+  - The permits sheet's status (Active, Closed, Inactive) is not used for
+    closures yet: it is a snapshot with no date, so it could only apply to
+    the latest window. That is a spec question for later.
+  - Not in the export: inspection IDs and violations. The inspections
+    sheet names the inspector and the permits sheet the billing contact;
+    neither column is mapped, and the golden sample keeps only mapped
+    columns.
+- **D33. The owner delegated the spec freeze and the audit for 311 and
+  permits to Claude.** On 2026-10-06 the owner directed Claude
+  (claude-fable-5-1) to freeze the 311 and permits specs (H10) and complete
+  the audit (H3). The plan gives both steps to a person (5.6, 5.7), so that
+  someone other than the builder checks the work. Claude also wrote the
+  pipelines, so this is not that independent check. The independent
+  reviewer (H7) and the agency previews (H8) are still open.
+  - **Frozen:** the five specs listed under H10. Each spec's text was
+    corrected to say what the code has computed all along (H10 packet C1
+    to C4, and the single-spec issues). No computed value and no version
+    changed, so the golden files stand.
+  - **Left as drafts:** `pct_within_target` (no official on-time figure,
+    H14, deferred by D19), `closed_without_action_rate` (H4) and
+    `demolition_to_new_ratio` (it is computed only from the owner's
+    snapshot, which the audit sample does not cover; H21).
+  - **Judgment calls made in the freeze,** for the owner or an independent
+    reviewer to overturn:
+    - a count of requests is accepted as the reconciliation for the 311
+      timing metrics, on the one official figure that reproduces (D22);
+    - missing close dates (60% of closed requests opened in December 2025)
+      are disclosed as a confounder, not corrected;
+    - a re-report on the day a request closes is not counted;
+    - permits stay reconciled against all residential buildings, with the
+      2023 to 2025 gaps documented (D14).
+  - **Audits:** the 100 records each pipeline drew on its 2026-10-06 run.
+    Each record was fetched again from the City's layer and its dates,
+    business days, category and geography were recomputed with code that
+    shares nothing with the pipeline
+    (`pipelines/311/tests/independent/`, `pipelines/permits/tests/independent/`).
+    Beyond that arithmetic:
+    - each street address was geocoded by the Census Bureau and compared
+      with the City's point (311: 92 addresses, median 31 m apart;
+      permits: 99, median 93 m);
+    - the City's own ZIP code and council district fields were compared
+      with the areas assigned (they differ on one 311 request, which sits
+      on a ZIP-code boundary, and on one permit whose ZIP code belongs to
+      a single building);
+    - every sampled permit's description was read against its category;
+    - the published rows the records count in were recomputed from a
+      fresh fetch: 534 of 534 ZIP-code rows for 311, and 3,936 of 3,936
+      count and value rows for permits.
+  - **What the audits found:**
+    - 311, 3 of 100: a close date from a mass closure on 2025-09-22, when
+      at least 23,684 requests were closed in batches that share a close
+      time to the second. No window published today contains that day.
+      Both timing specs now list mass closures as a confounder.
+    - 311, 3 of 100: the City's `REPORTED_DATE` is one to three days
+      before the record's creation, which the metric counts from.
+    - 311, 1 of 5 near-duplicates: a missed collection 6.96 days after an
+      earlier one at the same address is more likely a second miss than a
+      second report. The 7-day rule (D6) spans the weekly collection
+      cycle. Not changed; it is a question for the City (H8).
+    - Permits, 1 of 100: the City codes a renovation of an existing office
+      as new construction, and the pipeline follows the code.
+  - **Disclosure:** every row of both sheets names Claude as the auditor,
+    and the methodology page prints who traced the records
+    (`memequity::committed_audit()`).
+  - **Not covered:** dispositions (H4), demolitions, and anything only a
+    person on the street could check, such as whether a pothole was
+    filled.
 - **D8. Boundary rule.** A point within 1 m of more than one polygon goes to
   the lowest `geo_id` among them and is flagged `on_boundary`.
 - **D9. Censored durations.** Median time-to-close uses a Kaplan–Meier
