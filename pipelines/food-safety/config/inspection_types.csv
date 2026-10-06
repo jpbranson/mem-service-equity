@@ -1,5 +1,11 @@
 inspection_type,kind,note
-Routine,routine,portal purpose value (collector data through 2026-09-25)
-Follow-Up,follow_up,portal purpose value
-Complaint,complaint,portal purpose value
-Complete,other,"portal purpose value; its meaning is not documented (7 food-program inspections in 2025-2026)"
+Routine,routine,purpose value
+Follow-Up,follow_up,purpose value
+Complaint,complaint,purpose value
+Routine Complaint,other,"purpose value; its meaning is not documented (7 inspections in the TDH export, 2021-2026)"
+Preliminary,pre_opening,"purpose value; the inspection before a new permit is issued (4 in the TDH export)"
+Consultation,other,purpose value: an advisory visit
+Consultation General,other,purpose value: an advisory visit
+Consultation Complaint,other,purpose value: an advisory visit
+Consultation Quality Assurance,other,purpose value: an advisory visit
+Complete,other,"purpose value; its meaning is not documented (28 in the TDH export)"

@@ -253,7 +253,7 @@ if (file.exists(file.path(dfood, "publish_status_food-safety.json"))) {
     status = "live",
     noun = "establishment",
     data_current_through = cw_f$data_current_through[1],
-    # The collector runs by hand for now (D29); the pipeline warns at 60 days.
+    # The data are a one-off records-request export (D32); the pipeline warns at 60 days.
     freshness_limit_days = 60,
     validation = list(status = val_f$status, run_date = val_f$run_date, summary = val_f$summary,
                       record_counts = val_f$record_counts),
@@ -271,9 +271,9 @@ if (file.exists(file.path(dfood, "publish_status_food-safety.json"))) {
 if (is.null(manifest$pipelines[["food-safety"]]))
   manifest$pipelines[["food-safety"]] <- list(
     title = "Food safety", status = "in_development",
-    note = paste("Inspection data come from the state portal through the project owner's collector",
-                 "(DECISIONS.md D29), which does not run with this build yet. The pipeline is built",
-                 "and runs on the collected data."))
+    note = paste("Inspection data come from a Tennessee Department of Health records-request export",
+                 "(DECISIONS.md D32), which is not committed and does not run with this build. The",
+                 "pipeline is built and runs on the export locally."))
 manifest$pipelines[["mata"]] <- list(
   title = "Transit (MATA)", status = "collecting", collecting_since = "2026-09-23",
   note = paste("Bus positions are archived every 30 seconds while the collector runs, which so far",

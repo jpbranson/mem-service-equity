@@ -1,7 +1,7 @@
 # Ingest: read the inspection data from inbox/ and rename its columns to the
-# canonical fields in config/column_map.yml. The data are the owner's
-# collector output for the state portal (DECISIONS.md D29), or a
-# records-request export (H11). The pipeline itself fetches nothing.
+# canonical fields in config/column_map.yml. The data are TDH's
+# records-request export (DECISIONS.md H11, D32). The pipeline itself
+# fetches nothing.
 
 read_food_config <- function(dir) {
   csv <- function(f) utils::read.csv(file.path(dir, f), stringsAsFactors = FALSE,
@@ -26,25 +26,36 @@ food_program_only <- function(tables, config) {
   p <- config$programs
   keep <- ins$program %in% p$program[p$include]
   out <- ins[keep, , drop = FALSE]
-  for (a in c("file", "absent", "missing_required")) attr(out, a) <- attr(ins, a)
+  for (a in c("file", "absent", "missing_required", "exact_duplicates")) attr(out, a) <- attr(ins, a)
   attr(out, "other_program") <- sum(!keep)
   tables$inspections <- out
   tables
 }
 
 #' The export file for one table: the first file in `inbox` whose name
-#' contains the table's file_pattern. NULL if there is none.
+#' matches the table's file_pattern. NULL if there is none.
 find_export_file <- function(inbox, pattern) {
   files <- sort(list.files(inbox, pattern = "\\.(csv|xlsx)$", ignore.case = TRUE, full.names = TRUE))
   hit <- files[grepl(pattern, basename(files), ignore.case = TRUE)]
   if (length(hit)) hit[1] else NULL
 }
 
-read_export_file <- function(path) {
+#' Read one export file as text columns. From a workbook, `sheet` (default
+#' the first); date cells become "%Y-%m-%d" and numbers their plain digits.
+read_export_file <- function(path, sheet = NULL) {
   if (grepl("\\.xlsx$", path, ignore.case = TRUE)) {
     if (!requireNamespace("readxl", quietly = TRUE))
       stop("reading ", basename(path), " needs the readxl package", call. = FALSE)
-    return(as.data.frame(readxl::read_xlsx(path, col_types = "text")))
+    raw <- as.data.frame(readxl::read_xlsx(path, sheet = if (is.null(sheet)) 1L else sheet,
+                                           guess_max = 1e6, na = c("", "NA", "NULL")))
+    for (n in names(raw)) {
+      x <- raw[[n]]
+      raw[[n]] <- if (inherits(x, "POSIXt")) format(x, "%Y-%m-%d", tz = "UTC")
+        else if (is.numeric(x)) format(x, scientific = FALSE, trim = TRUE, drop0trailing = TRUE)
+        else as.character(x)
+      raw[[n]][is.na(x)] <- NA_character_
+    }
+    return(raw)
   }
   utils::read.csv(path, stringsAsFactors = FALSE, colClasses = "character", check.names = FALSE,
                   na.strings = c("", "NA", "NULL"), encoding = "UTF-8")
@@ -69,11 +80,14 @@ parse_dates <- function(x, formats) {
 
 #' Read one table and return it with canonical column names. Returns NULL
 #' when the export has no file for the table; `attr(, "absent")` lists
-#' canonical fields that could not be found.
+#' canonical fields that could not be found. Rows identical in every source
+#' column are kept once (D32); `attr(, "exact_duplicates")` counts the rest.
 read_canonical_table <- function(inbox, spec, date_formats) {
   path <- find_export_file(inbox, spec$file_pattern)
   if (is.null(path)) return(NULL)
-  raw <- read_export_file(path)
+  raw <- read_export_file(path, spec$sheet)
+  dup <- duplicated(raw)
+  raw <- raw[!dup, , drop = FALSE]
   cols <- spec$columns
   out <- data.frame(row.names = seq_len(nrow(raw)))
   absent <- character()
@@ -87,6 +101,7 @@ read_canonical_table <- function(inbox, spec, date_formats) {
   attr(out, "file") <- basename(path)
   attr(out, "absent") <- absent
   attr(out, "missing_required") <- intersect(unlist(spec$required), absent)
+  attr(out, "exact_duplicates") <- sum(dup)
   out
 }
 

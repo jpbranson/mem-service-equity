@@ -1,49 +1,52 @@
 # Where each field the pipeline uses is found in the inspection data. The
-# current source is the CSV written by the owner's collector for the state
-# inspection portal (tn-health-inspections, DECISIONS.md D29); the column
-# names below are that file's. If the records-request export (H11) replaces
-# it, check its column names and edit this file, not the R code.
+# source is the Tennessee Department of Health's records-request export
+# (DECISIONS.md H11, D32): one workbook, "Shelby County Information
+# Request.xlsx", with an inspections sheet and a permits sheet. The column
+# names below are that workbook's. If a later export renames them, edit this
+# file, not the R code.
 #
-# Each table is read from the first file in inbox/ whose name contains
-# file_pattern (case-insensitive; .csv, or .xlsx with the readxl package).
-# A field mapped to null, or to a column the file lacks, is treated as
-# absent. The run fails if a `required` field is absent.
+# Each table is read from the first file in inbox/ whose name matches
+# file_pattern (a case-insensitive regular expression; .csv, or .xlsx with
+# the readxl package), and from `sheet` when the file is a workbook. Rows
+# that are identical in every column are read once (D32). A field mapped to
+# null, or to a column the file lacks, is treated as absent. The run fails
+# if a `required` field is absent.
 source: >
-  Tennessee Department of Health inspection portal
-  (inspections.myhealthdepartment.com), Shelby County, collected by the
-  owner's tn-health-inspections collector (DECISIONS.md D29)
+  Tennessee Department of Health, public records request export of Shelby
+  County food establishment inspections and permits (DECISIONS.md H11, D32)
 tables:
   inspections:
-    file_pattern: inspection
+    file_pattern: information request|inspection
+    sheet: Food Inspection Information
     required: [inspection_date, inspection_type, score]
     columns:
-      establishment_id: permitID
-      name: establishmentName
-      address: addressLine1
-      city: city
-      zip: zip
-      inspection_id: inspectionID
-      inspection_date: inspectionDate
-      inspection_type: purpose
-      score: score
-      program: programName
-      establishment_type: permitType
-  # The collector writes no establishments or violations file. These two
-  # entries keep the layout the records request asked for
-  # (docs/records-requests/h11-food-inspections.md); their column names are
-  # placeholders until such an export arrives.
+      establishment_id: Establishment ID
+      name: Permit Name
+      address: Address
+      city: City
+      zip: Zipcode
+      inspection_id: null       # the export has no inspection ID
+      inspection_date: Inspection Date
+      inspection_type: Purpose
+      score: Score
+      program: null             # food program only: every row is in it
+      establishment_type: Permit Type
   establishments:
-    file_pattern: establishment
+    file_pattern: information request|establishment
+    sheet: Permit Information
     required: [address]
     columns:
-      establishment_id: Permit Number
+      establishment_id: Establishment Number
       name: Establishment Name
       address: Address
       city: City
       zip: Zip
-      establishment_type: Establishment Type
-      risk_category: Risk Category
-      closed_date: Closure Date
+      establishment_type: Permit Type
+      risk_category: null       # on the inspections sheet only ("Risk")
+      closed_date: null         # the sheet has a status but no closure date
+  # The export has no violations. This entry keeps the layout the records
+  # request asked for (docs/records-requests/h11-food-inspections.md); its
+  # column names are placeholders.
   violations:
     file_pattern: violation
     required: [inspection_id]
@@ -52,7 +55,6 @@ tables:
       item: Item Number
       category: Priority Category
       corrected_on_site: Corrected On Site
-# Date formats tried in order for every date field. The collector writes
-# ISO timestamps at midnight UTC ("2025-07-10T00:00:00.000Z"), which carry
-# the local inspection date; "%Y-%m-%d" reads the date part.
+# Date formats tried in order for every date field. Workbook dates are read
+# as "%Y-%m-%d".
 date_formats: ["%m/%d/%Y", "%Y-%m-%d", "%m/%d/%Y %H:%M:%S", "%Y-%m-%d %H:%M:%S", "%m/%d/%y"]

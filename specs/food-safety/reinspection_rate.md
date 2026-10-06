@@ -2,7 +2,7 @@
 id: reinspection_rate
 pipeline: food-safety
 title: Share of inspections that were follow-ups
-version: "0.3"
+version: "0.4"
 status: draft
 unit: proportion
 formula: >
@@ -48,3 +48,4 @@ one went badly?
 - 0.1, 2026-09-25 — added the `reconciliation` block (DECISIONS.md D22). No change to the definition.
 - 0.2, 2026-09-25 — first computed version, tested on a synthetic export only; the real export has not arrived (H11). Rules and their sources are in `pipelines/food-safety/config/rules.yml`.
 - 0.3, 2026-09-27 — first run on real data: the state portal via the owner's collector (DECISIONS.md D29), inspections since 2025-01-01. Only the Food Service Establishment program counts, and only restaurant and auxiliary (bar) permits: mobile units, school, child-care and senior-meal kitchens, and private homes are left out (`pipelines/food-safety/config/establishment_types.csv`). Windows start no earlier than the first day the data cover, so they are shorter than their nominal length until 2027 (24 months) and 2028 (the 36-month activity window).
+- 0.4, 2026-10-06 — source changed from the owner's collector to TDH's records-request export (DECISIONS.md H11, D32): inspections from 2021-01-04, so every window has its full length, plus inspections the portal had not yet posted. Rows identical in every column are counted once; same-day repeat inspections are kept. Preliminary inspections count as pre-opening, and consultations are not counted. The formula is unchanged.

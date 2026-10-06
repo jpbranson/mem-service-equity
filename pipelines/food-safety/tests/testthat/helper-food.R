@@ -22,24 +22,30 @@ stub_geocoder <- function(street, city = "Memphis", state = "TN", zip = "", cach
 
 #' Synthetic inspections for fictitious establishments ("Test Grill <n>" at
 #' "<n> TEST ST", permit P<n>), in canonical field names. Dates are written
-#' the way the collector writes them (D29).
+#' the way read_export_file() renders workbook dates. Fields the column map
+#' leaves unmapped (inspection_id, program) are dropped by write_export().
 make_inspections <- function(est, dates, types, scores, program = "Food Service Establishment",
                              establishment_type = "Commercial Food 51+") {
   data.frame(establishment_id = paste0("P", est), name = paste("Test Grill", est),
              address = paste(est, "TEST ST"), city = "Memphis", zip = "38103",
              inspection_id = sprintf("I%05d", seq_along(est)),
-             inspection_date = format(as.Date(dates), "%Y-%m-%dT00:00:00.000Z"), inspection_type = types,
+             inspection_date = format(as.Date(dates), "%Y-%m-%d"), inspection_type = types,
              score = scores, program = program, establishment_type = establishment_type,
              stringsAsFactors = FALSE)
 }
 
 #' Write canonical tables to a temp inbox under the export's column names
 #' from config/column_map.yml, so tests exercise the real column mapping.
+#' Fields the map leaves unmapped are not written.
 write_export <- function(inspections, establishments = NULL) {
   dir <- tempfile("inbox_")
   dir.create(dir)
   cm <- cfg$column_map$tables
-  rename <- function(d, map) { names(d) <- vapply(names(d), function(n) map[[n]], ""); d }
+  rename <- function(d, map) {
+    d <- d[, names(d) %in% names(Filter(Negate(is.null), map)), drop = FALSE]
+    names(d) <- vapply(names(d), function(n) map[[n]], "")
+    d
+  }
   utils::write.csv(rename(inspections, cm$inspections$columns),
                    file.path(dir, "inspections_export.csv"), row.names = FALSE, na = "")
   if (!is.null(establishments))
@@ -48,10 +54,12 @@ write_export <- function(inspections, establishments = NULL) {
   dir
 }
 
-food_pipeline <- function(inbox, through, from = NULL) {
+#' The pipeline from ingest to metrics on the export in `inbox`, or on
+#' canonical `tables` when given (for fields the column map cannot carry).
+food_pipeline <- function(inbox, through, from = NULL, tables = ingest_export(inbox, cfg)) {
   through <- as.Date(through)
   if (!is.null(from)) from <- as.Date(from)
-  tables <- food_program_only(ingest_export(inbox, cfg), cfg)
+  tables <- food_program_only(tables, cfg)
   ins <- normalize_inspections(tables, cfg, through, from)
   est <- geocode_establishments(normalize_establishments(tables, ins, cfg), geocoder = stub_geocoder)
   pts <- attach_geography_food(est, geo_dir)

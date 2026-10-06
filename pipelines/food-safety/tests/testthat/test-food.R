@@ -1,6 +1,6 @@
 # Layer 3 tests for the food-safety pipeline (plan 5.3): hand-built fixtures
-# in the collector's layout (DECISIONS.md D29) with known answers, property
-# tests, and a golden file from a frozen sample of the real data.
+# in the TDH export's layout (DECISIONS.md H11, D32) with known answers,
+# property tests, and a golden file from a frozen sample of the real data.
 
 test_that("dates parse in any configured format, and implausible years are rejected", {
   f <- unlist(cfg$column_map$date_formats)
@@ -23,6 +23,14 @@ test_that("the column map renames the export and reports absent fields", {
   expect_null(t$establishments)
   ins$score <- NULL                                    # a required field
   expect_equal(attr(ingest_export(write_export(ins), cfg)$inspections, "missing_required"), "score")
+})
+
+test_that("rows identical in every column are read once, and same-day repeats are kept", {
+  ins <- make_inspections(c(1, 1, 1, 2), "2026-01-05", "Routine", c(90, 90, 85, 88))
+  t <- ingest_export(write_export(ins), cfg)$inspections
+  expect_equal(nrow(t), 3L)                            # the 85 is a different inspection
+  expect_equal(attr(t, "exact_duplicates"), 1L)
+  expect_equal(attr(food_program_only(list(inspections = t), cfg)$inspections, "exact_duplicates"), 1L)
 })
 
 test_that("establishments are keyed on the permit number, else on name and address", {
@@ -89,13 +97,18 @@ test_that("unlocated and closed establishments drop out, and order does not matt
   ins <- fixture()
   ins$address[ins$establishment_id == "P1"] <- "NOWHERE"          # the stub cannot place it
   est <- data.frame(establishment_id = "P2", name = "Test Grill 2", address = "2 TEST ST",
-                    city = "Memphis", zip = "38103", establishment_type = "Restaurant",
-                    risk_category = NA, closed_date = "06/01/2026")
-  a <- food_pipeline(write_export(ins, est), "2026-08-31")
+                    city = "Memphis", zip = "38103", establishment_type = "Restaurant")
+  # The export has no closure date, so P2's is set on the canonical table.
+  closed <- function(ins) {
+    t <- ingest_export(write_export(ins, est), cfg)
+    t$establishments$closed_date <- as.Date("2026-06-01")
+    t
+  }
+  a <- food_pipeline(tables = closed(ins), through = "2026-08-31")
   expect_equal(get_food(a$m, "median_latest_score")$n, 29L)      # P1 is unlocated
   expect_equal(get_food(a$m, "pct_overdue_inspection")$n, 29L)   # ... and P2 closed
   set.seed(9)
-  b <- food_pipeline(write_export(ins[sample(nrow(ins)), ], est), "2026-08-31")
+  b <- food_pipeline(tables = closed(ins[sample(nrow(ins)), ]), through = "2026-08-31")
   key <- function(m) m[order(m$metric, m$variant, m$geo_type, m$geo_id),
                        c("metric", "variant", "geo_id", "value", "ci_low", "ci_high", "n")]
   expect_equal(key(a$m), key(b$m), ignore_attr = TRUE)
@@ -103,8 +116,9 @@ test_that("unlocated and closed establishments drop out, and order does not matt
 
 test_that("only the food program and included permit types count", {
   ins <- rbind(fixture(),
-    # A pool inspection on the same portal, and a child-care kitchen, a mobile
-    # unit and a family child-care home in the food program.
+    # A pool inspection, and a child-care kitchen, a mobile unit and a family
+    # child-care home in the food program. The export is food-only and has
+    # no program column, so the program is set on the canonical table.
     make_inspections(40, "2026-03-01", "Routine", 50, program = "Public Swimming Pool",
                      establishment_type = "Type A- General public and institutional pools"),
     make_inspections(41:43, "2026-03-01", "Routine", 50,
@@ -113,7 +127,14 @@ test_that("only the food program and included permit types count", {
   ins$inspection_id <- sprintf("I%05d", seq_len(nrow(ins)))
   seen <- character()
   geocoder <- function(street, ...) { seen <<- c(seen, street); stub_geocoder(street, ...) }
-  tables <- food_program_only(ingest_export(write_export(ins), cfg), cfg)
+  with_program <- function(ins) {
+    t <- ingest_export(write_export(ins), cfg)
+    t$inspections$program <- ins$program
+    t
+  }
+  expect_equal(attr(food_program_only(ingest_export(write_export(ins), cfg), cfg)$inspections,
+                    "other_program"), 0L)               # no program column: all kept
+  tables <- food_program_only(with_program(ins), cfg)
   expect_equal(attr(tables$inspections, "other_program"), 1L)
   expect_equal(attr(tables$inspections, "file"), "inspections_export.csv")
   n <- normalize_inspections(tables, cfg, as.Date("2026-08-31"))
@@ -122,7 +143,7 @@ test_that("only the food program and included permit types count", {
   geocode_establishments(est, geocoder = geocoder)
   expect_false(any(c("41 TEST ST", "42 TEST ST", "43 TEST ST") %in% seen))   # never geocoded
   # The metrics equal the fixture's own.
-  a <- food_pipeline(write_export(ins), "2026-08-31")$m
+  a <- food_pipeline(tables = with_program(ins), through = "2026-08-31")$m
   b <- food_pipeline(write_export(fixture()), "2026-08-31")$m
   key <- function(m) m[order(m$metric, m$variant, m$geo_type, m$geo_id), c("metric", "variant", "value", "n")]
   expect_equal(key(a), key(b), ignore_attr = TRUE)

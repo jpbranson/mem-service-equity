@@ -7,8 +7,8 @@
 # data are complete through, and start no earlier than the first day they
 # cover (`from`).
 
-SPEC_VERSIONS <- c(median_latest_score = "0.3", pct_below_followup_threshold = "0.3",
-                   pct_overdue_inspection = "0.3", reinspection_rate = "0.3")
+SPEC_VERSIONS <- c(median_latest_score = "0.4", pct_below_followup_threshold = "0.4",
+                   pct_overdue_inspection = "0.4", reinspection_rate = "0.4")
 
 months_back <- function(through, months)
   seq(as.Date(through) + 1L, by = paste0("-", months, " months"), length.out = 2L)[2]

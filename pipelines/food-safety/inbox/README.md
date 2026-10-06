@@ -3,15 +3,17 @@
 The default `--inbox` of `pipelines/food-safety/run.R`. The files are **not
 committed**: only this README is tracked.
 
-The current data are the owner's collector output (DECISIONS.md D29). Point
-`--inbox` at the collector's data directory, or copy its `inspections.csv`
-here. The validation report records the file's md5.
+The data are TDH's records-request export (DECISIONS.md H11, D32):
+`Shelby County Information Request.xlsx`, whose two sheets
+`../config/column_map.yml` names. The validation report records the file's
+md5. The workbook names inspectors and billing contacts, so it stays here,
+uncommitted.
 
-If the records-request export (H11) arrives, put it here and, before the
-first run:
+When a new export arrives, put it here (remove the old one: the first file
+whose name matches `file_pattern` is read) and, before the first run:
 
-1. Check every column name in `../config/column_map.yml` against the files,
-   and every inspection-type, program and permit-type value in
+1. Check every sheet and column name in `../config/column_map.yml`
+   against the file, and every inspection-type and permit-type value in
    `../config/*.csv`. The run fails on a missing required field or an
    unmapped value.
 2. Record the date received, the sender and any reference number in

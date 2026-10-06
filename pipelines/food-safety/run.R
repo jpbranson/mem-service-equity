@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 # Food-safety pipeline: ingest the inspection data -> validate -> keep the
 # food program -> normalize -> geocode -> attach geography -> compute metrics
-# -> write flat files + validation report (plan 6.4, DECISIONS.md D29, D13).
+# -> write flat files + validation report (plan 6.4, DECISIONS.md H11, D32, D13).
 #
 # Usage (from the repository root):
 #   Rscript pipelines/food-safety/run.R [--inbox DIR] [--from YYYY-MM-DD]
@@ -9,12 +9,11 @@
 #                                       [--as-of YYYY-MM-DD] [--out DIR]
 #                                       [--geocode-cache FILE]
 #
-# --inbox holds the data: the collector's inspections.csv (D29; e.g.
-# --inbox ../tn-health-inspections/data) or a records-request export (H11).
-# --from and --through are the first and last days the data are complete
-# for (the collector's scan range, or the agency's cover letter). Without
-# them, the earliest and latest inspection dates are used; no window starts
-# before --from.
+# --inbox holds TDH's records-request export (H11, D32; default
+# pipelines/food-safety/inbox). --from and --through are the first and last
+# days the data are complete for (the agency's cover letter). Without them,
+# the earliest and latest inspection dates are used; no window starts before
+# --from.
 # Geocodes are cached (default data/cache/food-safety/geocode.csv); only
 # addresses missing from the cache go to the Census geocoder.
 # Set TESTS_PASSED=true when the metric tests have passed in the same CI run.
@@ -40,9 +39,9 @@ cfg <- read_food_config(file.path(here, "config"))
 # ---- ingest ------------------------------------------------------------------
 tables <- ingest_export(inbox, cfg)
 if (is.null(tables$inspections)) {
-  message("No inspections file in ", inbox, ". Pass --inbox with the collector's data ",
-          "directory (DECISIONS.md D29), or put a file whose name contains '",
-          cfg$column_map$tables$inspections$file_pattern, "' there. Nothing to do.")
+  message("No inspections file in ", inbox, ". Put TDH's export there (DECISIONS.md H11), ",
+          "or pass --inbox with a directory holding a file whose name matches '",
+          cfg$column_map$tables$inspections$file_pattern, "'. Nothing to do.")
   quit(save = "no", status = 0)
 }
 log("inspections from ", attr(tables$inspections, "file"), ": ", nrow(tables$inspections), " rows")
@@ -50,10 +49,8 @@ log("inspections from ", attr(tables$inspections, "file"), ": ", nrow(tables$ins
 # ---- validate the data -------------------------------------------------------
 files <- Filter(Negate(is.null), tables)
 rep <- validation_report("food-safety", as_of, source = paste0(trimws(cfg$column_map$source), ": ",
-  paste(vapply(files, function(t) {
-    f <- attr(t, "file")
-    sprintf("%s (md5 %s)", f, unname(tools::md5sum(file.path(inbox, f))))
-  }, ""), collapse = ", ")))
+  paste(vapply(unique(vapply(files, attr, "", "file")), function(f)
+    sprintf("%s (md5 %s)", f, unname(tools::md5sum(file.path(inbox, f)))), ""), collapse = ", ")))
 if ("program" %in% names(tables$inspections))
   rep <- check_referential(rep, tables$inspections$program, cfg$programs$program,
                            "every program is listed in config/programs.csv")
@@ -107,6 +104,7 @@ est <- geocode_establishments(est, cache_path = arg("geocode-cache",
 rep <- check_geocoding(rep, est$match_quality, accepted = c("exact", "non_exact"))
 pts <- attach_geography_food(est, geography_dir())
 rep <- add_count(rep, "inspections_other_program", attr(tables$inspections, "other_program"))
+rep <- add_count(rep, "inspections_exact_duplicates", attr(tables$inspections, "exact_duplicates"))
 rep <- add_count(rep, "inspections", nrow(ins))
 for (reason in sort(unique(na.omit(ins$exclusion))))
   rep <- add_count(rep, paste0("excluded_", reason), sum(ins$exclusion == reason, na.rm = TRUE))
