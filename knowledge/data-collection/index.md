@@ -11,7 +11,7 @@
 * [Poller design](poller-design.md) - Shared design of the Python pollers: stdlib fetch with retries, a multi-rate loop, crash-safe gzip JSON lines, and a log of every poll attempt.
 * [MATA poller](mata-poller.md) - Polls MATA's GTFS-Realtime vehicle positions every 30 s and alerts every 15 min, and archives the static GTFS zip once per run.
 * [MLGW poller](mlgw-poller.md) - Snapshots MLGW's outage-map GeoJSON every 5 min and scrapes the customer totals from the HTML summary page every 15 min.
-* [Poller scheduling and coverage](poller-scheduling.md) - The pollers run as 170-minute GitHub Actions jobs every 2 hours, which covers only about half the time; an always-on host is prepared (H22).
+* [Poller scheduling and coverage](poller-scheduling.md) - The pollers run as 170-minute GitHub Actions jobs every 2 hours, which covers well under half the time (39-41% in early November 2026); an always-on host is prepared (H22).
 * [Poller archive](poller-archive.md) - Poller output is uploaded every 30 minutes, after a gzip -t check, to weekly GitHub releases named archive-<source>-<YYYY>-W<ww>.
 
 # Files from the owner

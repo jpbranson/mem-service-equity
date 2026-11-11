@@ -1,5 +1,9 @@
 # Knowledge bundle update log
 
+## 2026-11-11
+* **Update**: [Poller scheduling and coverage](/data-collection/poller-scheduling.md): rechecked against the run history; coverage over 2026-11-04 to 11-10 was 39% (MATA) and 41% (MLGW), with every run succeeding. H22 is still open.
+* **Creation**: Added [How a pipeline failure reaches the owner](/publication/failure-alerting.md): permits was off the site from 2026-11-01 to 11-10 because the City added certificates of occupancy to the DPD layer, and the deploy stayed green. They are now excluded, and a `permits-alert` job turns the run red (D34).
+
 ## 2026-10-06
 * **Creation**: Added [What passes the publish gate, and who signed it](/publication/gate-status.md): five metrics pass since 2026-10-06, with their specs frozen and their audits done by Claude at the owner's direction (D33).
 * **Update**: [Owner-collected sources](/data-collection/owner-collected-sources.md): TDH will not send recurring exports (H11).

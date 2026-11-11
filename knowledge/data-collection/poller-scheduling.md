@@ -1,11 +1,11 @@
 ---
 type: Operations
 title: Poller scheduling and coverage
-description: The pollers run as 170-minute GitHub Actions jobs every 2 hours, which covers only about half the time; an always-on host is prepared (H22).
+description: The pollers run as 170-minute GitHub Actions jobs every 2 hours, which covers well under half the time (39-41% in early November 2026); an always-on host is prepared (H22).
 tags: [collection, poller, github-actions, coverage]
 status: draft
-generated: { by: claude-code/claude-opus-5-5, at: 2026-10-04T20:45:00-05:00 }
-stale_after: 2026-11-04T00:00:00-06:00
+generated: { by: claude-code/claude-opus-5-5, at: 2026-11-11T08:00:00-06:00 }
+stale_after: 2026-12-11T00:00:00-06:00
 sources:
   - id: poll-mata
     resource: ../../.github/workflows/poll-mata.yml
@@ -23,6 +23,9 @@ sources:
     resource: ../../pollers/host/README.md
     title: Always-on pollers (H22)
     last_modified: 2026-10-01T20:57:49-05:00
+  - id: runs
+    resource: https://github.com/jpbranson/mem-service-equity/actions
+    title: GitHub Actions run history for poll-mata and poll-mlgw
 ---
 
 # Current schedule
@@ -42,7 +45,11 @@ accept `workflow_dispatch` with a `minutes` input.
 The overlap is not enough. About half of the scheduled runs never start.
 Measured from the poll logs for 2026-09-24 to 09-30, MATA covered 51% of
 service hours and MLGW 49% of the day. No poll attempt failed: whole runs
-were missing.[^decisions] Consequences:
+were missing.[^decisions] Rechecked on 2026-11-11 from the run history: in
+2026-11-04 to 11-10, GitHub started 2 to 5 runs a day per poller, not 12, and
+the runs covered 39% of the clock for MATA and 41% for MLGW. That is the
+union of run start and end times, not polls, so it is an upper bound. Every
+run succeeded.[^runs] Consequences:
 
 - MATA: trips that fall in gaps are excluded rather than counted as ghost
   buses, but the peak-headway metric and the match-rate floor need the
@@ -69,3 +76,4 @@ Update this concept when H22 closes.
 [^poll-mlgw]: poll-mlgw workflow
 [^decisions]: DECISIONS.md D15 and H22
 [^host-readme]: Always-on pollers (H22)
+[^runs]: GitHub Actions run history for poll-mata and poll-mlgw
