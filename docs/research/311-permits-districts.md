@@ -143,6 +143,12 @@ the page itself; the rest are as reported by that pass.
     Construction_Type (ALT/New/ACC/ADD/Alteration/Accessory/Addition),
     Valuation, Address, City, ZIP_Code, Latitude, Longitude.
   - **No demolitions.**
+  - *2026-11-11:* the 2026-11-01 refresh added 77 certificates of occupancy
+    (`COO-` record numbers, Sub_Type `CER`, Construction_Type `OF ` with a
+    trailing space, no valuation), all issued in October 2026. They are not
+    permits and the pipeline excludes them (DECISIONS.md D34). Expect the
+    City to add new record classes without notice; an unmapped code halts
+    the run.
 - **Data Midsouth, "Building and Demolition Permits - Shelby County"**
   (Opendatasoft). **Do not collect it automatically.** Checked 2026-09-25:
   www.datamidsouth.org's robots.txt disallows `/api/` and dataset downloads

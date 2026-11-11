@@ -29,6 +29,10 @@ jobs:
     timeout-minutes: 45
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    # Read by permits-alert: permits failures don't fail this job (D26, D34).
+    outputs:
+      permits_tests: ${{ steps.permits_tests.outcome }}
+      permits_run: ${{ steps.permits_run.outcome }}
     steps:
       - uses: actions/checkout@v7
       - uses: r-lib/actions/setup-r@v2
@@ -116,3 +120,19 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v5
+
+  # The site deploys without permits when its tests or run fail, which kept
+  # the run green while permits was off the site for 11 days (D34). This job
+  # turns the run red after the deploy, so GitHub notifies the owner.
+  permits-alert:
+    needs: [build, deploy]
+    if: needs.build.outputs.permits_tests != 'success' || needs.build.outputs.permits_run != 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Permits did not publish
+        env:
+          TESTS: ${{ needs.build.outputs.permits_tests }}
+          RUN: ${{ needs.build.outputs.permits_run }}
+        run: |
+          echo "::error::Permits did not publish in this run (tests: $TESTS, run: $RUN). The site deployed without it; the validation-reports artifact says which check stopped it."
+          exit 1

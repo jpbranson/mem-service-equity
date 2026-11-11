@@ -62,3 +62,4 @@ here, relative to the number of properties?
 - 0.2, 2026-09-25 — first computed version: the City's DPD layer only (D24); variants named (excl_top1pct, cap_10m, median_per_permit); 250-parcel floor; windows end at the last complete month; unit name. The earlier promise of constant dollars and an address-level list of the largest permits is withdrawn until built.
 - 0.2, 2026-09-27 — demolitions, now available from a separate source (D30), are listed as excluded. No change to the definition.
 - 0.2, 2026-10-06 — frozen at the owner's direction, reviewed by Claude against `pipelines/permits/R/` (DECISIONS.md D33). No change to the text of the definition or to any computed value.
+- 0.2, 2026-11-11 — certificates of occupancy are excluded through permits_per_1000_parcels' exclusions (DECISIONS.md D34). They carry no declared value, and none was issued before October 2026, so no computed value changes.

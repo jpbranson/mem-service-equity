@@ -8,8 +8,8 @@ MEASURES_PERMITS <- list(
   # New residential permits issued in the period (local dates). The Survey
   # counts buildings; a permit is issued per building.
   census_bps_new_residential = function(raw, f, cfg) {
-    sector <- cfg$sector_map$sector[match(raw$Sub_Type, cfg$sector_map$sub_type)]
-    category <- cfg$category_map$category[match(raw$Construction_Type, cfg$category_map$construction_type)]
+    sector <- cfg$sector_map$sector[match(trimws(raw$Sub_Type), cfg$sector_map$sub_type)]
+    category <- cfg$category_map$category[match(trimws(raw$Construction_Type), cfg$category_map$construction_type)]
     d <- memequity::local_date(raw$Issued_Date)
     sum(!is.na(d) & d >= f$period_start & d <= f$period_end & sector %in% "residential" &
           category %in% "new")

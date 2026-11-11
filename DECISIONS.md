@@ -701,6 +701,35 @@ made while building, so a reviewer can challenge them.
   - **Not covered:** dispositions (H4), demolitions, and anything only a
     person on the street could check, such as whether a pothole was
     filled.
+- **D34. Certificates of occupancy in the DPD layer are not permits, and a
+  permits failure turns the deploy red.** The City's refresh of 2026-11-01
+  added 77 records numbered `COO-`, all issued in October 2026, coded
+  `Sub_Type` `CER` and `Construction_Type` `OF ` (with a trailing space),
+  with no declared value. The ID prefix and the descriptions ("convenience
+  store") read as certificates of occupancy. Neither code was mapped, so
+  every daily permits run from 2026-11-01 to 11-10 halted on validation, as
+  designed. But the permits steps don't fail the deploy (D26), so the run
+  stayed green and the two published permits metrics (D33) were off the
+  site for ten days before a health check on 2026-11-11 found it.
+  - **Mapping:** `CER` and `OF` map to `excluded` in `sector_map.csv` and
+    `category_map.csv`. `normalize_permits()` flags such rows
+    `not_a_permit`, so they stay in the validation counts. The type codes
+    are trimmed of whitespace (`trim_codes()`), on fetched and cached data
+    alike. The independent trace does the same.
+  - **Specs:** `permits_per_1000_parcels` lists the exclusion. Its
+    inclusions already named only new, alteration, addition and accessory
+    permits, and no COO record predates October 2026, so no computed value
+    changes and the version stays. The owner approved this on 2026-11-11.
+    The independent trace recomputed all 3,936 checkable published rows
+    from a fresh fetch, and all matched.
+  - **Alerting:** `deploy-site.yml` gains a `permits-alert` job that runs
+    after the deploy and fails when the permits tests or run did not
+    succeed. The site still deploys without permits, but the run is red
+    and GitHub notifies the owner. In the tracker health, a permits part
+    that failed validation now names the checks that stopped it.
+  - The month-volume check still counts raw rows, so the COO records are
+    in its October count (557, against a 12-month median of 382; about 480
+    without them). It passes either way.
 - **D8. Boundary rule.** A point within 1 m of more than one polygon goes to
   the lowest `geo_id` among them and is flagged `on_boundary`.
 - **D9. Censored durations.** Median time-to-close uses a Kaplan–Meier

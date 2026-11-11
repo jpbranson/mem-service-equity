@@ -7,3 +7,4 @@ ADD,addition,renovation,
 Addition,addition,renovation,coding used for part of 2021
 ACC,accessory,accessory,"accessory structures such as garages, sheds and pools; published as their own category"
 Accessory,accessory,accessory,coding used for part of 2021
+OF,excluded,excluded,"certificate of occupancy (COO- records, first seen in the 2026-11 refresh, coded with a trailing space), not a permit; D34"

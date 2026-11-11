@@ -41,6 +41,7 @@ exclusions:
   - Permits whose location is missing, 0,0 or outside Shelby County (counted as unlocated in the validation report).
   - Permits issued after the last complete month.
   - Permits with no issue date.
+  - Records in the layer that are not permits, marked `excluded` in the sector and category maps (counted as `not_a_permit` in the validation report). These are certificates of occupancy (`COO-` record numbers, coded `CER` / `OF`), first published in the 2026-11 refresh (D34).
   - Demolitions in the `all` subgroups: the two sources date permits differently, and runs without the snapshot have no demolitions.
 confounders:
   - Permits lead construction by months, and some permitted work is never built.
@@ -77,3 +78,4 @@ relative to the number of properties?
 - 0.2, 2026-09-25 — first computed version. Source limited to the City's DPD layer, because Data Midsouth forbids automated access (D24), so demolition is unavailable (H21). Added the accessory category, the 250-parcel suppression floor, windows ending at the last complete month, and the unit name.
 - 0.3, 2026-09-27 — added the `demolition` subgroup from the owner's Data Midsouth snapshot (D30), dated by its latest status and kept out of `all`. No change to the other subgroups.
 - 0.3, 2026-10-06 — frozen at the owner's direction, reviewed by Claude against `pipelines/permits/R/` (DECISIONS.md D33). The text now also says that permits with no issue date are excluded and that the minor-permit variant keeps permits with no declared value, as computed since 0.2. The audit covers DPD permits only, so the `demolition` subgroup needs its own audit before it is published. No computed value changes.
+- 0.3, 2026-11-11 — certificates of occupancy, which the City added to the layer in its 2026-11 refresh, are listed as excluded: they are not permits, and the inclusions never covered them (DECISIONS.md D34). The first of them was issued in October 2026, after every window computed before, so no computed value changes.

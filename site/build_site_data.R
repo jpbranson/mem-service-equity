@@ -297,10 +297,17 @@ if (is.null(manifest$pipelines[["permits"]]))
 # warns (D26); schema warnings and reconciliation gaps are not health (D27).
 pipeline_health <- function(dir, pattern, entry) {
   report <- latest(dir, pattern)
-  if (is.na(report) || !identical(entry$status, "live"))
+  val <- if (!is.na(report)) fromJSON(report, simplifyVector = FALSE)
+  if (is.na(report) || !identical(entry$status, "live")) {
+    # A run that halted on validation still wrote its report: name the checks
+    # that stopped it, so the tracker says why and not only that it failed.
+    failed <- if (identical(val$status, "fail"))
+      vapply(Filter(function(c) !isTRUE(c$passed) && identical(c$severity, "error"), val$checks),
+             function(c) c$name, "")
     return(list(status = "fail", last_success_at = NULL, expect_every = "1d",
-                detail = "no outputs in this build: the pipeline or its tests failed"))
-  val <- fromJSON(report, simplifyVector = FALSE)
+                detail = if (length(failed)) paste("validation failed:", paste(failed, collapse = "; "))
+                         else "no outputs in this build: the pipeline or its tests failed"))
+  }
   outliers <- Filter(function(c) identical(c$type, "volume") && !isTRUE(c$passed), val$checks)
   notes <- vapply(outliers, function(c) {
     day <- if (length(c$details$days)) c$details$days[[1]]

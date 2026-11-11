@@ -45,6 +45,13 @@ fetch_permits <- function(layer = PERMITS_LAYER, page_size = 1000L, verbose = TR
   out
 }
 
+#' Strip stray whitespace from the type codes the pipeline maps, so "OF "
+#' and "OF" are one code (D34). Applied to fetched and cached data alike.
+trim_codes <- function(raw) {
+  for (f in c("Sub_Type", "Construction_Type")) raw[[f]] <- trimws(raw[[f]])
+  raw
+}
+
 #' Layer record count and the time of its last data edit, for the
 #' completeness check and the data-through date.
 permits_layer_info <- function(layer = PERMITS_LAYER) {

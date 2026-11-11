@@ -41,6 +41,23 @@ test_that("both codings map, and exclusions and bad locations are flagged", {
   expect_true(is.na(p$longitude[8]))
 })
 
+test_that("certificates of occupancy are mapped but excluded as not permits (D34)", {
+  # The 2026-11 refresh added COO- records coded CER / "OF " (trailing space).
+  raw <- rbind(make_permits(sub_type = "CER", construction_type = "OF ", value = NA, id = "COO-26-000001"),
+               make_permits(sub_type = " RES", construction_type = "NEW ", id = "RES-NEW-26-000002"),
+               make_permits(sub_type = "CER", construction_type = "OF", issued = "2026-09-02", id = "COO-26-000003"))
+  raw <- trim_codes(raw)
+  expect_equal(raw$Construction_Type, c("OF", "NEW", "OF"))
+  expect_true(all(raw$Sub_Type %in% cfg$sector_map$sub_type))
+  expect_true(all(raw$Construction_Type %in% cfg$category_map$construction_type))
+  p <- normalize_permits(raw, cfg, as.Date("2026-08-31"))
+  expect_equal(p$exclusion, c("not_a_permit", NA, "not_a_permit"))
+  expect_equal(p$category[2], "new")
+  # Never counted as new residential in the Census reconciliation.
+  f <- list(period_start = as.Date("2026-01-01"), period_end = as.Date("2026-12-31"))
+  expect_equal(MEASURES_PERMITS$census_bps_new_residential(raw, f, cfg), 1)
+})
+
 test_that("subgroups nest: each category by sector, pooled, and all", {
   df <- data.frame(category = c("new", "new", "renovation", "accessory"),
                    sector = c("residential", "commercial", "residential", "commercial"))

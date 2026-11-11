@@ -47,6 +47,7 @@ if (!is.null(raw_cache) && file.exists(raw_cache)) {
   attr(raw, "last_edit") <- info$last_edit
   if (!is.null(raw_cache)) { dir.create(dirname(raw_cache), FALSE, TRUE); saveRDS(raw, raw_cache) }
 }
+raw <- trim_codes(raw)
 through <- permits_through(info$last_edit, as_of)
 log(nrow(raw), " permits; layer last edited ", format(info$last_edit), "; complete through ", format(through))
 

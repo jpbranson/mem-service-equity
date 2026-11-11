@@ -125,9 +125,9 @@ def main(sheet_path, published, out_path, rows_path):
     for a in raw:
         issued = utc(a["Issued_Date"])
         p = dict(id=a["Record_ID"], issue_date=rg.chicago_date(issued) if issued else None,
-                 sector=(sector_map.get(a["Sub_Type"] or "") or {}).get("sector"),
-                 work=(category_map.get(a["Construction_Type"] or "") or {}).get("work"),
-                 category=(category_map.get(a["Construction_Type"] or "") or {}).get("category"),
+                 sector=(sector_map.get((a["Sub_Type"] or "").strip()) or {}).get("sector"),
+                 work=(category_map.get((a["Construction_Type"] or "").strip()) or {}).get("work"),
+                 category=(category_map.get((a["Construction_Type"] or "").strip()) or {}).get("category"),
                  value=a["Valuation"] if (a["Valuation"] or 0) > 0 else None, raw=a)
         lon, lat = a["Longitude"], a["Latitude"]
         p["located"] = (lon is not None and lat is not None
@@ -139,6 +139,7 @@ def main(sheet_path, published, out_path, rows_path):
             for g in GEOS:
                 p[g] = rg.assign(areas[g], *p["xy"])
         p["counted"] = (p["issue_date"] is not None and p["sector"] is not None and p["category"] is not None
+                        and "excluded" not in (p["sector"], p["category"])  # not a permit (D34)
                         and p["issue_date"] <= through and p["citywide"] is not None)
         permits.append(p)
         by_id[p["id"]] = p

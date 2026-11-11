@@ -32,9 +32,10 @@ permits_through <- function(last_edit, as_of) {
 #' @param through last day the data are complete through (permits_through()).
 normalize_permits <- function(raw, config, through) {
   sm <- config$sector_map; cm <- config$category_map
-  sector <- sm$sector[match(raw$Sub_Type, sm$sub_type)]
-  work <- cm$work[match(raw$Construction_Type, cm$construction_type)]
-  category <- cm$category[match(raw$Construction_Type, cm$construction_type)]
+  st <- trimws(raw$Sub_Type); ct <- trimws(raw$Construction_Type)
+  sector <- sm$sector[match(st, sm$sub_type)]
+  work <- cm$work[match(ct, cm$construction_type)]
+  category <- cm$category[match(ct, cm$construction_type)]
   issue_date <- memequity::local_date(raw$Issued_Date)
   value <- ifelse(!is.na(raw$Valuation) & raw$Valuation > 0, raw$Valuation, NA_real_)
 
@@ -43,6 +44,9 @@ normalize_permits <- function(raw, config, through) {
 
   exclusion <- rep(NA_character_, nrow(raw))
   exclusion[is.na(issue_date)] <- "missing_issue_date"
+  # Records the maps mark `excluded` are in the layer but are not permits,
+  # such as certificates of occupancy (D34).
+  exclusion[is.na(exclusion) & (sector %in% "excluded" | category %in% "excluded")] <- "not_a_permit"
   exclusion[is.na(exclusion) & (is.na(sector) | is.na(category))] <- "unmapped_type"
   exclusion[is.na(exclusion) & issue_date > through] <- "after_data_through"
 
