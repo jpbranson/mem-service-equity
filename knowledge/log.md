@@ -1,5 +1,8 @@
 # Knowledge bundle update log
 
+## 2026-11-18
+* **Update**: [How a pipeline failure reaches the owner](/publication/failure-alerting.md): a new 311 request type no longer halts the run. It is counted like any other type, and the tracker health warns and names it; the run stays green by the owner's choice (D35).
+
 ## 2026-11-11
 * **Update**: [Poller scheduling and coverage](/data-collection/poller-scheduling.md): rechecked against the run history; coverage over 2026-11-04 to 11-10 was 39% (MATA) and 41% (MLGW), with every run succeeding. H22 is still open.
 * **Creation**: Added [How a pipeline failure reaches the owner](/publication/failure-alerting.md): permits was off the site from 2026-11-01 to 11-10 because the City added certificates of occupancy to the DPD layer, and the deploy stayed green. They are now excluded, and a `permits-alert` job turns the run red (D34).
