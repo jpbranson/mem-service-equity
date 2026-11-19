@@ -1,6 +1,7 @@
-# Schema contract for the raw 311 fetch (plan 5.2). Allowed request types
-# and statuses are checked separately against config/request_types.csv and
-# config/status_map.csv, so a new value fails the run until it is mapped.
+# Schema contract for the raw 311 fetch (plan 5.2). Request types and
+# statuses are checked separately against config/request_types.csv and
+# config/status_map.csv. A new status fails the run until it is mapped; a
+# new request type only warns and is counted like any other (D35).
 columns:
   OBJECTID: {type: integer, nullable: false}
   INCIDENT_NUMBER: {type: character, nullable: false}

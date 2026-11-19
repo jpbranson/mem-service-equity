@@ -50,6 +50,26 @@ test_that("share within target counts late, open-past-deadline and ineligible re
   expect_equal(low$value, 0)             # nothing closed within 5 business days
 })
 
+test_that("a request type missing from config/request_types.csv is counted like any other", {
+  new_type <- "ZZ-Not In The Config"
+  expect_false(new_type %in% cfg$request_types$request_type)
+  raw <- rbind(
+    make_raw(30, type = new_type, created = "2026-07-01 10:00", closed = "2026-07-03 00:00",
+             east_m = seq(0, by = 200, length.out = 30)),
+    make_raw(30, created = "2026-07-01 10:00", closed = "2026-07-03 00:00",
+             east_m = seq(8000, by = 200, length.out = 30)))
+  raw$INCIDENT_NUMBER <- sprintf("U%03d", seq_len(nrow(raw)))
+  pts <- pipeline_points(raw, "2026-09-23")
+  expect_true(all(is.na(pts$exclusion)))
+  m <- compute_metrics_311(pts, cfg$request_types, as.Date("2026-09-22"))$metrics
+  city <- m[m$geo_type == "citywide", ]
+  medians <- city[city$metric == "median_business_days_to_close" & city$subgroup == new_type, ]
+  expect_true(30L %in% medians$n)        # all 30 requests, in its own subgroup
+  # No target is listed for it, so it has no share-within-target rows.
+  with_target <- unique(m$subgroup[m$metric == "pct_within_target"])
+  expect_equal(with_target, "PW (SM)-Potholes")
+})
+
 test_that("the censored median matches a direct Kaplan-Meier fit", {
   set.seed(3)
   n <- 60

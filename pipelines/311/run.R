@@ -55,9 +55,13 @@ rep <- check_freshness(rep, raw$created_date, max_lag_days = 2, as_of = as_of)
 # A quiet day in a complete fetch is the City's data, not a broken fetch: the
 # checks above catch those, so the band only warns (DECISIONS.md D26).
 rep <- check_volume(rep, raw$created_date, as_of = as_of, severity = "warning")
+# A request type the City adds is counted like any other, without a headline
+# flag or a target, so it only warns; the tracker health names it until it is
+# listed (DECISIONS.md D35). A new status changes which rows count, so it halts.
 types_seen <- raw$REQUEST_TYPE[!is.na(raw$REQUEST_TYPE) & raw$REQUEST_TYPE != ""]
 rep <- check_referential(rep, types_seen, cfg$request_types$request_type,
-                         "every request type is mapped in config/request_types.csv")
+                         "every request type is listed in config/request_types.csv",
+                         severity = "warning")
 rep <- check_referential(rep, ifelse(is.na(raw$REQUEST_STATUS), "", raw$REQUEST_STATUS),
                          cfg$status_map$status, "every status is mapped in config/status_map.csv")
 

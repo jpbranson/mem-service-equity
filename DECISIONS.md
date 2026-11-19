@@ -730,6 +730,34 @@ made while building, so a reviewer can challenge them.
   - The month-volume check still counts raw rows, so the COO records are
     in its October count (557, against a 12-month median of 382; about 480
     without them). It passes either way.
+- **D35. A new 311 request type warns and is counted; it no longer halts
+  the run.** On 2026-11-18 the City filed its first
+  `SWM-Recycle Cart Not Out` request. The type was not in
+  `request_types.csv`, so the daily run halted on validation and nothing
+  deployed that day.
+  - **Why a warning:** no metric uses the list to decide which requests
+    count. Every metric groups by the source's `REQUEST_TYPE`; the list
+    supplies only the headline flag, the target days and the category that
+    a reconciliation figure can filter on. A type missing from the list is
+    computed as a type with no headline flag and no target. It gets its own
+    rows for median days to close, reopen rate and requests per 1,000, and
+    is absent from the hex rows, the display points and the site, like
+    every listed type that is not headline. The check
+    `every request type is listed in config/request_types.csv` is now a
+    warning. The status check stays an error: a request with an unmapped
+    status is excluded as `unknown_status`, so a new status changes which
+    requests are counted.
+  - **Alerting:** the owner chose on 2026-11-18 to keep the run green. The
+    tracker health for 311 is `warn` and names the unlisted types until
+    they are listed.
+  - **Trade-off:** if the City renames a headline type or Potholes, the old
+    name's rows stop arriving and the new name is counted without a
+    headline flag or a target. The tracker warning that names the new type
+    is the only signal.
+  - **Mapping:** `SWM-Recycle Cart Not Out` is listed under `SWM`, not
+    headline and with no target, like `SWM-Garbage Cart Not Out`.
+  - `normalize_311()` no longer attaches a `category` column, which nothing
+    read. No spec, spec version or golden file changes.
 - **D8. Boundary rule.** A point within 1 m of more than one polygon goes to
   the lowest `geo_id` among them and is flagged `on_boundary`.
 - **D9. Censored durations.** Median time-to-close uses a Kaplan–Meier

@@ -52,7 +52,6 @@ normalize_311 <- function(raw, config, as_of) {
     lon >= SHELBY_BBOX[["xmin"]] & lon <= SHELBY_BBOX[["xmax"]] &
     lat >= SHELBY_BBOX[["ymin"]] & lat <= SHELBY_BBOX[["ymax"]]
 
-  rt <- config$request_types
   exclusion <- rep(NA_character_, nrow(raw))
   exclusion[is.na(raw$REQUEST_TYPE) | raw$REQUEST_TYPE == ""] <- "missing_request_type"
   exclusion[is.na(exclusion) & open_date < MIGRATION_DATE] <- "pre_migration"
@@ -63,7 +62,6 @@ normalize_311 <- function(raw, config, as_of) {
   data.frame(
     sr_id = raw$INCIDENT_NUMBER,
     request_type = raw$REQUEST_TYPE,
-    category = rt$category[match(raw$REQUEST_TYPE, rt$request_type)],
     status = status,
     state = state,
     opened_at = opened_at,

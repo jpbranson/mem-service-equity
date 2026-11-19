@@ -294,7 +294,9 @@ if (is.null(manifest$pipelines[["permits"]]))
 # The tracker's status contract: this build is the document and each daily
 # pipeline a part. The tracker judges the age of last_success_at itself, so a
 # build or pipeline that stops running shows up as stale. A failed volume check
-# warns (D26); schema warnings and reconciliation gaps are not health (D27).
+# warns (D26), and so does a source value missing from a pipeline's config,
+# such as a new 311 request type (D35); schema warnings and reconciliation
+# gaps are not health (D27).
 pipeline_health <- function(dir, pattern, entry) {
   report <- latest(dir, pattern)
   val <- if (!is.na(report)) fromJSON(report, simplifyVector = FALSE)
@@ -315,7 +317,12 @@ pipeline_health <- function(dir, pattern, entry) {
     sprintf("volume outlier on %s: %.0f rows, band %.0f-%.0f", day$date, as.numeric(day$count),
             as.numeric(day$low), as.numeric(day$high))
   }, "")
-  list(status = if (length(outliers)) "warn" else "ok", last_success_at = val$run_at, expect_every = "1d",
+  unlisted <- Filter(function(c) identical(c$type, "referential") && !isTRUE(c$passed) &&
+                       length(c$details$unknown_values), val$checks)
+  new_values <- unlist(lapply(unlisted, function(c) c$details$unknown_values))
+  if (length(new_values))
+    notes <- c(notes, paste("new source values not in config:", paste(new_values, collapse = ", ")))
+  list(status = if (length(notes)) "warn" else "ok", last_success_at = val$run_at, expect_every = "1d",
        detail = paste(c(paste("data through", entry$data_current_through), notes), collapse = "; "))
 }
 manifest$health <- list(
